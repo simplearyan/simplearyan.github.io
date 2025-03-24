@@ -10,3 +10,26 @@ body button {
   transition-duration: 150ms;
 }
 
+#menu-wrapper{
+  /* background-color: aqua; */
+  display: flex;
+  /* align-items: center; */
+  /* flex-direction: column; */
+  /* justify-content: center; */
+  /* align-content: center; */
+}
+
+#menu-wrapper, ul{
+  /* background-color: aquamarine; */
+  display: grid;
+  /* flex-direction: column; */
+  /* justify-content: center; */
+  /* align-content: start; */
+  /* align-items: center; */
+  /* width: 100%; */
+  /* text-align: center; */
+}
+
+#menu-wrapper, ul, li,span{
+  text-align: center;
+}

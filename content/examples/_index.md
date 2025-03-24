@@ -6,6 +6,8 @@ cascade:
   showEdit: false
   showSummary: true
   hideFeatureImage: true
+  showHero: false
+
 ---
 
 {{< lead >}}
