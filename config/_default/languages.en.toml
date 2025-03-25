@@ -9,8 +9,8 @@ title = "Aryan"
   isoCode = "en"
   rtl = false
   dateFormat = "2 January 2006"
-  # logo = "img/aryan.jpg"
-  # secondaryLogo = "img/secondary-logo.png"
+  logo = "img/small.png"
+  # secondaryLogo = "img/smm.png"
   description = "My awesome website"
   # copyright = "Copy, _right?_ :thinking_face:"
 

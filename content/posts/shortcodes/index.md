@@ -82,7 +82,7 @@ This is an error!
 
 {{< article link="/docs/welcome/" >}}
 
-<br/><br/><br/>
+<br/>
 
 ## Badge
 
@@ -100,7 +100,7 @@ New article!
 New article!
 {{< /badge >}}
 
-<br/><br/><br/>
+<br/>
 
 ## Button
 
@@ -118,7 +118,7 @@ Call to action
 Call to action
 {{< /button >}}
 
-<br/><br/><br/>
+<br/>
 
 ## Carousel
 
