@@ -53,9 +53,14 @@
   weight = 30
 
 [[main]]
+  name = "Assignments"
+  pageRef = "assignments"
+  weight = 40
+
+[[main]]
   name = "About"
   pageRef = "about"
-  weight = 40
+  weight = 90
 
 
 # -- Footer Menu --
