@@ -1,0 +1,41 @@
+---
+title: "Discovering Tut: the Saga Continues"
+author: A.R. Williams
+weight: 4
+draft: false
+summary: "A Triumph of Surgery is the first chapter in the supplementary reader Footprints without Feet. Written by James Herriot, the story concerns a small dog named ..."
+tags: ["Discovering Tut: the Saga Continues", "class 11", "english"]
+series_order: 4
+cascade:
+   hideFeatureImage: true
+
+---
+
+### Unearthing Mysteries: A Look into 'Discovering Tut: The Saga Continues'
+
+The chapter "Discovering Tut: the Saga Continues" takes us on a journey with the famous mummy of the young pharaoh, King Tutankhamun. The text, written by A. R. Williams, explores the modern efforts to understand Tut's life and death, contrasting these with earlier archaeological methods. The sources note that this chapter is a prose piece drawn from sources like journalistic writing and relates to serious reading in real life. The activities associated with this chapter include inferring word meanings, understanding the text through factual and global comprehension, discussing issues raised, thinking about language (like extinct languages and vocabulary), working with words (combinations and medical terms), and engaging in activities like finding information on related theories.
+
+The narrative centres around the moment King Tut's mummy undergoes a **CT scan** on 5 January 2005. Tut was the last heir of a powerful Egyptian family who died as a teenager. After his tomb's discovery in 1922 by British archaeologist **Howard Carter**, the world speculated about his fate, with murder being a possibility. Carter's discovery was sensational, revealing the richest royal collection ever found, including stunning gold artefacts meant to guarantee resurrection. However, getting to the mummy was difficult as ritual resins had hardened, cementing Tut to his solid gold coffin. Carter had to **chisel away** the material from beneath the limbs and trunk. This method, though necessary to prevent thieves from looting the gold, led to the mummy being in a "very bad condition" according to Zahi Hawass, causing resentment towards Carter's investigation.
+
+Archaeology has since changed, focusing less on treasure and more on details of life and death, using sophisticated tools like medical technology. An X-ray in 1968 first revealed missing parts of Tut's chest. The CT scan in 2005 was a modern attempt to gain **new clues about how he died and his age at death**. This event was significant; Tut was among the first mummies scanned as part of the Egyptian Mummy Project. The scan itself generated **1,700 digital X-ray images**, creating a three-dimensional virtual body, showing intricate details of his head, neck vertebrae, hand, rib cage, and skull. The process had a minor hiccup with a scanner fan, jokingly attributed to a "curse of the pharaoh", but was completed successfully, and Tut was returned to his tomb. The chapter also touches upon Tut's family history, including the controversial rule of Akhenaten, who attacked traditional gods, which Ray Johnson described as going "a little wacky". The presence of the constellation Orion watching over the tomb symbolises Osiris, the god of the afterlife, connecting the ancient beliefs to the modern scientific investigation.
+
+### Exploring the Details: Answers to Your Questions
+
+Let's break down the answers to the specific questions based on the text:
+
+1.  **Give reasons for the following:**
+    *   **(i) King Tut’s body has been subjected to repeated scrutiny.** King Tut's body has been examined multiple times **due to his historical significance** as the last of a powerful family line and the mysteries surrounding his untimely death as a teenager. Ever since his tomb was discovered, there has been **speculation** about what happened to him. Modern archaeology, with its advanced technology, seeks to use forensic analysis to gain **precise data** and new clues about his life and death. The CT scan in 2005 was the latest step in this ongoing investigation.
+    *   **(ii) Howard Carter’s investigation was resented.** Carter's investigation was resented because his methods were perceived as **damaging** to the mummy. To free the body from the hardened ritual resins that had cemented it to the coffin, Carter had to **chisel away** the material. Zahi Hawass specifically stated that Tut's body was in "very bad condition because of what Carter did in the 1920s".
+    *   **(iii) Carter had to chisel away the solidified resins to raise the king’s remains.** Carter had to resort to chiselling because the **ritual resins** used during the burial had **hardened** and firmly cemented Tut's mummy to the bottom of his solid gold coffin. Carter himself wrote that "no amount of legitimate force could move them", making chiselling the only way to free the remains.
+    *   **(iv) Tut’s body was buried along with gilded treasures.** Tut's body was buried with gilded treasures because the royals in his time were **extremely wealthy** and believed or hoped they could **take their riches with them** to the afterlife. The stunning artefacts, particularly those in gold, were included because their "eternal brilliance meant to guarantee resurrection". King Tut was "lavished with glittering goods" for his journey to the great beyond.
+    *   **(v) The boy king changed his name from Tutankhaten to Tutankhamun.** King Tut changed his name from Tutankhaten to Tutankhamun to signify a **restoration of the old religious ways**. His predecessor, Akhenaten, had promoted the worship of the god Aten and attacked the major god Amun. By changing his name to Tutankhamun, meaning 'living image of Amun', Tut aligned himself with the traditional god and reversed some of Akhenaten's controversial changes.
+
+2.  **List the following:**
+    *   **(i) List the deeds that led Ray Johnson to describe Akhenaten as “wacky”.** According to the text, Akhenaten's deeds that led Ray Johnson to describe him as "wacky" include: promoting the worship of the **Aten** (the sun disk), changing his name to **Akhenaten**, moving the religious capital to a **new city** (Akhetaten/Amarna), **attacking Amun** (a major god), **smashing Amun's images**, and **closing Amun's temples**.
+    *   **(ii) What were the results of the CT scan?** The CT scan created **1,700 digital X-ray images** in cross section, forming a **three-dimensional virtual body**. The results included astonishing images revealing **intricate structures** of Tut's head in "eerie detail", neck vertebrae appearing "as clearly as in an anatomy class", a hand, several views of the rib cage, and a transection of the skull.
+    *   **(iii) List the advances in technology that have improved forensic analysis.** Advances in technology mentioned include the use of **medical technology** in archaeology. Specifically, the text refers to **X-rays**, used in 1968, and more recently, **Computed Tomography (CT) scans**, which create 3D virtual bodies from hundreds of cross-sectional X-rays. These provide **precise data** for accurate forensic reconstruction.
+    *   **(iv) Explain the statement, “King Tut is one of the first mummies to be scanned — in death, as in life...”** This statement suggests that King Tut, just as he held a significant and perhaps leading position ("boy king," last of his line) during his life, also holds a **leading position even in death** in the context of modern archaeological study. He is one of the initial mummies to undergo scanning in the Egyptian Mummy Project's new phase, metaphorically "**moving regally ahead of his countrymen**" in death, similar to his status or role in life.
+
+The sources also include questions under "Talking about the text", which are intended for **discussion and debate** on issues raised in the text, such as the necessity of scientific intervention, the conclusiveness of advanced technology, respecting traditions, and the usefulness of knowing the past. These questions encourage subjective responses and relating the text to universal experiences and human behaviour, rather than providing factual answers directly from the text.
+
+I hope this comprehensive breakdown of the chapter and answers to the questions is easy to understand! 😄📖 mummy.
