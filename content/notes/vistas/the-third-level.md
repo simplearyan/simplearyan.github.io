@@ -6,8 +6,10 @@ draft: false
 summary: "Okay, I can help you with that! Let's dive into The Third Level and the questions related to it ..."
 tags: ["The Third Level", "class 12", "english"]
 series_order: 1
+heroImage: "img/ripples.svg"
+showHero: true
 cascade:
-   hideFeatureImage: true
+   hideFeatureImage: false
 
 ---
 
