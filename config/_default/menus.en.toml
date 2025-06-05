@@ -52,15 +52,15 @@
 #   pageRef = "categories"
 #   weight = 20
 
-[[main]]
-  name = "Examples"
-  pageRef = "examples"
-  weight = 30
+# [[main]]
+  # name = "Examples"
+  # pageRef = "examples"
+  # weight = 30
 
-[[main]]
-  name = "Assignments"
-  pageRef = "assignments"
-  weight = 40
+# [[main]]
+  # name = "Assignments"
+  # pageRef = "assignments"
+  # weight = 40
 
 # [[main]]
   # name = "About"
