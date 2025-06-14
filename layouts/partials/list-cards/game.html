@@ -1,0 +1,209 @@
+<a href="{{ .RelPermalink }}">
+  <div class="banner_wrapper">
+    <div class="banner">
+      <img
+        src="{{ .Params.banner }}"
+        alt="{{ $.Title | emojify }}"
+        class="banner__image nozoom"
+      />
+    </div>
+    <div class="card__wrapper">
+      <div class="card">
+        <div class="card__info">
+          <img
+            src="{{
+            .Params.logo
+            }}"
+            alt="{{ $.Title | emojify }}"
+            class="card__avatar nozoom"
+          />
+          <div>
+            <span>{{ $.Title | emojify }}</span>
+            <p>{{ .Params.subtitle }}</p>
+          </div>
+        </div>
+        <button>Get</button>
+      </div>
+    </div>
+  </div>
+</a>
+
+<div class="banner_wrapper">
+  <div class="banner">
+    <img
+      src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/252490/header.jpg?t=1715591843"
+      alt="Banner Game"
+      class="banner__image"
+    />
+  </div>
+  <div class="card__wrapper">
+    <div class="card">
+      <div class="card__info">
+        <img
+          src="https://files.facepunch.com/lewis/1b2911b1/rust-marque.svg"
+          alt="Game"
+          class="card__avatar"
+        />
+        <div>
+          <span>Rust</span>
+          <p>Wilderness</p>
+        </div>
+      </div>
+      <button>Get</button>
+    </div>
+  </div>
+</div>
+<div class="banner_wrapper">
+  <div class="banner">
+    <img
+      src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/4000/header.jpg?t=1710347075"
+      alt="Banner Game"
+      class="banner__image"
+    />
+  </div>
+  <div class="card__wrapper">
+    <div class="card">
+      <div class="card__info">
+        <img
+          src="https://files.facepunch.com/lewis/1b1311b1/gmod-logo.svg"
+          alt="Game"
+          class="card__avatar"
+        />
+        <div>
+          <span>Garry's Mod</span>
+          <p>Physics Sandbox</p>
+        </div>
+      </div>
+      <button>Get</button>
+    </div>
+  </div>
+</div>
+<div class="banner_wrapper">
+  <div class="banner">
+    <img
+      src="https://shared.akamai.steamstatic.com/store_item_assets/steam/apps/1567020/capsule_616x353.jpg?t=1676560649"
+      alt="Banner Game"
+      class="banner__image"
+    />
+  </div>
+  <div class="card__wrapper">
+    <div class="card">
+      <div class="card__info">
+        <img
+          src="https://static.bandainamcoent.eu/high/the-dark-pictures/the-devil-in-me/00-page-setup/tdim_header_mobile_new-keyart.jpg"
+          alt="Game"
+          class="card__avatar"
+        />
+        <div>
+          <span>The Devil In Me</span>
+          <p>Survivor Horror</p>
+        </div>
+      </div>
+      <button>Get</button>
+    </div>
+  </div>
+</div>
+
+<style>
+  .card__wrapper {
+    display: flex;
+    flex-direction: row;
+  }
+
+  .card {
+    display: flex;
+    width: 300px;
+    padding: 1rem;
+    background-color: #252525;
+    background-color: #0e0e0e;
+    border-radius: 0px 0px 12px 12px;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .card__info {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .card__avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 10px;
+    object-fit: cover;
+  }
+
+  .card__info span {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: initial;
+  }
+
+  .card__info p {
+    color: #919191;
+    font-size: 13px;
+    font-weight: 400;
+    line-height: initial;
+  }
+
+  button {
+    padding: 5px 10px;
+    border-radius: 10px;
+    font-size: 14px;
+    background-color: #2d80ff;
+    font-weight: 400;
+    color: #fff;
+    font-family: inherit;
+    cursor: pointer;
+    transition: 0.3s all ease;
+
+    span {
+      font-size: 12px;
+      color: #656565;
+    }
+  }
+
+  button:hover {
+    opacity: 0.8;
+  }
+
+  button:active {
+    transform: scale(0.9);
+  }
+
+  .banner__wrapper {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .banner {
+    position: relative;
+    width: 100%;
+    height: 150px;
+  }
+
+  .banner img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    border-radius: 12px 12px 0px 0px;
+  }
+
+  .games {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+  }
+
+  @media screen  {
+    
+  }
+</style>

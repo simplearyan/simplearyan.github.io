@@ -47,10 +47,10 @@
 #  pageRef = "categories/awesome"
 #  weight = 20
 
-# [[main]]
-#   name = "Categories"
-#   pageRef = "categories"
-#   weight = 20
+[[main]]
+  name = "Games"
+  pageRef = "games"
+  weight = 20
 
 # [[main]]
   # name = "Examples"
