@@ -1,22 +1,54 @@
+
+
+
+{{ $subtitle := .Params.subtitle | default "Game Subtitle" }}
+
+{{ $title := .Title | emojify }}
+
+{{ $image := .Params.image | default "https://files.facepunch.com/lewis/1b2911b1/rust-marque.svg" }}
+
+{{ $description := .Description | default "Game Description" }}
+
+
+
 <a href="{{ .RelPermalink }}">
   <div class="banner_wrapper">
     <div class="banner">
+      {{/*  {{ with .Params.banner }}
       <img
-        src="{{ .Params.banner }}"
-        alt="{{ $.Title | emojify }}"
-        class="banner__image nozoom"
+      src="{{ $.Params.banner }}"
+      alt="{{ $.Title | emojify }}"
+      class="banner__image nozoom"
       />
+      {{ end }}  */}}
+      {{ if isset .Params "banner" }}
+  {{ $image := .Resources.GetMatch .Params.banner }}
+  {{ with $image }}
+    {{ $optimized := .Resize "800x webp" }}
+    <img 
+      src="{{ $optimized.RelPermalink }}" 
+      alt="{{ $.Params.featured_alt }}" 
+      width="{{ $optimized.Width }}" 
+      height="{{ $optimized.Height }}"
+      class="banner__image nozoom">
+  {{ end }}
+{{ end }}
     </div>
     <div class="card__wrapper">
       <div class="card">
         <div class="card__info">
-          <img
-            src="{{
-            .Params.logo
-            }}"
-            alt="{{ $.Title | emojify }}"
-            class="card__avatar nozoom"
-          />
+          {{ if isset .Params "avatar" }}
+  {{ $image := .Resources.GetMatch .Params.avatar }}
+  {{ with $image }}
+    {{ $optimized := .Resize "800x webp" }}
+    <img 
+      src="{{ $optimized.RelPermalink }}" 
+      alt="{{ $.Params.featured_alt }}" 
+      width="{{ $optimized.Width }}" 
+      height="{{ $optimized.Height }}"
+      class="card__avatar nozoom">
+  {{ end }}
+{{ end }}
           <div>
             <span>{{ $.Title | emojify }}</span>
             <p>{{ .Params.subtitle }}</p>
