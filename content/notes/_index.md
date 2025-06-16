@@ -8,7 +8,7 @@ cascade:
   invertPagination: true
   cardView: true
   showSummary: true
-  showHero: true
+  showHero: false
   showRelatedContent: false
 
 ---

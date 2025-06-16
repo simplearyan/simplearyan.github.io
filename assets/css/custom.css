@@ -36,9 +36,9 @@ body button {
   /* background-color: aquamarine; */
   display: grid;
   /* flex-direction: column; */
-  /* justify-content: center; */
+  justify-content: center;
   /* align-content: start; */
-  /* align-items: center; */
+  align-items: flex-start;
   /* width: 100%; */
   /* text-align: center; */
 }

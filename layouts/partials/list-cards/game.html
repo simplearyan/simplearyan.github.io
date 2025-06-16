@@ -21,16 +21,24 @@
       class="banner__image nozoom"
       />
       {{ end }}  */}}
-      {{ if isset .Params "banner" }}
+{{ if isset .Params "banner" }}
   {{ $image := .Resources.GetMatch .Params.banner }}
   {{ with $image }}
-    {{ $optimized := .Resize "800x webp" }}
-    <img 
+    {{/*  {{ $optimized := .Resize "800x webp" }}  */}}
+    {{ $small := .Resize "400x webp" }}
+    {{ $medium := .Resize "800x webp" }}
+    {{ $large := .Resize "1200x webp" }}
+    <picture>
+      <source media="(max-width: 480px)" srcset="{{ $small.RelPermalink }}" type="image/webp">
+      <source media="(max-width: 960px)" srcset="{{ $medium.RelPermalink }}" type="image/webp">
+      <img src="{{ $large.RelPermalink }}" alt="{{ $.Title | emojify }}" width="{{ $large.Width }}" height="{{ $large.Height }}" class="banner__image nozoom">
+    </picture>
+    {{/*  <img 
       src="{{ $optimized.RelPermalink }}" 
       alt="{{ $.Params.featured_alt }}" 
       width="{{ $optimized.Width }}" 
       height="{{ $optimized.Height }}"
-      class="banner__image nozoom">
+      class="banner__image nozoom">  */}}
   {{ end }}
 {{ end }}
     </div>
@@ -40,7 +48,7 @@
           {{ if isset .Params "avatar" }}
   {{ $image := .Resources.GetMatch .Params.avatar }}
   {{ with $image }}
-    {{ $optimized := .Resize "800x webp" }}
+    {{ $optimized := .Resize "300x webp" }}
     <img 
       src="{{ $optimized.RelPermalink }}" 
       alt="{{ $.Params.featured_alt }}" 
@@ -146,8 +154,7 @@
     display: flex;
     width: 300px;
     padding: 1rem;
-    background-color: #252525;
-    background-color: #0e0e0e;
+    background-color: #dddddd;
     border-radius: 0px 0px 12px 12px;
     justify-content: space-between;
     align-items: center;
@@ -165,23 +172,24 @@
     height: 35px;
     border-radius: 10px;
     object-fit: cover;
+    background-color: black;
   }
 
   .card__info span {
-    color: #fff;
+    color: #050505;
     font-size: 16px;
     font-weight: 500;
     line-height: initial;
   }
 
   .card__info p {
-    color: #919191;
     font-size: 13px;
     font-weight: 400;
     line-height: initial;
   }
 
-  button {
+  .card__wrapper {
+     button {
     padding: 5px 10px;
     border-radius: 10px;
     font-size: 14px;
@@ -194,9 +202,10 @@
 
     span {
       font-size: 12px;
-      color: #656565;
+      color: #202020;
     }
   }
+}
 
   button:hover {
     opacity: 0.8;
@@ -230,12 +239,26 @@
   .games {
     display: flex;
     flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
     gap: 10px;
   }
 
-  @media screen  {
-    
+  @media (max-width: 768px) {
+    .games{
+      align-items: center;
+      justify-content: center;
+    }
   }
+
+  html:is(.dark) .card {
+    background-color: #1a1a1a;
+  }               
+  
+  html:is(.dark) .card__info span {
+    color: #fff;            
+  }               
+
+  html:is(.dark) .card__info p {
+    color: #919191;
+  }               
+
 </style>
