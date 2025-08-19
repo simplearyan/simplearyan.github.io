@@ -16,6 +16,16 @@
  weight = 5
 
 [[main]]
+ name = "IITM"
+ pageRef = "notes/iitm"
+ weight = 7
+
+[[main]]
+ name = "ILETS"
+ pageRef = "notes/ILETS"
+ weight = 8
+
+[[main]]
  name = "Blogs"
  pageRef = "blog"
  weight = 10
@@ -30,18 +40,18 @@
 #   pageRef = "posts"
 #   weight = 20
 
-#[[main]]
+# [[main]]
 #  name = "example sub-menu 2"
 #  parent = "Parent"
 #  pageRef = "posts"
 #  weight = 20
 
-#[[subnavigation]]
+# [[subnavigation]]
 #  name = "An interesting topic"
 #  pageRef = "tags/interesting-topic"
 #  weight = 10
 
-#[[subnavigation]]
+# [[subnavigation]]
 #  name = "My Awesome Category"
 #  pre = "github"
 #  pageRef = "categories/awesome"

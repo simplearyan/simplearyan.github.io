@@ -14,7 +14,7 @@ enableCodeCopy = true
 
 replyByEmail = false
 
-mainSections = ["blog"]
+mainSections = ["notes"]
 # robots = ""
 
 disableImageOptimization = false
@@ -47,9 +47,9 @@ forgejoDefaultServer = "https://v8.next.forgejo.org"
   layout = "profile" # valid options: page, profile, hero, card, background, custom
   homepageImage = "/img/iceland.jpg" # used in: hero, and card
   showRecent = true
-  showRecentItems = 6
+  showRecentItems = 12
   showMoreLink = true
-  showMoreLinkDest = "/blog/"
+  showMoreLinkDest = "/notes/"
   cardView = true
   cardViewScreenWidth = false
   layoutBackgroundBlur = false # only used when layout equals background
