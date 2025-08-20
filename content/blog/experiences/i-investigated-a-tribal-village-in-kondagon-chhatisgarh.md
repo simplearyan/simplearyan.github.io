@@ -1,6 +1,6 @@
 ---
 title: "Unfiltered Reality: Inside Jobha, a Tribal Village in Chhattisgarh 🙏💧🛣️"
-weight: 1
+weight: 4
 draft: false
 slug: "Unfiltered Reality: Inside Jobha, a Tribal Village in Chhattisgarh"
 tags: ["experiences", "Chhattisgarh", "Unfiltered by Samdish"]
