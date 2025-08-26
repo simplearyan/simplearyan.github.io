@@ -3,7 +3,6 @@ title: "ILETS Introduction"
 author: Aryan
 weight: 1
 draft: false
-summary: "Here's a summary of A Truly Beautiful Mind and answers to all the questions, presented for ease of understanding with emojis! 📚🤖 ..."
 tags: ["ILETS"]
 series_order: 1
 cascade:
