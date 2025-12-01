@@ -67,4 +67,16 @@ const today = new Date();
     margin-left: 1.5px;
     transform: translateY(-7px);
   }
+
+  @media (max-width: 768px) {
+    .container {
+      flex-direction: column;
+      gap: var(--spacing-md);
+      text-align: center;
+    }
+
+    .social-links {
+      justify-content: center;
+    }
+  }
 </style>

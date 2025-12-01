@@ -12,11 +12,11 @@ const posts = (await getCollection("blog"))
 <Layout title="Home">
 	<section class="hero animate-fade-in">
 		<h1>
-			<span class="civic">Solve</span>
-			<span class="aryan">(math)</span>
+			<span class="civic">find</span>
+			<span class="aryan">(solution)</span>
 			<span class="logo-x">x</span>
 		</h1>
-		<p class="subtitle">A personal portfolio and learning hub.</p>
+		<p class="subtitle">A public notebook and learning hub.</p>
 	</section>
 
 	<section class="education-section hidden" id="education-section">
@@ -59,7 +59,7 @@ const posts = (await getCollection("blog"))
 	</section>
 
 	<div class="section-header">
-		<h2 class="section-title">Blog Posts</h2>
+		<h2 class="section-title">Read Blog</h2>
 		<a href="/blog" class="view-all">View All Posts →</a>
 	</div>
 	<section class="posts-grid">
@@ -170,24 +170,11 @@ const posts = (await getCollection("blog"))
 							return "var(--color-primary)";
 						};
 
-						// Helper to format date
-						const formatDate = (dateString) => {
-							return new Date(dateString).toLocaleDateString(
-								"en-US",
-								{
-									year: "numeric",
-									month: "long",
-									day: "numeric",
-								},
-							);
-						};
-
 						coursesToAdd.forEach((course) => {
 							const data = course.data;
 							const categoryColor = getCategoryColor(
 								data.courseType || "Course",
 							);
-							const dateStr = formatDate(data.pubDate);
 							const href = `/education/${course.slug}`;
 
 							const cardHTML = `
@@ -195,10 +182,9 @@ const posts = (await getCollection("blog"))
                                     <span class="recently-opened-label" style="display: block;">Opened Recently</span>
                                     <div class="card-header">
                                         <div class="institution-badge">
-                                            <span class="institution">${data.institution}</span>
-                                            <span class="course-type" style="color: ${categoryColor}">${data.courseType}</span>
+                                            <span class="institution">${data.institution || "Unknown Institution"}</span>
+                                            <span class="course-type" style="color: ${categoryColor}">${data.courseType || "Course"}</span>
                                         </div>
-                                        <div class="date">${dateStr}</div>
                                     </div>
                                     <div class="card-body">
                                         <h3 class="title">${data.title}</h3>
@@ -213,15 +199,6 @@ const posts = (await getCollection("blog"))
 												.join("")}
                                         </div>
                                     </div>
-                                    <div class="card-footer">
-                                        <span class="view-course">
-                                            View Course
-                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="arrow" style="color: ${categoryColor}">
-                                                <line x1="5" y1="12" x2="19" y2="12"></line>
-                                                <polyline points="12 5 19 12 12 19"></polyline>
-                                            </svg>
-                                        </span>
-                                    </div>
                                 </a>
                             `;
 
@@ -230,6 +207,40 @@ const posts = (await getCollection("blog"))
 							wrapper.innerHTML = cardHTML;
 							grid.appendChild(wrapper);
 						});
+
+						// Re-order all cards based on recentlyViewedSlugs
+						const allWrappers = Array.from(grid.children);
+						allWrappers.sort((a, b) => {
+							const linkA = a.querySelector("a");
+							const linkB = b.querySelector("a");
+							const slugA = linkA
+								? linkA.getAttribute("href").split("/").pop()
+								: "";
+							const slugB = linkB
+								? linkB.getAttribute("href").split("/").pop()
+								: "";
+
+							const indexA = recentlyViewedSlugs.indexOf(slugA);
+							const indexB = recentlyViewedSlugs.indexOf(slugB);
+
+							// If both are recent, sort by index (lower index = more recent = first)
+							if (indexA !== -1 && indexB !== -1)
+								return indexA - indexB;
+
+							// If only A is recent, it comes first
+							if (indexA !== -1) return -1;
+
+							// If only B is recent, it comes first
+							if (indexB !== -1) return 1;
+
+							// If neither are recent, keep original order (or sort by date if needed)
+							return 0;
+						});
+
+						// Re-append in correct order
+						allWrappers.forEach((wrapper) =>
+							grid.appendChild(wrapper),
+						);
 					}
 				} else {
 					// Check if we should show the section anyway (if new courses exist)
@@ -400,15 +411,19 @@ const posts = (await getCollection("blog"))
 
 	.section-title {
 		font-size: 2rem;
-		font-family: var(--font-serif);
+		/* font-family: var(--font-serif); */
+		font-family: "Playfair Display", serif;
 		margin-bottom: 0;
 	}
 
 	.view-all {
-		font-family: var(--font-mono);
+		/* font-family: var(--font-mono); */
+		font-family: "Montserrat", sans-serif;
 		font-size: 0.9rem;
 		color: var(--color-primary);
 		font-weight: 600;
+		text-transform: uppercase;
+		letter-spacing: 0.02em;
 	}
 
 	.education-grid {
@@ -419,5 +434,33 @@ const posts = (await getCollection("blog"))
 
 	.education-card-wrapper {
 		height: 100%;
+	}
+
+	@media (max-width: 1024px) {
+		.education-grid {
+			display: grid;
+			grid-auto-flow: column;
+			grid-auto-columns: min(340px, 85vw);
+			overflow-x: auto;
+			gap: 1.5rem;
+			padding-bottom: 2rem; /* Space for scrollbar/shadow */
+			margin-right: -1.5rem; /* Counteract container padding */
+			padding-right: 1.5rem;
+			-webkit-overflow-scrolling: touch;
+		}
+
+		.education-grid::-webkit-scrollbar {
+			display: none;
+		}
+
+		.education-card-wrapper {
+			height: 100%;
+			display: flex;
+			flex-direction: column;
+		}
+
+		.education-card-wrapper > .education-card {
+			flex: 1;
+		}
 	}
 </style>

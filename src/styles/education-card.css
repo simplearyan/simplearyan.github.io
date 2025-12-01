@@ -243,33 +243,195 @@
     font-weight: 700;
 }
 
+/* Top accent border */
+.education-card::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: var(--category-color, var(--color-primary));
+    transform-origin: left;
+    transition: transform 0.3s ease;
+    z-index: 1;
+}
+
+.education-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 24px -8px color-mix(in srgb, var(--category-color) 20%, transparent);
+    border-color: color-mix(in srgb,
+            var(--category-color) 60%,
+            var(--color-border));
+}
+
+/* Remove drop shadow for dark mode on hover */
+[data-theme="dark"] .education-card:hover {
+    box-shadow: none;
+    border-color: color-mix(in srgb, var(--category-color) 50%, rgba(255, 255, 255, 0.1));
+    background: linear-gradient(to bottom right,
+            var(--color-surface),
+            color-mix(in srgb, var(--color-surface), white 2%));
+}
+
+/* New Label Styling */
+.new-label-wrapper {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 80px;
+    height: 80px;
+    overflow: hidden;
+    z-index: 20;
+    pointer-events: none;
+}
+
+@keyframes shimmer {
+    0% {
+        background-position: -200% 0;
+    }
+
+    100% {
+        background-position: 200% 0;
+    }
+}
+
+.new-label {
+    position: absolute;
+    top: 12px;
+    left: -28px;
+    width: 100px;
+    background: linear-gradient(135deg,
+            #ff4d4d 0%,
+            #f9cb28 50%,
+            #ff4d4d 100%);
+    background-size: 200% 100%;
+    color: white;
+    text-align: center;
+    font-size: 0.6rem;
+    font-weight: 800;
+    padding: 0.2rem 0;
+    transform: rotate(-45deg);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-family: var(--font-sans);
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    animation: shimmer 3s infinite linear;
+}
+
+.recently-opened-label {
+    display: none;
+    /* Hidden by default, toggled by JS */
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    background: rgba(255, 255, 255, 0.95);
+    color: var(--category-color);
+    font-size: 0.65rem;
+    padding: 0.25rem 0.75rem;
+    border-radius: 50px;
+    font-weight: 700;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+    z-index: 10;
+    font-family: var(--font-sans);
+    letter-spacing: 0.02em;
+    text-transform: uppercase;
+    border: 1px solid color-mix(in srgb, var(--category-color), transparent 60%);
+    animation: popIn 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    backdrop-filter: blur(4px);
+}
+
+/* Dark mode adjustment for label background */
+[data-theme="dark"] .recently-opened-label {
+    background: rgba(30, 30, 30, 0.9);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+    color: color-mix(in srgb, var(--category-color), white 20%);
+}
+
+.recently-opened-label::before {
+    content: "";
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    background-color: currentColor;
+    border-radius: 50%;
+    margin-right: 6px;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        opacity: 0.7;
+    }
+
+    50% {
+        transform: scale(1.1);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(0.95);
+        opacity: 0.7;
+    }
+}
+
+@keyframes popIn {
+    from {
+        transform: scale(0.8) translateY(-5px);
+        opacity: 0;
+    }
+
+    to {
+        transform: scale(1) translateY(0);
+        opacity: 1;
+    }
+}
+
+.card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+    position: relative;
+    z-index: 2;
+    margin-top: 0.5rem;
+    /* Space for labels if needed */
+}
+
+.institution-badge {
+    display: flex;
+    flex-direction: column;
+    gap: 0.1rem;
+}
+
+.institution {
+    font-weight: 800;
+    color: var(--color-text-muted);
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    opacity: 1;
+}
+
+/* Dark mode institution color */
+[data-theme="dark"] .institution {
+    color: #94a3b8;
+}
+
+.course-type {
+    font-family: var(--font-sans);
+    font-size: 0.85rem;
+    color: var(--category-color);
+    font-weight: 700;
+}
+
 .separator {
     display: none;
 }
 
-.date {
-    font-family: var(--font-mono);
-    color: var(--color-text-muted);
-    font-size: 0.75rem;
-    background: var(--color-bg);
-    padding: 0.2rem 0.5rem;
-    border-radius: 4px;
-    border: 1px solid var(--color-border);
-    transition: all 0.3s ease;
-}
 
-/* Dark mode date style */
-[data-theme="dark"] .date {
-    background: rgba(255, 255, 255, 0.03);
-    border-color: rgba(255, 255, 255, 0.1);
-    color: #94a3b8;
-}
-
-.education-card:hover .date {
-    border-color: var(--category-color);
-    color: var(--category-color);
-    font-weight: 600;
-}
 
 .card-body {
     flex-grow: 1;
@@ -280,13 +442,15 @@
 }
 
 .title {
-    font-family: "Playfair Display", serif;
+    font-family: "Montserrat", serif;
+    text-transform: uppercase;
     font-size: 1.5rem;
     font-weight: 700;
     line-height: 1.2;
     margin: 0;
     color: var(--color-heading);
     transition: color 0.3s ease;
+    letter-spacing: 0.02em;
 }
 
 /* Dark mode title */
@@ -344,41 +508,4 @@
     border-color: var(--category-color);
     color: var(--category-color);
     background: color-mix(in srgb, var(--category-color) 5%, transparent);
-}
-
-.card-footer {
-    margin-top: 1.25rem;
-    padding-top: 1rem;
-    border-top: 1px solid var(--color-border);
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    z-index: 2;
-}
-
-[data-theme="dark"] .card-footer {
-    border-color: rgba(255, 255, 255, 0.08);
-}
-
-.view-course {
-    display: flex;
-    align-items: center;
-    gap: 0.4rem;
-    font-weight: 700;
-    font-size: 0.9rem;
-    color: var(--category-color, var(--color-primary));
-    font-family: var(--font-sans);
-    transition: all 0.3s ease;
-}
-
-.view-course:hover {
-    gap: 0.6rem;
-}
-
-.arrow {
-    transition: transform 0.3s ease;
-}
-
-.education-card:hover .arrow {
-    transform: translateX(4px);
 }

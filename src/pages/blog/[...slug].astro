@@ -48,6 +48,21 @@ const components = {
 const post = Astro.props;
 const { Content } = await post.render();
 const url = new URL(Astro.url.pathname, Astro.site);
+
+// Get related posts
+const allPosts = await getCollection("blog");
+const relatedPosts = allPosts
+	.filter((p) => p.slug !== post.slug)
+	.filter((p) => p.data.tags?.some((tag) => post.data.tags?.includes(tag)));
+
+// Get up to 4 related posts, filling with recent posts if needed
+let relatedPostsToShow = relatedPosts.slice(0, 4);
+if (relatedPostsToShow.length < 4) {
+	const morePosts = allPosts
+		.filter((p) => p.slug !== post.slug && !relatedPostsToShow.includes(p))
+		.slice(0, 4 - relatedPostsToShow.length);
+	relatedPostsToShow = [...relatedPostsToShow, ...morePosts];
+}
 ---
 
 <Layout
@@ -56,7 +71,9 @@ const url = new URL(Astro.url.pathname, Astro.site);
 	image={post.data.image}
 	type="article"
 >
-	<article class="blog-post animate-fade-in">
+	<article
+		class={`blog-post animate-fade-in ${post.data.fancyHeadings ? "fancy-headings" : ""}`}
+	>
 		<header class="post-header">
 			<div class="post-meta">
 				<time datetime={post.data.pubDate.toISOString()}>
@@ -75,6 +92,19 @@ const url = new URL(Astro.url.pathname, Astro.site);
 			<div class="tags">
 				{post.data.tags.map((tag) => <span class="tag">#{tag}</span>)}
 			</div>
+			{
+				post.data.image && post.data.showImage && (
+					<div class="hero-image-wrapper">
+						<OptimizedImage
+							src={post.data.image}
+							alt={post.data.title}
+							style="clean"
+							animation="zoom-in"
+							class="blog-hero-image"
+						/>
+					</div>
+				)
+			}
 		</header>
 
 		<div class="prose">
@@ -82,6 +112,37 @@ const url = new URL(Astro.url.pathname, Astro.site);
 		</div>
 
 		<ShareButtons title={post.data.title} url={url} />
+
+		{
+			relatedPostsToShow.length > 0 && (
+				<div class="related-post-container">
+					<h3 class="related-heading">Read Next</h3>
+					<div class="related-grid">
+						{relatedPostsToShow.map((relatedPost) => (
+							<a
+								href={`/blog/${relatedPost.slug}`}
+								class="related-card"
+							>
+								{relatedPost.data.image && (
+									<div class="related-image-wrapper">
+										<OptimizedImage
+											src={relatedPost.data.image}
+											alt={relatedPost.data.title}
+											class="related-image"
+										/>
+									</div>
+								)}
+								<div class="related-content">
+									<h4 class="related-title">
+										{relatedPost.data.title}
+									</h4>
+								</div>
+							</a>
+						))}
+					</div>
+				</div>
+			)
+		}
 	</article>
 </Layout>
 
@@ -119,6 +180,7 @@ const url = new URL(Astro.url.pathname, Astro.site);
 		display: flex;
 		justify-content: center;
 		gap: 0.5rem;
+		margin-bottom: 2rem;
 	}
 
 	.tag {
@@ -128,5 +190,117 @@ const url = new URL(Astro.url.pathname, Astro.site);
 		border-radius: 99px;
 		color: var(--color-text);
 		font-family: var(--font-mono);
+	}
+
+	.hero-image-wrapper {
+		margin-top: 2rem;
+		width: 100%;
+	}
+
+	:global(.blog-hero-image) {
+		width: 100%;
+		max-height: 500px;
+		object-fit: cover;
+		border-radius: 12px;
+		box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15);
+	}
+
+	/* Fancy Headings Styles */
+	.fancy-headings h1 {
+		font-family: "Playfair Display", serif;
+		font-style: italic;
+		font-weight: 700;
+	}
+
+	.fancy-headings :global(h2) {
+		font-family: "Playfair Display", serif;
+		font-size: 2.25rem;
+		margin-top: 3.5rem;
+		margin-bottom: 1.5rem;
+		color: var(--color-heading);
+	}
+
+	.fancy-headings :global(h3) {
+		font-family: "Playfair Display", serif;
+		font-size: 1.75rem;
+		margin-top: 2.5rem;
+		margin-bottom: 1rem;
+		color: var(--color-heading);
+	}
+
+	/* Related Post Styles */
+	.related-post-container {
+		margin-top: 4rem;
+		padding-top: 2rem;
+		border-top: 1px solid var(--color-border);
+	}
+
+	.related-heading {
+		font-size: 1rem;
+		text-transform: uppercase;
+		letter-spacing: 0.1em;
+		color: var(--color-text-muted);
+		margin-bottom: 2rem;
+		text-align: center;
+	}
+
+	.related-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+		gap: 2rem;
+	}
+
+	.related-card {
+		display: flex;
+		flex-direction: column;
+		background: var(--color-surface);
+		border: 1px solid var(--color-border);
+		border-radius: 16px;
+		overflow: hidden;
+		text-decoration: none;
+		transition: all 0.3s ease;
+		box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+		height: 100%;
+	}
+
+	.related-card:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.15);
+		border-color: var(--color-primary);
+	}
+
+	.related-image-wrapper {
+		width: 100%;
+		height: 200px;
+		overflow: hidden;
+	}
+
+	:global(.related-image) {
+		width: 100%;
+		height: 100%;
+		object-fit: cover;
+		transition: transform 0.5s ease;
+	}
+
+	.related-card:hover :global(.related-image) {
+		transform: scale(1.05);
+	}
+
+	.related-content {
+		padding: 1.5rem;
+		text-align: center;
+	}
+
+	.related-title {
+		font-family: "Montserrat", sans-serif;
+		font-size: 1.25rem;
+		font-weight: 700;
+		color: var(--color-heading);
+		margin: 0;
+		line-height: 1.4;
+	}
+
+	.related-card:hover .related-title {
+		color: var(--color-primary);
 	}
 </style>

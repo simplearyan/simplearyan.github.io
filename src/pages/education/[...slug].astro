@@ -20,6 +20,23 @@ const isCourseContent =
     item.data.type === "subject" ||
     item.data.type === "module";
 const courseTag = item.data.tags ? item.data.tags[0] : "Data Science";
+
+// Navigation Logic
+const educationItems = await getCollection("education");
+const currentCourseItems = educationItems
+    .filter(
+        (i) =>
+            i.data.parent === item.data.parent && i.data.parent !== undefined,
+    )
+    .sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+
+const currentIndex = currentCourseItems.findIndex((i) => i.slug === item.slug);
+const prevLesson =
+    currentIndex > 0 ? currentCourseItems[currentIndex - 1] : null;
+const nextLesson =
+    currentIndex < currentCourseItems.length - 1
+        ? currentCourseItems[currentIndex + 1]
+        : null;
 ---
 
 {
@@ -39,6 +56,35 @@ const courseTag = item.data.tags ? item.data.tags[0] : "Data Science";
                     url={Astro.url}
                     label="Share this lesson"
                 />
+
+                <div class="lesson-navigation">
+                    {prevLesson ? (
+                        <a
+                            href={`/education/${prevLesson.slug}`}
+                            class="nav-card prev"
+                        >
+                            <span class="nav-label">Previous Lesson</span>
+                            <span class="nav-title">
+                                {prevLesson.data.title}
+                            </span>
+                        </a>
+                    ) : (
+                        <div class="nav-placeholder" />
+                    )}
+                    {nextLesson ? (
+                        <a
+                            href={`/education/${nextLesson.slug}`}
+                            class="nav-card next"
+                        >
+                            <span class="nav-label">Next Lesson</span>
+                            <span class="nav-title">
+                                {nextLesson.data.title}
+                            </span>
+                        </a>
+                    ) : (
+                        <div class="nav-placeholder" />
+                    )}
+                </div>
             </article>
         </CourseLayout>
     ) : (
@@ -65,6 +111,89 @@ const courseTag = item.data.tags ? item.data.tags[0] : "Data Science";
         font-family: var(--font-serif);
         font-weight: 700;
         color: var(--color-heading);
+    }
+
+    /* Lesson Navigation Styles */
+    .lesson-navigation {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 2rem;
+        margin-top: 4rem;
+        padding-top: 2rem;
+        border-top: 1px solid var(--color-border);
+    }
+
+    .nav-card {
+        display: flex;
+        flex-direction: column;
+        padding: 1.5rem;
+        border: 1px solid var(--color-border);
+        border-radius: 8px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+        background: var(--color-surface);
+        font-family: var(--font-sans); /* Inter */
+    }
+
+    .nav-card:hover {
+        border-color: var(--color-primary);
+        background: var(--color-primary);
+        transform: translateY(-2px);
+        box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+    }
+
+    .nav-card:hover .nav-label {
+        color: var(--color-bg);
+        opacity: 0.9;
+    }
+
+    .nav-card:hover .nav-title {
+        color: var(--color-bg);
+    }
+
+    .nav-card.prev {
+        text-align: left;
+        align-items: flex-start;
+    }
+
+    .nav-card.next {
+        text-align: right;
+        align-items: flex-end;
+    }
+
+    .nav-label {
+        font-family: "Montserrat", sans-serif;
+        font-weight: 700;
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: var(--color-text-muted);
+        margin-bottom: 0.5rem;
+    }
+
+    .nav-title {
+        font-family: "Playfair Display", serif;
+        font-size: 1.5rem;
+        font-weight: 700;
+        font-style: italic;
+        color: var(--color-heading);
+        line-height: 1.2;
+    }
+
+    .nav-placeholder {
+        /* Empty div to maintain grid structure if one link is missing */
+    }
+
+    @media (max-width: 640px) {
+        .lesson-navigation {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .nav-card.next {
+            text-align: left;
+            align-items: flex-start;
+        }
     }
 </style>
 
