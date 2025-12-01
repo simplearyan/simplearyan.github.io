@@ -1,0 +1,71 @@
+---
+import { getCollection } from "astro:content";
+import SubjectCard from "./SubjectCard.astro";
+import EnhancedSubjectCard from "./EnhancedSubjectCard.astro";
+import ProfessionalSubjectCard from "./ProfessionalSubjectCard.astro";
+
+interface Props {
+    courseSlug: string;
+    cardStyle?: "original" | "enhanced" | "professional";
+    defaultIcon?: string;
+}
+
+const {
+    courseSlug,
+    cardStyle = "professional",
+    defaultIcon = "📚",
+} = Astro.props;
+
+const allEducation = await getCollection("education");
+const lessons = allEducation
+    .filter((entry) => entry.data.parent === courseSlug)
+    .sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+---
+
+<div class="auto-subject-grid">
+    {
+        lessons.map((lesson, index) => {
+            const href = `/education/${lesson.slug}`;
+            const title = lesson.data.title;
+            // Extract subtitle if available or use a default
+            const subtitle = lesson.data.description || `Module ${index + 1}`;
+            // Use a default icon or one from frontmatter if available (assuming frontmatter might have icon in future)
+            const icon = defaultIcon;
+
+            if (cardStyle === "enhanced") {
+                return (
+                    <EnhancedSubjectCard
+                        title={title}
+                        subtitle={subtitle}
+                        href={href}
+                        index={index}
+                        icon={icon}
+                    />
+                );
+            }
+
+            if (cardStyle === "original") {
+                return <SubjectCard title={title} href={href} icon={icon} />;
+            }
+
+            // Default to professional
+            return (
+                <ProfessionalSubjectCard
+                    title={title}
+                    subtitle={subtitle}
+                    href={href}
+                    icon={icon}
+                />
+            );
+        })
+    }
+</div>
+
+<style>
+    .auto-subject-grid {
+        display: grid;
+        gap: 1rem;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        margin-bottom: 2rem;
+    }
+</style>

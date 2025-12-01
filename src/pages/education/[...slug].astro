@@ -1,0 +1,91 @@
+---
+import { getCollection } from "astro:content";
+import CourseLayout from "../../layouts/CourseLayout.astro";
+import EducationSingleLayout from "../../layouts/EducationSingleLayout.astro";
+
+export async function getStaticPaths() {
+    const educationItems = await getCollection("education");
+    return educationItems.map((item) => ({
+        params: { slug: item.slug },
+        props: item,
+    }));
+}
+
+const item = Astro.props;
+const { Content, headings } = await item.render();
+
+const isCourseContent =
+    item.data.type === "unit" ||
+    item.data.type === "subject" ||
+    item.data.type === "module";
+const courseTag = item.data.tags ? item.data.tags[0] : "Data Science";
+---
+
+{
+    isCourseContent ? (
+        <CourseLayout
+            title={item.data.title}
+            currentSlug={item.slug}
+            courseTag={courseTag}
+            courseTitle={courseTag}
+            headings={headings}
+        >
+            <article class="prose">
+                <h1>{item.data.title}</h1>
+                <Content />
+            </article>
+        </CourseLayout>
+    ) : (
+        <EducationSingleLayout
+            title={item.data.title}
+            description={item.data.description}
+            pubDate={item.data.pubDate}
+            image={item.data.image}
+            institution={item.data.institution}
+            courseType={item.data.courseType}
+        >
+            <Content />
+        </EducationSingleLayout>
+    )
+}
+
+<style>
+    .prose :global(h1),
+    .prose :global(h2),
+    .prose :global(h3),
+    .prose :global(h4),
+    .prose :global(h5),
+    .prose :global(h6) {
+        font-family: var(--font-serif);
+        font-weight: 700;
+        color: var(--color-heading);
+    }
+</style>
+
+<script define:vars={{ slug: item.data.parent || item.slug }}>
+    // Track recently viewed course
+    try {
+        const STORAGE_KEY = "recentlyViewedCourses";
+        const MAX_ITEMS = 4;
+
+        let recent = JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
+
+        // Remove current if exists (to move to top)
+        recent = recent.filter((item) => item.slug !== slug);
+
+        // Add to front
+        recent.unshift({
+            slug: slug,
+            timestamp: Date.now(),
+        });
+
+        // Trim
+        if (recent.length > MAX_ITEMS) {
+            recent = recent.slice(0, MAX_ITEMS);
+        }
+
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(recent));
+    } catch (e) {
+        console.error("Failed to update recently viewed courses", e);
+    }
+</script>

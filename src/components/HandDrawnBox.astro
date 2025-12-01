@@ -1,0 +1,139 @@
+---
+interface Props {
+    title?: string;
+    variant?: "default" | "note" | "tip" | "warning" | "danger";
+    color?: string;
+}
+
+const { title, variant = "default", color } = Astro.props;
+
+const icons = {
+    default: "📝",
+    note: "💡",
+    tip: "✨",
+    warning: "⚠️",
+    danger: "🔥",
+};
+
+const icon = icons[variant] || icons.default;
+---
+
+<div
+    class={`hand-drawn-box ${variant}`}
+    style={color ? `--box-border: ${color};` : ""}
+>
+    {
+        title && (
+            <div class="box-header">
+                <span class="icon">{icon}</span>
+                <span class="title">{title}</span>
+            </div>
+        )
+    }
+    <div class="box-content">
+        <slot />
+    </div>
+</div>
+
+<style>
+    .hand-drawn-box {
+        background: var(--box-bg);
+        border: 2px solid var(--box-border);
+        /* Irregular border radius for hand-drawn look */
+        border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+        padding: 1.5rem;
+        margin: 2rem 0;
+        position: relative;
+        box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.1);
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+        color: var(--color-text);
+    }
+
+    /* Default Variant */
+    .hand-drawn-box.default {
+        --box-bg: #f3f4f6;
+        --box-border: #4b5563;
+    }
+    :global([data-theme="dark"]) .hand-drawn-box.default {
+        --box-bg: #1f2937;
+        --box-border: #9ca3af;
+    }
+
+    /* Note Variant */
+    .hand-drawn-box.note {
+        --box-bg: #eff6ff;
+        --box-border: #3b82f6;
+    }
+    :global([data-theme="dark"]) .hand-drawn-box.note {
+        --box-bg: #1e3a8a;
+        --box-border: #60a5fa;
+    }
+
+    /* Tip Variant */
+    .hand-drawn-box.tip {
+        --box-bg: #f0fdf4;
+        --box-border: #22c55e;
+    }
+    :global([data-theme="dark"]) .hand-drawn-box.tip {
+        --box-bg: #14532d;
+        --box-border: #4ade80;
+    }
+
+    /* Warning Variant */
+    .hand-drawn-box.warning {
+        --box-bg: #fefce8;
+        --box-border: #eab308;
+    }
+    :global([data-theme="dark"]) .hand-drawn-box.warning {
+        --box-bg: #713f12;
+        --box-border: #facc15;
+    }
+
+    /* Danger Variant */
+    .hand-drawn-box.danger {
+        --box-bg: #fff1f2;
+        --box-border: #fb7185;
+    }
+    :global([data-theme="dark"]) .hand-drawn-box.danger {
+        --box-bg: #881337;
+        --box-border: #f43f5e;
+    }
+
+    .hand-drawn-box:hover {
+        transform: translateY(-2px) rotate(-0.5deg);
+        box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.15);
+    }
+
+    .box-header {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 2px dashed var(--box-border);
+        opacity: 0.9;
+    }
+
+    .icon {
+        font-size: 1.5rem;
+    }
+
+    .title {
+        font-family: "Playfair Display", serif;
+        font-weight: 700;
+        font-size: 1.2rem;
+        color: var(--color-heading);
+    }
+
+    .box-content {
+        font-family: var(--font-sans);
+        line-height: 1.7;
+    }
+
+    /* Ensure content inside doesn't overflow */
+    .box-content :global(p:last-child) {
+        margin-bottom: 0;
+    }
+</style>

@@ -1,0 +1,433 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import EducationCard from "../components/EducationCard.astro";
+
+const educationItems = await getCollection("education");
+const sortedItems = educationItems
+    .filter((item) => item.data.type === "course")
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+---
+
+<Layout title="Education | SimpleAryan">
+    <main>
+        <div class="container">
+            <header class="page-header">
+                <h1>Education</h1>
+                <p class="subtitle">Learning resources and course notes.</p>
+            </header>
+
+            <div class="education-grid" id="education-grid">
+                {
+                    sortedItems.map((item) => (
+                        <EducationCard
+                            title={item.data.title}
+                            description={item.data.description}
+                            date={item.data.pubDate}
+                            image={item.data.image}
+                            institution={item.data.institution || ""}
+                            courseType={item.data.courseType || ""}
+                            tags={item.data.tags}
+                            href={`/education/${item.slug}`}
+                        />
+                    ))
+                }
+            </div>
+        </div>
+    </main>
+</Layout>
+
+<script>
+    const searchInput = document.getElementById(
+        "search-input",
+    ) as HTMLInputElement;
+    const categoryFilter = document.getElementById(
+        "category-filter",
+    ) as HTMLSelectElement;
+    const sortOrder = document.getElementById(
+        "sort-order",
+    ) as HTMLSelectElement;
+    const grid = document.getElementById("education-grid");
+
+    // Wait for DOM to be fully loaded
+    document.addEventListener("DOMContentLoaded", () => {
+        const cards = Array.from(
+            document.querySelectorAll(".education-card"),
+        ) as HTMLAnchorElement[];
+
+        let recentSlugs: string[] = [];
+
+        // Load recently viewed data
+        try {
+            const STORAGE_KEY = "recentlyViewedCourses";
+            const recent = JSON.parse(
+                localStorage.getItem(STORAGE_KEY) || "[]",
+            );
+            recentSlugs = recent.map((item: any) => item.slug);
+        } catch (e) {
+            console.error("Failed to load recently viewed courses", e);
+        }
+
+        // Initial setup: Show badges and reorder
+        if (recentSlugs.length > 0) {
+            // Show badges
+            cards.forEach((card) => {
+                const slug =
+                    card.getAttribute("href")?.replace("/education/", "") || "";
+                if (recentSlugs.includes(slug)) {
+                    const label = card.querySelector(
+                        ".recently-opened-label",
+                    ) as HTMLElement;
+                    if (label) {
+                        label.style.display = "block";
+                        card.classList.add("show-recent");
+                    }
+                }
+            });
+
+            // Initial sort
+            sortCards(cards);
+            cards.forEach((card) => grid?.appendChild(card));
+        }
+
+        function sortCards(cardList: HTMLAnchorElement[]) {
+            const sort = sortOrder?.value || "newest";
+
+            cardList.sort((a, b) => {
+                // 1. Priority: Recently Viewed
+                const slugA =
+                    a.getAttribute("href")?.replace("/education/", "") || "";
+                const slugB =
+                    b.getAttribute("href")?.replace("/education/", "") || "";
+
+                const indexA = recentSlugs.indexOf(slugA);
+                const indexB = recentSlugs.indexOf(slugB);
+
+                if (indexA !== -1 && indexB !== -1) return indexA - indexB;
+                if (indexA !== -1) return -1;
+                if (indexB !== -1) return 1;
+
+                // 2. Secondary: Selected Sort Order
+                if (sort === "newest") {
+                    return (
+                        new Date(b.dataset.date || "").getTime() -
+                        new Date(a.dataset.date || "").getTime()
+                    );
+                } else if (sort === "oldest") {
+                    return (
+                        new Date(a.dataset.date || "").getTime() -
+                        new Date(b.dataset.date || "").getTime()
+                    );
+                } else if (sort === "az") {
+                    return (a.dataset.title || "").localeCompare(
+                        b.dataset.title || "",
+                    );
+                }
+                return 0;
+            });
+        }
+
+        function filterAndSort() {
+            const searchTerm = searchInput?.value.toLowerCase() || "";
+            const category = categoryFilter?.value || "all";
+
+            // Filter
+            cards.forEach((card) => {
+                const title = (card.dataset.title || "").toLowerCase();
+                const cardCategory = card.dataset.category || "";
+                const tags = (card.dataset.tags || "").toLowerCase();
+
+                const matchesSearch =
+                    title.includes(searchTerm) || tags.includes(searchTerm);
+                const matchesCategory =
+                    category === "all" || cardCategory === category;
+
+                if (matchesSearch && matchesCategory) {
+                    card.style.display = "flex";
+                } else {
+                    card.style.display = "none";
+                }
+            });
+
+            // Sort visible cards
+            const visibleCards = cards.filter(
+                (card) => card.style.display !== "none",
+            );
+
+            sortCards(visibleCards);
+
+            // Re-append sorted cards
+            visibleCards.forEach((card) => grid?.appendChild(card));
+        }
+
+        searchInput?.addEventListener("input", filterAndSort);
+        categoryFilter?.addEventListener("change", filterAndSort);
+        sortOrder?.addEventListener("change", filterAndSort);
+    });
+</script>
+
+<style>
+    .container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 1.5rem;
+    }
+
+    .page-header {
+        padding: 6rem 0 4rem;
+        text-align: center;
+        max-width: 900px;
+        margin: 0 auto;
+        position: relative;
+    }
+
+    /* Background glow effect */
+    .page-header::before {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        width: 120%;
+        height: 120%;
+        background: radial-gradient(
+            circle,
+            rgba(var(--color-primary-rgb), 0.08) 0%,
+            transparent 70%
+        );
+        z-index: -1;
+        pointer-events: none;
+    }
+
+    h1 {
+        font-family: "Playfair Display", serif;
+        font-size: 5rem;
+        font-weight: 800;
+        margin-bottom: 1.5rem;
+        color: var(--color-heading);
+        line-height: 1.1;
+        letter-spacing: -0.03em;
+        position: relative;
+        display: inline-block;
+    }
+
+    /* Decorative underline for H1 */
+    h1::after {
+        content: "";
+        position: absolute;
+        bottom: 0.1em;
+        left: 0;
+        width: 100%;
+        height: 0.2em;
+        background: linear-gradient(
+            90deg,
+            transparent,
+            var(--color-primary),
+            transparent
+        );
+        opacity: 0.2;
+        border-radius: 100%;
+    }
+
+    .subtitle {
+        font-family: "Kalam", cursive;
+        font-size: 1.8rem;
+        color: var(--color-text-muted);
+        line-height: 1.6;
+        transform: rotate(-2deg);
+        display: inline-block;
+        position: relative;
+        text-shadow: 2px 2px 0px var(--color-bg);
+    }
+
+    .filter-bar {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        margin-bottom: 4rem;
+        padding: 1.5rem;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--color-border);
+        border-radius: 24px;
+        align-items: center;
+        justify-content: space-between;
+        backdrop-filter: blur(12px);
+        box-shadow: 0 8px 32px -8px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s ease;
+    }
+
+    :global([data-theme="dark"]) .filter-bar {
+        background: rgba(20, 20, 20, 0.4);
+        box-shadow: 0 8px 32px -8px rgba(0, 0, 0, 0.3);
+    }
+
+    .filter-bar:hover {
+        border-color: var(--color-primary);
+        box-shadow: 0 12px 40px -10px rgba(var(--color-primary-rgb), 0.1);
+    }
+
+    .search-container {
+        position: relative;
+        flex-grow: 1;
+        min-width: 300px;
+    }
+
+    #search-input {
+        width: 100%;
+        padding: 1rem 1rem 1rem 3.5rem;
+        border: 2px solid transparent;
+        border-radius: 16px;
+        background: var(--color-surface);
+        color: var(--color-text);
+        font-family: inherit;
+        font-size: 1rem;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.02);
+    }
+
+    :global([data-theme="dark"]) #search-input {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    #search-input:focus {
+        outline: none;
+        background: var(--color-bg);
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 4px rgba(var(--color-primary-rgb), 0.15);
+        transform: translateY(-2px);
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 1.2rem;
+        top: 50%;
+        transform: translateY(-50%);
+        color: var(--color-text-muted);
+        pointer-events: none;
+        transition: all 0.3s ease;
+        width: 1.2rem;
+        height: 1.2rem;
+    }
+
+    #search-input:focus + .search-icon {
+        color: var(--color-primary);
+        transform: translateY(-50%) scale(1.1);
+    }
+
+    .controls {
+        display: flex;
+        gap: 1rem;
+    }
+
+    select {
+        padding: 0.85rem 3rem 0.85rem 1.5rem;
+        border: 2px solid transparent;
+        border-radius: 16px;
+        background-color: var(--color-surface);
+        color: var(--color-text);
+        font-family: inherit;
+        font-size: 0.95rem;
+        font-weight: 600;
+        cursor: pointer;
+        appearance: none;
+        background-image: url("data:image/svg+xml;charset=US-ASCII,%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20width%3D%22292.4%22%20height%3D%22292.4%22%3E%3Cpath%20fill%3D%22%23666666%22%20d%3D%22M287%2069.4a17.6%2017.6%200%200%200-13-5.4H18.4c-5%200-9.3%201.8-12.9%205.4A17.6%2017.6%200%200%200%200%2082.2c0%205%201.8%209.3%205.4%2012.9l128%20127.9c3.6%203.6%207.8%205.4%2012.8%205.4s9.2-1.8%2012.8-5.4L287%2095c3.5-3.5%205.4-7.8%205.4-12.8%200-5-1.9-9.2-5.5-12.8z%22%2F%3E%3C%2Fsvg%3E");
+        background-repeat: no-repeat;
+        background-position: right 1.2rem top 50%;
+        background-size: 0.7rem auto;
+        transition: all 0.3s ease;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    :global([data-theme="dark"]) select {
+        background-color: rgba(255, 255, 255, 0.05);
+    }
+
+    select:focus {
+        outline: none;
+        border-color: var(--color-primary);
+        box-shadow: 0 0 0 4px rgba(var(--color-primary-rgb), 0.15);
+        transform: translateY(-2px);
+    }
+
+    select:hover {
+        background-color: var(--color-bg);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .education-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(340px, 1fr));
+        gap: 2.5rem;
+        padding-bottom: 8rem;
+    }
+
+    /* Staggered Animation */
+    .education-card {
+        opacity: 0;
+        animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .education-grid .education-card:nth-child(1) {
+        animation-delay: 0.1s;
+    }
+    .education-grid .education-card:nth-child(2) {
+        animation-delay: 0.15s;
+    }
+    .education-grid .education-card:nth-child(3) {
+        animation-delay: 0.2s;
+    }
+    .education-grid .education-card:nth-child(4) {
+        animation-delay: 0.25s;
+    }
+    .education-grid .education-card:nth-child(5) {
+        animation-delay: 0.3s;
+    }
+    .education-grid .education-card:nth-child(6) {
+        animation-delay: 0.35s;
+    }
+    .education-grid .education-card:nth-child(n + 7) {
+        animation-delay: 0.4s;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @media (max-width: 768px) {
+        h1 {
+            font-size: 3.5rem;
+        }
+
+        .page-header {
+            padding: 4rem 0 3rem;
+        }
+
+        .education-grid {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .filter-bar {
+            flex-direction: column;
+            align-items: stretch;
+            gap: 1rem;
+            padding: 1.25rem;
+        }
+
+        .controls {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .search-container {
+            min-width: 100%;
+        }
+    }
+</style>

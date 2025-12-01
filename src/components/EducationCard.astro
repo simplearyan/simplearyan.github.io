@@ -1,0 +1,102 @@
+---
+import { formatDate } from "../utils";
+import "../styles/education-card.css";
+
+interface Props {
+    title: string;
+    description: string;
+    date: Date;
+    image?: string;
+    href: string;
+    institution: string;
+    courseType: string;
+    tags?: string[];
+}
+
+const {
+    title,
+    description,
+    date,
+    image,
+    href,
+    institution,
+    courseType,
+    tags = [],
+} = Astro.props;
+
+// Color mapping for course types
+const getCategoryColor = (type: string) => {
+    const normalizedType = type.toLowerCase();
+    if (normalizedType.includes("degree")) return "var(--color-primary)";
+    if (normalizedType.includes("course")) return "var(--color-secondary)";
+    if (normalizedType.includes("certification")) return "#d97706"; // Amber/Orange
+    if (normalizedType.includes("foundation")) return "#ef4444"; // Red
+    return "var(--color-primary)"; // Default to primary instead of muted for better visibility
+};
+
+const categoryColor = getCategoryColor(courseType);
+
+// Check if the course is new (less than 30 days old)
+const isNew =
+    (new Date().getTime() - new Date(date).getTime()) / (1000 * 3600 * 24) < 30;
+---
+
+<a
+    href={href}
+    class="education-card group"
+    data-title={title}
+    data-date={date.toISOString()}
+    data-category={courseType}
+    data-tags={tags.join(",")}
+    style={`--category-color: ${categoryColor};`}
+>
+    {
+        isNew && (
+            <div class="new-label-wrapper">
+                <span class="new-label">NEW!</span>
+            </div>
+        )
+    }
+    <span class="recently-opened-label">Opened Recently</span>
+    <div class="card-header">
+        <div class="institution-badge">
+            <span class="institution">{institution}</span>
+            <span class="separator">•</span>
+            <span class="course-type" style={`color: ${categoryColor}`}
+                >{courseType}</span
+            >
+        </div>
+        <div class="date">{formatDate(date)}</div>
+    </div>
+
+    <div class="card-body">
+        <h3 class="title">{title}</h3>
+        <p class="description">{description}</p>
+
+        <div class="tags">
+            {tags.slice(0, 3).map((tag) => <span class="tag">{tag}</span>)}
+        </div>
+    </div>
+
+    <div class="card-footer">
+        <span class="view-course">
+            View Course
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="arrow"
+                style={`color: ${categoryColor}`}
+            >
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <polyline points="12 5 19 12 12 19"></polyline>
+            </svg>
+        </span>
+    </div>
+</a>

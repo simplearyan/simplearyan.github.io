@@ -1,0 +1,423 @@
+---
+import Layout from "../layouts/Layout.astro";
+import { getCollection } from "astro:content";
+import EducationCard from "../components/EducationCard.astro";
+import "../styles/education-card.css";
+
+const posts = (await getCollection("blog"))
+	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+	.slice(0, 6);
+---
+
+<Layout title="Home">
+	<section class="hero animate-fade-in">
+		<h1>
+			<span class="civic">Solve</span>
+			<span class="aryan">(math)</span>
+			<span class="logo-x">x</span>
+		</h1>
+		<p class="subtitle">A personal portfolio and learning hub.</p>
+	</section>
+
+	<section class="education-section hidden" id="education-section">
+		<div class="section-header">
+			<h2 class="section-title">Continue Learning</h2>
+			<a href="/education" class="view-all">View All Courses →</a>
+		</div>
+		<div class="education-grid" id="education-grid">
+			{
+				/* Server-side rendered 'New' courses */
+				(await getCollection("education"))
+					.filter((course) => {
+						const isNew =
+							(new Date().getTime() -
+								new Date(course.data.pubDate).getTime()) /
+								(1000 * 3600 * 24) <
+							30;
+						return isNew;
+					})
+					.slice(0, 3) // Limit to 3 new courses
+					.map((course) => (
+						<div class="education-card-wrapper">
+							<EducationCard
+								title={course.data.title}
+								description={course.data.description}
+								date={course.data.pubDate}
+								image={course.data.image}
+								href={`/education/${course.slug}`}
+								institution={
+									course.data.institution ||
+									"Unknown Institution"
+								}
+								courseType={course.data.courseType || "Course"}
+								tags={course.data.tags}
+							/>
+						</div>
+					))
+			}
+		</div>
+	</section>
+
+	<div class="section-header">
+		<h2 class="section-title">Blog Posts</h2>
+		<a href="/blog" class="view-all">View All Posts →</a>
+	</div>
+	<section class="posts-grid">
+		{
+			posts.map((post) => (
+				<article class="post-card animate-fade-in">
+					<a href={`/blog/${post.slug}`}>
+						<div class="post-content">
+							<span class="post-date">
+								{post.data.pubDate.toLocaleDateString("en-US", {
+									year: "numeric",
+									month: "long",
+									day: "numeric",
+								})}
+							</span>
+							<h2>{post.data.title}</h2>
+							<p>{post.data.description}</p>
+							<div class="post-tags">
+								{post.data.tags.map((tag) => (
+									<span class="tag">#{tag}</span>
+								))}
+							</div>
+						</div>
+					</a>
+				</article>
+			))
+		}
+	</section>
+
+	<script is:inline>
+		// Client-side logic for Recently Opened courses
+		(async () => {
+			try {
+				const recentlyViewed = JSON.parse(
+					localStorage.getItem("recentlyViewedCourses") || "[]",
+				);
+
+				// Handle both array of strings (legacy) and array of objects
+				const recentlyViewedSlugs = recentlyViewed
+					.map((item) =>
+						typeof item === "string" ? item : item.slug,
+					)
+					.slice(0, 4);
+
+				if (recentlyViewedSlugs.length === 0) {
+					// If no recent courses, just show the section if it has server-rendered content (New courses)
+					const grid = document.getElementById("education-grid");
+					if (grid && grid.children.length > 0) {
+						document
+							.getElementById("education-section")
+							.classList.remove("hidden");
+					}
+					return;
+				}
+
+				// Fetch all courses data
+				const response = await fetch("/api/courses.json");
+				const allCourses = await response.json();
+
+				// Filter for recently viewed courses
+				const recentCourses = allCourses.filter((course) =>
+					recentlyViewedSlugs.includes(course.slug),
+				);
+
+				// Get existing rendered cards (New courses) to avoid duplicates and mark them if recent
+				const existingCards =
+					document.querySelectorAll(".education-card");
+				const existingSlugs = [];
+
+				existingCards.forEach((card) => {
+					const href = card.getAttribute("href");
+					const slug = href ? href.split("/").pop() : "";
+					existingSlugs.push(slug);
+
+					if (recentlyViewedSlugs.includes(slug)) {
+						card.classList.add("show-recent");
+						const label = card.querySelector(
+							".recently-opened-label",
+						);
+						if (label) label.style.display = "block";
+					}
+				});
+
+				const coursesToAdd = recentCourses.filter(
+					(course) => !existingSlugs.includes(course.slug),
+				);
+
+				if (coursesToAdd.length > 0) {
+					const grid = document.getElementById("education-grid");
+					const educationSection =
+						document.getElementById("education-section");
+
+					if (grid && educationSection) {
+						educationSection.classList.remove("hidden");
+
+						// Helper to get category color (replicated from EducationCard.astro)
+						const getCategoryColor = (type) => {
+							if (!type) return "var(--color-primary)";
+							const normalizedType = type.toLowerCase();
+							if (normalizedType.includes("degree"))
+								return "var(--color-primary)";
+							if (normalizedType.includes("course"))
+								return "var(--color-secondary)";
+							if (normalizedType.includes("certification"))
+								return "#d97706";
+							if (normalizedType.includes("foundation"))
+								return "#ef4444";
+							return "var(--color-primary)";
+						};
+
+						// Helper to format date
+						const formatDate = (dateString) => {
+							return new Date(dateString).toLocaleDateString(
+								"en-US",
+								{
+									year: "numeric",
+									month: "long",
+									day: "numeric",
+								},
+							);
+						};
+
+						coursesToAdd.forEach((course) => {
+							const data = course.data;
+							const categoryColor = getCategoryColor(
+								data.courseType || "Course",
+							);
+							const dateStr = formatDate(data.pubDate);
+							const href = `/education/${course.slug}`;
+
+							const cardHTML = `
+                                <a href="${href}" class="education-card group show-recent" style="--category-color: ${categoryColor};">
+                                    <span class="recently-opened-label" style="display: block;">Opened Recently</span>
+                                    <div class="card-header">
+                                        <div class="institution-badge">
+                                            <span class="institution">${data.institution}</span>
+                                            <span class="course-type" style="color: ${categoryColor}">${data.courseType}</span>
+                                        </div>
+                                        <div class="date">${dateStr}</div>
+                                    </div>
+                                    <div class="card-body">
+                                        <h3 class="title">${data.title}</h3>
+                                        <p class="description">${data.description}</p>
+                                        <div class="tags">
+                                            ${(data.tags || [])
+												.slice(0, 3)
+												.map(
+													(tag) =>
+														`<span class="tag">${tag}</span>`,
+												)
+												.join("")}
+                                        </div>
+                                    </div>
+                                    <div class="card-footer">
+                                        <span class="view-course">
+                                            View Course
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="arrow" style="color: ${categoryColor}">
+                                                <line x1="5" y1="12" x2="19" y2="12"></line>
+                                                <polyline points="12 5 19 12 12 19"></polyline>
+                                            </svg>
+                                        </span>
+                                    </div>
+                                </a>
+                            `;
+
+							const wrapper = document.createElement("div");
+							wrapper.className = "education-card-wrapper";
+							wrapper.innerHTML = cardHTML;
+							grid.appendChild(wrapper);
+						});
+					}
+				} else {
+					// Check if we should show the section anyway (if new courses exist)
+					const grid = document.getElementById("education-grid");
+					if (grid && grid.children.length > 0) {
+						document
+							.getElementById("education-section")
+							.classList.remove("hidden");
+					}
+				}
+			} catch (e) {
+				console.error("Error loading recent courses:", e);
+				// Fallback: show section if it has content
+				const grid = document.getElementById("education-grid");
+				if (grid && grid.children.length > 0) {
+					document
+						.getElementById("education-section")
+						.classList.remove("hidden");
+				}
+			}
+		})();
+	</script>
+</Layout>
+
+<style>
+	.hero {
+		text-align: center;
+		padding: var(--spacing-xl) 0;
+		margin-bottom: var(--spacing-xl);
+	}
+
+	.hero h1 {
+		font-size: 4rem;
+		margin-bottom: var(--spacing-sm);
+	}
+
+	.highlight {
+		color: var(--color-primary);
+	}
+
+	.subtitle {
+		font-size: 1.25rem;
+		color: #666;
+		max-width: 600px;
+		margin: 0 auto;
+	}
+
+	.aryan {
+		font-family: "Playfair Display", serif;
+		font-weight: 700;
+		font-style: italic;
+		letter-spacing: -0.05em;
+		color: var(--color-secondary);
+	}
+
+	.logo-x {
+		font-family: "Kalam", cursive;
+		font-size: 2.4rem;
+		font-weight: 700;
+		margin-left: 0;
+		transform: translateY(-22px) rotate(0deg);
+		color: var(--color-text);
+		display: inline-block;
+	}
+
+	.posts-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		gap: var(--spacing-lg);
+	}
+
+	.post-card {
+		background: var(--color-bg);
+		border: 1px solid var(--color-border);
+		border-radius: 12px;
+		overflow: hidden;
+		transition:
+			transform 0.2s ease,
+			box-shadow 0.2s ease,
+			border-color 0.2s ease;
+	}
+
+	.post-card:hover {
+		transform: translateY(-4px);
+		box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.1);
+		border-color: var(--color-secondary);
+	}
+
+	.post-card a {
+		display: block;
+		height: 100%;
+		padding: var(--spacing-lg);
+		text-decoration: none;
+		color: inherit;
+	}
+
+	.post-card a:hover {
+		color: inherit;
+	}
+
+	.post-date {
+		font-size: 0.875rem;
+		color: #888;
+		display: block;
+		margin-bottom: var(--spacing-sm);
+	}
+
+	.post-card h2 {
+		font-size: 1.5rem;
+		margin-bottom: var(--spacing-sm);
+		line-height: 1.3;
+	}
+
+	.post-card p {
+		color: #666;
+		font-size: 1rem;
+		margin-bottom: var(--spacing-md);
+		display: -webkit-box;
+		-webkit-line-clamp: 3;
+		-webkit-box-orient: vertical;
+		overflow: hidden;
+	}
+
+	.post-tags {
+		display: flex;
+		flex-wrap: wrap;
+		gap: 0.5rem;
+	}
+
+	.tag {
+		font-size: 0.75rem;
+		background-color: var(--color-code-bg);
+		padding: 0.25rem 0.5rem;
+		border-radius: 4px;
+		color: var(--color-text);
+		font-family: var(--font-mono);
+	}
+
+	@media (max-width: 768px) {
+		.hero h1 {
+			font-size: 2.5rem;
+		}
+
+		.logo-x {
+			font-size: 1.5rem;
+			transform: translateY(-14px) rotate(0deg);
+			margin-left: 0;
+		}
+
+		.section-header {
+			flex-direction: column;
+			align-items: flex-start;
+			gap: 0.5rem;
+		}
+	}
+
+	/* Education Section Styles */
+	.education-section {
+		margin-bottom: var(--spacing-xl);
+	}
+
+	.section-header {
+		display: flex;
+		justify-content: space-between;
+		align-items: center;
+		margin-bottom: var(--spacing-lg);
+	}
+
+	.section-title {
+		font-size: 2rem;
+		font-family: var(--font-serif);
+		margin-bottom: 0;
+	}
+
+	.view-all {
+		font-family: var(--font-mono);
+		font-size: 0.9rem;
+		color: var(--color-primary);
+		font-weight: 600;
+	}
+
+	.education-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		gap: var(--spacing-lg);
+	}
+
+	.education-card-wrapper {
+		height: 100%;
+	}
+</style>
