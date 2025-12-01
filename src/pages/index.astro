@@ -444,8 +444,13 @@ const posts = (await getCollection("blog"))
 			overflow-x: auto;
 			gap: 1.5rem;
 			padding-bottom: 2rem; /* Space for scrollbar/shadow */
-			margin-right: -1.5rem; /* Counteract container padding */
-			padding-right: 1.5rem;
+
+			/* Full bleed scrolling */
+			margin-left: calc(var(--spacing-md) * -1);
+			margin-right: calc(var(--spacing-md) * -1);
+			padding-left: var(--spacing-md);
+			padding-right: var(--spacing-md);
+
 			-webkit-overflow-scrolling: touch;
 		}
 
