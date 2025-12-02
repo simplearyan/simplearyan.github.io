@@ -1,5 +1,5 @@
 ---
-import { getCollection } from "astro:content";
+import { getCollection, type CollectionEntry } from "astro:content";
 import Layout from "../../layouts/Layout.astro";
 import ShareButtons from "../../components/ShareButtons.astro";
 import ScribbleBox from "../../components/scribble/ScribbleBox.astro";
@@ -18,13 +18,80 @@ import ScribbleCheck from "../../components/scribble/ScribbleCheck.astro";
 import ScribbleLine from "../../components/scribble/ScribbleLine.astro";
 import BarChart from "../../components/BarChart.astro";
 import CustomTable from "../../components/CustomTable.astro";
+import BlogCard from "../../components/BlogCard.astro";
+import type { AstroComponentFactory } from "astro/runtime/server/index.js";
 
 export async function getStaticPaths() {
-	const posts = await getCollection("blog");
-	return posts.map((post) => ({
+	const allPosts = await getCollection("blog");
+
+	// Post Paths
+	const postPaths = allPosts.map((post) => ({
 		params: { slug: post.slug },
-		props: post,
+		props: { type: "post", post },
 	}));
+
+	// Tag Paths
+	const uniqueTags = [
+		...new Set(allPosts.map((post) => post.data.tags).flat()),
+	];
+	const tagPaths = uniqueTags.map((tag) => {
+		const filteredPosts = allPosts
+			.filter((post) => post.data.tags.includes(tag))
+			.sort(
+				(a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
+			);
+
+		return {
+			params: { slug: tag }, // slug is the tag name
+			props: { type: "tag", tag, posts: filteredPosts },
+		};
+	});
+
+	return [...postPaths, ...tagPaths];
+}
+
+type Props =
+	| { type: "post"; post: CollectionEntry<"blog"> }
+	| { type: "tag"; tag: string; posts: CollectionEntry<"blog">[] };
+
+const props = Astro.props as Props;
+const { type } = props;
+
+// Variables for Post View
+let post: CollectionEntry<"blog"> | undefined;
+let Content: AstroComponentFactory | undefined;
+let relatedPostsToShow: CollectionEntry<"blog">[] = [];
+let url: URL | undefined;
+
+// Variables for Tag View
+let tag: string | undefined;
+let tagPosts: CollectionEntry<"blog">[] | undefined;
+
+if (type === "post") {
+	post = props.post;
+	const renderResult = await post.render();
+	Content = renderResult.Content;
+	url = new URL(Astro.url.pathname, Astro.site);
+
+	// Get related posts
+	const allPosts = await getCollection("blog");
+	const relatedPosts = allPosts
+		.filter((p) => p.slug !== post.slug)
+		.filter((p) => p.data.tags?.some((t) => post.data.tags?.includes(t)));
+
+	// Get up to 4 related posts
+	relatedPostsToShow = relatedPosts.slice(0, 4);
+	if (relatedPostsToShow.length < 4) {
+		const morePosts = allPosts
+			.filter(
+				(p) => p.slug !== post.slug && !relatedPostsToShow.includes(p),
+			)
+			.slice(0, 4 - relatedPostsToShow.length);
+		relatedPostsToShow = [...relatedPostsToShow, ...morePosts];
+	}
+} else {
+	tag = props.tag;
+	tagPosts = props.posts;
 }
 
 const components = {
@@ -44,109 +111,130 @@ const components = {
 	BarChart,
 	CustomTable,
 };
-
-const post = Astro.props;
-const { Content } = await post.render();
-const url = new URL(Astro.url.pathname, Astro.site);
-
-// Get related posts
-const allPosts = await getCollection("blog");
-const relatedPosts = allPosts
-	.filter((p) => p.slug !== post.slug)
-	.filter((p) => p.data.tags?.some((tag) => post.data.tags?.includes(tag)));
-
-// Get up to 4 related posts, filling with recent posts if needed
-let relatedPostsToShow = relatedPosts.slice(0, 4);
-if (relatedPostsToShow.length < 4) {
-	const morePosts = allPosts
-		.filter((p) => p.slug !== post.slug && !relatedPostsToShow.includes(p))
-		.slice(0, 4 - relatedPostsToShow.length);
-	relatedPostsToShow = [...relatedPostsToShow, ...morePosts];
-}
 ---
 
-<Layout
-	title={post.data.title}
-	description={post.data.description}
-	image={post.data.image}
-	type="article"
->
-	<article
-		class={`blog-post animate-fade-in ${post.data.fancyHeadings ? "fancy-headings" : ""}`}
-	>
-		<header class="post-header">
-			<div class="post-meta">
-				<time datetime={post.data.pubDate.toISOString()}>
-					{
-						post.data.pubDate.toLocaleDateString("en-US", {
-							year: "numeric",
-							month: "long",
-							day: "numeric",
-						})
-					}
-				</time>
-				<span class="separator">•</span>
-				<span class="author">By {post.data.author}</span>
-			</div>
-			<h1>{post.data.title}</h1>
-			<div class="tags">
-				{post.data.tags.map((tag) => <span class="tag">#{tag}</span>)}
-			</div>
-			{
-				post.data.image && post.data.showImage && (
-					<div class="hero-image-wrapper">
-						<OptimizedImage
-							src={post.data.image}
-							alt={post.data.title}
-							style="clean"
-							animation="zoom-in"
-							class="blog-hero-image"
-						/>
+{
+	type === "post" && post && Content ? (
+		<Layout
+			title={post.data.title}
+			description={post.data.description}
+			image={post.data.image}
+			type="article"
+		>
+			<article
+				class={`blog-post animate-fade-in ${post.data.fancyHeadings ? "fancy-headings" : ""}`}
+			>
+				<header class="post-header">
+					<div class="post-meta">
+						<time datetime={post.data.pubDate.toISOString()}>
+							{post.data.pubDate.toLocaleDateString("en-US", {
+								year: "numeric",
+								month: "long",
+								day: "numeric",
+							})}
+						</time>
+						<span class="separator">•</span>
+						<span class="author">By {post.data.author}</span>
 					</div>
-				)
-			}
-		</header>
-
-		<div class="prose">
-			<Content components={components} />
-		</div>
-
-		<ShareButtons title={post.data.title} url={url} />
-
-		{
-			relatedPostsToShow.length > 0 && (
-				<div class="related-post-container">
-					<h3 class="related-heading">Read Next</h3>
-					<div class="related-grid">
-						{relatedPostsToShow.map((relatedPost) => (
-							<a
-								href={`/blog/${relatedPost.slug}`}
-								class="related-card"
-							>
-								{relatedPost.data.image && (
-									<div class="related-image-wrapper">
-										<OptimizedImage
-											src={relatedPost.data.image}
-											alt={relatedPost.data.title}
-											class="related-image"
-										/>
-									</div>
-								)}
-								<div class="related-content">
-									<h4 class="related-title">
-										{relatedPost.data.title}
-									</h4>
-								</div>
+					<h1>{post.data.title}</h1>
+					<div class="tags">
+						{post.data.tags.map((t) => (
+							<a href={`/blog/${t}`} class="tag">
+								#{t}
 							</a>
 						))}
 					</div>
+					{post.data.image && post.data.showImage && (
+						<div class="hero-image-wrapper">
+							<OptimizedImage
+								src={post.data.image}
+								alt={post.data.title}
+								style="clean"
+								animation="zoom-in"
+								class="blog-hero-image"
+							/>
+						</div>
+					)}
+				</header>
+
+				<div class="prose">
+					<Content components={components} />
 				</div>
-			)
-		}
-	</article>
-</Layout>
+
+				<ShareButtons title={post.data.title} url={url!} />
+
+				{relatedPostsToShow.length > 0 && (
+					<div class="related-post-container">
+						<h3 class="related-heading">Read Next</h3>
+						<div class="related-grid">
+							{relatedPostsToShow.map((relatedPost) => (
+								<a
+									href={`/blog/${relatedPost.slug}`}
+									class="related-card"
+								>
+									{relatedPost.data.image && (
+										<div class="related-image-wrapper">
+											<OptimizedImage
+												src={relatedPost.data.image}
+												alt={relatedPost.data.title}
+												class="related-image"
+											/>
+										</div>
+									)}
+									<div class="related-content">
+										<h4 class="related-title">
+											{relatedPost.data.title}
+										</h4>
+									</div>
+								</a>
+							))}
+						</div>
+					</div>
+				)}
+			</article>
+		</Layout>
+	) : type === "tag" && tag && tagPosts ? (
+		<Layout
+			title={`Blog Posts tagged with ${tag} | SimpleAryan`}
+			description={`Browse all blog posts tagged with ${tag}.`}
+		>
+			<div class="hero">
+				<div class="container">
+					<h1 class="animate-fade-in">Tag: {tag}</h1>
+					<p class="subtitle animate-fade-in">
+						Browse all articles related to <strong>{tag}</strong>.
+					</p>
+					<div class="back-link animate-fade-in">
+						<a href="/blog">← Back to all posts</a>
+					</div>
+				</div>
+			</div>
+
+			<div class="container content-grid">
+				{tagPosts.map((p) => (
+					<BlogCard
+						title={p.data.title}
+						description={p.data.description}
+						date={p.data.pubDate}
+						image={p.data.image}
+						href={`/blog/${p.slug}`}
+						tags={p.data.tags}
+					/>
+				))}
+			</div>
+		</Layout>
+	) : null
+}
 
 <style>
+	/* Shared Styles */
+	.container {
+		max-width: 1200px;
+		margin: 0 auto;
+		padding: 0 var(--spacing-md);
+	}
+
+	/* Post Styles */
 	.blog-post {
 		max-width: 800px;
 		margin: 0 auto;
@@ -190,6 +278,14 @@ if (relatedPostsToShow.length < 4) {
 		border-radius: 99px;
 		color: var(--color-text);
 		font-family: var(--font-mono);
+		text-decoration: none;
+		transition: all 0.2s ease;
+	}
+
+	.tag:hover {
+		background-color: var(--color-primary);
+		color: var(--color-bg);
+		transform: translateY(-1px);
 	}
 
 	.hero-image-wrapper {
@@ -302,5 +398,53 @@ if (relatedPostsToShow.length < 4) {
 
 	.related-card:hover .related-title {
 		color: var(--color-primary);
+	}
+
+	/* Tag Page Styles */
+	.hero {
+		padding: var(--spacing-xl) 0;
+		text-align: center;
+		background-color: var(--color-bg);
+		border-bottom: 1px solid var(--color-border);
+		margin-bottom: var(--spacing-xl);
+	}
+
+	.hero h1 {
+		font-size: 3.5rem;
+		margin-bottom: var(--spacing-sm);
+		font-family: var(--font-serif);
+		text-transform: capitalize;
+	}
+
+	.subtitle {
+		font-size: 1.2rem;
+		color: var(--color-text-muted);
+		max-width: 600px;
+		margin: 0 auto var(--spacing-md);
+	}
+
+	.back-link a {
+		color: var(--color-primary);
+		text-decoration: none;
+		font-weight: 500;
+		transition: opacity 0.2s;
+	}
+
+	.back-link a:hover {
+		opacity: 0.8;
+		text-decoration: underline;
+	}
+
+	.content-grid {
+		display: grid;
+		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		gap: var(--spacing-lg);
+		padding-bottom: var(--spacing-xl);
+	}
+
+	@media (max-width: 768px) {
+		.hero h1 {
+			font-size: 2.5rem;
+		}
 	}
 </style>
