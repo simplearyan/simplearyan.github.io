@@ -4,6 +4,8 @@ import CourseLayout from "../../layouts/CourseLayout.astro";
 import EducationSingleLayout from "../../layouts/EducationSingleLayout.astro";
 import ShareButtons from "../../components/ShareButtons.astro";
 
+import CourseModules from "../../components/CourseModules.astro";
+
 export async function getStaticPaths() {
     const educationItems = await getCollection("education");
     return educationItems.map((item) => ({
@@ -94,6 +96,7 @@ const nextLesson =
                     </button>
                 </div>
                 <Content />
+
                 <ShareButtons
                     title={item.data.title}
                     url={Astro.url}
