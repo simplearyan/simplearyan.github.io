@@ -9,6 +9,7 @@ interface Props {
 	image?: string;
 	type?: "website" | "article";
 	fullWidth?: boolean;
+	disableStickyHeader?: boolean;
 }
 
 const {
@@ -17,6 +18,7 @@ const {
 	image = "/favicon.png",
 	type = "website",
 	fullWidth = false,
+	disableStickyHeader = false,
 } = Astro.props;
 
 const canonicalURL = new URL(
@@ -92,7 +94,7 @@ const socialImageURL = new URL(image, Astro.url);
 		</script>
 	</head>
 	<body>
-		<Header />
+		<Header disableStickyMobile={disableStickyHeader} />
 		<main class={fullWidth ? "" : "container"}>
 			<slot />
 		</main>
