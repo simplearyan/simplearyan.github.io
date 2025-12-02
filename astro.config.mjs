@@ -2,17 +2,18 @@
 import { defineConfig } from 'astro/config';
 import { VitePWA } from 'vite-plugin-pwa';
 
+import sitemap from '@astrojs/sitemap';
 import mdx from '@astrojs/mdx';
 import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 
 // https://astro.build/config
 export default defineConfig({
-  site: 'https://simplearyan.com', // Placeholder for production
+  site: 'https://simplearyan.github.io/',
   integrations: [mdx({
     remarkPlugins: [remarkMath],
     rehypePlugins: [rehypeKatex]
-  })],
+  }), sitemap()],
   vite: {
     plugins: [
       VitePWA({

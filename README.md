@@ -1,6 +1,7 @@
 # SimpleAryan
 
 A minimal, modern, and content-focused educational platform built for speed and readability.
+**Live Site:** [https://simplearyan.github.io/](https://simplearyan.github.io/)
 
 ## 🚀 Features
 
