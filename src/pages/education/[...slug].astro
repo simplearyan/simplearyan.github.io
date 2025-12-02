@@ -273,6 +273,12 @@ const nextLesson =
     :global(body.zen-mode) :global(.mobile-controls) {
         display: none !important;
     }
+
+    @media (max-width: 1024px) {
+        :global(body.zen-mode) :global(.course-toc) {
+            display: none !important;
+        }
+    }
 </style>
 
 <script>
