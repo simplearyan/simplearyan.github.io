@@ -220,7 +220,7 @@ const structure = subjects.map((subject) => {
         position: sticky;
         top: 80px;
         overflow-y: auto;
-        padding: 1.5rem 1rem;
+        padding: 2rem 1.5rem;
         display: flex;
         flex-direction: column;
     }
@@ -238,53 +238,51 @@ const structure = subjects.map((subject) => {
     }
 
     .sidebar-header {
-        margin-bottom: 2rem;
-        padding: 0 0.5rem 1rem;
+        margin-bottom: 2.5rem;
+        padding: 0 0.5rem 1.5rem;
         border-bottom: 1px solid var(--color-border);
     }
 
     .back-link {
-        display: flex;
+        display: inline-flex;
         align-items: center;
         gap: 0.5rem;
-        font-size: 0.75rem;
-        font-weight: 600;
+        font-size: 0.7rem;
+        font-weight: 700;
         color: var(--color-text-muted);
         text-decoration: none;
-        margin-bottom: 0.75rem;
-        transition: color 0.2s ease;
+        margin-bottom: 1rem;
+        transition: all 0.2s ease;
         text-transform: uppercase;
-        letter-spacing: 0.05em;
+        letter-spacing: 0.08em;
+        padding: 0.25rem 0;
+        opacity: 0.8;
     }
 
     .back-link:hover {
         color: var(--color-primary);
+        opacity: 1;
+        transform: translateX(-2px);
     }
 
     .sidebar-header h3 {
         font-family: var(--font-serif);
-        font-size: 1.5rem;
+        font-size: 1.75rem;
         font-weight: 700;
         margin: 0;
         color: var(--color-heading);
-        line-height: 1.2;
+        line-height: 1.1;
     }
 
     .sidebar-nav {
         display: flex;
         flex-direction: column;
-        gap: 0.5rem;
+        gap: 0.75rem;
     }
 
     .subject-group {
         border-radius: 8px;
         transition: background-color 0.2s ease;
-    }
-
-    .subject-group[open] {
-        background-color: var(
-            --color-surface
-        ); /* Subtle background when open */
     }
 
     .subject-summary {
@@ -293,12 +291,12 @@ const structure = subjects.map((subject) => {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        padding: 0.75rem 0.75rem;
+        padding: 0.75rem 0.5rem;
         color: var(--color-heading);
         font-weight: 600;
-        font-size: 0.9rem;
+        font-size: 0.95rem;
         transition: all 0.2s ease;
-        border-radius: 8px;
+        border-radius: 6px;
         user-select: none;
     }
 
@@ -308,7 +306,6 @@ const structure = subjects.map((subject) => {
 
     .subject-summary:hover {
         color: var(--color-primary);
-        background-color: var(--color-surface);
     }
 
     .subject-title {
@@ -318,22 +315,24 @@ const structure = subjects.map((subject) => {
     .chevron {
         transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         color: var(--color-text-muted);
-        width: 14px;
-        height: 14px;
+        width: 16px;
+        height: 16px;
+        opacity: 0.7;
     }
 
     details[open] .chevron {
         transform: rotate(180deg);
         color: var(--color-primary);
+        opacity: 1;
     }
 
     .unit-list {
         list-style: none;
-        padding: 0.25rem 0 0.75rem 0;
+        padding: 0.5rem 0 1rem 0;
         margin: 0;
         display: flex;
         flex-direction: column;
-        gap: 0.1rem;
+        gap: 0.25rem;
         position: relative;
     }
 
@@ -343,15 +342,16 @@ const structure = subjects.map((subject) => {
 
     .unit-item a {
         display: block;
-        padding: 0.5rem 0.75rem 0.5rem 2.25rem; /* Indented */
+        padding: 0.6rem 1rem 0.6rem 2.5rem; /* Indented */
         font-size: 0.85rem;
         color: var(--color-text-muted);
         text-decoration: none;
         transition: all 0.2s ease;
-        border-radius: 6px;
-        line-height: 1.4;
+        border-radius: 0 6px 6px 0;
+        line-height: 1.5;
         position: relative;
-        margin: 0 0.5rem;
+        margin-right: 0.5rem;
+        border-left: 2px solid transparent;
     }
 
     /* Vertical line connecting units */
@@ -363,47 +363,40 @@ const structure = subjects.map((subject) => {
         bottom: 0;
         width: 1px;
         background: var(--color-border);
-        opacity: 0.5;
+        opacity: 0.4;
     }
 
     /* Hide top part of line for first item */
     .unit-item:first-child::before {
-        top: 0.7rem;
+        top: 0.8rem;
     }
 
     /* Hide bottom part of line for last item */
     .unit-item:last-child::before {
         bottom: auto;
-        height: 0.7rem;
+        height: 0.8rem;
     }
 
     .unit-item a:hover {
         color: var(--color-text);
-        background: rgba(0, 0, 0, 0.03); /* Very subtle hover */
+        background: rgba(0, 0, 0, 0.02);
     }
 
     /* Dark mode adjustment for hover */
     :global([data-theme="dark"]) .unit-item a:hover {
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(255, 255, 255, 0.03);
     }
 
     .unit-item a.active {
         color: var(--color-primary);
-        background: var(--color-primary-muted);
+        background: color-mix(in srgb, var(--color-primary) 5%, transparent);
         font-weight: 600;
+        border-left-color: var(--color-primary);
     }
 
-    /* Active dot indicator */
+    /* Active dot indicator - removed in favor of border-left */
     .unit-item a.active::after {
-        content: "";
-        position: absolute;
-        left: 0.75rem; /* Position relative to padding */
-        top: 50%;
-        transform: translateY(-50%);
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background-color: var(--color-primary);
+        display: none;
     }
 
     .subject-content {
@@ -411,7 +404,7 @@ const structure = subjects.map((subject) => {
     }
 
     .module-group {
-        margin: 0.25rem 0.5rem;
+        margin: 0.5rem 0 0.5rem 0.75rem;
         border-left: 1px solid var(--color-border);
     }
 
@@ -423,7 +416,7 @@ const structure = subjects.map((subject) => {
         justify-content: space-between;
         padding: 0.5rem 0.75rem;
         color: var(--color-text);
-        font-size: 0.85rem;
+        font-size: 0.9rem;
         font-weight: 500;
         transition: all 0.2s ease;
         border-radius: 6px;
@@ -431,8 +424,8 @@ const structure = subjects.map((subject) => {
     }
 
     .module-summary:hover {
-        background-color: var(--color-surface);
         color: var(--color-primary);
+        background: rgba(0, 0, 0, 0.02);
     }
 
     .module-summary::-webkit-details-marker {
@@ -442,13 +435,15 @@ const structure = subjects.map((subject) => {
     .chevron-small {
         transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         color: var(--color-text-muted);
-        width: 12px;
-        height: 12px;
+        width: 14px;
+        height: 14px;
+        opacity: 0.7;
     }
 
     details[open] .chevron-small {
         transform: rotate(180deg);
         color: var(--color-primary);
+        opacity: 1;
     }
 
     /* Adjust unit list for nested modules */
@@ -457,19 +452,14 @@ const structure = subjects.map((subject) => {
     }
 
     .module-group .unit-item a {
-        padding-left: 1.5rem;
-        font-size: 0.8rem;
+        padding-left: 1.75rem;
+        font-size: 0.85rem;
     }
 
     .module-group .unit-item::before {
         left: 0.75rem;
     }
 
-    /* @media (max-width: 1024px) {
-        .course-sidebar {
-            display: none;
-        }
-    } */
     /* Sidebar visibility is now handled by the parent container in CourseLayout */
     @media (max-width: 1024px) {
         .course-sidebar {
@@ -477,6 +467,7 @@ const structure = subjects.map((subject) => {
             height: 100%;
             border-right: none;
             top: 0;
+            padding: 1.5rem;
         }
     }
 </style>

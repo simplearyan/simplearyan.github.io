@@ -59,36 +59,52 @@ const {
         background: var(--color-surface);
         border: 1px solid var(--color-border);
         border-left: 4px solid var(--accent-color);
-        border-radius: 4px;
-        transition: all 0.2s ease-in-out;
+        border-radius: 12px;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        overflow: hidden;
     }
 
     .professional-card:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-        border-color: var(--color-border);
-        border-left-color: var(--accent-color);
+        transform: translateY(-4px);
+        box-shadow: 0 12px 24px -10px rgba(0, 0, 0, 0.15);
+        border-color: color-mix(
+            in srgb,
+            var(--accent-color) 30%,
+            var(--color-border)
+        );
     }
 
     .card-content {
         display: flex;
         align-items: center;
-        padding: 1.5rem;
-        gap: 1rem;
+        padding: 1.75rem;
+        gap: 1.25rem;
+        position: relative;
+        z-index: 1;
     }
 
     .icon-box {
         display: flex;
         align-items: center;
         justify-content: center;
-        width: 48px;
-        height: 48px;
-        background: color-mix(in srgb, var(--accent-color) 8%, transparent);
+        width: 56px;
+        height: 56px;
+        background: color-mix(in srgb, var(--accent-color) 10%, transparent);
         color: var(--accent-color);
-        border-radius: 4px;
-        font-size: 1.4rem;
+        border-radius: 12px;
+        font-size: 1.75rem;
         border: 1px solid
-            color-mix(in srgb, var(--accent-color) 15%, transparent);
+            color-mix(in srgb, var(--accent-color) 20%, transparent);
+        transition: all 0.3s ease;
+    }
+
+    .professional-card:hover .icon-box {
+        background: var(--accent-color);
+        color: white;
+        transform: scale(1.05) rotate(3deg);
+        box-shadow: 0 4px 12px
+            color-mix(in srgb, var(--accent-color) 40%, transparent);
     }
 
     .text-content {
@@ -96,47 +112,59 @@ const {
     }
 
     .title {
-        font-family: var(--font-serif); /* Playfair Display */
-        font-size: 1.2rem;
-        font-weight: 600;
+        font-family: "Playfair Display", serif;
+        font-size: 1.35rem;
+        font-weight: 700;
         margin: 0;
         color: var(--color-heading);
         line-height: 1.2;
         letter-spacing: -0.01em;
+        transition: color 0.3s ease;
+    }
+
+    .professional-card:hover .title {
+        color: var(--accent-color);
     }
 
     .subtitle {
-        font-family: var(--font-sans);
-        font-size: 0.85rem;
+        font-family: "Montserrat", sans-serif;
+        font-size: 0.75rem;
         color: var(--color-text-muted);
-        margin-top: 0.25rem;
-        font-weight: 500;
+        margin-top: 0.35rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
     }
 
     .arrow-container {
         color: var(--color-text-muted);
-        transition:
-            transform 0.2s ease,
-            color 0.2s ease;
-        opacity: 0.7;
+        transition: all 0.3s ease;
+        opacity: 0;
+        transform: translateX(-10px);
+        width: 24px;
+        height: 24px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 50%;
+        background: color-mix(in srgb, var(--accent-color) 10%, transparent);
     }
 
     .professional-card:hover .arrow-container {
-        transform: translateX(4px);
-        color: var(--accent-color);
+        transform: translateX(0);
         opacity: 1;
+        color: var(--accent-color);
     }
 
     /* Dark mode adjustments */
     :global([data-theme="dark"]) .professional-card {
         background: color-mix(in srgb, var(--color-surface), white 2%);
         border-color: rgba(255, 255, 255, 0.08);
-        border-left-color: var(--accent-color);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
     }
 
     :global([data-theme="dark"]) .professional-card:hover {
-        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 12px 24px rgba(0, 0, 0, 0.4);
         background: color-mix(in srgb, var(--color-surface), white 4%);
     }
 </style>

@@ -106,6 +106,8 @@ const {
             sidebarContainer?.classList.remove("open");
             tocContainer?.classList.remove("open");
             overlay?.classList.remove("active");
+            overlay?.classList.remove("sidebar-open");
+            overlay?.classList.remove("toc-open");
             document.body.style.overflow = "";
         }
 
@@ -115,6 +117,7 @@ const {
             if (!isOpen) {
                 sidebarContainer?.classList.add("open");
                 overlay?.classList.add("active");
+                overlay?.classList.add("sidebar-open");
                 document.body.style.overflow = "hidden";
             }
         }
@@ -125,6 +128,7 @@ const {
             if (!isOpen) {
                 tocContainer?.classList.add("open");
                 overlay?.classList.add("active");
+                overlay?.classList.add("toc-open");
                 document.body.style.overflow = "hidden";
             }
         }
@@ -166,7 +170,7 @@ const {
         display: none;
         position: sticky;
         top: 73px; /* Header height approx + buffer */
-        z-index: 30;
+        z-index: 50; /* Higher than sidebar */
         background: var(--color-bg);
         border-bottom: 1px solid rgba(0, 0, 0, 0.05);
         padding: 0.75rem 1rem;
@@ -228,7 +232,9 @@ const {
         right: 0;
         bottom: 0;
         background: rgba(0, 0, 0, 0.6);
-        z-index: 95;
+        z-index: 45; /* Below controls (50) but above sidebar (40) - wait, overlay should be below sidebar? No, usually below sidebar. Sidebar is 40. Overlay 35? */
+        /* Actually, if sidebar is "under" controls, controls are on top. Sidebar slides out. Overlay should probably cover content but be behind sidebar? */
+        /* Let's try: Controls 50. Sidebar 40. Overlay 35. */
         opacity: 0;
         pointer-events: none;
         transition: opacity 0.3s ease;
@@ -239,6 +245,14 @@ const {
     .overlay.active {
         opacity: 1;
         pointer-events: auto;
+    }
+
+    .overlay.sidebar-open {
+        z-index: 90; /* Covers Header (60) and Controls (50) */
+    }
+
+    .overlay.toc-open {
+        z-index: 35; /* Below TOC (40) and Controls (50) */
     }
 
     .course-content {
@@ -265,6 +279,7 @@ const {
 
         .mobile-controls {
             display: flex;
+            /* top is already set to 73px in base class, which is sticky. */
             top: 0;
         }
 
@@ -281,6 +296,7 @@ const {
             box-shadow: 4px 0 24px rgba(0, 0, 0, 0.15);
             width: 85%; /* Max width for drawer */
             max-width: 320px;
+            border-bottom: none;
         }
 
         .sidebar-container.open {
@@ -289,23 +305,30 @@ const {
 
         .course-toc {
             position: fixed;
-            top: 0;
+            top: 73px; /* Matches header height */
+            left: 0;
             right: 0;
             bottom: 0;
-            z-index: 100;
-            transform: translateX(100%);
-            transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: var(--color-bg);
-            height: 100vh;
-            width: 85%;
-            max-width: 320px;
-            padding: 2rem;
-            box-shadow: -4px 0 24px rgba(0, 0, 0, 0.15);
+            z-index: 40; /* Behind mobile controls (50) */
+            transform: translateY(-100%); /* Start hidden above */
+            transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1); /* Slow and smooth */
+            background: color-mix(in srgb, var(--color-bg) 95%, transparent);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            height: fit-content;
+            max-height: 75vh;
+            width: 100%;
+            max-width: none;
+            padding: 5rem 2rem 2rem; /* Top padding clears controls */
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
             display: block;
+            border-bottom: 1px solid var(--color-border);
+            border-radius: 0 0 16px 16px;
+            overflow-y: auto;
         }
 
         .course-toc.open {
-            transform: translateX(0);
+            transform: translateY(0);
         }
 
         .course-content {

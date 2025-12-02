@@ -20,52 +20,87 @@ const allEducation = await getCollection("education");
 const lessons = allEducation
     .filter((entry) => entry.data.parent === courseSlug)
     .sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
+const firstItem = lessons[0];
+const isLessonLevel =
+    firstItem?.data.type === "unit" || firstItem?.data.type === "lesson";
+const gridTitle = isLessonLevel ? "Course Lessons" : "Course Subjects";
 ---
 
-<div class="auto-subject-grid">
-    {
-        lessons.map((lesson, index) => {
-            const href = `/education/${lesson.slug}`;
-            const title = lesson.data.title;
-            // Extract subtitle if available or use a default
-            const subtitle = lesson.data.description || `Module ${index + 1}`;
-            // Use a default icon or one from frontmatter if available (assuming frontmatter might have icon in future)
-            const icon = defaultIcon;
+<div class="grid-container">
+    <h2 class="grid-title">{gridTitle}</h2>
+    <div class="auto-subject-grid">
+        {
+            lessons.map((lesson, index) => {
+                const href = `/education/${lesson.slug}`;
+                const title = lesson.data.title;
+                // Extract subtitle if available or use a default
+                const subtitle =
+                    lesson.data.description || `Module ${index + 1}`;
+                // Use a default icon or one from frontmatter if available (assuming frontmatter might have icon in future)
+                const icon = defaultIcon;
 
-            if (cardStyle === "enhanced") {
+                if (cardStyle === "enhanced") {
+                    return (
+                        <EnhancedSubjectCard
+                            title={title}
+                            subtitle={subtitle}
+                            href={href}
+                            index={index}
+                            icon={icon}
+                        />
+                    );
+                }
+
+                if (cardStyle === "original") {
+                    return (
+                        <SubjectCard title={title} href={href} icon={icon} />
+                    );
+                }
+
+                // Default to professional
                 return (
-                    <EnhancedSubjectCard
+                    <ProfessionalSubjectCard
                         title={title}
                         subtitle={subtitle}
                         href={href}
-                        index={index}
                         icon={icon}
                     />
                 );
-            }
-
-            if (cardStyle === "original") {
-                return <SubjectCard title={title} href={href} icon={icon} />;
-            }
-
-            // Default to professional
-            return (
-                <ProfessionalSubjectCard
-                    title={title}
-                    subtitle={subtitle}
-                    href={href}
-                    icon={icon}
-                />
-            );
-        })
-    }
+            })
+        }
+    </div>
 </div>
 
 <style>
+    .grid-container {
+        margin-bottom: 3rem;
+    }
+
+    .grid-title {
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--color-heading);
+        margin-bottom: 1.5rem;
+        position: relative;
+        display: inline-block;
+        border-bottom: none !important;
+    }
+
+    .grid-title::after {
+        content: "";
+        position: absolute;
+        bottom: -8px;
+        left: 0;
+        width: 60px;
+        height: 3px;
+        background: var(--color-primary);
+        border-radius: 2px;
+    }
+
     .auto-subject-grid {
         display: grid;
-        gap: 1rem;
+        gap: 1.5rem;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-        margin-bottom: 2rem;
     }
 </style>
