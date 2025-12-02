@@ -1,0 +1,47 @@
+
+> simple-aryan@0.0.1 build
+> astro build
+
+[2m09:34:28[22m [34m[content][39m Syncing content
+[2m09:34:28[22m [34m[content][39m Synced content
+[2m09:34:28[22m [34m[types][39m Generated [2m300ms[22m
+[2m09:34:28[22m [34m[build][39m output: [34m"static"[39m
+[2m09:34:28[22m [34m[build][39m mode: [34m"static"[39m
+[2m09:34:28[22m [34m[build][39m directory: [34mD:\Code\Antigravity\design_concepts\SimpleAryan\dist\[39m
+[2m09:34:28[22m [34m[build][39m Collecting build info...
+[2m09:34:28[22m [34m[build][39m [32m✓ Completed in 320ms.[39m
+[2m09:34:28[22m [34m[build][39m Building static entrypoints...
+[33m[1m09:34:31[22m [WARN] [vite][39m [33m"matchHostname", "matchPathname", "matchPort" and "matchProtocol" are imported from external module "@astrojs/internal-helpers/remote" but never used in "node_modules/astro/dist/assets/utils/remotePattern.js".[39m
+[2m09:34:31[22m [34m[vite][39m [32m✓ built in 2.73s[39m
+[2m09:34:31[22m [34m[build][39m [32m✓ Completed in 2.76s.[39m
+
+[42m[30m building client (vite) [39m[49m
+[2m09:34:31[22m [34m[vite][39m transforming...
+[2m09:34:31[22m [34m[vite][39m [32m✓[39m 26 modules transformed.
+[33m[1m09:34:31[22m [WARN] [vite][39m [33mGenerated an empty chunk: "TypewriterCode.astro_astro_type_script_index_1_lang".[39m
+[2m09:34:31[22m [34m[vite][39m rendering chunks...
+[2m09:34:31[22m [34m[vite][39m computing gzip size...
+[2m09:34:31[22m [34m[vite][39m [2mdist/[22m[32mregisterSW.js                                                    [39m[1m[2m  0.13 kB[22m[1m[22m
+[2m09:34:31[22m [34m[vite][39m [2mdist/[22m[32mmanifest.webmanifest                                             [39m[1m[2m  0.33 kB[22m[1m[22m
+[2m09:34:31[22m [34m[vite][39m [2mdist/[22m[36m_astro/Mermaid.astro_astro_type_script_index_0_lang.BKud1UpJ.js  [39m[1m[2m  2.70 kB[22m[1m[22m[2m │ gzip:  1.17 kB[22m
+[2m09:34:31[22m [34m[vite][39m [2mdist/[22m[36m_astro/Search.astro_astro_type_script_index_0_lang.uTRfuVP9.js   [39m[1m[2m  3.97 kB[22m[1m[22m[2m │ gzip:  1.78 kB[22m
+[2m09:34:31[22m [34m[vite][39m [2mdist/[22m[36m_astro/fuse.DY2X8b3J.js                                          [39m[1m[2m 18.25 kB[22m[1m[22m[2m │ gzip:  6.61 kB[22m
+[2m09:34:31[22m [34m[vite][39m [2mdist/[22m[36m_astro/Chart.astro_astro_type_script_index_0_lang.CDH4yiHw.js    [39m[1m[2m207.72 kB[22m[1m[22m[2m │ gzip: 71.14 kB[22m
+[2m09:34:31[22m [34m[vite][39m [32m✓ built in 510ms[39m
+
+  Configure "workbox.maximumFileSizeToCacheInBytes" to change the limit: the default value is 2 MiB.
+  Check https://vite-pwa-org.netlify.app/guide/faq.html#missing-assets-from-sw-precache-manifest for more information.
+  Assets exceeding the limit:
+  - logo-dark.png is 3.81 MB, and won't be precached.
+
+  [1mLocation:[22m
+    [4mD:\Code\Antigravity\design_concepts\SimpleAryan\node_modules\vite-plugin-pwa\dist\chunk-G4TAN34B.js:44:13[24m
+  [1mStack trace:[22m
+[2m    at logWorkboxResult (file:///D:/Code/Antigravity/design_concepts/SimpleAryan/node_modules/vite-plugin-pwa/dist/chunk-G4TAN34B.js:44:13)
+    at async _generateSW (file:///D:/Code/Antigravity/design_concepts/SimpleAryan/node_modules/vite-plugin-pwa/dist/index.js:234:5)
+    at async PluginDriver.hookParallel (file:///D:/Code/Antigravity/design_concepts/SimpleAryan/node_modules/rollup/dist/es/shared/node-entry.js:22355:17)
+    at async buildEnvironment (file:///D:/Code/Antigravity/design_concepts/SimpleAryan/node_modules/vite/dist/node/chunks/dep-D4NMHUTW.js:46258:17)
+    at async viteBuild (file:///D:/Code/Antigravity/design_concepts/SimpleAryan/node_modules/astro/dist/core/build/static-build.js:64:24)
+    at async AstroBuilder.run (file:///D:/Code/Antigravity/design_concepts/SimpleAryan/node_modules/astro/dist/core/build/index.js:188:7)
+    at async build (file:///D:/Code/Antigravity/design_concepts/SimpleAryan/node_modules/astro/dist/cli/build/index.js:29:3)
+    at async cli (file:///D:/Code/Antigravity/design_concepts/SimpleAryan/node_modules/astro/dist/cli/index.js:238:5)[22m
