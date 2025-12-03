@@ -1,0 +1,116 @@
+---
+title: "Markdown as Playing Cards"
+description: "Turn your documentation into a deck of interactive, flippable playing cards. A fun way to present bite-sized information."
+pubDate: 2025-12-03
+author: "Aryan"
+image: "/blog/cards/design-deck.jpg"
+tags: ["design", "css", "animation", "components"]
+---
+
+import PlayingCard from '../../components/PlayingCard.astro';
+import Mermaid from '../../components/Mermaid.astro';
+
+Why scroll through walls of text when you can flip through a deck of cards? In this post, we'll transform standard markdown elements into interactive playing cards.
+
+## The Deck
+
+Here is a collection of "cards" representing different types of content. Hover over (or tap) the cards to see the flip effect!
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; justify-items: center;">
+
+  {/* Ace of Spades - Typography */}
+  <PlayingCard rank="A" suit="spades" flip={true} backContent="Typography" animation="fade-up" delay="0s">
+    # Ace
+    
+    **The highest card.**
+    
+    *Strength & Power*
+  </PlayingCard>
+
+  {/* King of Hearts - Image */}
+  <PlayingCard rank="K" suit="hearts" flip={true} backContent="The King" animation="fade-up" delay="0.1s">
+    ![King](https://cdn-icons-png.flaticon.com/512/1999/1999625.png)
+    
+    **The Suicide King**
+  </PlayingCard>
+
+  {/* Queen of Diamonds - Emoji */}
+  <PlayingCard rank="Q" suit="diamonds" flip={true} backContent="Queen" animation="fade-up" delay="0.2s">
+    <div style="font-size: 4rem;">👑</div>
+    
+    **Wealth & Status**
+  </PlayingCard>
+
+  {/* Jack of Clubs - Code */}
+  <PlayingCard rank="J" suit="clubs" flip={true} backContent="Developer" animation="fade-up" delay="0.3s">
+    ```js
+    const jack = {
+      role: 'Dev',
+      level: 11
+    };
+    ```
+  </PlayingCard>
+
+</div>
+
+## Advanced Cards
+
+We can even put complex content like diagrams and equations inside these cards.
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; justify-items: center; margin-top: 2rem;">
+
+  {/* Diagram Card */}
+  <PlayingCard rank="10" suit="spades" flip={true} backContent="Logic Flow" animation="zoom-in">
+    **The Logic**
+    
+    <Mermaid chart={`
+      graph TD
+      A[Input] --> B{Process}
+      B --> C[Output]
+    `} />
+  </PlayingCard>
+
+  {/* Math Card */}
+  <PlayingCard rank="9" suit="diamonds" flip={true} backContent="Math" animation="zoom-in" delay="0.2s">
+    **Euler's Identity**
+    
+    $$
+    e^{i\pi} + 1 = 0
+    $$
+    
+    *Beautiful Math*
+  </PlayingCard>
+
+</div>
+
+## How to Use
+
+Simply import the `PlayingCard` component and wrap your markdown content.
+
+```astro
+import PlayingCard from '../components/PlayingCard.astro';
+
+<PlayingCard rank="A" suit="spades" flip={true}>
+  # Your Content Here
+</PlayingCard>
+```
+
+### Props
+
+| Prop | Description | Default |
+| :--- | :--- | :--- |
+| `rank` | The card rank (A, K, Q, J, 10...) | `""` |
+| `suit` | The card suit (spades, hearts...) | `"none"` |
+| `flip` | Enable flip animation on hover | `false` |
+| `backContent` | Text to show on the back | `"SimpleAryan"` |
+| `animation` | On-scroll animation type | `"fade-up"` |
+
+## Design Philosophy
+
+This design mimics the classic poker card aesthetic:
+1.  **Rounded Corners**: `border-radius: 1rem` gives that smooth feel.
+2.  **Aspect Ratio**: `2.5/3.5` maintains the traditional shape.
+3.  **Corner Indices**: Absolute positioning places the rank and suit in the corners.
+4.  **Flip Animation**: CSS 3D transforms (`rotateY`) create the realistic flip effect.
+
+Go ahead, build your own deck of knowledge!

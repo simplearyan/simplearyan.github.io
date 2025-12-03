@@ -1,0 +1,94 @@
+---
+title: "Interactive Mindmaps with Animations"
+description: "Explore how to bring your documentation to life with animated, interactive mindmaps that respond to user input and scrolling."
+pubDate: 2025-12-03
+author: "Aryan"
+image: "/favicon.png"
+tags: ["design", "visualization", "mermaid", "diagrams"]
+---
+
+import MindmapDemo from '../../components/MindmapDemo.astro';
+import Markmap from '../../components/Markmap.astro';
+
+Mindmaps are a fantastic way to visualize hierarchical information. But static images can be boring. In this post, we'll explore how to make them dynamic, interactive, and animated.
+
+## The Interactive Demo
+
+Below is a fully interactive mindmap. You can change the font, adjust the animation speed, and even toggle "animate on scroll" behavior.
+
+<MindmapDemo 
+  markdown={`
+# Interactive Mindmap
+## Animations
+- Fade in
+- Zoom
+- Pan
+## Customization
+- Fonts
+- Colors
+- Themes
+## Tech Stack
+- Astro
+- D3.js
+- Markmap
+  `}
+/>
+
+## Key Features
+
+### 1. Animations
+We've added smooth transitions using D3.js. When you expand or collapse nodes, the mindmap fluidly adjusts its layout. You can control the duration of these animations to make them snappy or relaxed.
+
+### 2. On-Scroll Animations
+By setting the `animateOnScroll` prop, the mindmap waits until it enters the viewport before initializing. This creates a delightful "reveal" effect as readers scroll down your page.
+
+### 3. Theme Synchronization
+The mindmap automatically detects your site's theme (Light or Dark) and adapts its colors accordingly. It also listens for changes, so if you toggle the theme while viewing, the mindmap updates instantly.
+
+## How to Use
+
+You can use the `<Markmap />` component in your own MDX files like this:
+
+```astro
+---
+import Markmap from '../components/Markmap.astro';
+---
+
+<Markmap 
+  height="400px"
+  animateOnScroll={true}
+  animationDuration={800}
+  markdown={`
+# My Project
+## Frontend
+- React
+- Astro
+## Backend
+- Node.js
+- Python
+  `}
+/>
+```
+
+## Customizing Styles
+
+You can also pass a `variant` prop to change the visual style of the container:
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+  <Markmap 
+    title="Minimal Variant"
+    variant="minimal"
+    height="200px"
+    markdown={`# Minimal\n- No border\n- Clean look`}
+  />
+  <Markmap 
+    title="Colorful Variant"
+    variant="colorful"
+    height="200px"
+    markdown={`# Colorful\n- Gradient border\n- Shadow`}
+  />
+</div>
+
+## Conclusion
+
+Interactive diagrams make technical content more approachable and fun. Give it a try in your next documentation project!

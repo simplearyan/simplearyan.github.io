@@ -1,0 +1,209 @@
+---
+title: "Markdown Cards Part 2: Scribbles & Flips"
+description: "Taking markdown cards to the next level with hand-drawn styles, smoother animations, and dual-sided content."
+pubDate: 2025-12-03
+author: "Aryan"
+image: "/blog/cards/scribble-1.jpg"
+tags: ["design", "css", "animation", "components"]
+---
+
+import ScribbleCard from '../../components/ScribbleCard.astro';
+
+In Part 1, we introduced basic playing cards. Now, let's get messy! We're adding "scribble" styles, advanced flip animations, and the ability to put markdown on *both* sides of the card.
+
+## 1. The Scribble Style
+
+Perfect for that "hand-drawn" or "whiteboard" aesthetic. We use irregular border radii to simulate a sketch.
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem;">
+
+  <ScribbleCard scribbleStyle="neat" backPattern="grid">
+    <div slot="front">
+      ### Neat Sketch
+      Clean lines, subtle wobble.
+    </div>
+    <div slot="back">
+      **The Back**
+      
+      Grid pattern for precision.
+    </div>
+  </ScribbleCard>
+
+  <ScribbleCard scribbleStyle="rough" backPattern="dots">
+    <div slot="front">
+      ### Rough Sketch
+      Thicker borders, more irregular.
+    </div>
+    <div slot="back">
+      **The Back**
+      
+      Dot pattern for guidance.
+    </div>
+  </ScribbleCard>
+  
+  <ScribbleCard scribbleStyle="messy" backPattern="diagonal">
+    <div slot="front">
+      ### Messy Sketch
+      Dashed lines, chaotic energy.
+    </div>
+    <div slot="back">
+      **The Back**
+      
+      Diagonal stripes.
+    </div>
+  </ScribbleCard>
+
+</div>
+
+## 2. Advanced Flips
+
+Why stick to horizontal flips? Let's mix it up with vertical and diagonal rotations.
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
+
+  <ScribbleCard flipDirection="vertical" scribbleStyle="neat" backPattern="solid">
+    <div slot="front">
+      ## Vertical Flip
+      Hover me!
+    </div>
+    <div slot="back">
+      ### Flipped!
+      Rotated around the X-axis.
+    </div>
+  </ScribbleCard>
+
+  <ScribbleCard flipDirection="diagonal" scribbleStyle="rough" backPattern="grid">
+    <div slot="front">
+      ## Diagonal Flip
+      Hover me!
+    </div>
+    <div slot="back">
+      ### Whoa!
+      Rotated on a 3D vector.
+    </div>
+  </ScribbleCard>
+
+</div>
+
+## 3. Flashcards: Markdown on Both Sides
+
+This is where it gets useful. You can put full markdown content on both the front and back. Great for Q&A or "Reveal" cards.
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+
+  <ScribbleCard flipDirection="horizontal" scribbleStyle="neat" backPattern="grid">
+    <div slot="front">
+      ### Question 1
+      
+      What is the capital of France?
+      
+      *(Hover to reveal)*
+    </div>
+    <div slot="back">
+      ### Answer
+      
+      **Paris**
+      
+      ![Paris](https://cdn-icons-png.flaticon.com/512/201/201623.png)
+    </div>
+  </ScribbleCard>
+
+  <ScribbleCard flipDirection="horizontal" scribbleStyle="neat" backPattern="dots">
+    <div slot="front">
+      ### Code Challenge
+      
+      How do you center a div?
+    </div>
+    <div slot="back">
+      ```css
+      div {
+        display: grid;
+        place-items: center;
+      }
+      ```
+    </div>
+  </ScribbleCard>
+
+</div>
+
+## 4. Image Gallery with Scribbles
+
+Using your uploaded images with the scribble effect.
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem;">
+   <ScribbleCard scribbleStyle="rough" backPattern="solid">
+      <div slot="front">
+          ![Card 1](/blog/cards/scribble-1.jpg)
+      </div>
+      <div slot="back">
+          ### Design Deck
+          Minimalist style.
+      </div>
+   </ScribbleCard>
+   
+   <ScribbleCard scribbleStyle="messy" backPattern="diagonal">
+      <div slot="front">
+          ![Card 2](/blog/cards/scribble-2.jpg)
+      </div>
+      <div slot="back">
+          ### Joker
+          The wild card.
+      </div>
+   </ScribbleCard>
+</div>
+
+## 5. Diagrams with Scribbles
+
+   <ScribbleCard scribbleStyle="messy" backPattern="diagonal">
+      <div slot="front">
+
+<div class="diagram-container">
+  <div class="diagram-node">
+    <ScribbleBox>
+      <h3>Step 1</h3>
+      <p>Write <ScribbleHighlight>MDX</ScribbleHighlight></p>
+    </ScribbleBox>
+  </div>
+
+  <DiagramArrow direction="right" />
+</div>
+      <div slot="back">
+
+  <div class="diagram-node">
+    <ScribbleBox>
+      <h3>Step 2</h3>
+      <p>Import <ScribbleCircle>Components</ScribbleCircle></p>
+    </ScribbleBox>
+  </div>
+
+  <DiagramArrow direction="right" />
+
+  <div class="diagram-node">
+    <ScribbleBox>
+      <h3>Step 3</h3>
+      <p>Enjoy <ScribbleHighlight>Result</ScribbleHighlight></p>
+    </ScribbleBox>
+  </div>
+</div>
+</div>
+   </ScribbleCard>
+
+
+## How to Use
+
+Import `ScribbleCard` and use named slots for `front` and `back`.
+
+```astro
+import ScribbleCard from '../components/ScribbleCard.astro';
+
+<ScribbleCard flipDirection="vertical" scribbleStyle="rough">
+  <div slot="front">
+    # Front Content
+  </div>
+  <div slot="back">
+    # Back Content
+  </div>
+</ScribbleCard>
+```
+
+Enjoy building your hand-drawn decks!

@@ -4,6 +4,9 @@ interface Props {
     height?: string;
     title?: string;
     variant?: "default" | "minimal" | "colorful";
+    animateOnScroll?: boolean;
+    animationDuration?: number;
+    font?: string;
 }
 
 const {
@@ -11,6 +14,9 @@ const {
     height = "400px",
     title = "Mind Map",
     variant = "default",
+    animateOnScroll = false,
+    animationDuration = 500,
+    font = "sans-serif",
 } = Astro.props;
 ---
 
@@ -18,6 +24,9 @@ const {
     data-markdown={markdown}
     data-variant={variant}
     data-height={height}
+    data-animate-on-scroll={animateOnScroll ? "true" : "false"}
+    data-animation-duration={animationDuration}
+    data-font={font}
 >
     <div class={`markmap-wrapper variant-${variant}`}>
         <div class="markmap-header">
@@ -424,26 +433,107 @@ const {
     import { Markmap } from "markmap-view";
 
     class MarkmapComponent extends HTMLElement {
+        mm: Markmap | null = null;
+        observer: MutationObserver | null = null;
+        resizeObserver: ResizeObserver | null = null;
+        intersectionObserver: IntersectionObserver | null = null;
+
         constructor() {
             super();
         }
 
         connectedCallback() {
+            const animateOnScroll = this.dataset.animateOnScroll === "true";
+
+            if (animateOnScroll) {
+                this.intersectionObserver = new IntersectionObserver(
+                    (entries) => {
+                        entries.forEach((entry) => {
+                            if (entry.isIntersecting) {
+                                this.init();
+                                this.intersectionObserver?.disconnect();
+                            }
+                        });
+                    },
+                    { threshold: 0.1 },
+                );
+                this.intersectionObserver.observe(this);
+            } else {
+                this.init();
+            }
+
+            // Watch for attribute changes
+            this.observer = new MutationObserver((mutations) => {
+                let shouldReinit = false;
+                mutations.forEach((mutation) => {
+                    if (
+                        mutation.type === "attributes" &&
+                        [
+                            "data-markdown",
+                            "data-animation-duration",
+                            "data-font",
+                        ].includes(mutation.attributeName || "")
+                    ) {
+                        shouldReinit = true;
+                    }
+                });
+                if (shouldReinit) {
+                    this.update();
+                }
+            });
+
+            this.observer.observe(this, {
+                attributes: true,
+                attributeFilter: [
+                    "data-markdown",
+                    "data-animation-duration",
+                    "data-font",
+                ],
+            });
+        }
+
+        disconnectedCallback() {
+            this.observer?.disconnect();
+            this.resizeObserver?.disconnect();
+            this.intersectionObserver?.disconnect();
+            if (this.mm) {
+                this.mm.destroy();
+            }
+        }
+
+        update() {
+            const font = this.dataset.font;
+            if (font) {
+                this.style.setProperty("--markmap-font", font);
+            }
+
+            if (this.mm) {
+                this.mm.destroy();
+                this.mm = null;
+            }
+            this.init();
+        }
+
+        init() {
             const markdown = this.dataset.markdown;
             const height = this.dataset.height || "400px";
-            const svg = this.querySelector(".markmap-svg");
+            const animationDuration = parseInt(
+                this.dataset.animationDuration || "500",
+            );
+            const font = this.dataset.font;
+            const svg = this.querySelector(".markmap-svg") as SVGElement;
             const wrapper = this.querySelector(".markmap-wrapper");
             const fullscreenBtn = this.querySelector(".fullscreen-btn");
             const fitBtn = this.querySelector(".fit-btn");
             const themeBtn = this.querySelector(".theme-btn");
 
             if (!markdown || !svg || !wrapper) {
-                console.error("Markmap: Missing elements", {
-                    markdown,
-                    svg,
-                    wrapper,
-                });
                 return;
+            }
+
+            // Apply font
+            if (font) {
+                this.style.setProperty("--markmap-font", font);
             }
 
             // Explicitly set dimensions
@@ -456,7 +546,7 @@ const {
                 const { root } = transformer.transform(markdown);
 
                 // Initialize Markmap
-                const mm = Markmap.create(
+                this.mm = Markmap.create(
                     svg,
                     {
                         embedGlobalCSS: true,
@@ -466,20 +556,22 @@ const {
                         spacingVertical: 5,
                         paddingX: 20,
                         autoFit: true,
-                        duration: 500,
+                        duration: animationDuration,
                     },
                     root,
                 );
 
                 // Fit Button Logic
                 if (fitBtn) {
-                    fitBtn.addEventListener("click", () => {
-                        mm.fit();
+                    const newFitBtn = fitBtn.cloneNode(true);
+                    fitBtn.parentNode?.replaceChild(newFitBtn, fitBtn);
+                    newFitBtn.addEventListener("click", () => {
+                        this.mm?.fit();
                     });
                 }
 
                 // Theme Button Logic
-                const updateThemeUI = (isDark) => {
+                const updateThemeUI = (isDark: boolean) => {
                     if (isDark) {
                         wrapper.classList.add("markmap-dark");
                     } else {
@@ -487,8 +579,12 @@ const {
                     }
 
                     if (themeBtn) {
-                        const moonIcon = themeBtn.querySelector(".moon-icon");
-                        const sunIcon = themeBtn.querySelector(".sun-icon");
+                        const moonIcon = themeBtn.querySelector(
+                            ".moon-icon",
+                        ) as HTMLElement;
+                        const sunIcon = themeBtn.querySelector(
+                            ".sun-icon",
+                        ) as HTMLElement;
                         if (moonIcon && sunIcon) {
                             moonIcon.style.display = isDark ? "none" : "block";
                             sunIcon.style.display = isDark ? "block" : "none";
@@ -498,14 +594,13 @@ const {
 
                 // Auto-sync with site theme
                 const htmlElement = document.documentElement;
-                const observer = new MutationObserver((mutations) => {
+                const themeObserver = new MutationObserver((mutations) => {
                     mutations.forEach((mutation) => {
                         if (mutation.attributeName === "data-theme") {
                             const isSiteDark =
                                 htmlElement.getAttribute("data-theme") ===
                                 "dark";
                             updateThemeUI(isSiteDark);
-                            // Sync local storage to match site theme for consistency
                             localStorage.setItem(
                                 "markmap-theme-preference",
                                 isSiteDark ? "dark" : "light",
@@ -513,8 +608,7 @@ const {
                         }
                     });
                 });
-
-                observer.observe(htmlElement, { attributes: true });
+                themeObserver.observe(htmlElement, { attributes: true });
 
                 // Initial check
                 const savedTheme = localStorage.getItem(
@@ -530,7 +624,9 @@ const {
                 }
 
                 if (themeBtn) {
-                    themeBtn.addEventListener("click", () => {
+                    const newThemeBtn = themeBtn.cloneNode(true);
+                    themeBtn.parentNode?.replaceChild(newThemeBtn, themeBtn);
+                    newThemeBtn.addEventListener("click", () => {
                         const isDark =
                             !wrapper.classList.contains("markmap-dark");
                         updateThemeUI(isDark);
@@ -543,7 +639,12 @@ const {
 
                 // Fullscreen Logic
                 if (fullscreenBtn) {
-                    fullscreenBtn.addEventListener("click", () => {
+                    const newFullscreenBtn = fullscreenBtn.cloneNode(true);
+                    fullscreenBtn.parentNode?.replaceChild(
+                        newFullscreenBtn,
+                        fullscreenBtn,
+                    );
+                    newFullscreenBtn.addEventListener("click", () => {
                         if (!document.fullscreenElement) {
                             wrapper.requestFullscreen().catch((err) => {
                                 console.error(
@@ -558,29 +659,15 @@ const {
 
                 // Handle Fullscreen Change & Resize
                 const handleResize = () => {
-                    // Wait for layout update
                     requestAnimationFrame(() => {
-                        mm.fit();
+                        this.mm?.fit();
                     });
                 };
 
-                document.addEventListener("fullscreenchange", () => {
-                    const isFullscreen = document.fullscreenElement === wrapper;
-                    const maxIcon = wrapper.querySelector(".maximize-icon");
-                    const minIcon = wrapper.querySelector(".minimize-icon");
-
-                    if (maxIcon && minIcon) {
-                        maxIcon.style.display = isFullscreen ? "none" : "block";
-                        minIcon.style.display = isFullscreen ? "block" : "none";
-                    }
+                this.resizeObserver = new ResizeObserver(() => {
                     handleResize();
                 });
-
-                // ResizeObserver for robustness
-                const resizeObserver = new ResizeObserver(() => {
-                    handleResize();
-                });
-                resizeObserver.observe(wrapper);
+                this.resizeObserver.observe(wrapper);
 
                 // Initial fit
                 handleResize();

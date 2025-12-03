@@ -1,0 +1,167 @@
+---
+import Markmap from "./Markmap.astro";
+
+interface Props {
+    markdown: string;
+    title?: string;
+}
+
+const { markdown, title = "Interactive Mindmap" } = Astro.props;
+---
+
+<div class="mindmap-demo">
+    <div class="controls">
+        <div class="control-group">
+            <label for="font-select">Font Style</label>
+            <select id="font-select" class="font-select">
+                <option value="sans-serif">Sans Serif</option>
+                <option value="serif">Serif</option>
+                <option value="monospace">Monospace</option>
+                <option value="'Comic Sans MS', 'Chalkboard SE', sans-serif"
+                    >Handwritten</option
+                >
+            </select>
+        </div>
+
+        <div class="control-group">
+            <label for="duration-slider"
+                >Animation Duration: <span class="duration-value">500</span
+                >ms</label
+            >
+            <input
+                type="range"
+                id="duration-slider"
+                class="duration-slider"
+                min="0"
+                max="2000"
+                step="100"
+                value="500"
+            />
+        </div>
+
+        <div class="control-group checkbox">
+            <input type="checkbox" id="scroll-toggle" class="scroll-toggle" />
+            <label for="scroll-toggle">Animate on Scroll (Refresh to see)</label
+            >
+        </div>
+    </div>
+
+    <div class="demo-container">
+        <Markmap
+            markdown={markdown}
+            title={title}
+            height="500px"
+            variant="colorful"
+            animationDuration={500}
+        />
+    </div>
+</div>
+
+<style>
+    .mindmap-demo {
+        border: 1px solid var(--color-border, #e5e7eb);
+        border-radius: 1rem;
+        padding: 1.5rem;
+        background: var(--color-bg-secondary, #f9fafb);
+        margin: 2rem 0;
+    }
+
+    .controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 1.5rem;
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.5rem;
+        border-bottom: 1px solid var(--color-border, #e5e7eb);
+        align-items: center;
+    }
+
+    .control-group {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+
+    .control-group.checkbox {
+        flex-direction: row;
+        align-items: center;
+        margin-top: auto;
+        margin-bottom: auto;
+    }
+
+    label {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--color-text, #374151);
+    }
+
+    select,
+    input[type="range"] {
+        padding: 0.5rem;
+        border-radius: 0.5rem;
+        border: 1px solid var(--color-border, #d1d5db);
+        background: var(--color-bg, #ffffff);
+        color: var(--color-text, #374151);
+        font-size: 0.875rem;
+    }
+
+    input[type="range"] {
+        cursor: pointer;
+    }
+
+    :global([data-theme="dark"]) .mindmap-demo {
+        background: #111827;
+        border-color: #374151;
+    }
+
+    :global([data-theme="dark"]) .controls {
+        border-color: #374151;
+    }
+
+    :global([data-theme="dark"]) label {
+        color: #e5e7eb;
+    }
+
+    :global([data-theme="dark"]) select,
+    :global([data-theme="dark"]) input[type="range"] {
+        background: #1f2937;
+        border-color: #4b5563;
+        color: #e5e7eb;
+    }
+</style>
+
+<script>
+    const demos = document.querySelectorAll(".mindmap-demo");
+    demos.forEach((demo) => {
+        const fontSelect = demo.querySelector(".font-select");
+        const durationSlider = demo.querySelector(".duration-slider");
+        const durationValue = demo.querySelector(".duration-value");
+        const scrollToggle = demo.querySelector(".scroll-toggle");
+        const markmapEl = demo.querySelector("astro-markmap");
+
+        if (fontSelect && markmapEl) {
+            fontSelect.addEventListener("change", (e) => {
+                // @ts-ignore
+                markmapEl.dataset.font = e.target.value;
+            });
+        }
+
+        if (durationSlider && durationValue && markmapEl) {
+            durationSlider.addEventListener("input", (e) => {
+                // @ts-ignore
+                const val = e.target.value;
+                durationValue.textContent = val;
+                markmapEl.dataset.animationDuration = val;
+            });
+        }
+
+        if (scrollToggle && markmapEl) {
+            scrollToggle.addEventListener("change", (e) => {
+                // @ts-ignore
+                markmapEl.dataset.animateOnScroll = e.target.checked
+                    ? "true"
+                    : "false";
+            });
+        }
+    });
+</script>

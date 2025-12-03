@@ -1,0 +1,160 @@
+---
+title: "Customizing Markdown with Animated Cards"
+description: "Learn how to transform standard markdown content into beautiful, animated cards with custom styling for text, images, diagrams, and more."
+pubDate: 2025-12-03
+author: "Aryan"
+image: "/blog-placeholder-2.jpg"
+tags: ["design", "css", "animation", "markdown"]
+---
+
+import AnimatedCard from '../../components/AnimatedCard.astro';
+import Mermaid from '../../components/Mermaid.astro';
+
+Markdown is great for writing content, but sometimes you want it to pop. In this post, we'll explore how to wrap your markdown elements in custom animated cards to create a stunning reading experience.
+
+## 1. Typography Cards
+
+Let's start with simple text. By wrapping text in our `AnimatedCard` component, we can give it a distinct look and feel.
+
+<AnimatedCard animation="fade-up" variant="paper">
+  ### The Paper Effect
+  This card mimics a hand-drawn paper look. It's perfect for notes, quotes, or highlighting important concepts.
+  
+  *   **Hand-drawn border**
+  *   **Drop shadow**
+  *   **Clean typography**
+</AnimatedCard>
+
+<AnimatedCard animation="slide-in-right" variant="neon" delay="0.2s">
+  ### The Neon Effect
+  For a more modern, cyberpunk aesthetic, we can use the "Neon" variant.
+  
+  > "The future is already here – it's just not evenly distributed."
+</AnimatedCard>
+
+## 2. Image Cards
+
+Images often need context. Wrapping them in a card allows you to add captions and style them together.
+
+<AnimatedCard animation="zoom-in" variant="glass">
+  ![Abstract Design](/blog-placeholder-1.jpg)
+  
+  <div style="text-align: center; margin-top: 1rem; font-style: italic; opacity: 0.8;">
+    Figure 1: An example of a glassmorphism card holding an image.
+  </div>
+</AnimatedCard>
+
+## 3. Emoji & Icon Cards
+
+Big, bold emojis can serve as excellent visual anchors.
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem;">
+  <AnimatedCard animation="flip-up" variant="default" delay="0s">
+    <div style="font-size: 4rem; text-align: center;">🚀</div>
+    <h4 style="text-align: center;">Launch</h4>
+  </AnimatedCard>
+  
+  <AnimatedCard animation="flip-up" variant="default" delay="0.1s">
+    <div style="font-size: 4rem; text-align: center;">🎨</div>
+    <h4 style="text-align: center;">Design</h4>
+  </AnimatedCard>
+  
+  <AnimatedCard animation="flip-up" variant="default" delay="0.2s">
+    <div style="font-size: 4rem; text-align: center;">✨</div>
+    <h4 style="text-align: center;">Magic</h4>
+  </AnimatedCard>
+</div>
+
+## 4. Diagram Cards
+
+Mermaid diagrams and flowcharts look professional when framed properly.
+
+<AnimatedCard animation="fade-up" variant="paper">
+  ### Project Workflow
+  
+  <Mermaid chart={`
+    graph LR
+      A[Start] --> B{Is it working?};
+      B -- Yes --> C[Great!];
+      B -- No --> D[Debug];
+      D --> B;
+  `} />
+</AnimatedCard>
+
+## 5. Math & Equations
+
+For educational content, framing equations helps focus the reader's attention.
+
+<AnimatedCard animation="slide-in-left" variant="gradient">
+  ### The Quadratic Formula
+  
+  $$
+  x = \frac{-b \pm \sqrt{b^2 - 4ac}}{2a}
+  $$
+  
+  This formula provides the solution(s) to a quadratic equation.
+</AnimatedCard>
+
+## 6. Code Blocks
+
+Even code snippets can benefit from a container, especially for "tips" or "tricks".
+
+<AnimatedCard animation="fade-up" variant="neon">
+  **Pro Tip:** Use the `AnimatedCard` component to wrap any content!
+  
+  ```astro
+  <AnimatedCard animation="zoom-in" variant="neon">
+    # Hello World
+    This is an animated card!
+  </AnimatedCard>
+  ```
+</AnimatedCard>
+
+## 7. Card Gallery
+
+Here are some examples of how you can use different card styles to showcase a collection of images.
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1.5rem;">
+  <AnimatedCard animation="fade-up" variant="paper" delay="0s">
+    ![Joker Card](https://hips.hearstapps.com/vader-prod.s3.amazonaws.com/1691166857-814mI0-rkxL.jpg?crop=1xw:1xh;center,top&resize=980:*)
+    <div style="text-align: center; margin-top: 0.5rem; font-family: 'Playfair Display', serif;">The Joker</div>
+  </AnimatedCard>
+
+  <AnimatedCard animation="fade-up" variant="neon" delay="0.1s">
+    ![King of Diamonds](/blog/cards/card-2.jpg)
+    <div style="text-align: center; margin-top: 0.5rem; font-family: 'Fira Code', monospace;">King_of_Diamonds</div>
+  </AnimatedCard>
+
+  <AnimatedCard animation="fade-up" variant="glass" delay="0.2s">
+    ![Queen of Spades](/blog/cards/card-3.jpg)
+    <div style="text-align: center; margin-top: 0.5rem; font-weight: bold;">Queen of Spades</div>
+  </AnimatedCard>
+
+  <AnimatedCard animation="fade-up" variant="gradient" delay="0.3s">
+    ![King of Diamonds Geometric](/blog/cards/card-4.jpg)
+    <div style="text-align: center; margin-top: 0.5rem; color: white;">Geometric King</div>
+  </AnimatedCard>
+  
+   <AnimatedCard animation="fade-up" variant="default" delay="0.4s">
+    ![Typography Cards](/blog/cards/card-5.jpg)
+    <div style="text-align: center; margin-top: 0.5rem; color: #666;">Typography Series</div>
+  </AnimatedCard>
+</div>
+
+## How It Works
+
+The `AnimatedCard` component uses the **Intersection Observer API** to detect when the element enters the viewport. It then toggles a CSS class to trigger the animation.
+
+Here's a peek at the logic:
+
+```javascript
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('is-visible');
+    }
+  });
+});
+```
+
+By combining this with CSS transitions and transforms, we get smooth, performant animations that enhance the user experience without slowing down the page.

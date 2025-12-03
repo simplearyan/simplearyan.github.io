@@ -1,0 +1,147 @@
+---
+interface Props {
+    animation?:
+        | "fade-up"
+        | "fade-in"
+        | "zoom-in"
+        | "slide-in-left"
+        | "slide-in-right"
+        | "flip-up";
+    duration?: string;
+    delay?: string;
+    variant?: "default" | "paper" | "neon" | "glass" | "gradient";
+    class?: string;
+}
+
+const {
+    animation = "fade-up",
+    duration = "0.6s",
+    delay = "0s",
+    variant = "default",
+    class: className = "",
+} = Astro.props;
+---
+
+<div
+    class={`animated-card variant-${variant} ${className}`}
+    data-animation={animation}
+    style={`--duration: ${duration}; --delay: ${delay};`}
+>
+    <slot />
+</div>
+
+<style>
+    .animated-card {
+        opacity: 0; /* Hidden initially */
+        transform: translateY(20px); /* Default start position for fade-up */
+        transition:
+            opacity var(--duration) ease-out,
+            transform var(--duration) ease-out;
+        transition-delay: var(--delay);
+        margin: 2rem 0;
+        padding: 1.5rem;
+        border-radius: 12px;
+    }
+
+    /* Animation States */
+    .animated-card.is-visible {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotateX(0);
+    }
+
+    /* Animation Types */
+    .animated-card[data-animation="fade-in"] {
+        transform: scale(1); /* No movement */
+    }
+
+    .animated-card[data-animation="zoom-in"] {
+        transform: scale(0.9);
+    }
+
+    .animated-card[data-animation="slide-in-left"] {
+        transform: translateX(-50px);
+    }
+
+    .animated-card[data-animation="slide-in-right"] {
+        transform: translateX(50px);
+    }
+
+    .animated-card[data-animation="flip-up"] {
+        transform: perspective(1000px) rotateX(20deg) translateY(20px);
+        transform-origin: center bottom;
+    }
+
+    /* Variants */
+    .animated-card.variant-default {
+        background: var(--color-bg-secondary, #f3f4f6);
+        border: 1px solid var(--color-border, #e5e7eb);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .animated-card.variant-paper {
+        background: #ffffff;
+        border: 2px solid #1a1a1a;
+        border-radius: 2px 255px 3px 25px / 255px 5px 225px 5px;
+        box-shadow: 4px 4px 0px rgba(0, 0, 0, 0.15);
+    }
+
+    .animated-card.variant-neon {
+        background: #0f172a;
+        border: 1px solid #3b82f6;
+        box-shadow: 0 0 15px rgba(59, 130, 246, 0.2);
+        color: #e2e8f0;
+    }
+
+    .animated-card.variant-glass {
+        background: rgba(255, 255, 255, 0.7);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+    }
+
+    .animated-card.variant-gradient {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        box-shadow: 0 10px 20px rgba(118, 75, 162, 0.3);
+    }
+
+    /* Dark Mode Overrides */
+    :global([data-theme="dark"]) .animated-card.variant-default {
+        background: #1f2937;
+        border-color: #374151;
+    }
+
+    :global([data-theme="dark"]) .animated-card.variant-paper {
+        background: #1f2023;
+        border-color: #e5e7eb;
+        box-shadow: 4px 4px 0px rgba(255, 255, 255, 0.1);
+        color: #e5e7eb;
+    }
+
+    :global([data-theme="dark"]) .animated-card.variant-glass {
+        background: rgba(31, 41, 55, 0.7);
+        border-color: rgba(255, 255, 255, 0.1);
+        color: #e5e7eb;
+    }
+</style>
+
+<script>
+    const observerOptions = {
+        root: null,
+        rootMargin: "0px",
+        threshold: 0.1,
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add("is-visible");
+                observer.unobserve(entry.target); // Only animate once
+            }
+        });
+    }, observerOptions);
+
+    document.querySelectorAll(".animated-card").forEach((card) => {
+        observer.observe(card);
+    });
+</script>

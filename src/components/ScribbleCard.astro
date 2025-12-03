@@ -1,0 +1,216 @@
+---
+interface Props {
+    flipDirection?: "horizontal" | "vertical" | "diagonal";
+    scribbleStyle?: "rough" | "neat" | "messy";
+    backPattern?: "grid" | "dots" | "diagonal" | "solid";
+    animationDuration?: string;
+    class?: string;
+}
+
+const {
+    flipDirection = "horizontal",
+    scribbleStyle = "neat",
+    backPattern = "diagonal",
+    animationDuration = "0.6s",
+    class: className = "",
+} = Astro.props;
+---
+
+<div
+    class={`scribble-card-container ${className}`}
+    style={`--duration: ${animationDuration};`}
+>
+    <div class={`scribble-card ${flipDirection} ${scribbleStyle}`}>
+        <div class="card-face card-front">
+            <slot name="front" />
+        </div>
+        <div class={`card-face card-back pattern-${backPattern}`}>
+            <div class="back-content">
+                <slot name="back" />
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .scribble-card-container {
+        perspective: 1000px;
+        width: 100%;
+        max-width: 320px;
+        aspect-ratio: 2.5/3.5;
+        margin: 2rem auto;
+        cursor: pointer;
+    }
+
+    .scribble-card {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        text-align: center;
+        transition: transform var(--duration) cubic-bezier(0.4, 0, 0.2, 1);
+        transform-style: preserve-3d;
+    }
+
+    .scribble-card-container:hover .scribble-card {
+        /* Transform is defined by specific classes below */
+    }
+
+    /* Flip Directions */
+    .scribble-card.horizontal {
+        /* Default rotateY */
+    }
+    .scribble-card-container:hover .scribble-card.horizontal {
+        transform: rotateY(180deg);
+    }
+
+    .scribble-card.vertical {
+        /* rotateX */
+    }
+    .scribble-card-container:hover .scribble-card.vertical {
+        transform: rotateX(180deg);
+    }
+
+    .scribble-card.diagonal {
+        /* rotate3d */
+    }
+    .scribble-card-container:hover .scribble-card.diagonal {
+        transform: rotate3d(1, 1, 0, 180deg);
+    }
+
+    /* Card Faces */
+    .card-face {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        -webkit-backface-visibility: hidden;
+        backface-visibility: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding: 1.5rem;
+        background: #fff;
+        overflow: hidden;
+        border: 2px solid #1a1a1a;
+    }
+
+    /* Scribble Styles (Border Radius Tricks) */
+    .scribble-card.neat .card-face {
+        border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+        box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.1);
+    }
+
+    .scribble-card.rough .card-face {
+        border-radius: 2% 6% 5% 4% / 1% 1% 2% 4%;
+        border-width: 3px;
+        box-shadow: 2px 2px 0 #1a1a1a;
+    }
+
+    .scribble-card.messy .card-face {
+        border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+        border-style: dashed;
+        box-shadow: 5px 5px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    /* Back Face Transforms */
+    .scribble-card.horizontal .card-back {
+        transform: rotateY(180deg);
+    }
+    .scribble-card.vertical .card-back {
+        transform: rotateX(180deg);
+    }
+    .scribble-card.diagonal .card-back {
+        transform: rotate3d(1, 1, 0, 180deg);
+    }
+
+    /* Back Patterns */
+    .card-back.pattern-solid {
+        background: #1a1a1a;
+        color: white;
+    }
+
+    .card-back.pattern-grid {
+        background-color: #fff;
+        background-image: linear-gradient(#e5e7eb 1px, transparent 1px),
+            linear-gradient(90deg, #e5e7eb 1px, transparent 1px);
+        background-size: 20px 20px;
+        color: #1a1a1a;
+    }
+
+    .card-back.pattern-dots {
+        background-color: #fff;
+        background-image: radial-gradient(#d1d5db 1px, transparent 1px);
+        background-size: 20px 20px;
+        color: #1a1a1a;
+    }
+
+    .card-back.pattern-diagonal {
+        background: repeating-linear-gradient(
+            45deg,
+            #f3f4f6,
+            #f3f4f6 10px,
+            #ffffff 10px,
+            #ffffff 20px
+        );
+        color: #1a1a1a;
+    }
+
+    .back-content {
+        transform: translateZ(1px); /* Fix for text blurriness in 3D */
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    /* Content Styling */
+    .card-face :global(h1),
+    .card-face :global(h2),
+    .card-face :global(h3) {
+        font-family: "Comic Sans MS", "Chalkboard SE", sans-serif;
+        margin-bottom: 0.5rem;
+    }
+
+    .card-face :global(p) {
+        font-family: "Comic Sans MS", "Chalkboard SE", sans-serif;
+        font-size: 0.9rem;
+    }
+
+    /* Dark Mode */
+    :global([data-theme="dark"]) .card-face {
+        background: #1f2937;
+        border-color: #e5e7eb;
+        color: #e5e7eb;
+    }
+
+    :global([data-theme="dark"]) .card-back.pattern-grid {
+        background-color: #1f2937;
+        background-image: linear-gradient(#374151 1px, transparent 1px),
+            linear-gradient(90deg, #374151 1px, transparent 1px);
+        color: #e5e7eb;
+    }
+
+    :global([data-theme="dark"]) .card-back.pattern-dots {
+        background-color: #1f2937;
+        background-image: radial-gradient(#4b5563 1px, transparent 1px);
+        color: #e5e7eb;
+    }
+
+    :global([data-theme="dark"]) .card-back.pattern-diagonal {
+        background: repeating-linear-gradient(
+            45deg,
+            #1f2937,
+            #1f2937 10px,
+            #374151 10px,
+            #374151 20px
+        );
+        color: #e5e7eb;
+    }
+
+    :global([data-theme="dark"]) .card-back.pattern-solid {
+        background: #000;
+        border-color: #fff;
+    }
+</style>
