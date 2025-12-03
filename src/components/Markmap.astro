@@ -1,0 +1,297 @@
+---
+interface Props {
+    markdown: string;
+    height?: string;
+    title?: string;
+    variant?: "default" | "minimal" | "colorful";
+}
+
+const {
+    markdown,
+    height = "400px",
+    title = "Mind Map",
+    variant = "default",
+} = Astro.props;
+---
+
+<astro-markmap
+    data-markdown={markdown}
+    data-variant={variant}
+    data-height={height}
+>
+    <div class={`markmap-wrapper variant-${variant}`}>
+        <div class="markmap-header">
+            {title && <div class="markmap-title">{title}</div>}
+            <button class="fullscreen-btn" aria-label="Toggle Fullscreen">
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="maximize-icon"
+                    ><path d="M8 3H5a2 2 0 0 0-2 2v3"></path><path
+                        d="M16 3h3a2 2 0 0 1 2 2v3"></path><path
+                        d="M8 21H5a2 2 0 0 1-2-2v-3"></path><path
+                        d="M16 21h3a2 2 0 0 0 2-2v-3"></path></svg
+                >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="20"
+                    height="20"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    stroke-width="2"
+                    stroke-linecap="round"
+                    stroke-linejoin="round"
+                    class="minimize-icon"
+                    style="display: none;"
+                    ><path d="M8 3v3a2 2 0 0 1-2 2H3"></path><path
+                        d="M21 8h-3a2 2 0 0 1-2-2V3"></path><path
+                        d="M3 16h3a2 2 0 0 1 2 2v3"></path><path
+                        d="M16 21v-3a2 2 0 0 1 2-2h3"></path></svg
+                >
+            </button>
+        </div>
+        <svg class="markmap-svg"></svg>
+    </div>
+</astro-markmap>
+
+<style>
+    astro-markmap {
+        display: block;
+        width: 100%;
+    }
+
+    .markmap-wrapper {
+        position: relative;
+        width: 100%;
+        margin: 2rem 0;
+        border-radius: 1rem;
+        overflow: hidden;
+        background: var(--color-bg, #ffffff);
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Default Style */
+    .markmap-wrapper.variant-default {
+        border: 2px solid var(--color-border, #e5e7eb);
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    /* Minimal Style */
+    .markmap-wrapper.variant-minimal {
+        border: 1px solid transparent;
+        background: transparent;
+        box-shadow: none;
+    }
+    .markmap-wrapper.variant-minimal .markmap-header {
+        background: transparent;
+        border-bottom: none;
+    }
+
+    /* Colorful Style */
+    .markmap-wrapper.variant-colorful {
+        border: 2px solid transparent;
+        background:
+            linear-gradient(var(--color-bg), var(--color-bg)) padding-box,
+            linear-gradient(45deg, #ec4899, #8b5cf6) border-box;
+        box-shadow: 0 10px 25px -5px rgba(139, 92, 246, 0.15);
+    }
+
+    .markmap-wrapper:fullscreen {
+        border-radius: 0;
+        border: none;
+        width: 100vw;
+        height: 100vh;
+        padding: 2rem;
+        background: var(--color-bg, #ffffff);
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 9999;
+    }
+
+    :global(.dark) .markmap-wrapper:fullscreen {
+        background: #0f0f0f;
+    }
+
+    .markmap-wrapper:fullscreen .markmap-svg {
+        height: 100% !important;
+    }
+
+    .markmap-header {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 0 1rem;
+        background: rgba(255, 255, 255, 0.8);
+        border-bottom: 1px solid var(--color-border, #e5e7eb);
+        z-index: 10;
+        backdrop-filter: blur(4px);
+    }
+
+    :global(.dark) .markmap-header {
+        background: rgba(31, 41, 55, 0.8);
+        border-color: #374151;
+    }
+
+    .markmap-title {
+        font-size: 0.875rem;
+        font-weight: 600;
+        color: var(--color-text, #374151);
+    }
+
+    .fullscreen-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        color: var(--color-text, #6b7280);
+        padding: 4px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background 0.2s;
+    }
+
+    .fullscreen-btn:hover {
+        background: rgba(0, 0, 0, 0.05);
+        color: var(--color-primary, #3b82f6);
+    }
+
+    :global(.dark) .fullscreen-btn:hover {
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .markmap-svg {
+        width: 100%;
+        display: block;
+    }
+</style>
+
+<script>
+    import { Transformer } from "markmap-lib";
+    import { Markmap } from "markmap-view";
+    import { Toolbar } from "markmap-toolbar";
+    import "markmap-toolbar/dist/style.css";
+
+    class MarkmapComponent extends HTMLElement {
+        constructor() {
+            super();
+        }
+
+        connectedCallback() {
+            const markdown = this.dataset.markdown;
+            const height = this.dataset.height || "400px";
+            // CRITICAL FIX: Select the specific class, not just 'svg'
+            const svg = this.querySelector(".markmap-svg");
+            const wrapper = this.querySelector(".markmap-wrapper");
+            const fullscreenBtn = this.querySelector(".fullscreen-btn");
+
+            if (!markdown || !svg || !wrapper) {
+                console.error("Markmap: Missing elements", {
+                    markdown,
+                    svg,
+                    wrapper,
+                });
+                return;
+            }
+
+            // Explicitly set dimensions
+            svg.style.width = "100%";
+            svg.style.height = height;
+            svg.setAttribute("width", "100%");
+
+            try {
+                const transformer = new Transformer();
+                const { root } = transformer.transform(markdown);
+
+                // Initialize Markmap
+                const mm = Markmap.create(
+                    svg,
+                    {
+                        embedGlobalCSS: true,
+                        scrollForPan: true,
+                        zoom: true,
+                        pan: true,
+                        spacingVertical: 5,
+                        paddingX: 20,
+                        autoFit: true,
+                        duration: 500,
+                    },
+                    root,
+                );
+
+                // Add toolbar
+                const { el } = Toolbar.create(mm);
+                el.style.position = "absolute";
+                el.style.bottom = "1rem";
+                el.style.right = "1rem";
+                wrapper.appendChild(el);
+
+                // Fullscreen Logic
+                if (fullscreenBtn) {
+                    fullscreenBtn.addEventListener("click", () => {
+                        if (!document.fullscreenElement) {
+                            wrapper.requestFullscreen().catch((err) => {
+                                console.error(
+                                    `Error attempting to enable fullscreen: ${err.message}`,
+                                );
+                            });
+                        } else {
+                            document.exitFullscreen();
+                        }
+                    });
+                }
+
+                // Handle Fullscreen Change & Resize
+                const handleResize = () => {
+                    // Wait for layout update
+                    requestAnimationFrame(() => {
+                        mm.fit();
+                    });
+                };
+
+                document.addEventListener("fullscreenchange", () => {
+                    const isFullscreen = document.fullscreenElement === wrapper;
+                    const maxIcon = wrapper.querySelector(".maximize-icon");
+                    const minIcon = wrapper.querySelector(".minimize-icon");
+
+                    if (maxIcon && minIcon) {
+                        maxIcon.style.display = isFullscreen ? "none" : "block";
+                        minIcon.style.display = isFullscreen ? "block" : "none";
+                    }
+                    handleResize();
+                });
+
+                // ResizeObserver for robustness
+                const resizeObserver = new ResizeObserver(() => {
+                    handleResize();
+                });
+                resizeObserver.observe(wrapper);
+
+                // Initial fit
+                handleResize();
+            } catch (e) {
+                console.error("Markmap initialization error:", e);
+            }
+        }
+    }
+
+    if (!customElements.get("astro-markmap")) {
+        customElements.define("astro-markmap", MarkmapComponent);
+    }
+</script>

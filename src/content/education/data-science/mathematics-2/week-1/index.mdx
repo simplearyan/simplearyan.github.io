@@ -1,0 +1,46 @@
+---
+title: "Week 1: Systems of Linear Equations"
+description: "Introduction to Systems of Linear Equations and Gaussian Elimination."
+pubDate: 2024-01-03
+tags: ["Mathematics", "Data Science"]
+
+type: "module"
+courseType: "Module"
+institution: "IIT Madras"
+order: 1
+subject: "mathematics-2"
+---
+
+import HandDrawnBox from "../../../../../components/HandDrawnBox.astro";
+import CinematicText from "../../../../../components/CinematicText.astro";
+import CinematicCard from "../../../../../components/CinematicCard.astro";
+
+<CinematicText 
+  text="LINEAR SYSTEMS" 
+  font="cinematic" 
+  animation="blur-reveal" 
+  className="text-4xl text-center mb-8"
+/>
+
+## What is a Linear Equation?
+
+A linear equation describes a straight line (in 2D) or a plane (in 3D).
+
+<CinematicCard theme="paper" title="Definition">
+  <p>A <strong>linear equation</strong> in $n$ variables $x_1, x_2, \dots, x_n$ is an equation of the form:</p>
+  <p class="text-center text-xl my-4">$a_1x_1 + a_2x_2 + \dots + a_nx_n = b$</p>
+  <div class="scribble-highlight mt-4 inline-block">Key Concept</div>
+</CinematicCard>
+
+### Systems of Equations
+
+A system of linear equations is a collection of one or more linear equations involving the same variables.
+
+<HandDrawnBox title="Example System" variant="tip">
+  $$
+  \begin{cases}
+  2x + 3y = 5 \\
+  4x - y = 3
+  \end{cases}
+  $$
+</HandDrawnBox>

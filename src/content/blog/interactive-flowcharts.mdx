@@ -1,0 +1,130 @@
+---
+title: "Creating Interactive Flowcharts & Mind Maps in Markdown"
+description: "Learn how to visualize complex ideas using Mermaid.js directly in your Markdown content, styled to match your site's aesthetic."
+pubDate: 2025-12-03
+author: "Aryan"
+image: "/favicon.png"
+tags: ["design", "visualization", "mermaid", "diagrams"]
+---
+
+import Mermaid from '../../components/Mermaid.astro';
+import CinematicText from '../../components/CinematicText.astro';
+
+<CinematicText 
+  text="VISUALIZE IDEAS" 
+  font="cinematic" 
+  animation="blur-reveal" 
+  className="text-4xl text-center mb-8"
+/>
+
+Complex topics often require visual maps to be fully understood. In this guide, we'll explore how to create beautiful, interactive flowcharts and mind maps using **Mermaid.js**, directly within your Markdown files.
+
+## The Power of Mind Maps
+
+Mind maps are excellent for breaking down a central concept into its component parts.
+
+Here is a recreation of the **Linear Algebra for Data Science** curriculum map:
+
+<Mermaid code={`
+mindmap
+  root((Linear Algebra for Data Science))
+    Vectors and Matrices
+      (Ch 1)
+    Solving Systems of Linear Equations
+      (Ch 2)
+      ::icon(fa fa-book)
+      Matrix Representation
+      Methods for Unique Solution
+        Cramer's Rule
+        Inverse Matrix
+      Gauss Elimination Method
+        System Types
+          Homogeneous
+          Non-homogeneous
+        Matrix Forms
+          Row Echelon Form
+          Reduced Row Echelon Form
+        Variables in RREF
+          Dependent
+          Independent
+        Row Operations
+        Augmented Matrix
+    Introduction to Vector Space
+      (Ch 3)
+    Basis and Dimension
+      (Ch 4)
+    Rank and Nullity
+      (Ch 5)
+    Linear Transformation
+      (Ch 6)
+    Equivalence and Similarity
+      (Ch 7)
+    Affine Subspaces
+      (Ch 8)
+    Inner Product Space
+      (Ch 9)
+`} />
+
+### How to Write It
+
+The syntax is intuitive. You start with a `root` node and indent to create branches.
+
+```markdown
+mindmap
+  root((Main Topic))
+    Branch 1
+      Sub-branch A
+      Sub-branch B
+    Branch 2
+      Sub-branch C
+```
+
+---
+
+## Flowcharts for Processes
+
+For step-by-step processes or algorithms, the **Flowchart** (Graph) is your best friend.
+
+<Mermaid code={`
+graph TD
+    A[Start] --> B{Is it working?};
+    B -- Yes --> C[Great!];
+    B -- No --> D[Debug];
+    D --> B;
+    C --> E[Deploy];
+    style A fill:#22c55e,stroke:#fff,stroke-width:2px,color:#fff
+    style E fill:#3b82f6,stroke:#fff,stroke-width:2px,color:#fff
+    style D fill:#ef4444,stroke:#fff,stroke-width:2px,color:#fff
+`} />
+
+### Custom Styling
+
+You can apply specific styles to nodes to highlight start/end points or error states.
+
+```markdown
+graph TD
+    A[Start] --> B{Decision}
+    style A fill:#22c55e,color:#fff
+```
+
+---
+
+## Sequence Diagrams
+
+Perfect for showing interactions between systems over time.
+
+<Mermaid code={`
+sequenceDiagram
+    participant User
+    participant Browser
+    participant Server
+    
+    User->>Browser: Clicks Link
+    Browser->>Server: Request Page
+    Server-->>Browser: Return HTML
+    Browser-->>User: Render Page
+`} />
+
+## Conclusion
+
+By integrating these diagrams, you turn passive reading into active learning. The best part? It's all text-based, version-controllable, and renders beautifully on any device.

@@ -1,0 +1,90 @@
+---
+title: "Advanced Mind Maps: Styles & Fullscreen"
+description: "Take your visualizations to the next level with custom styles, fullscreen mode, and theme adaptation."
+pubDate: 2025-12-03
+author: "Aryan"
+image: "/favicon.png"
+tags: ["design", "visualization", "markmap", "advanced"]
+---
+
+import Markmap from '../../components/Markmap.astro';
+import CinematicText from '../../components/CinematicText.astro';
+
+<CinematicText 
+  text="NEXT LEVEL MAPS" 
+  font="cinematic" 
+  animation="blur-reveal" 
+  className="text-4xl text-center mb-8"
+/>
+
+We've upgraded our mind mapping capabilities! Now you can choose from different styles and even view complex maps in **fullscreen mode**.
+
+## 1. The "Colorful" Style
+
+Perfect for highlighting creative projects or feature-rich content. It features a gradient border and enhanced shadows.
+
+<Markmap variant="colorful" height="400px" title="Creative Process" markdown={`
+# Creative Process
+## 1. Research
+### Inspiration
+### Trends
+### User Needs
+## 2. Ideation
+### Brainstorming
+### Sketching
+### Prototyping
+## 3. Execution
+### Design
+### Development
+### Testing
+`} />
+
+```jsx
+<Markmap variant="colorful" markdown="..." />
+```
+
+## 2. The "Minimal" Style
+
+Sometimes less is more. The minimal variant removes borders and backgrounds for a clean, integrated look.
+
+<Markmap variant="minimal" height="300px" title="Simple Hierarchy" markdown={`
+# Minimalist
+## Clean Lines
+## No Clutter
+## Focus on Content
+`} />
+
+```jsx
+<Markmap variant="minimal" markdown="..." />
+```
+
+## 3. Fullscreen Mode
+
+Have a massive curriculum to display? No problem. Click the **expand icon** (top-right) on the map below to see it in full screen.
+
+<Markmap height="500px" title="Full Stack Developer Roadmap" markdown={`
+# Full Stack Developer
+## Frontend
+### HTML/CSS
+### JavaScript
+### Frameworks
+#### React
+#### Vue
+#### Svelte
+## Backend
+### Languages
+#### Node.js
+#### Python
+#### Go
+### Databases
+#### SQL
+#### NoSQL
+## DevOps
+### Docker
+### CI/CD
+### Cloud (AWS/GCP)
+`} />
+
+## Dark Mode Ready
+
+Toggle the site's theme (top right of the page) and watch how the mind maps instantly adapt. The text, lines, and backgrounds automatically switch to match the dark aesthetic.

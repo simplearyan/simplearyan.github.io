@@ -1,0 +1,79 @@
+---
+title: "Visualizing Thoughts with Beautiful Mind Maps"
+description: "How to create stunning, interactive mind maps in your Markdown content using Markmap."
+pubDate: 2025-12-03
+author: "Aryan"
+image: "/favicon.png"
+tags: ["design", "visualization", "markmap", "mindmap"]
+---
+
+import Markmap from '../../components/Markmap.astro';
+import CinematicText from '../../components/CinematicText.astro';
+
+<CinematicText 
+  text="MIND MAPPING" 
+  font="cinematic" 
+  animation="blur-reveal" 
+  className="text-4xl text-center mb-8"
+/>
+
+Mind maps are a fantastic way to organize hierarchical information. Unlike linear text, they allow you to see the "big picture" at a glance.
+
+In this post, we'll explore how to render beautiful, interactive mind maps directly from Markdown lists.
+
+## Example 1: Project Structure
+
+Here is a visualization of a Hugo project structure, similar to the one you might see in documentation.
+
+<Markmap height="300px" title="Hugo Modules Structure" markdown={`
+# Hugo Modules
+## wowchemy
+## blox-plugins-netlify
+## blox-plugins-netlify-cms
+## blox-plugins-reveal
+`} />
+
+## Example 2: Rich Content Features
+
+Mind maps aren't just for simple text. You can include **inline styles**, **multiline text**, **code blocks**, and even **math equations**.
+
+<Markmap height="500px" title="Markmap Features" markdown={`
+# Mindmaps
+## Links
+### [Wowchemy Docs](https://wowchemy.com)
+### [Discord Community](https://discord.gg)
+### [GitHub](https://github.com)
+## Features
+### Markdown formatting
+### **inline** text *styles*
+### multiline<br/>text
+### \`inline code\`
+### Code Block
+\`\`\`javascript
+console.log('hello');
+\`\`\`
+### Math
+$x = \\frac{-b \\pm \\sqrt{b^2-4ac}}{2a}$
+`} />
+
+## How to Write It
+
+The syntax is just standard Markdown lists!
+
+```markdown
+# Root Node
+## Branch 1
+### Sub-branch A
+### Sub-branch B
+## Branch 2
+```
+
+The component automatically colors the branches and makes them interactive. You can:
+- **Zoom** in and out
+- **Pan** around the canvas
+- **Collapse/Expand** nodes by clicking the circles
+
+This makes it perfect for:
+1.  **Curriculum Design** (showing subject hierarchies)
+2.  **Project Planning** (breaking down tasks)
+3.  **Note Taking** (summarizing complex topics)
