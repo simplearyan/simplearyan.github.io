@@ -1,0 +1,63 @@
+---
+title: "Markmap: Now with Dark Mode Support"
+description: "Our interactive mind maps now automatically adapt to your system theme. See it in action."
+pubDate: 2025-12-03
+author: "Aryan"
+image: "/favicon.png"
+tags: ["design", "visualization", "markmap", "dark-mode"]
+---
+
+import Markmap from '../../components/Markmap.astro';
+import CinematicText from '../../components/CinematicText.astro';
+
+<CinematicText 
+  text="ADAPTIVE MAPS" 
+  font="cinematic" 
+  animation="blur-reveal" 
+  className="text-4xl text-center mb-8"
+/>
+
+We've updated our mind mapping component to be fully theme-aware. Whether you prefer a bright workspace or a dark, focused environment, your diagrams will always look perfect.
+
+## Try It Out
+
+Toggle the theme button in the top right corner of this page. Watch how the mind map below instantly updates its text colors and background contrast.
+
+<Markmap height="400px" title="Theme Adaptive Map" markdown={`
+# Theme Adaptation
+## Light Mode
+### Dark Text
+### Light Background
+### High Contrast
+## Dark Mode
+### Light Text
+### Dark Background
+### Reduced Eye Strain
+## Tech Stack
+### Astro
+### Tailwind CSS
+### MutationObserver
+`} />
+
+## How It Works
+
+The component monitors your site's theme state. When you switch modes, it automatically:
+1.  Detects the change.
+2.  Updates the SVG text colors.
+3.  Adjusts the background (if using the "colorful" variant).
+
+```jsx
+// It just works!
+<Markmap markdown="# My Map..." />
+```
+
+## Colorful Variant in Dark Mode
+
+Even our "Colorful" variant adapts, ensuring the gradients and shadows pop against the dark background without being overwhelming.
+
+<Markmap variant="colorful" height="300px" title="Colorful Dark Mode" markdown={`
+# Colorful & Dark
+## Neon Vibes
+## Glowing Borders
+## Smooth Gradients
+`} />

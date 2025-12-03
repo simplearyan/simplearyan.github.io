@@ -58,7 +58,26 @@ const {
                 >
             </button>
         </div>
+
         <svg class="markmap-svg"></svg>
+
+        <button class="fit-btn" aria-label="Fit View">
+            <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+            >
+                <circle cx="12" cy="12" r="10"></circle>
+                <line x1="12" y1="8" x2="12" y2="16"></line>
+                <line x1="8" y1="12" x2="16" y2="12"></line>
+            </svg>
+        </button>
     </div>
 </astro-markmap>
 
@@ -82,7 +101,7 @@ const {
 
     /* Default Style */
     .markmap-wrapper.variant-default {
-        border: 2px solid var(--color-border, #e5e7eb);
+        /* border: 2px solid var(--color-border, #e5e7eb); */
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
 
@@ -137,8 +156,8 @@ const {
         align-items: center;
         justify-content: space-between;
         padding: 0 1rem;
-        background: rgba(255, 255, 255, 0.8);
-        border-bottom: 1px solid var(--color-border, #e5e7eb);
+        /* background: rgba(255, 255, 255, 0.8); */
+        /* border-bottom: 1px solid var(--color-border, #e5e7eb); */
         z-index: 10;
         backdrop-filter: blur(4px);
     }
@@ -180,13 +199,42 @@ const {
         width: 100%;
         display: block;
     }
+
+    .fit-btn {
+        position: absolute;
+        bottom: 1rem;
+        right: 1rem;
+        background: var(--color-bg, #ffffff);
+        border: 1px solid var(--color-border, #e5e7eb);
+        border-radius: 50%;
+        width: 32px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: var(--color-text, #6b7280);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: all 0.2s;
+        z-index: 10;
+    }
+
+    .fit-btn:hover {
+        transform: scale(1.1);
+        color: var(--color-primary, #3b82f6);
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+    }
+
+    :global(.dark) .fit-btn {
+        background: #1f2937;
+        border-color: #374151;
+        color: #9ca3af;
+    }
 </style>
 
 <script>
     import { Transformer } from "markmap-lib";
     import { Markmap } from "markmap-view";
-    import { Toolbar } from "markmap-toolbar";
-    import "markmap-toolbar/dist/style.css";
 
     class MarkmapComponent extends HTMLElement {
         constructor() {
@@ -196,10 +244,10 @@ const {
         connectedCallback() {
             const markdown = this.dataset.markdown;
             const height = this.dataset.height || "400px";
-            // CRITICAL FIX: Select the specific class, not just 'svg'
             const svg = this.querySelector(".markmap-svg");
             const wrapper = this.querySelector(".markmap-wrapper");
             const fullscreenBtn = this.querySelector(".fullscreen-btn");
+            const fitBtn = this.querySelector(".fit-btn");
 
             if (!markdown || !svg || !wrapper) {
                 console.error("Markmap: Missing elements", {
@@ -235,12 +283,12 @@ const {
                     root,
                 );
 
-                // Add toolbar
-                const { el } = Toolbar.create(mm);
-                el.style.position = "absolute";
-                el.style.bottom = "1rem";
-                el.style.right = "1rem";
-                wrapper.appendChild(el);
+                // Fit Button Logic
+                if (fitBtn) {
+                    fitBtn.addEventListener("click", () => {
+                        mm.fit();
+                    });
+                }
 
                 // Fullscreen Logic
                 if (fullscreenBtn) {
