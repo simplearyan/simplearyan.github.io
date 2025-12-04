@@ -1,0 +1,59 @@
+---
+title: "Lesson 1: Simple Linear Regression"
+description: "Fitting a line to data to make predictions."
+pubDate: 2024-01-29
+type: "unit"
+order: 1
+parent: "week-3"
+---
+
+import AnimatedCard from '../../../../../../components/AnimatedCard.astro';
+import PlayingCard from '../../../../../../components/PlayingCard.astro';
+
+# Simple Linear Regression
+
+Regression is about finding the "best fit" line through a scatter of data points.
+
+## The Model
+
+We assume a linear relationship between an independent variable ($x$) and a dependent variable ($y$).
+
+<AnimatedCard animation="zoom-in" variant="gradient">
+  $$ y = \beta_0 + \beta_1 x + \epsilon $$
+  
+  *   $y$: Dependent Variable (Target)
+  *   $x$: Independent Variable (Feature)
+  *   $\beta_0$: Intercept
+  *   $\beta_1$: Slope (Coefficient)
+  *   $\epsilon$: Error term (Residual)
+</AnimatedCard>
+
+## Visualizing the Fit
+
+Imagine we are predicting **House Price** based on **Size**.
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 2rem; justify-items: center; margin-top: 2rem;">
+
+  <PlayingCard rank="X" suit="spades" flip={true} backContent="Feature" animation="fade-up">
+    # Size
+    
+    The input variable.
+    
+    *(Square Feet)*
+  </PlayingCard>
+
+  <PlayingCard rank="Y" suit="hearts" flip={true} backContent="Target" animation="fade-up" delay="0.1s">
+    # Price
+    
+    The output variable.
+    
+    *($$$)*
+  </PlayingCard>
+
+</div>
+
+## Least Squares Method
+
+How do we find the "best" line? We minimize the sum of the squared differences (residuals) between the actual data points and the predicted line.
+
+$$ \text{Minimize } \sum (y_i - \hat{y}_i)^2 $$

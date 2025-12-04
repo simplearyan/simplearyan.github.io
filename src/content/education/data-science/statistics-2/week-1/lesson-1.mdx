@@ -1,0 +1,53 @@
+---
+title: "Lesson 1: From Sample to Population"
+description: "Introduction to the core concepts of inferential statistics."
+pubDate: 2024-01-15
+type: "unit"
+order: 1
+parent: "week-1"
+---
+
+import AnimatedCard from '../../../../../../components/AnimatedCard.astro';
+import Mermaid from '../../../../../../components/Mermaid.astro';
+
+# From Sample to Population
+
+In Statistics 1, we focused on **Descriptive Statistics**—summarizing and describing the data we have. Now, in Statistics 2, we move to **Inferential Statistics**.
+
+<AnimatedCard animation="fade-up" variant="paper">
+  ### The Big Question
+  
+  How can we draw conclusions about a massive **Population** when we only have a small **Sample**?
+</AnimatedCard>
+
+## Key Concepts
+
+### 1. Population vs. Sample
+
+*   **Population ($N$)**: The entire group we are interested in (e.g., all voters in a country).
+*   **Sample ($n$)**: A subset of the population that we actually collect data from (e.g., 1000 surveyed voters).
+
+<Mermaid chart={`
+  graph LR
+    A((Population)) -- Sampling --> B(Sample)
+    B -- Inference --> A
+`} />
+
+### 2. Parameter vs. Statistic
+
+*   **Parameter**: A numerical characteristic of the population (e.g., Population Mean $\mu$). This is usually unknown.
+*   **Statistic**: A numerical characteristic of the sample (e.g., Sample Mean $\bar{x}$). This is calculated from data.
+
+<AnimatedCard animation="slide-in-right" variant="neon">
+  **Goal of Inference:**
+  
+  We use the **Statistic** (which we know) to estimate the **Parameter** (which we don't know).
+  
+  $$ \bar{x} \approx \mu $$
+</AnimatedCard>
+
+## The Magic: Central Limit Theorem (CLT)
+
+The CLT states that if you take sufficiently large random samples from a population (with any distribution), the distribution of the sample means will be approximately **Normally Distributed**.
+
+This is powerful because it allows us to use the properties of the Normal Distribution to make probability statements about our estimates.

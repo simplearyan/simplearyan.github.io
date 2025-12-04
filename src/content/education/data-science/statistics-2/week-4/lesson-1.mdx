@@ -1,0 +1,54 @@
+---
+title: "Lesson 1: Introduction to ANOVA"
+description: "Comparing means of three or more groups."
+type: "lesson"
+order: 1
+parent: "week-4"
+---
+
+import AnimatedCard from '../../../../../../components/AnimatedCard.astro';
+import ScribbleCard from '../../../../../../components/ScribbleCard.astro';
+
+# Analysis of Variance (ANOVA)
+
+Suppose we want to compare the effectiveness of **3 different diets** (A, B, and C).
+
+If we used t-tests, we'd have to compare A vs B, B vs C, and A vs C. This increases the chance of a Type I error (finding a difference when there isn't one).
+
+## The F-Statistic
+
+ANOVA compares the variance **between** the groups to the variance **within** the groups.
+
+<AnimatedCard animation="flip-up" variant="paper">
+  $$ F = \frac{\text{Variance Between Groups}}{\text{Variance Within Groups}} $$
+</AnimatedCard>
+
+## Interpreting F
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+  <ScribbleCard scribbleStyle="neat" backPattern="diagonal">
+    <div slot="front">
+      ### Large F
+      
+      The groups are very different from each other compared to the noise within them.
+    </div>
+    <div slot="back">
+      **Result**
+      
+      Reject $H_0$. At least one group mean is different.
+    </div>
+  </ScribbleCard>
+
+  <ScribbleCard scribbleStyle="rough" backPattern="dots">
+    <div slot="front">
+      ### Small F
+      
+      The differences between groups are likely just random noise.
+    </div>
+    <div slot="back">
+      **Result**
+      
+      Fail to Reject $H_0$. No significant difference.
+    </div>
+  </ScribbleCard>
+</div>

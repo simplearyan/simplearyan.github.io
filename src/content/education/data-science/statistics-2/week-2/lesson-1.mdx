@@ -1,0 +1,67 @@
+---
+title: "Lesson 1: The Logic of Hypothesis Testing"
+description: "Understanding the framework of setting up and testing hypotheses."
+pubDate: 2024-01-22
+type: "unit"
+order: 1
+parent: "week-2"
+---
+
+import AnimatedCard from '../../../../../../components/AnimatedCard.astro';
+import ScribbleCard from '../../../../../../components/ScribbleCard.astro';
+
+# The Logic of Hypothesis Testing
+
+Hypothesis testing is like a criminal trial. We start with an assumption of innocence (Null Hypothesis) and only reject it if we have overwhelming evidence to the contrary.
+
+## 1. Setting the Stage
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;">
+  <ScribbleCard scribbleStyle="neat" backPattern="grid">
+    <div slot="front">
+      ### Null Hypothesis ($H_0$)
+      
+      The status quo. "Nothing is happening." "There is no difference."
+    </div>
+    <div slot="back">
+      **Example**
+      
+      The new drug has **no effect** on recovery time.
+      
+      $$ \mu_{new} = \mu_{old} $$
+    </div>
+  </ScribbleCard>
+
+  <ScribbleCard scribbleStyle="rough" backPattern="dots">
+    <div slot="front">
+      ### Alternative Hypothesis ($H_1$)
+      
+      The claim we want to test. "Something is happening."
+    </div>
+    <div slot="back">
+      **Example**
+      
+      The new drug **reduces** recovery time.
+      
+      $$ \mu_{new} < \mu_{old} $$
+    </div>
+  </ScribbleCard>
+</div>
+
+## 2. The P-Value
+
+The p-value is the probability of observing data at least as extreme as what we saw, *assuming the Null Hypothesis is true*.
+
+<AnimatedCard animation="fade-up" variant="glass">
+  **Rule of Thumb:**
+  
+  *   **Low p-value (< 0.05)**: The data is unlikely under $H_0$. We **Reject $H_0$**. (Statistically Significant)
+  *   **High p-value (> 0.05)**: The data is consistent with $H_0$. We **Fail to Reject $H_0$**.
+</AnimatedCard>
+
+## 3. Errors
+
+We can make mistakes:
+
+*   **Type I Error ($\alpha$)**: Rejecting a true Null Hypothesis (False Positive).
+*   **Type II Error ($\beta$)**: Failing to reject a false Null Hypothesis (False Negative).
