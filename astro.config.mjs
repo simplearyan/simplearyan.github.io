@@ -25,14 +25,19 @@ export default defineConfig({
           theme_color: '#ffffff',
           icons: [
             {
-              src: 'logo.png',
+              src: 'favicon-dark.svg',
               sizes: '192x192',
-              type: 'image/png'
+              type: 'image/svg+xml'
             },
             {
-              src: 'logo.png',
+              src: 'favicon-dark.svg',
               sizes: '512x512',
-              type: 'image/png'
+              type: 'image/svg+xml'
+            },
+            {
+              src: 'favicon-dark.svg',
+              sizes: 'any',
+              type: 'image/svg+xml'
             }
           ]
         },
