@@ -22,7 +22,12 @@ export default defineConfig({
           name: 'SimpleAryan',
           short_name: 'SimpleAryan',
           description: 'A minimal, modern blog.',
-          theme_color: '#ffffff',
+          theme_color: '#ffffff', // Default for light mode
+          background_color: '#ffffff', // Default for light mode
+          // For dynamic theme colors based on preferred color scheme,
+          // it's common to use meta tags in the HTML for dark mode overrides:
+          // <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
+          // <meta name="background-color" media="(prefers-color-scheme: dark)" content="#000000">
           icons: [
             {
               src: 'favicon-dark.svg',
