@@ -305,25 +305,25 @@ const {
 
         .course-toc {
             position: fixed;
-            top: 73px; /* Matches header height */
+            top: 0; /* Matches header height */
             left: 0;
             right: 0;
             bottom: 0;
             z-index: 40; /* Behind mobile controls (50) */
             transform: translateY(-100%); /* Start hidden above */
             transition: transform 0.7s cubic-bezier(0.2, 0.8, 0.2, 1); /* Slow and smooth */
-            background: color-mix(in srgb, var(--color-bg) 95%, transparent);
-            backdrop-filter: blur(10px);
-            -webkit-backdrop-filter: blur(10px);
+            background: color-mix(in srgb, var(--color-bg) 98%, transparent);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
             height: fit-content;
-            max-height: 75vh;
+            max-height: 80vh;
             width: 100%;
             max-width: none;
-            padding: 5rem 2rem 2rem; /* Top padding clears controls */
-            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            padding: calc(var(--header-height) + 0.1rem) 2rem 2.5rem; /* Increased padding */
+            box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.15); /* More dramatic shadow */
             display: block;
             border-bottom: 1px solid var(--color-border);
-            border-radius: 0 0 16px 16px;
+            border-radius: 0 0 24px 24px; /* Larger radius */
             overflow-y: auto;
         }
 

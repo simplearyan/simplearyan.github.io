@@ -23,6 +23,10 @@
     --spacing-md: 1rem;
     --spacing-lg: 2rem;
     --spacing-xl: 4rem;
+
+    /* Header & Footer */
+    --header-height: 6rem;
+    --footer-height: 6rem;  
 }
 
 [data-theme="dark"] {
@@ -217,17 +221,6 @@ p {
 /* Custom Unordered List */
 .prose ul {
     list-style: none;
-    padding-left: 0;
-}
-
-.prose ul>li {
-    position: relative;
-    padding-left: 2rem;
-}
-
-.prose ul>li::before {
-    content: "→";
-    position: absolute;
     left: 0;
     color: var(--color-primary);
     font-family: 'Kalam', cursive, sans-serif;
