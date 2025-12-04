@@ -11,6 +11,7 @@ const blogCollection = defineCollection({
         showImage: z.boolean().optional().default(false),
         fancyHeadings: z.boolean().optional().default(false),
         tags: z.array(z.string()).default([]),
+        hideToc: z.boolean().optional().default(false),
     }),
 });
 
@@ -22,6 +23,7 @@ const storiesCollection = defineCollection({
         pubDate: z.date(),
         image: z.string().optional(),
         tags: z.array(z.string()).default([]),
+        hideToc: z.boolean().optional().default(false),
     }),
 });
 
@@ -40,6 +42,7 @@ const educationCollection = defineCollection({
         order: z.number().optional(),
         parent: z.string().optional(),
         subject: z.string().optional(),
+        hideToc: z.boolean().optional().default(false),
     }),
 });
 

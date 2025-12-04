@@ -49,8 +49,9 @@ const nextLesson =
             courseTag={courseTag}
             courseTitle={courseTag}
             headings={headings}
+            hideToc={item.data.hideToc}
         >
-            <article class="prose">
+            <article class={`prose ${item.data.hideToc ? "max-w-75ch" : ""}`}>
                 <div class="lesson-header">
                     <h1>{item.data.title}</h1>
                     <button
@@ -157,6 +158,11 @@ const nextLesson =
         font-family: var(--font-serif);
         font-weight: 700;
         color: var(--color-heading);
+    }
+
+    .prose.max-w-75ch {
+        max-width: 75ch;
+        margin: 0 auto; /* Center the prose content itself */
     }
 
     /* Lesson Navigation Styles */

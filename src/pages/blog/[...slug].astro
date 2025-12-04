@@ -122,7 +122,7 @@ const components = {
 			type="article"
 		>
 			<article
-				class={`blog-post animate-fade-in ${post.data.fancyHeadings ? "fancy-headings" : ""}`}
+				class={`blog-post animate-fade-in ${post.data.fancyHeadings ? "fancy-headings" : ""} ${post.data.hideToc ? "wide-layout" : ""}`}
 			>
 				<header class="post-header">
 					<div class="post-meta">
@@ -242,6 +242,11 @@ const components = {
 		max-width: 800px;
 		margin: 0 auto;
 		padding: var(--spacing-lg) 0;
+		transition: max-width 0.3s ease;
+	}
+
+	.blog-post.wide-layout {
+		max-width: 1200px;
 	}
 
 	.post-header {
