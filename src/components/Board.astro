@@ -31,6 +31,19 @@ const { type = "whiteboard", class: className } = Astro.props;
         color: #333;
     }
 
+    :global([data-theme="dark"]) .board-whiteboard {
+        background-color: #1a1a1a;
+        border-color: #333;
+        color: #e0e0e0;
+        box-shadow:
+            0 4px 6px rgba(0, 0, 0, 0.3),
+            inset 0 0 20px rgba(0, 0, 0, 0.5);
+    }
+
+    :global([data-theme="dark"]).board-whiteboard ul {
+        color: #e0e0e0;
+    }
+
     /* Chalkboard Style */
     .board-chalkboard {
         background-color: #2b2b2b;
