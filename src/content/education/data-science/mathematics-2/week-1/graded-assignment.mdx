@@ -1,6 +1,6 @@
 ---
 title: "Graded Assignment: Week 1"
-description: "Graded assignment for Week 1: Linear Systems."
+description: "Graded assignment for Week 1: Linear Systems & Matrices."
 pubDate: 2024-01-04
 tags: ["Mathematics", "Data Science", "Assignment"]
 type: "unit"
@@ -10,26 +10,109 @@ parent: "data-science/mathematics-2/week-1"
 ---
 
 import CinematicText from "../../../../../components/CinematicText.astro";
+import ProblemCard from "../../../../../components/assignment/ProblemCard.astro";
+import OptionList from "../../../../../components/assignment/OptionList.astro";
+import OptionItem from "../../../../../components/assignment/OptionItem.astro";
+import ShortAnswer from "../../../../../components/assignment/ShortAnswer.astro";
 
 <CinematicText 
   text="GRADED ASSIGNMENT" 
-  font="cinematic" 
+  font="bold-sans" 
   animation="fade" 
   className="text-3xl text-center mb-8"
 />
 
 ## Instructions
 
-1.  Solve the given system of linear equations.
-2.  Determine if the system has a unique solution, no solution, or infinitely many solutions.
+1.  Answer all questions.
+2.  Each question carries specific points.
 3.  Submit your answers in the portal.
 
-## Problem 1
+<ProblemCard id="1" points={1}>
+Suppose there are two types of oranges and two types of bananas available in the market. 
+Suppose $1 \text{ kg}$ of each type of orange costs $₹50$ and $1 \text{ kg}$ of each type of banana costs $₹40$. 
+Gargi bought $x \text{ kg}$ of the first type of each fruit, orange and banana, and $y \text{ kg}$ of the second type of each fruit, orange and banana. 
+She paid $₹250$ for oranges and $₹200$ for bananas.
 
-Solve the system:
-$$
-\begin{cases}
-2x + 3y = 5 \\
-4x - y = 3
-\end{cases}
-$$
+Which of the following options are correct with respect to the given information?
+
+<OptionList>
+  <OptionItem>
+    The matrix representation to find $x$ and $y$ can be $\begin{bmatrix} 50 & 50 \\ 40 & 40 \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} = \begin{bmatrix} 250 \\ 200 \end{bmatrix}$
+  </OptionItem>
+  <OptionItem>
+    The matrix representation to find $x$ and $y$ can be $\begin{bmatrix} 50 & 40 \\ 50 & 40 \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} = \begin{bmatrix} 250 \\ 200 \end{bmatrix}$
+  </OptionItem>
+  <OptionItem>
+    The matrix representation to find $x$ and $y$ can be $\begin{bmatrix} 40 & 40 \\ 50 & 50 \end{bmatrix} \begin{bmatrix} x \\ y \end{bmatrix} = \begin{bmatrix} 200 \\ 250 \end{bmatrix}$
+  </OptionItem>
+  <OptionItem>$x$ can be 2 and $y$ can be 3.</OptionItem>
+  <OptionItem>There are infinitely many real values possible for $x$ and $y$.</OptionItem>
+  <OptionItem>There are only finitely many real values possible for $x$ and $y$.</OptionItem>
+  <OptionItem>There are only finitely many natural numbers possible for $x$ and $y$.</OptionItem>
+</OptionList>
+</ProblemCard>
+
+<ProblemCard id="2">
+Suppose $det(4A) = n \times det(A)$ for any $5 \times 5$ real matrix $A$. What is the value of $n$?
+
+<ShortAnswer placeholder="Enter value of n" />
+</ProblemCard>
+
+<ProblemCard id="3">
+Let $A$ be a square matrix such that $A^2 = A$. If $(I + A)^3 - 17A = I + mA$, then find the value of $m$.
+
+<ShortAnswer placeholder="Enter value of m" />
+</ProblemCard>
+
+<ProblemCard id="4">
+If $A = \begin{bmatrix} 20 & 30 & 40 \\ 10 & 20 & 30 \\ 4 & 5 & 6 \end{bmatrix}$, then what will be the determinant of $A$?
+
+<ShortAnswer placeholder="Enter determinant" />
+</ProblemCard>
+
+<ProblemCard id="5">
+Let $A$ be a square matrix of order 3 and $B$ be a matrix that is obtained by adding 9 times the first row of $A$ to the third row of $A$ and adding 4 times the second row of $A$ to the first row of $A$. 
+If $det(A) = 4$, then find out the value of $det(10A^2B^{-1})$.
+
+<ShortAnswer placeholder="Enter numerical answer" />
+</ProblemCard>
+
+<ProblemCard id="6">
+If $A = \begin{bmatrix} 1 & 1 & 1 \\ 1 & 1 & 1 \\ 1 & 1 & 1 \end{bmatrix}$, then what will be the value of the sum of the diagonal elements of $A^6$?
+
+<ShortAnswer placeholder="Enter sum of diagonal elements" />
+</ProblemCard>
+
+<ProblemCard id="7">
+Let $A = [a_{ij}]$ be a square matrix of order 3, where $a_{ij} = 5i + 4j$. Find $det(A)$.
+
+<ShortAnswer placeholder="Enter determinant" />
+</ProblemCard>
+
+<ProblemCard id="8" points={1}>
+The scores of a student in mathematics, physics and chemistry in her class-12 board exams are $m$, $p$ and $c$ respectively, where each score is out of 100. 
+She has applied for three engineering streams in a college. Each stream assigns different weights to these three subjects to calculate her final score, which is again out of 100.
+
+For example, the weight given to mathematics, physics and chemistry could be 0.2, 0.7 and 0.1 respectively by a stream. These weights are then multiplied with the corresponding scores to get the final score. 
+Concretely, if the student has scored 85, 78, 40 in the three subjects, her final score for this stream is:
+$0.2 \times 85 + 0.7 \times 78 + 0.1 \times 40 = 75.6$
+
+This is called a weighted average. Note that the weights always sum to 1. Now, the weights assigned by the three streams for mathematics, physics and chemistry, in this order, are given below:
+
+**Stream-1**: 0.2, 0.7, 0.1
+**Stream-2**: 0.5, 0.3, 0.2
+**Stream-3**: 0.1, 0.4, 0.5
+
+The final score of the student in stream-1 is 81. It is 83 in stream-2 and 76 in stream-3. We wish to find the student's marks in the three subjects.
+
+This is framed as a system of linear equations. Select all true options concerning the coefficient matrix if the vector of unknowns is given as $\begin{bmatrix} m \\ p \\ c \end{bmatrix}$. 
+Assume that the first equation corresponds to stream-1, second to stream-2 and last to stream-3.
+
+<OptionList>
+  <OptionItem>The first row is $0.2, 0.7, 0.1$</OptionItem>
+  <OptionItem>The last row is $0.1, 0.4, 0.5$</OptionItem>
+  <OptionItem>The first column is $0.2, 0.7, 0.1$</OptionItem>
+  <OptionItem>The middle column is $0.5, 0.3, 0.2$</OptionItem>
+</OptionList>
+</ProblemCard>

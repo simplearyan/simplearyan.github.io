@@ -1,0 +1,105 @@
+---
+interface Props {
+    label?: string;
+    correct?: boolean; // For future interactions if needed
+}
+
+const { label } = Astro.props;
+// Generate a unique ID for the input to link label correctly
+const uniqueId = `option-${Math.random().toString(36).substr(2, 9)}`;
+---
+
+<label class="option-item" for={uniqueId}>
+    <div class="input-wrapper">
+        <input type="checkbox" id={uniqueId} class="option-input" />
+        <div class="custom-checkbox"></div>
+    </div>
+    <div class="option-content">
+        <slot />
+    </div>
+</label>
+
+<style>
+    .option-item {
+        display: flex;
+        align-items: flex-start;
+        gap: 1rem;
+        padding: 1rem;
+        border: 1px solid var(--option-border, #e5e7eb);
+        border-radius: 8px;
+        cursor: pointer;
+        background-color: transparent;
+        transition: all 0.2s ease;
+    }
+
+    :global([data-theme="dark"]) .option-item {
+        --option-border: #374151;
+    }
+
+    .option-item:hover {
+        background-color: var(--hover-bg, #f9fafb);
+        border-color: var(--primary-color, #a855f7); /* Purple accent */
+    }
+
+    :global([data-theme="dark"]) .option-item:hover {
+        --hover-bg: #1f2937;
+    }
+
+    /* Checked State */
+    .option-item:has(.option-input:checked) {
+        background-color: var(--selected-bg, #f3e8ff); /* Light purple */
+        border-color: var(--primary-color, #a855f7);
+        border-left-width: 4px;
+    }
+
+    :global([data-theme="dark"]) .option-item:has(.option-input:checked) {
+        --selected-bg: rgba(168, 85, 247, 0.1);
+    }
+
+    /* Hidden Input */
+    .option-input {
+        position: absolute;
+        opacity: 0;
+        cursor: pointer;
+        height: 0;
+        width: 0;
+    }
+
+    /* Custom Checkbox Visual */
+    .custom-checkbox {
+        width: 20px;
+        height: 20px;
+        border: 2px solid var(--checkbox-border, #d1d5db);
+        border-radius: 4px;
+        margin-top: 2px;
+        display: grid;
+        place-items: center;
+        transition: all 0.2s ease;
+    }
+
+    :global([data-theme="dark"]) .custom-checkbox {
+        --checkbox-border: #6b7280;
+    }
+
+    .option-input:checked + .custom-checkbox {
+        background-color: var(--primary-color, #a855f7);
+        border-color: var(--primary-color, #a855f7);
+    }
+
+    .custom-checkbox::after {
+        content: "✓";
+        color: white;
+        font-size: 12px;
+        display: none;
+    }
+
+    .option-input:checked + .custom-checkbox::after {
+        display: block;
+    }
+
+    .option-content {
+        flex: 1;
+        font-size: 1rem;
+        color: var(--text-color);
+    }
+</style>

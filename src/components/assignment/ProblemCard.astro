@@ -1,0 +1,92 @@
+---
+interface Props {
+    id: string | number;
+    points?: number;
+    className?: string;
+}
+
+const { id, points, className = "" } = Astro.props;
+---
+
+<div class={`problem-card ${className}`}>
+    <div class="problem-header">
+        <span class="problem-title">Problem {id}</span>
+        {
+            points && (
+                <span class="problem-points">
+                    ({points} point{points > 1 ? "s" : ""})
+                </span>
+            )
+        }
+    </div>
+    <div class="problem-content">
+        <slot />
+    </div>
+</div>
+
+<style>
+    .problem-card {
+        background: var(--card-bg, #ffffff);
+        border: 1px solid var(--card-border, #e5e7eb);
+        border-radius: 16px;
+        box-shadow:
+            0 4px 6px -1px rgba(0, 0, 0, 0.1),
+            0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        margin-bottom: 2rem;
+        overflow: hidden;
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+    :global([data-theme="dark"]) .problem-card {
+        --card-bg: #1f2937;
+        --card-border: #374151;
+    }
+
+    .problem-card:hover {
+        box-shadow:
+            0 10px 15px -3px rgba(0, 0, 0, 0.1),
+            0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    .problem-header {
+        background-color: var(--header-bg, #f3f4f6);
+        padding: 0.75rem 1.5rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 1px solid var(--card-border, #e5e7eb);
+    }
+
+    :global([data-theme="dark"]) .problem-header {
+        --header-bg: #111827;
+    }
+
+    .problem-title {
+        font-family: "Playfair Display", serif;
+        font-weight: 700;
+        font-size: 1.1rem;
+        color: var(--color-heading);
+    }
+
+    .problem-points {
+        font-family: var(--font-sans, "Inter", sans-serif);
+        font-size: 0.875rem;
+        color: var(--color-text-muted, #6b7280);
+        background: rgba(0, 0, 0, 0.05);
+        padding: 0.2rem 0.6rem;
+        border-radius: 999px;
+    }
+
+    :global([data-theme="dark"]) .problem-points {
+        color: #9ca3af;
+        background: rgba(255, 255, 255, 0.1);
+    }
+
+    .problem-content {
+        padding: 1.5rem;
+        font-family: var(--font-sans, "Inter", sans-serif);
+        line-height: 1.6;
+    }
+</style>
