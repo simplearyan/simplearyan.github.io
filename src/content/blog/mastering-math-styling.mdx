@@ -1,0 +1,204 @@
+---
+title: "Mastering Math Styling in Markdown"
+description: "A comprehensive guide to using our new Astro components for beautiful, animated mathematical content."
+pubDate: 2025-12-06
+author: "Aryan"
+tags: ["astro", "math", "styling", "components"]
+image: "https://images.unsplash.com/photo-1635070041078-e363dbe005cb?auto=format&fit=crop&q=80&w=2070"
+showImage: true
+---
+
+import Matrix from '../../components/math/Matrix.astro';
+import Equation from '../../components/math/Equation.astro';
+import System from '../../components/math/System.astro';
+import Determinant from '../../components/math/Determinant.astro';
+
+Mathematics on the web doesn't have to be boring. While standard LaTeX rendering is great for accuracy, sometimes you want your equations to pop, your matrices to shine, and your systems to tell a story.
+
+In this guide, I'll show you how to use our new suite of Astro components to bring your mathematical content to life directly within your Markdown files.
+
+## 1. The Matrix Component
+
+Matrices are fundamental to linear algebra. Our `<Matrix />` component allows you to render them with various styles and animations.
+
+### Basic Usage
+
+You can render a simple matrix by passing a 2D array to the `data` prop.
+
+```astro
+<Matrix data={[[1, 2], [3, 4]]} />
+```
+
+<Matrix data={[[1, 2], [3, 4]]} />
+
+### Styles
+
+We support several styles to match the aesthetic of your content.
+
+#### Glass Style
+Perfect for modern, sleek interfaces.
+
+```astro
+<Matrix data={[[1, 0], [0, 1]]} style="glass" />
+```
+
+<Matrix data={[[1, 0], [0, 1]]} style="glass" />
+
+#### Neon Style
+For a cyber-punk or high-contrast look.
+
+```astro
+<Matrix data={[[2, 4], [6, 8]]} style="neon" />
+```
+
+<Matrix data={[[2, 4], [6, 8]]} style="neon" />
+
+#### Chalk Style
+Gives a hand-drawn, classroom feel.
+
+```astro
+<Matrix data={[[1, 2, 3], [4, 5, 6]]} style="chalk" />
+```
+
+<Matrix data={[[1, 2, 3], [4, 5, 6]]} style="chalk" />
+
+### Special Types
+
+You can highlight specific matrix properties using the `type` prop.
+
+#### Identity Matrix
+Highlights the diagonal ones.
+
+```astro
+<Matrix 
+  data={[[1, 0, 0], [0, 1, 0], [0, 0, 1]]} 
+  type="identity" 
+  style="glass"
+/>
+```
+
+<Matrix 
+  data={[[1, 0, 0], [0, 1, 0], [0, 0, 1]]} 
+  type="identity" 
+  style="glass"
+/>
+
+#### Diagonal Matrix
+Fades out non-diagonal elements.
+
+```astro
+<Matrix 
+  data={[[5, 0, 0], [0, 3, 0], [0, 0, 9]]} 
+  type="diagonal" 
+/>
+```
+
+<Matrix 
+  data={[[5, 0, 0], [0, 3, 0], [0, 0, 9]]} 
+  type="diagonal" 
+/>
+
+### Animations
+
+Bring your matrices to life with entrance animations.
+
+```astro
+<Matrix 
+  data={[[1, 2], [3, 4]]} 
+  animate={true} 
+  animationType="fade-in" 
+/>
+```
+
+<Matrix 
+  data={[[1, 2], [3, 4]]} 
+  animate={true} 
+  animationType="fade-in" 
+/>
+
+## 2. The Equation Component
+
+For general mathematical formulas, the `<Equation />` component wraps KaTeX rendering with container styling and animations.
+
+### Styles
+
+#### Boxed
+
+```astro
+<Equation formula="E = mc^2" style="box" />
+```
+
+<Equation formula="E = mc^2" style="box" />
+
+#### Glass
+
+```astro
+<Equation formula="\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}" style="glass" />
+```
+
+<Equation formula="\int_{-\infty}^{\infty} e^{-x^2} dx = \sqrt{\pi}" style="glass" />
+
+### Animations
+
+#### Typewriter Effect
+Great for revealing complex formulas step-by-step.
+
+```astro
+<Equation 
+  formula="f(x) = \sum_{n=0}^{\infty} \frac{f^{(n)}(a)}{n!} (x-a)^n" 
+  style="neon"
+  animate={true} 
+  animationType="typewriter" 
+/>
+```
+
+<Equation 
+  formula="f(x) = \sum_{n=0}^{\infty} \frac{f^{(n)}(a)}{n!} (x-a)^n" 
+  style="neon"
+  animate={true} 
+  animationType="typewriter" 
+/>
+
+## 3. Visualizing Systems
+
+The `<System />` component helps visualize linear systems of the form $Ax = b$.
+
+```astro
+<System 
+  A={[[1, 2], [3, 4]]} 
+  x={['x', 'y']} 
+  b={[5, 11]} 
+  style="glass"
+  animate={true}
+/>
+```
+
+<System 
+  A={[[1, 2], [3, 4]]} 
+  x={['x', 'y']} 
+  b={[5, 11]} 
+  style="glass"
+  animate={true}
+/>
+
+## 4. Determinants
+
+Visualize the calculation of a determinant, especially useful for teaching 2x2 matrices.
+
+```astro
+<Determinant 
+  data={[[2, 5], [1, 3]]} 
+  style="cross" 
+  animate={true} 
+/>
+```
+
+<Determinant 
+  data={[[2, 5], [1, 3]]} 
+  style="cross" 
+  animate={true} 
+/>
+
+## Conclusion
+
+With these components, you can transform your mathematical content from static text into engaging, visual elements. Mix and match styles to fit your theme, and use animations to guide your reader's attention.
