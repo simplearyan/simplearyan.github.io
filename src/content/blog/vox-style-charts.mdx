@@ -1,0 +1,195 @@
+---
+title: "Data Storytelling with Vox-Style Charts"
+description: "How to create compelling, animated data visualizations inspired by Vox video essays."
+pubDate: 2023-12-20
+author: "Aryan"
+image: "/logo.png"
+tags: ["data-viz", "design", "vox", "astro", "tutorial"]
+---
+
+Vox video essays are famous for their clean, compelling data visualizations. They turn boring spreadsheets into stories.
+
+Today, we're releasing a new set of **Astro components** inspired by that style. We'll cover **Line Charts**, **Stacked Bar Charts**, and **Pie Charts**, all with built-in "draw" animations that trigger when you scroll.
+
+## The "Vox" Aesthetic
+
+What makes a chart look like it belongs in a Vox video?
+1.  **Direct Labeling**: Instead of a messy legend, labels are placed right next to the data.
+2.  **Clean Typography**: Simple, bold sans-serif fonts (like Franklin Gothic).
+3.  **Story-First**: Highlighting the important trend, not just showing all data equally.
+4.  **Motion**: Lines draw themselves, bars grow from nothing.
+
+---
+
+## 1. The Container
+
+First, we need a consistent wrapper for titles and sources.
+
+```astro
+<VoxContainer 
+  title="The Rise of Remote Work" 
+  subtitle="Percentage of employees working from home, 2019-2023" 
+  source="Bureau of Labor Statistics"
+>
+  ...Chart Goes Here...
+</VoxContainer>
+```
+
+---
+
+## 2. Line Charts
+
+The `VoxLineChart` component handles multiple series, auto-draw animations, and direct labels.
+
+### Example: Tech Growth
+Notice how the lines "draw" themselves when you scroll down.
+
+<VoxContainer 
+  title="Tech Giants Market Cap" 
+  subtitle="Growth in Trillions of USD" 
+  source="Yahoo Finance"
+>
+  <VoxLineChart 
+    trigger="visible"
+    series={[
+      {
+        name: "Apple",
+        color: "#1d1d1f",
+        data: [
+          { label: '2019', value: 1.0 },
+          { label: '2020', value: 2.0 },
+          { label: '2021', value: 2.8 },
+          { label: '2022', value: 2.2 },
+          { label: '2023', value: 3.0 }
+        ]
+      },
+      {
+        name: "Msft",
+        color: "#00a4ef",
+        data: [
+          { label: '2019', value: 0.8 },
+          { label: '2020', value: 1.5 },
+          { label: '2021', value: 2.5 },
+          { label: '2022', value: 1.8 },
+          { label: '2023', value: 2.8 }
+        ]
+      }
+    ]}
+  />
+</VoxContainer>
+
+---
+
+## 3. Stacked Bar Charts
+
+Perfect for showing parts of a whole changing over time. We support both vertical and horizontal orientations.
+
+### Vertical Stack
+<VoxContainer 
+  title="Browser Market Share" 
+  subtitle="Global usage across platforms" 
+  source="StatCounter"
+>
+  <VoxBarChart 
+    trigger="visible"
+    orientation="vertical"
+    keys={["Chrome", "Safari", "Edge", "Others"]}
+    colors={["#4285F4", "#000000", "#0078D7", "#9ca3af"]}
+    stackedData={[
+      { 
+        label: "2021", 
+        segments: { Chrome: 64, Safari: 19, Edge: 4, Others: 13 } 
+      },
+      { 
+        label: "2022", 
+        segments: { Chrome: 65, Safari: 18, Edge: 4, Others: 13 } 
+      },
+      { 
+        label: "2023", 
+        segments: { Chrome: 63, Safari: 20, Edge: 5, Others: 12 } 
+      }
+    ]}
+  />
+</VoxContainer>
+
+### Horizontal Bar (Comparison)
+Simple comparison charts work great horizontally.
+
+<VoxContainer 
+  title="Most Popular Programming Languages" 
+  subtitle="Based on Stack Overflow Survey 2023"
+>
+  <VoxBarChart 
+    trigger="visible"
+    orientation="horizontal"
+    data={[
+      { label: "JavaScript", value: 65, color: "#F7DF1E" },
+      { label: "Python", value: 45, color: "#3776AB" },
+      { label: "TypeScript", value: 35, color: "#3178C6" },
+      { label: "Java", value: 30, color: "#007396" }
+    ]}
+  />
+</VoxContainer>
+
+---
+
+## 4. Pie Charts
+
+Use these sparingly, but when you do, make them count with clean legends and smooth entry animations.
+
+<VoxContainer 
+  title="Project Time Allocation" 
+  subtitle="Where do we actually spend our time?"
+>
+  <VoxPieChart 
+    trigger="visible"
+    data={[
+      { label: "Coding", value: 30, color: "#3B82F6" },
+      { label: "Meetings", value: 25, color: "#EF4444" },
+      { label: "Debugging", value: 35, color: "#10B981" },
+      { label: "Coffee", value: 10, color: "#F59E0B" }
+    ]}
+  />
+</VoxContainer>
+
+---
+
+## 5. Dark Mode Support
+
+All components automatically adapt to dark mode, switching axes and text colors to be legible against dark backgrounds, just like Vox's "Dark Room" style graphics.
+
+<div style="background: #222; padding: 1rem; border-radius: 8px;">
+<VoxContainer 
+  title="Dark Mode Example" 
+  subtitle="This container forces dark theme for demonstration" 
+  theme="dark"
+>
+  <VoxLineChart 
+    theme="dark"
+    series={[
+      {
+        name: "Trend",
+        color: "#Facc15",
+        data: [
+          { label: 'A', value: 10 },
+          { label: 'B', value: 40 },
+          { label: 'C', value: 25 },
+          { label: 'D', value: 60 }
+        ]
+      }
+    ]}
+  />
+</VoxContainer>
+</div>
+
+## Implementation Details
+
+We created a new folder `src/components/vox/` to house these specialized components. 
+
+The **Line Chart** uses SVG `stroke-dashoffset` for that "drawing" effect.
+The **Bar Chart** uses CSS `transform: scaleY()` for the growing effect.
+The **Pie Chart** calculates SVG paths for arcs and scales them in.
+
+Every component accepts a `trigger="visible"` prop, which uses `IntersectionObserver` to wait until the user scrolls the chart into view before starting the animation.
+
+Go ahead, scroll up and down and watch them re-animate (on refresh) or just enjoy the smooth entrance!

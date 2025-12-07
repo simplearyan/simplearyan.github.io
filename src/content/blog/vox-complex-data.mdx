@@ -1,0 +1,173 @@
+---
+title: "Vox Charts: Handling Complex Data"
+description: "Techniques for presenting dense, multi-dimensional data without losing the narrative."
+pubDate: 2023-12-21
+author: "Aryan"
+image: "https://i.redd.it/how-to-animate-these-data-like-vox-v0-fqx6bbf354b91.jpg?width=1520&format=pjpg&auto=webp&s=b2636a4b35d93924e6f46a00b861190364b65cf2"
+showImage: true
+tags: ["data-viz", "design", "vox", "advanced"]
+---
+
+Simple charts are easy. But the real world is messy. You often have hundreds of data points, multiple categories, and conflicting trends.
+
+In this guide, we'll explore how to use our **Vox-Style Components** to handle complex datasets while maintaining clarity and impact.
+
+## 1. Dense Time Series
+
+When you have a lot of data points (e.g., daily or monthly data over years), you can't label every point. Our `VoxLineChart` now automatically handles label density.
+
+### The "Spaghetti" Chart (Tamed)
+Visualizing three competing trends over a 20-point timeline. Notice how the direct labels eliminate the need for a mental lookup table (legend).
+
+<VoxContainer 
+  title="The Streaming Wars Subscription Growth" 
+  subtitle="Millions of Subscribers (Simulated projection)" 
+  source="Media Analysis Group"
+>
+  <VoxLineChart 
+    trigger="visible"
+    series={[
+      {
+        name: "NetFlix",
+        color: "#E50914",
+        data: Array.from({ length: 20 }, (_, i) => ({ 
+            label: `${2020 + Math.floor(i/4)} Q${i%4 + 1}`, 
+            value: 200 + i * 5 + Math.random() * 10 
+        }))
+      },
+      {
+        name: "Disney+",
+        color: "#113CCF",
+        data: Array.from({ length: 20 }, (_, i) => ({ 
+            label: `${2020 + Math.floor(i/4)} Q${i%4 + 1}`, 
+            value: 50 + i * 12 + Math.random() * 15 // Faster growth
+        }))
+      },
+      {
+        name: "Hulu",
+        color: "#1CE783",
+        data: Array.from({ length: 20 }, (_, i) => ({ 
+            label: `${2020 + Math.floor(i/4)} Q${i%4 + 1}`, 
+            value: 80 + i * 2 + Math.random() * 5 
+        }))
+      }
+    ]}
+  />
+</VoxContainer>
+
+---
+
+## 2. Deep Composition: Stacked Bars
+
+Sometimes you need to show the breakdown of a total across many categories.
+
+### Global Energy Mix
+A look at how energy sources evolve over decades. This uses the `stackedData` prop with 5 different segments.
+
+<VoxContainer 
+  title="Global Energy Consumption by Source" 
+  subtitle="Transitioning to renewables (TWh)" 
+  source="Global Energy Review"
+>
+  <VoxBarChart 
+    trigger="visible"
+    orientation="vertical"
+    keys={["Coal", "Oil", "Gas", "Nuclear", "Renewables"]}
+    colors={["#333333", "#666666", "#A1A1A1", "#F59E0B", "#10B981"]}
+    stackedData={[
+      { label: "1990", segments: { Coal: 90, Oil: 100, Gas: 50, Nuclear: 20, Renewables: 5 } },
+      { label: "2000", segments: { Coal: 100, Oil: 110, Gas: 70, Nuclear: 25, Renewables: 10 } },
+      { label: "2010", segments: { Coal: 140, Oil: 120, Gas: 90, Nuclear: 24, Renewables: 25 } },
+      { label: "2020", segments: { Coal: 130, Oil: 115, Gas: 110, Nuclear: 22, Renewables: 60 } },
+      { label: "2030 (Proj)", segments: { Coal: 100, Oil: 100, Gas: 120, Nuclear: 25, Renewables: 110 } }
+    ]}
+  />
+</VoxContainer>
+
+---
+
+## 3. Small Multiples
+
+When comparing disparate regions or categories, putting them all on one chart can be confusing. "Small Multiples" is a technique where you repeat the same chart structure for different slices of data.
+
+We can achieve this using a CSS Grid layout in MDX.
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem;">
+
+  <VoxContainer title="North America" subtitle="GDP Growth %">
+    <VoxLineChart 
+        height={250}
+        showPoints={false}
+        series={[{
+            name: "Growth",
+            color: "#3B82F6",
+            data: [{label:'Q1', value:2.1}, {label:'Q2', value:2.4}, {label:'Q3', value:1.8}, {label:'Q4', value:2.9}]
+        }]}
+    />
+  </VoxContainer>
+
+  <VoxContainer title="Europe" subtitle="GDP Growth %">
+    <VoxLineChart 
+        height={250}
+        showPoints={false}
+        series={[{
+            name: "Growth",
+            color: "#EC4899",
+            data: [{label:'Q1', value:1.1}, {label:'Q2', value:0.5}, {label:'Q3', value:-0.2}, {label:'Q4', value:0.1}]
+        }]}
+    />
+  </VoxContainer>
+
+   <VoxContainer title="Asia (Emerging)" subtitle="GDP Growth %">
+    <VoxLineChart 
+        height={250}
+        showPoints={false}
+        series={[{
+            name: "Growth",
+            color: "#10B981",
+            data: [{label:'Q1', value:5.5}, {label:'Q2', value:6.1}, {label:'Q3', value:5.8}, {label:'Q4', value:6.5}]
+        }]}
+    />
+  </VoxContainer>
+
+</div>
+
+---
+
+## 4. Mixing Data Types
+
+A powerful narrative device is to show the *Total* in one chart, and then the *Breakdown* in another.
+
+### The "Part-to-Whole" Story
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; align-items: start;">
+
+  <VoxContainer title="Total Revenue" subtitle="Steady growth year over year">
+     <VoxLineChart 
+        height={300}
+        series={[{
+            name: "Total",
+            color: "#6366F1",
+            data: [{label:'2020', value:100}, {label:'2021', value:120}, {label:'2022', value:150}, {label:'2023', value:180}]
+        }]}
+    />
+  </VoxContainer>
+
+  <VoxContainer title="2023 Revenue Split" subtitle="Dominance of Digital Services">
+     <VoxPieChart 
+        height={300}
+        data={[
+             { label: "Digital", value: 100, color: "#6366F1" },
+             { label: "Physical", value: 50, color: "#A5B4FC" },
+             { label: "Services", value: 30, color: "#C7D2FE" }
+        ]}
+    />
+  </VoxContainer>
+
+</div>
+
+## Conclusion
+
+Complex data doesn't have to look complex. By using **smart labeling**, **grouping**, **stacking**, and **layout**, you can tell sophisticated stories that remain accessible.
+
+Vox-style charts excel here because their clean lines and direct labeling reduce the cognitive load on the reader, letting the data speak for itself.

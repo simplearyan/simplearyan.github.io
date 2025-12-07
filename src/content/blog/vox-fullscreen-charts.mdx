@@ -1,0 +1,139 @@
+---
+title: "Immersive Data: Introducing Fullscreen Charts"
+description: "Give your users the big picture with our new toggleable fullscreen mode for Vox-style charts."
+pubDate: 2023-12-22
+author: "Aryan"
+image: "/logo.png"
+tags: ["data-viz", "design", "vox", "ux"]
+---
+
+Sometimes a chart is just too good (or too complex) to be confined to a column. Today we're introducing **Fullscreen Mode** for all Vox-style charts.
+
+## How it Works
+
+We've added a simple interaction model to `VoxContainer`:
+1.  **Hover**: Reveals a fullscreen toggle icon in the top-right corner.
+2.  **Click Icon**: Expands the chart to fill the screen.
+3.  **Double Click**: You can also double-click anywhere on the container to toggle.
+
+This feature is **opt-in**. You enable it by adding `allowFullscreen={true}`.
+
+## Interactive Examples
+
+Try it out below!
+
+### 1. The Standard Chart (Fullscreen Enabled)
+
+Hover over this chart and look for the icon, or just **double-click** it.
+
+<VoxContainer 
+  title="Global Internet Traffic" 
+  subtitle="Exabytes per month (Projections)" 
+  source="Cisco VNI"
+  allowFullscreen={true}
+>
+  <VoxLineChart 
+    trigger="visible"
+    series={[
+      {
+        name: "Traffic",
+        color: "#10B981",
+        data: [
+          { label: '2017', value: 122 },
+          { label: '2018', value: 156 },
+          { label: '2019', value: 201 },
+          { label: '2020', value: 254 },
+          { label: '2021', value: 319 },
+          { label: '2022', value: 396 }
+        ]
+      }
+    ]}
+  />
+</VoxContainer>
+
+---
+
+### 2. Complex Data (Benefits from Fullscreen)
+
+Charts with many columns or fine details benefit most from the extra space.
+
+<VoxContainer 
+  title="Detailed Market Segments" 
+  subtitle="Comparing 8 sectors across 4 quarters" 
+  source="Market Watch"
+  allowFullscreen={true}
+>
+  <VoxBarChart 
+    trigger="visible"
+    orientation="horizontal"
+    data={[
+      { label: "Tech", value: 95, color: "#3B82F6" },
+      { label: "Health", value: 85, color: "#EC4899" },
+      { label: "Finance", value: 75, color: "#10B981" },
+      { label: "Energy", value: 65, color: "#F59E0B" },
+      { label: "Retail", value: 55, color: "#6366F1" },
+      { label: "Utils", value: 45, color: "#8B5CF6" },
+      { label: "Real Est", value: 35, color: "#EC4899" },
+      { label: "Materials", value: 25, color: "#14B8A6" }
+    ]}
+  />
+</VoxContainer>
+
+---
+
+### 3. Dark Mode Example
+
+Fullscreen works seamlessly with themes.
+
+<div style="background: #222; padding: 1rem; border-radius: 8px;">
+<VoxContainer 
+  title="Night Owl Activity" 
+  subtitle="Users online by hour (Midnight - 6AM)" 
+  theme="dark"
+  allowFullscreen={true}
+>
+  <VoxLineChart 
+    theme="dark"
+    series={[
+      {
+        name: "Users",
+        color: "#FACC15",
+        data: [
+          { label: '12 AM', value: 5000 },
+          { label: '1 AM', value: 4500 },
+          { label: '2 AM', value: 3000 },
+          { label: '3 AM', value: 1500 },
+          { label: '4 AM', value: 1200 },
+          { label: '5 AM', value: 2000 },
+          { label: '6 AM', value: 4800 }
+        ]
+      }
+    ]}
+  />
+</VoxContainer>
+</div>
+
+## Default Behavior
+
+For comparison, here is a chart **without** the `allowFullscreen` prop. Notice that double-clicking does nothing.
+
+<VoxContainer 
+  title="Static Chart" 
+  subtitle="This chart is pinned to the page layout."
+>
+  <VoxPieChart 
+    data={[
+      { label: "Fixed", value: 80, color: "#9CA3AF" },
+      { label: "Fluid", value: 20, color: "#D1D5DB" }
+    ]}
+  />
+</VoxContainer>
+
+## UX Considerations
+
+We decided to make this opt-in to avoid "scroll-jacking" or unexpected behavior on simple charts. Use it for:
+- Large datasets.
+- Detailed diagrams.
+- Maps or complex visualizations.
+
+The double-click interactions provide a fast path for power users, while the icon keeps the feature discoverable.
