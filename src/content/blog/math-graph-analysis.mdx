@@ -1,0 +1,102 @@
+---
+title: "Analyzing Functions: Intersections and Critical Points"
+description: "Going beyond simple plots: Visualizing multiple functions, intersections, and derivatives."
+pubDate: 2023-12-28
+author: "Aryan"
+image: "/logo.png"
+tags: ["math", "analysis", "calculus"]
+---
+
+import EquationGraph from "../../components/EquationGraph.astro";
+import VoxContainer from "../../components/vox/VoxContainer.astro";
+
+Understanding mathematical behavior often requires comparing multiple functions simultaneously or pinpointing specific coordinates. Our updated `EquationGraph` component now supports **multi-series plotting** and **coordinate points**.
+
+## 1. Finding Intersections
+
+Consider the problem of finding where a parabola $y = x^2$ intersects with a line $y = x + 2$.
+
+Solving $x^2 = x + 2$:
+$x^2 - x - 2 = 0$
+$(x-2)(x+1) = 0$
+So, the intersections are at $x = -1$ and $x = 2$.
+
+Let's visualize this:
+
+<VoxContainer title="Intersection Analysis" subtitle="Visualizing solutions to x² = x+2">
+    <EquationGraph 
+        domain={[-3, 3]}
+        range={[-2, 8]}
+        series={[
+            { function: "quadratic", color: "#3B82F6", width: 3 },
+            { expression: "x + 2", color: "#F59E0B", width: 3 }
+        ]}
+        points={[
+            { x: -1, y: 1, label: "(-1, 1)", color: "#EF4444" },
+            { x: 2, y: 4, label: "(2, 4)", color: "#EF4444" }
+        ]}
+        title="Parabola vs Line" 
+        height={350}
+    />
+</VoxContainer>
+
+---
+
+## 2. Visualizing Derivatives
+
+In Calculus, it's helpful to see a function alongside its derivative. Here is $\sin(x)$ and its derivative $\cos(x)$.
+
+Notice how the peaks of the sine wave line up with the zero-crossings of the cosine wave.
+
+<VoxContainer title="Function & Derivative" subtitle="sin(x) [Blue] vs cos(x) [Green]">
+    <EquationGraph 
+        domain={[-Math.PI * 1.5, Math.PI * 1.5]}
+        range={[-1.5, 1.5]}
+        series={[
+            { function: "sin", color: "#3B82F6", width: 3 },
+            { function: "cos", color: "#10B981", width: 3, dash: "5,5" }
+        ]}
+        points={[
+             { x: Math.PI/2, y: 1, label: "Max", color: "#3B82F6" },
+             { x: Math.PI/2, y: 0, label: "Zero", color: "#10B981" }
+        ]}
+        title="d/dx sin(x) = cos(x)" 
+        grid={true}
+    />
+</VoxContainer>
+
+---
+
+## 3. Optimization Problems
+
+Visualizing the maximum area of a rectangle inscribed in a semicircle. 
+If the circle is $x^2 + y^2 = 4$ (radius 2), the area of a rectangle with corner $(x, y)$ is $A(x) = 2x \cdot \sqrt{4-x^2}$.
+
+<EquationGraph 
+    expression="2 * x * Math.sqrt(4 - x*x)"
+    domain={[0, 2]}
+    range={[0, 4.5]}
+    title="Area Function A(x)" 
+    color="#8B5CF6"
+    points={[
+        { x: 1.414, y: 4, label: "Max Area", color: "#EC4899" }
+    ]}
+/>
+
+This graph clearly shows the peak area occurs at $x = \sqrt{2} \approx 1.414$, where the Area is exactly 4.
+
+## Implementation Code
+
+Here is how you can use the component in your MDX files:
+
+```jsx
+<EquationGraph 
+    series={[
+        { function: "sin", color: "blue" },
+        { function: "cos", color: "green" }
+    ]}
+    points={[
+        { x: 0, y: 0, label: "Origin" }
+    ]}
+/>
+```

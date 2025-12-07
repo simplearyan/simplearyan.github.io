@@ -1,0 +1,106 @@
+---
+title: "Artistic Math: Beyond the Grid"
+description: "Bringing warmth and personality to mathematical visualization with new organic styles: Paper, Pencil, Scribble, and Stroke."
+pubDate: 2024-01-10
+author: "Aryan"
+image: "/logo.png"
+tags: ["math", "design", "creative-coding"]
+---
+
+import EquationGraph from "../../components/EquationGraph.astro";
+import VoxContainer from "../../components/vox/VoxContainer.astro";
+
+Why should math be rigid? We believe in making data feel human. That's why we've expanded our `EquationGraph` with four new artistic styles.
+
+## 1. The Paper Style
+
+Mimicking the classic blue-grid notebook. Perfect for "homework" contexts or rough prototyping visuals.
+
+<VoxContainer title="Polynomial Sketch" subtitle="y = 0.5x³ - x - 1">
+    <EquationGraph 
+        expression="0.5*x**3 - x - 1"
+        domain={[-2.5, 2.5]}
+        range={[-4, 4]}
+        variant="paper"
+        title="Classroom Aesthetic"
+        xStep={0.5}
+        yStep={1}
+        showLabels={true}
+        height={350}
+        allowFullscreen={true}
+    />
+</VoxContainer>
+
+---
+
+## 2. The Pencil Variant
+
+Uses a subtle "wobble" filter and graphite colors to look like a hand-drawn sketch.
+
+<VoxContainer title="Trigonometry Sketch" subtitle="Sin vs Cos">
+    <EquationGraph 
+        domain={[-Math.PI, Math.PI]}
+        variant="pencil"
+        title="Pencil Lines"
+        series={[
+            { function: "sin", color: "#555", width: 3 },
+            { function: "cos", color: "#888", width: 2, dash: "5,5" }
+        ]}
+        grid={true}
+        height={300}
+    />
+</VoxContainer>
+
+---
+
+## 3. Scribble & Stroke
+
+For when you need more emphasis or a "rough draft" vibe.
+
+### Scribble
+High contrast, heavy distortion. Looks like a quick napkin problem solving session.
+
+<EquationGraph 
+    expression="Math.exp(x/2)"
+    domain={[-4, 4]}
+    variant="scribble"
+    title="Exponential Growth"
+    height={250}
+    width={400}
+/>
+
+### Stroke
+Thicker lines with a marker-like feel. Great for whiteboard simulations.
+
+<EquationGraph 
+    expression="Math.log(x)"
+    domain={[0.1, 5]}
+    range={[-2, 2]}
+    variant="stroke"
+    title="Logarithmic Stroke"
+    color="#F43F5E"
+    height={250}
+    width={400}
+/>
+
+## Combining Features
+
+These styles fully support our multi-series and point annotation features.
+
+<VoxContainer title="Complex Analysis" subtitle="Paper style with intersections">
+    <EquationGraph 
+        domain={[-2, 2]}
+        range={[-1, 5]}
+        variant="paper"
+        title="Parabola & Line"
+        series={[
+            { expression: "x*x", color: "#2563EB", width: 4 },
+            { expression: "x+2", color: "#EA580C", width: 3 }
+        ]}
+        points={[
+             { x: -1, y: 1, label: "A(-1,1)", color: "#DC2626" },
+             { x: 2, y: 4, label: "B(2,4)", color: "#DC2626" }
+        ]}
+        grid={true}
+    />
+</VoxContainer>

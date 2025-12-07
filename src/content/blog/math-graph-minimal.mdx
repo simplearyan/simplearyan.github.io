@@ -1,0 +1,70 @@
+---
+title: "Clean & Clear: Minimalist Math Graphs"
+description: "Focus on the data with our new minimalist aesthetic for mathematical visualizations."
+pubDate: 2024-01-08
+author: "Aryan"
+image: "/logo.png"
+tags: ["math", "design", "minimalism"]
+---
+
+import EquationGraph from "../../components/EquationGraph.astro";
+import VoxContainer from "../../components/vox/VoxContainer.astro";
+
+Sometimes the container gets in the way. We've introduced a **Minimalist** variant for our math graphs that removes the borders and backgrounds, letting the function curve speak for itself—perfect for clean, modern interfaces.
+
+## Minimalist Variant
+
+By setting `variant="minimal"`, you strip away the outer shell.
+
+<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; align-items: end;">
+    <EquationGraph 
+        function="sin"
+        expression="Math.sin(x) * x"
+        domain={[-10, 10]}
+        range={[-8, 8]}
+        variant="minimal"
+        title="Damped Sine Wave"
+        height={200}
+        color="#F43F5E"
+    />
+    <EquationGraph 
+        function="exp"
+        domain={[-2, 2]}
+        range={[-0.5, 4]}
+        variant="minimal"
+        title="Exponential Growth"
+        height={200}
+        color="#10B981"
+    />
+</div>
+
+### Code Example
+
+```jsx
+<EquationGraph 
+    variant="minimal"
+    function="sin"
+    title="Minimal Sine"
+/>
+```
+
+---
+
+## Dark Mode Compatibility
+
+We've also refined our captions to blend seamlessly into dark mode. Try switching your theme!
+
+<VoxContainer title="Standard vs Minimal">
+    <EquationGraph 
+        expression="Math.cos(x)"
+        title="Standard: Boxed & Shadowed"
+        height={250}
+    />
+     <EquationGraph 
+        expression="Math.cos(x)"
+        variant="minimal"
+        title="Minimal: Open & Airy"
+        height={250}
+        color="#8B5CF6"
+    />
+</VoxContainer>

@@ -1,0 +1,101 @@
+---
+title: "Mastering Math Views: Grids & Complex Equations"
+description: "Precise control over your mathematical visualizations with custom grids, axis labels, and KaTeX integration."
+pubDate: 2024-01-02
+author: "Aryan"
+image: "/logo.png"
+tags: ["math", "data-viz", "latex"]
+---
+
+import EquationGraph from "../../components/EquationGraph.astro";
+import StyledMath from "../../components/StyledMath.astro";
+import VoxContainer from "../../components/vox/VoxContainer.astro";
+
+Precision is key in mathematics. Sometimes you need a clean abstract shape, but other times you need a rigorous grid with clear numerical labels. We've enhanced our tools to support both.
+
+## 1. Custom Grids and Labels
+
+You can now control the density of the grid lines and enable axis labels for better readability.
+
+<VoxContainer title="Trigonometric Grid" subtitle="Grid steps of π/2">
+    <StyledMath style="clean" animation="float">
+        $$ y = \sin(x) $$
+    </StyledMath>
+    
+    <EquationGraph 
+        function="sin"
+        domain={[-Math.PI * 2, Math.PI * 2]}
+        range={[-1.5, 1.5]}
+        xStep={1.57} 
+        yStep={0.5}
+        showLabels={true}
+        title="Sine Wave with Labels" 
+        height={350}
+    />
+</VoxContainer>
+
+*Note: The x-axis steps are set to approx $\pi/2$ (1.57).*
+
+---
+
+## 2. Complex Multi-Function Plots
+
+Combining `EquationGraph` with `StyledMath` (KaTeX) creates a textbook-quality experience.
+
+<VoxContainer title="Harmonic Addition" subtitle="Adding sine and cosine">
+    <StyledMath style="colorful" animation="reveal">
+        $$ f(x) = \sin(x) + \cos(x) $$
+    </StyledMath>
+
+    <EquationGraph 
+        domain={[-6, 6]}
+        range={[-2, 2]}
+        series={[
+            { expression: "Math.sin(x) + Math.cos(x)", color: "#8B5CF6", width: 4 },
+            { function: "sin", color: "#3B82F6", width: 2, dash: "5,5" },
+            { function: "cos", color: "#10B981", width: 2, dash: "5,5" }
+        ]}
+        xStep={1}
+        yStep={1}
+        showLabels={true}
+        title="Superposition" 
+        grid={true}
+    />
+</VoxContainer>
+
+---
+
+## 3. Dark Mode Adaptation
+
+Our components automatically adapt to your site's theme. The grids become subtle, and the text adjusts to be legible against dark backgrounds.
+
+<div style="background: #111; padding: 2rem; border-radius: 12px; margin: 2rem 0;">
+    <h3 style="color: #fff; text-align: center; margin-bottom: 1rem;">Dark Mode Preview</h3>
+    
+    <StyledMath style="neon" animation="pulse">
+        $$ y = e^{-x^2} $$
+    </StyledMath>
+
+    <EquationGraph 
+        expression="Math.exp(-x*x)"
+        domain={[-3, 3]}
+        range={[-0.2, 1.2]}
+        xStep={0.5}
+        yStep={0.2}
+        showLabels={true}
+        color="#F472B6"
+        title="Gaussian Function" 
+        grid={true}
+    />
+</div>
+
+## Usage
+
+```jsx
+<EquationGraph 
+    function="sin"
+    xStep={1}        // Grid every 1 unit
+    yStep={0.5}      // Grid every 0.5 units
+    showLabels={true} // Enable numbers
+/>
+```
