@@ -16,7 +16,9 @@ import StyledMath from "../../components/StyledMath.astro";
 import Board from "../../components/Board.astro";
 import ScribbleCheck from "../../components/scribble/ScribbleCheck.astro";
 import ScribbleLine from "../../components/scribble/ScribbleLine.astro";
-import BarChart from "../../components/BarChart.astro";
+import BarChart from "../../components/charts/BarChart.astro";
+import LineChart from "../../components/charts/LineChart.astro";
+import PieChart from "../../components/charts/PieChart.astro";
 import CustomTable from "../../components/CustomTable.astro";
 import BlogCard from "../../components/BlogCard.astro";
 import type { AstroComponentFactory } from "astro/runtime/server/index.js";
@@ -109,6 +111,8 @@ const components = {
 	ScribbleCheck,
 	ScribbleLine,
 	BarChart,
+	LineChart,
+	PieChart,
 	CustomTable,
 };
 ---

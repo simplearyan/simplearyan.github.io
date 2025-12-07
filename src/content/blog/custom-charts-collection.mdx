@@ -1,0 +1,163 @@
+---
+title: "Custom Charts Collection: Bar, Line, & Pie"
+description: "A comprehensive guide to using our new custom chart components with hand-drawn styles and scroll animations."
+pubDate: 2023-12-19
+author: "Aryan"
+image: "/logo.png"
+tags: ["astro", "dataviz", "charts", "design"]
+---
+
+Start telling stories with your data. We've expanded our chart collection to include **Line Charts** and **Pie Charts**, along with our beloved **Bar Charts**.
+
+All charts support our signature **hand-drawn** aesthetic, **CSS-only animations**, and **scroll triggers**.
+
+## The Components
+
+We've organized these components into a dedicated charts folder:
+
+`src/components/charts/`
+- `<BarChart />`
+- `<LineChart />`
+- `<PieChart />`
+
+You can use them directly in your MDX files.
+
+---
+
+## 1. Bar Charts
+
+Perfect for comparing categories.
+
+### Clean Style
+<BarChart 
+  data={[
+    { label: 'A', value: 10 },
+    { label: 'B', value: 25 },
+    { label: 'C', value: 15 }
+  ]}
+  style="clean"
+  color="blue"
+  animation="grow"
+/>
+
+### Hand-Drawn Style
+<BarChart 
+  data={[
+    { label: 'Sketch', value: 80 },
+    { label: 'Draw', value: 60 }
+  ]}
+  style="hand-drawn"
+  color="colorful"
+/>
+
+### Scribble Style
+<BarChart 
+  data={[
+    { label: 'Rough', value: 45 },
+    { label: 'Draft', value: 90 }
+  ]}
+  style="scribble"
+  color="red"
+/>
+
+---
+
+## 2. Line Charts [NEW]
+
+Great for showing trends over time.
+
+### Basic Line
+<LineChart 
+  data={[
+    { label: 'Jan', value: 10 },
+    { label: 'Feb', value: 25 },
+    { label: 'Mar', value: 45 },
+    { label: 'Apr', value: 30 },
+    { label: 'May', value: 60 }
+  ]}
+  style="clean"
+  color="blue"
+  animation="draw"
+/>
+
+### Sketchy Line with Area
+<LineChart 
+  data={[
+    { label: 'Mon', value: 20 },
+    { label: 'Tue', value: 40 },
+    { label: 'Wed', value: 35 },
+    { label: 'Thu', value: 80 },
+    { label: 'Fri', value: 55 }
+  ]}
+  style="sketchy"
+  area={true}
+  color="green"
+/>
+
+---
+
+## 3. Pie Charts [NEW]
+
+Visualizing proportions has never been this fun.
+
+### Hand-Drawn Pie
+<PieChart 
+  data={[
+    { label: 'Work', value: 40 },
+    { label: 'Sleep', value: 30 },
+    { label: 'Play', value: 30 }
+  ]}
+  style="hand-drawn"
+  animation="scale"
+/>
+
+### Scribble & Animation
+<PieChart 
+  data={[
+    { label: 'Code', value: 60 },
+    { label: 'Coffee', value: 25 },
+    { label: 'Bugs', value: 15 }
+  ]}
+  style="scribble"
+  animation="fade"
+/>
+
+---
+
+## 4. Scroll-Triggered Animations
+
+All charts support `trigger="visible"`. The animation will only start when the chart enters the viewport.
+
+<div style="height: 200px; display: flex; align-items: center; justify-content: center; background: var(--color-code-bg); margin: 2rem 0; text-align: center;">
+  <p>↓ Scroll down to trigger the chart below ↓</p>
+</div>
+
+<LineChart 
+  data={[
+    { label: 'Start', value: 0 },
+    { label: 'Middle', value: 50 },
+    { label: 'End', value: 100 }
+  ]}
+  style="sketchy"
+  color="red"
+  trigger="visible"
+  animation="draw"
+/>
+
+## Implementation Guide
+
+To use these yourself:
+
+1.  **Placement**: Keep your components organized in `src/components/charts/`.
+2.  **Import**: Import them into your Astro pages or layout.
+3.  **Usage**: Pass data as an array of `{ label, value }`.
+4.  **Styling**: Use the `style` prop to switch between "clean", "hand-drawn", "scribble", etc.
+
+```astro
+<PieChart 
+  data={[{ label: 'A', value: 10 }, { label: 'B', value: 20 }]} 
+  style="hand-drawn" 
+/>
+```
+
+Now go forth and visualize!
