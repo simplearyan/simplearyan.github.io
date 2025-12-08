@@ -1,0 +1,68 @@
+---
+interface Props {
+    title?: string;
+}
+
+const { title = "View Detailed Solution" } = Astro.props;
+---
+
+<details class="solution-details">
+    <summary class="solution-summary">
+        <span class="icon">📝</span>
+        <span class="text">{title}</span>
+        <span class="chevron">▼</span>
+    </summary>
+    <div class="solution-content">
+        <slot />
+    </div>
+</details>
+
+<style>
+    .solution-details {
+        margin-top: 1.5rem;
+        border: 1px solid var(--color-border);
+        border-radius: 8px;
+        overflow: hidden;
+    }
+
+    .solution-summary {
+        background: var(--color-surface);
+        padding: 0.75rem 1rem;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-weight: 600;
+        color: var(--color-text);
+        transition: background 0.2s;
+        list-style: none; /* Hide default marker */
+    }
+
+    .solution-summary::-webkit-details-marker {
+        display: none;
+    }
+
+    .solution-summary:hover {
+        background: rgba(0, 0, 0, 0.05);
+    }
+
+    :global([data-theme="dark"]) .solution-summary:hover {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .solution-summary .chevron {
+        margin-left: auto;
+        font-size: 0.8rem;
+        transition: transform 0.3s ease;
+    }
+
+    .solution-details[open] .solution-summary .chevron {
+        transform: rotate(180deg);
+    }
+
+    .solution-content {
+        background: var(--color-bg);
+        padding: 1.5rem;
+        border-top: 1px solid var(--color-border);
+    }
+</style>

@@ -1,0 +1,15 @@
+---
+// Simple wrapper for block math if needed, primarily relies on KaTeX integration
+---
+
+<div class="latex-block">
+    <slot />
+</div>
+
+<style>
+    .latex-block {
+        margin: 1rem 0;
+        overflow-x: auto;
+        padding: 0.5rem 0;
+    }
+</style>

@@ -1,0 +1,79 @@
+---
+interface Props {
+    number: number | string;
+    title?: string;
+}
+
+const { number, title } = Astro.props;
+---
+
+<div class="problem-card">
+    <div class="problem-header">
+        <span class="problem-number">Q{number}</span>
+        {title && <h3 class="problem-title">{title}</h3>}
+    </div>
+    <div class="problem-content">
+        <slot />
+    </div>
+</div>
+
+<style>
+    .problem-card {
+        background: var(--color-bg);
+        border: 1px solid var(--color-border);
+        border-radius: 12px;
+        margin-bottom: 3rem;
+        overflow: hidden;
+        box-shadow:
+            0 4px 6px -1px rgba(0, 0, 0, 0.1),
+            0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        transition:
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+    }
+
+    .problem-card:hover {
+        transform: translateY(-2px);
+        box-shadow:
+            0 10px 15px -3px rgba(0, 0, 0, 0.1),
+            0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    .problem-header {
+        background: var(--color-surface);
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid var(--color-border);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .problem-number {
+        background: var(--color-primary);
+        color: white;
+        font-weight: 700;
+        padding: 0.25rem 0.75rem;
+        border-radius: 6px;
+        font-size: 0.9rem;
+    }
+
+    /* Dark Mode Contrast Fix */
+    :global([data-theme="dark"]) .problem-number {
+        background: rgba(255, 255, 255, 0.1);
+        color: var(--color-primary);
+        border: 1px solid var(--color-primary);
+    }
+
+    .problem-title {
+        margin: 0;
+        font-size: 1.1rem;
+        font-weight: 600;
+        color: var(--color-text);
+    }
+
+    .problem-content {
+        padding: 1.5rem;
+        line-height: 1.7;
+        color: var(--color-text);
+    }
+</style>

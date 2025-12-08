@@ -1,0 +1,248 @@
+---
+title: "Graded Assignment 2"
+description: "Linear Algebra: Systems of Equations, Matrices, and Quadratic Models."
+pubDate: 2024-12-08
+tags: ["Mathematics", "Data Science", "Assignment"]
+type: "unit"
+order: 10
+subject: "mathematics-2"
+parent: "data-science/mathematics-2/week-2"
+---
+
+import Problem from 'd:/Code/Antigravity/design_concepts/SimpleAryan/src/components/education/Problem.astro';
+import Concept from 'd:/Code/Antigravity/design_concepts/SimpleAryan/src/components/education/Concept.astro';
+import Solution from 'd:/Code/Antigravity/design_concepts/SimpleAryan/src/components/education/Solution.astro';
+import Latex from 'd:/Code/Antigravity/design_concepts/SimpleAryan/src/components/education/Latex.astro';
+
+<div class="prose max-w-none">
+  <p class="lead">
+    This assignment covers important topics in linear algebra, from solving systems of equations to modeling real-world problems.
+  </p>
+</div>
+
+<div class="space-y-12">
+
+  <Problem number="1" title="Maximum Profit from a Quadratic Model">
+    <p>
+      In a particular year, the profit (in lakhs of ₹) of Star Fish company is given by the polynomial $P(x) = ax^2 + bx + c$ where $x$ denotes the number of months since the beginning of the year.
+    </p>
+    <ul>
+      <li>**January** ($x=1$): Loss of ₹45 lakhs.</li>
+      <li>**February** ($x=2$): Loss of ₹19 lakhs.</li>
+      <li>**March** ($x=3$): Profit of ₹3 lakhs.</li>
+    </ul>
+    <p>Find the maximum profit and the month in which it occurs.</p>
+
+    <Concept title="Quadratic Extrema">
+      The maximum or minimum of a quadratic function $P(x) = ax^2 + bx + c$ occurs at its vertex, where $x_v = -\frac{b}{2a}$.
+    </Concept>
+
+    <Solution>
+      1.  **Set up the system of equations:**
+          $$
+          \begin{cases}
+          a(1)^2 + b(1) + c = -45 \\
+          a(2)^2 + b(2) + c = -19 \\
+          a(3)^2 + b(3) + c = 3
+          \end{cases}
+          \implies
+          \begin{cases}
+          a + b + c = -45 \quad (1) \\
+          4a + 2b + c = -19 \quad (2) \\
+          9a + 3b + c = 3 \quad (3)
+          \end{cases}
+          $$
+
+      2.  **Solve for $a, b, c$:**
+          -   $(2) - (1) \implies 3a + b = 26$
+          -   $(3) - (2) \implies 5a + b = 22$
+          -   Subtracting these: $2a = -4 \implies a = -2$.
+          -   Substitute $a$: $3(-2) + b = 26 \implies b = 32$.
+          -   Substitute $a, b$: $-2 + 32 + c = -45 \implies c = -75$.
+          
+          The profit function is $P(x) = -2x^2 + 32x - 75$.
+
+      3.  **Find the Maximum:**
+          Since $a = -2 < 0$, the parabola opens downwards (max).
+          $$
+          x_{max} = -\frac{32}{2(-2)} = 8 \quad (\text{August})
+          $$
+          Max Profit:
+          $$
+          P(8) = -2(64) + 32(8) - 75 = -128 + 256 - 75 = 53
+          $$
+
+      **Answer:** Maximum profit is **₹53 Lakhs** in **August**.
+    </Solution>
+  </Problem>
+
+  <Problem number="2" title="Properties of Augmented Matrices">
+    <p>If $A$ be a $3 \times 4$ matrix and $b$ be a $3 \times 1$ matrix, analyze the properties of the augmented matrix $[A|b]$.</p>
+
+    <Solution>
+      Let's analyze the statements based on Gaussian Elimination principles:
+      
+      1.  **Row Operations & Solutions:** Elementary row operations do **not** change the solution set. The systems $Ax=b$ and $A'x=b'$ (where $(A'|b')$ is obtained from row ops) are equivalent. **(True)**
+      2.  **RREF & Existence:** Having an RREF $(A'|b')$ does not guarantee a solution. If a row like $[0 \ 0 \ 0 \ | \ 1]$ exists, the system is inconsistent. **(False)**
+      3.  **RREF Structure:** If $[A|b]$ is in RREF, its submatrix $A$ is naturally in RREF. **(True)**
+      4.  **Consistency Condition:** If there is **no row** where the only non-zero entry is in the last column (i.e., no pivot in the augmented column), the system is consistent. **(True)**
+    </Solution>
+  </Problem>
+
+  <Problem number="3" title="Matrix Representation of a System">
+    <p>
+      Ramya, Romy, and Farjana buy books. Let $x_1, x_2, x_3$ be prices of comic, horror, and novel respectively.
+    </p>
+    <ul>
+      <li>**Ramya:** 1 comic, 2 horror, 1 novel for 1000.</li>
+      <li>**Romy:** 2 comic, 5 horror, 1 novel for 2000.</li>
+      <li>**Farjana:** 4 comic, 5 horror, $c$ novels for $d$.</li>
+    </ul>
+
+    <Solution>
+      **System Setup:**
+      $$
+      \begin{bmatrix}
+      1 & 2 & 1 \\
+      2 & 5 & 1 \\
+      4 & 5 & c
+      \end{bmatrix}
+      \begin{bmatrix} x_1 \\ x_2 \\ x_3 \end{bmatrix}
+      =
+      \begin{bmatrix} 1000 \\ 2000 \\ d \end{bmatrix}
+      $$
+
+      **Analysis ($|A|$):**
+      $$
+      \det(A) = 1(5c-5) - 2(2c-4) + 1(10-20) = 5c - 5 - 4c + 8 - 10 = c - 7
+      $$
+      
+      -   If $c \neq 7$, determinant is non-zero $\implies$ **Unique Solution**.
+      -   If $c = 7$, determinant is zero $\implies$ **No solution or Infinite solutions**.
+    </Solution>
+  </Problem>
+
+  <Problem number="4" title="Homogeneous Systems">
+    <p>
+      Let $A$ be an $m \times n$ matrix such that $m < n$. How many solutions does $Ax = 0$ have?
+    </p>
+
+    <Concept title="Free Variables">
+      Number of free variables = $n - \text{rank}(A)$. Since $\text{rank}(A) \le m < n$, there is always at least one free variable.
+    </Concept>
+    
+    <Solution>
+      Since it is a homogeneous system ($Ax=0$), the trivial solution $\vec{x}=\vec{0}$ always exists.
+      Because $m < n$ (more variables than equations), there must be at least one free variable, leading to **Infinitely many solutions**.
+    </Solution>
+  </Problem>
+
+  <Problem number="5" title="Mobile Phone Sales">
+    <p>
+      Three shops sell three brands R, S, T. Given $P_S = 5$ (in thousands).
+    </p>
+    <ul>
+      <li>**Shop A:** $P_R + 3k P_S + (3k+4)P_T = 61$</li>
+      <li>**Shop B:** $P_R + k P_S + (4k+2)P_T = 65$</li>
+      <li>**Shop C:** $P_R + (2k+2)P_S + (3k+4)P_T = 66$</li>
+    </ul>
+
+    <Solution>
+      Substituting $P_S = 5$:
+      1.  $P_R + 15k + (3k+4)P_T = 61$
+      2.  $P_R + 5k + (4k+2)P_T = 65$
+      3.  $P_R + (10k+10) + (3k+4)P_T = 66$
+
+      Comparing (1) and (3):
+      $(1) - (3) \implies (15k - (10k+10)) = 61 - 66 \implies 5k - 10 = -5 \implies 5k = 5 \implies k=1$.
+      
+      Substitute $k=1$:
+      -   (A): $P_R + 7P_T = 46$
+      -   (B): $P_R + 6P_T = 60$
+      
+      Subtracting: $P_T = -14$.
+      *(Note: The problem values lead to a negative price, likely a typo in the original question data, but the mathematical process yields -14).*
+    </Solution>
+  </Problem>
+
+  <Problem number="6-8" title="System Analysis">
+    <p>Consider the system:</p>
+    $$
+    \begin{cases}
+    2x+3y+5z=1 \\
+    x+2y+3z=1 \\
+    x+y+2z=1
+    \end{cases}
+    $$
+    
+    <Solution>
+      **Q6: Number of Solutions**
+      $R_3 \to R_3 - R_2$ gives $-y - z = 0 \implies y+z=0$.
+      Original $x+y+2z=1$ vs $x+2y+3z=1$.
+      Row reducing leads to a contradiction ($0 = -1$), so **0 solutions**.
+
+      **Q7: Determinant of RREF**
+      Determinant is only defined for square matrices. RREF is a property, not a square transformation equivalent. (Technically undefined for non-square, or 0/1 for square singular/non-singular).
+
+      **Q8: Solution Sum**
+      For the system: $7x - 2y + z = 5$, $3y - z = 1$, $-3x + 4y - 2z = 10$.
+      Solving this yields $x+y+z = -287/11$.
+    </Solution>
+  </Problem>
+
+  <Problem number="9" title="Matrix Rank">
+    <p>Let $A = [3 \ 5 \ 10 \ 7]$. Find the number of non-zero rows in the RREF of $A^T A$.</p>
+
+    <Concept title="Rank Theorem">
+      $\text{rank}(A^T A) = \text{rank}(A)$.
+    </Concept>
+    
+    <Solution>
+      $A$ is a $1 \times 4$ non-zero vector, so $\text{rank}(A) = 1$.
+      Therefore, $\text{rank}(A^T A) = 1$.
+      The number of non-zero rows in RREF is equal to the rank. **Answer: 1**.
+    </Solution>
+  </Problem>
+
+  <Problem number="10" title="Cubic Curve Fitting">
+    <p>
+      Find $a - b + c - d$ for $f(x) = ax^3 + bx^2 + cx + d$ passing through $(1,1), (2,7), (-1,-5), (3,23)$.
+    </p>
+
+    <Solution>
+      We need to find the value of the expression $a(-1)^2 - b(-1)^2 + c(-1)^2 ...$ wait, let's look at the point $(-1, -5)$.
+      $$
+      f(-1) = a(-1)^3 + b(-1)^2 + c(-1) + d = -a + b - c + d = -5
+      $$
+      The question asks for $a - b + c - d$.
+      Notice that $a - b + c - d = -(-a + b - c + d) = -(-5) = 5$.
+      **Answer: 5**.
+    </Solution>
+  </Problem>
+
+  <Problem number="11-13" title="Traffic Flow Network">
+    <p>Analysis of traffic flow conservation (In = Out).</p>
+    <ul>
+      <li>**NW:** $2x_1 + x_4 = 400$</li>
+      <li>**NE:** $2x_1 + 3x_2 = 1000$</li>
+      <li>**SE:** $3x_2 + 2x_3 = 900$</li>
+      <li>**SW:** $2x_3 + x_4 = c$</li>
+    </ul>
+
+    <Solution>
+       **Q12: South Street Flow ($c$)**
+       Summing equations physically often cancels internal flows.
+       However, solving the dependent system:
+       $c = 300$.
+       
+       **Q13: Max/Min Vehicles**
+       Based on constraints $x_i \ge 0$:
+       -   $0 \le x_3 \le 150$
+       -   a (West/North): Range [100, 400]
+       -   b (East/North): Range [600, 900]
+       -   c (East/South): Range [0, 300]
+       -   d (West/South): Range [0, 300]
+    </Solution>
+  </Problem>
+
+</div>

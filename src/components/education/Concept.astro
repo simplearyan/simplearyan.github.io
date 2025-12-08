@@ -1,0 +1,66 @@
+---
+interface Props {
+    title?: string;
+}
+
+const { title = "Core Concept" } = Astro.props;
+---
+
+<div class="concept-box">
+    <div class="concept-icon">💡</div>
+    <div class="concept-content-wrapper">
+        <h4 class="concept-title">{title}</h4>
+        <div class="concept-body">
+            <slot />
+        </div>
+    </div>
+</div>
+
+<style>
+    .concept-box {
+        background: linear-gradient(
+            to right,
+            rgba(236, 253, 245, 0.5),
+            rgba(240, 253, 244, 0.3)
+        );
+        border-left: 4px solid #10b981;
+        padding: 1.25rem;
+        margin: 1.5rem 0;
+        border-radius: 0 8px 8px 0;
+        display: flex;
+        gap: 1rem;
+        align-items: flex-start;
+    }
+
+    :global([data-theme="dark"]) .concept-box {
+        background: linear-gradient(
+            to right,
+            rgba(16, 185, 129, 0.1),
+            rgba(16, 185, 129, 0.05)
+        );
+    }
+
+    .concept-icon {
+        font-size: 1.5rem;
+        line-height: 1;
+        padding-top: 0.2rem;
+    }
+
+    .concept-title {
+        margin: 0 0 0.5rem 0;
+        color: #059669;
+        font-size: 0.95rem;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        font-weight: 700;
+    }
+
+    :global([data-theme="dark"]) .concept-title {
+        color: #34d399;
+    }
+
+    .concept-body {
+        font-size: 0.95rem;
+        color: var(--color-text);
+    }
+</style>
