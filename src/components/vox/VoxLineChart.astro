@@ -8,44 +8,80 @@ interface Series {
     name: string;
     data: DataPoint[];
     color?: string;
-    labelEnd?: boolean; // Should we put the label at the end of the line?
+    labelEnd?: boolean;
 }
 
 interface Props {
-    series: Series[];
+    data?: Record<string, any>[]; // New prop for flat data
+    series: Series[] | string[]; // Can now be keys
+    xKey?: string; // Key for x-axis labels in flat data
     height?: number;
     showGrid?: boolean;
     showPoints?: boolean;
     yAxisMax?: number;
     trigger?: "visible" | "load";
     class?: string;
+    colors?: string[]; // Allow overriding colors prop
 }
 
 const {
+    data,
     series,
+    xKey = "label",
     height = 400,
     showGrid = true,
     showPoints = true,
     yAxisMax,
     trigger = "visible",
     class: className,
+    colors: overrideColors,
 } = Astro.props;
 
-// 1. Calculate Dimensions & Scales
+// 1. Normalize Series Data
+let normalizedSeries: Series[] = [];
+
+if (
+    data &&
+    Array.isArray(series) &&
+    (series.length === 0 || typeof series[0] === "string")
+) {
+    // Mode 1: Flat Data + Keys
+    normalizedSeries = (series as string[]).map((key, index) => ({
+        name: key,
+        data: data.map((d) => ({
+            label: d[xKey],
+            value: Number(d[key]), // Ensure number
+        })),
+        color: overrideColors
+            ? overrideColors[index % overrideColors.length]
+            : undefined,
+    }));
+} else {
+    // Mode 2: Pre-structured Series
+    normalizedSeries = series as Series[];
+    // Apply override colors if present
+    if (overrideColors) {
+        normalizedSeries = normalizedSeries.map((s, i) => ({
+            ...s,
+            color: s.color || overrideColors[i % overrideColors.length],
+        }));
+    }
+}
+
+// 2. Calculate Dimensions & Scales
 const chartHeight = height;
-const chartWidth = 800; // SVG viewBox width, responsive via CSS
-const padding = { top: 20, right: 100, bottom: 40, left: 60 }; // Right padding for direct labels
+const chartWidth = 800;
+const padding = { top: 20, right: 100, bottom: 40, left: 60 };
 const graphWidth = chartWidth - padding.left - padding.right;
 const graphHeight = chartHeight - padding.top - padding.bottom;
 
 // Flatten all data to find min/max
-const allValues = series.flatMap((s) => s.data.map((d) => d.value));
-const minValue = 0; // Usually better to start at 0 for Vox style unless specific
-const maxValue = yAxisMax || Math.max(...allValues) * 1.1; // Add breathing room
+const allValues = normalizedSeries.flatMap((s) => s.data.map((d) => d.value));
+const minValue = 0;
+const maxValue = yAxisMax || Math.max(...allValues) * 1.1;
 
-// X-Axis usually categories or time. Assuming uniform distribution for simplicity here.
-const dataLength = series[0].data.length;
-const xStep = graphWidth / (dataLength - 1);
+const dataLength = normalizedSeries[0]?.data.length || 0;
+const xStep = dataLength > 1 ? graphWidth / (dataLength - 1) : graphWidth;
 
 const getY = (val: number) => {
     return chartHeight - padding.bottom - (val / maxValue) * graphHeight;
@@ -122,7 +158,7 @@ const uniqueId = Math.random().toString(36).substr(2, 9);
         {/* X-Axis Labels */}
         <g class="x-axis">
             {
-                series[0].data.map((d, i) => {
+                normalizedSeries[0]?.data.map((d, i) => {
                     // Smart label skipping: aim for max ~6 labels
                     const skip = Math.ceil(dataLength / 6);
                     if (i % skip !== 0 && i !== dataLength - 1) return null;
@@ -143,7 +179,7 @@ const uniqueId = Math.random().toString(36).substr(2, 9);
 
         {/* Lines */}
         {
-            series.map((s, sIndex) => {
+            normalizedSeries.map((s, sIndex) => {
                 const color =
                     s.color || defaultColors[sIndex % defaultColors.length];
                 const pathD = generatePath(s.data);

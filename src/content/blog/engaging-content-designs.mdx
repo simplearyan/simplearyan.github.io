@@ -1,0 +1,77 @@
+---
+title: "Engaging Content Designs"
+description: "How to use highlights, hand-drawn circles, and marginal notes to make your articles pop."
+pubDate: 2024-12-07
+author: "Aryan"
+image: "/images/blog/engaging-content-hero.jpg"
+tags: ["design", "tutorial", "vox-style"]
+---
+
+import { Image } from 'astro:assets';
+
+# Making Content Pop
+
+In the age of endless scrolling, <Highlight color="yellow">capturing attention is an art</Highlight>. We've added a suite of tools to help you do just that, inspired by the visual storytelling of Vox and high-quality periodicals.
+
+## 1. The Highlight
+
+You can now use a marker-pen style highlight to emphasize key phrases. It's not just a background color; it has a subtle gradient to mimic a real highlighter.
+
+> "Design is not just what it looks like and feels like. Design is <Highlight color="pink">how it works</Highlight>."
+
+Available colors: `yellow` (default), `green`, `pink`, `blue`.
+
+## 2. Hand-Drawn Emphasis
+
+Sometimes you want to circle something on a "digital paper" to draw the eye.
+
+<div style="position: relative; display: inline-block; padding: 2rem; border: 1px dashed var(--color-border); margin: 2rem 0;">
+    The suspect was last seen near the <Circle delay={500}>old warehouse</Circle>.
+    <Arrow direction="left" color="red" class="absolute -right-10 top-0" />
+</div>
+
+These elements animate when they scroll into view, adding a dynamic feel to static text.
+
+## 3. Squiggly Lines
+
+For a softer emphasis or to indicate something "uncertain", use the <Underline color="red">squiggly underline</Underline>. It mimics a pen squiggle.
+
+## 4. Marginalia
+
+Use marginal notes to add context without breaking the flow.
+
+<Aside type="note" title="Did you know?">
+    Marginalia (or apostils) are marks made in the margins of a book or other document. They may be scribbles, comments, glosses, critiques, doodles, or illuminations.
+</Aside>
+
+<Aside type="warn" title="Usage Warning">
+    Don't overuse these effects! If everything is highlighted, <Highlight>nothing is highlighted</Highlight>.
+</Aside>
+
+## 5. Visual Storytelling
+
+Combine these elements to create "investigative board" layouts or annotate images.
+
+<div style="position: relative; margin: 3rem 0; padding: 2rem; background: var(--color-code-bg); border-radius: 8px;">
+    <h3>The "Red String" Board</h3>
+    <p>
+        Evidence A connects directly to <Circle delay={200}>Evidence B</Circle>. 
+    </p>
+    <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 2rem;">
+         <div style="padding: 1rem; border: 1px solid var(--color-border); background: var(--color-bg);">Suspect</div>
+         <Arrow direction="right" width={100} color="red" />
+         <div style="padding: 1rem; border: 1px solid var(--color-border); background: var(--color-bg);">Crime Scene</div>
+    </div>
+</div>
+
+## Source Code
+
+These components are built with Astro and inline SVGs. They use `IntersectionObserver` to trigger animations only when the reader sees them.
+
+```astro
+<Highlight color="yellow">Hello World</Highlight>
+<Circle delay={300}>Target</Circle>
+<Arrow direction="up" />
+```
+
+Enjoy creating more engaging content!
