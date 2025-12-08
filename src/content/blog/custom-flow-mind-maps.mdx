@@ -1,0 +1,116 @@
+---
+title: "Custom Flowcharts & Mind Maps: No JS Required"
+description: "Create beautiful, hand-drawn diagrams using only CSS and Astro components. No external libraries needed."
+pubDate: 2023-12-20
+author: "Aryan"
+image: "/logo.png"
+tags: ["astro", "dataviz", "css", "design"]
+---
+import Flowchart from "../../components/charts/Flowchart.astro";
+import MindMap from "../../components/charts/MindMap.astro";
+
+Gone are the days of heavy JavaScript libraries for simple diagrams. 
+We've introduced two new components to help you visualize your ideas with that signature **"hand-drawn"** feel.
+
+## 1. Flowcharts
+
+Visualizing processes has never been easier. Our `<Flowchart />` component takes a simple array of steps and renders them responsively.
+
+### A Linear Process
+Perfect for roadmaps or simple sequences.
+
+<Flowchart 
+  direction="horizontal"
+  steps={[
+    { id: '1', label: 'Idea', type: 'start' },
+    { id: '2', label: 'Prototype', type: 'process' },
+    { id: '3', label: 'Test', type: 'process' },
+    { id: '4', label: 'Launch', type: 'end' }
+  ]}
+/>
+
+### A Vertical Flow
+Better for step-by-step tutorials.
+
+<Flowchart 
+  direction="vertical"
+  steps={[
+    { id: '1', label: 'Wake Up', type: 'start' },
+    { id: '2', label: 'Coffee', type: 'process', description: 'Essential' },
+    { id: '3', label: 'Code', type: 'process' },
+    { id: '4', label: 'Sleep?', type: 'decision' },
+    { id: '5', label: 'Repeat', type: 'end' }
+  ]}
+/>
+
+### How to Use
+
+```astro
+<Flowchart 
+  steps={[
+    { id: '1', label: 'Start', type: 'start' },
+    { id: '2', label: 'Step 1', type: 'process' }
+  ]}
+/>
+```
+
+---
+
+## 2. Mind Maps
+
+Organize your thoughts hierarchically. The `<MindMap />` component uses a recursive structure to render trees of any depth.
+
+### Project Structure (Example)
+
+<MindMap 
+  data={{
+    label: "Project",
+    type: "root",
+    children: [
+      {
+        label: "Frontend",
+        children: [
+          { label: "React" },
+          { label: "Vue" }
+        ]
+      },
+      {
+        label: "Backend",
+        children: [
+          { label: "Node.js" },
+          { label: "Python" }
+        ]
+      },
+      {
+        label: "DevOps",
+        children: [
+          { label: "Docker" }
+        ]
+      }
+    ]
+  }}
+/>
+
+### How to Use
+
+Simply pass a nested object to the `data` prop.
+
+```astro
+<MindMap 
+  data={{
+    label: "Root",
+    children: [
+      { label: "Child 1" },
+      { label: "Child 2" } // Add more nesting here
+    ]
+  }}
+/>
+```
+
+## Why CSS-Only?
+
+1.  **Performance**: Zero JavaScript overhead for rendering.
+2.  **SEO Friendly**: Content is just HTML list items.
+3.  **Customizable**: Pure CSS easy to style with our theme variables.
+
+Enjoy mapping your mind!

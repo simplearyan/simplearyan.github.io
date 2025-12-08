@@ -1,0 +1,130 @@
+---
+title: "Advanced Mind Maps"
+description: "Take your diagrams to the next level with horizontal layouts, custom colors, and organic styles."
+pubDate: 2023-12-21
+author: "Aryan"
+image: "/logo.png"
+tags: ["astro", "dataviz", "mindmap", "advanced"]
+---
+import MindMap from "../../components/charts/MindMap.astro";
+
+Building on our custom chart collection, we're introducing advanced capabilities for the `<MindMap />` component.
+
+## 1. Horizontal Layouts
+
+Vertical trees are great, but sometimes a left-to-right flow is more natural, especially for deep hierarchies.
+
+<MindMap
+  direction="horizontal"
+  data={{
+    label: "Full Stack Developer",
+    color: "#3b82f6",
+    children: [
+      {
+        label: "Frontend",
+        color: "#ef4444",
+        children: [
+          { label: "HTML/CSS" },
+          { label: "JavaScript" },
+          { label: "Frameworks", children: [{ label: "React" }, { label: "Vue" }, { label: "Svelte" }] }
+        ]
+      },
+      {
+        label: "Backend",
+        color: "#22c55e",
+        children: [
+          { label: "Languages", children: [{ label: "Node.js" }, { label: "Python" }, { label: "Go" }] },
+          { label: "Databases", children: [{ label: "SQL" }, { label: "NoSQL" }] }
+        ]
+      },
+      {
+        label: "DevOps",
+        color: "#ec4899",
+        children: [
+          { label: "Docker" },
+          { label: "CI/CD" },
+          { label: "Cloud (AWS/GCP)" }
+        ]
+      }
+    ]
+  }}
+/>
+
+### Usage
+
+Simply set `direction="horizontal"`. Colors cascade down branches automatically!
+
+```astro
+<MindMap 
+  direction="horizontal" 
+  data={{ ... }} 
+/>
+```
+
+---
+
+## 2. Linear Algebra Syllabus
+
+A complex, multi-colored example using the standard vertical tree layout.
+
+<MindMap 
+  variant="organic"
+  data={{
+    label: "Linear Algebra",
+    color: "#1B2A41",
+    children: [
+      {
+        label: "Vectors",
+        color: "#3b82f6",
+        children: [
+          { label: "Addition" },
+          { label: "Dot Product" },
+          { label: "Cross Product" }
+        ]
+      },
+      {
+        label: "Matrices",
+        color: "#ef4444",
+        children: [
+          { label: "Multiplication" },
+          { label: "Inverse" },
+          { label: "Determinants" }
+        ]
+      },
+      {
+        label: "Spaces",
+        color: "#eab308",
+        children: [
+          { label: "Vector Space" },
+          { label: "Null Space" },
+          { label: "Column Space" }
+        ]
+      },
+       {
+        label: "Eigen",
+        color: "#8b5cf6",
+        children: [
+          { label: "Eigenvalues" },
+          { label: "Eigenvectors" }
+        ]
+      }
+    ]
+  }}
+/>
+
+## 3. Organic Variant
+
+Use `variant="organic"` for a looser, more sketch-like feel (best with vertical layouts).
+
+<MindMap 
+  variant="organic"
+  direction="vertical"
+  data={{
+    label: "Creative Process",
+    children: [
+      { label: "Inspiration", children: [{label: "Nature"}, {label: "Art"}] },
+      { label: "Drafting", children: [{label: "Sketch"}, {label: "Outline"}] },
+      { label: "Refining" }
+    ]
+  }}
+/>

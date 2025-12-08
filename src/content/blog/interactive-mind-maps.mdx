@@ -1,0 +1,86 @@
+---
+title: "Interactive & Compact Mind Maps"
+description: "Explore our new interactive fullscreen mode and compact 'perfect' styles for dense information."
+pubDate: 2023-12-22
+author: "Aryan"
+image: "/logo.png"
+tags: ["astro", "dataviz", "interactive"]
+---
+import MindMap from "../../components/charts/MindMap.astro";
+
+We've added some powerful new features to our MindMap component to handle larger datasets and provide a better reading experience.
+
+## 1. Interactive Fullscreen
+
+Got a huge map? No problem. Double-click the map below to go fullscreen. Double-click again (or press Esc) to exit.
+
+<MindMap
+  interactive={true}
+  variant="organic"
+  data={{
+    label: "Explore Me (Double Click)",
+    color: "#eab308",
+    children: [
+      {
+        label: "Features",
+        children: [
+          { label: "Fullscreen", children: [{label: "Immersive"}, {label: "Focus"}] },
+          { label: "Responsive" }
+        ]
+      },
+      {
+        label: "Styles",
+        children: [
+          { label: "Organic" },
+          { label: "Tree" }
+        ]
+      },
+      {
+        label: "Animation",
+        children: [
+          { label: "Fade In" },
+          { label: "Sequence" }
+        ]
+      }
+    ]
+  }}
+/>
+
+```astro
+<MindMap 
+  interactive={true} 
+  data={{ ... }} 
+/>
+```
+
+## 2. Compact & "Perfect" Style
+
+Sometimes the hand-drawn, tilted look takes up too much space. Use `compact={true}` and `straightEdges={true}` for a cleaner, tighter layout.
+
+<MindMap
+  compact={true}
+  straightEdges={true}
+  direction="horizontal"
+  data={{
+    label: "SaaS Architecture",
+    color: "#3b82f6",
+    children: [
+      { label: "Client", children: [{label: "Web"}, {label: "Mobile"}] },
+      { label: "API Gateway", children: [{label: "Auth"}, {label: "Rate Limit"}] },
+      { label: "Services", children: [{label: "Users"}, {label: "Billing"}, {label: "Notify"}] },
+      { label: "Data", children: [{label: "Primary DB"}, {label: "Cache"}, {label: "Queue"}] }
+    ]
+  }}
+/>
+
+```astro
+<MindMap 
+  compact={true} 
+  straightEdges={true} 
+  data={{ ... }} 
+/>
+```
+
+## 3. Light Mode Optimized
+
+These components automatically adapt to light and dark mode, ensuring high contrast for text labels even when branches are colorful.
