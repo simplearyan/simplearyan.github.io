@@ -7,6 +7,15 @@ interface Point {
     r?: number;
 }
 
+interface Vector {
+    start?: [number, number]; // Defaults to [0,0]
+    end: [number, number];
+    color?: string;
+    width?: number;
+    label?: string;
+    dashed?: boolean;
+}
+
 interface Series {
     function?: string;
     expression?: string;
@@ -24,6 +33,7 @@ interface Props {
     // New Multi Props
     series?: Series[];
     points?: Point[];
+    vectors?: Vector[]; // New Vector Prop
 
     domain?: [number, number];
     range?: [number, number];
@@ -56,6 +66,7 @@ const {
 
     series = [],
     points: outputPoints = [],
+    vectors = [],
 
     domain = [-Math.PI * 2, Math.PI * 2],
     range = [-2, 2],
@@ -352,7 +363,98 @@ if (grid) {
                     <feDisplacementMap in="SourceGraphic" in2="noise" scale="2"
                     ></feDisplacementMap>
                 </filter>
+                <!-- Markers for vectors -->
+                <marker
+                    id={`arrow-${uniqueId}`}
+                    viewBox="0 0 10 10"
+                    refX="9"
+                    refY="5"
+                    markerWidth="6"
+                    markerHeight="6"
+                    orient="auto"
+                >
+                    <path d="M 0 0 L 10 5 L 0 10 z" fill="currentColor"></path>
+                </marker>
+                <marker
+                    id={`arrow-blue-${uniqueId}`}
+                    viewBox="0 0 10 10"
+                    refX="9"
+                    refY="5"
+                    markerWidth="6"
+                    markerHeight="6"
+                    orient="auto"
+                >
+                    <path
+                        d="M 0 0 L 10 5 L 0 10 z"
+                        fill="var(--color-blue-500, #3b82f6)"></path>
+                </marker>
+                <marker
+                    id={`arrow-red-${uniqueId}`}
+                    viewBox="0 0 10 10"
+                    refX="9"
+                    refY="5"
+                    markerWidth="6"
+                    markerHeight="6"
+                    orient="auto"
+                >
+                    <path
+                        d="M 0 0 L 10 5 L 0 10 z"
+                        fill="var(--color-red-500, #ef4444)"></path>
+                </marker>
             </defs>
+
+            {
+                /* Vectors Layer */
+                vectors.map((v, i) => {
+                    const start = v.start || [0, 0];
+                    const x1 = mapX(start[0]);
+                    const y1 = mapY(start[1]);
+                    const x2 = mapX(v.end[0]);
+                    const y2 = mapY(v.end[1]);
+
+                    // Determine marker color roughly
+                    let markerId = `url(#arrow-${uniqueId})`;
+                    if (v.color?.includes("blue"))
+                        markerId = `url(#arrow-blue-${uniqueId})`;
+                    if (v.color?.includes("red"))
+                        markerId = `url(#arrow-red-${uniqueId})`;
+
+                    return (
+                        <g
+                            class="vector-group"
+                            style={`--order: ${i}; color: ${v.color || "currentColor"}`}
+                        >
+                            <line
+                                x1={x1}
+                                y1={y1}
+                                x2={x2}
+                                y2={y2}
+                                stroke={v.color || "currentColor"}
+                                stroke-width={v.width || 2}
+                                stroke-dasharray={v.dashed ? "5,5" : "none"}
+                                marker-end={markerId}
+                                filter={
+                                    variant === "pencil" || variant === "paper"
+                                        ? `url(#filter-${uniqueId})`
+                                        : ""
+                                }
+                            />
+                            {v.label && (
+                                <text
+                                    x={(x1 + x2) / 2}
+                                    y={(y1 + y2) / 2 - 10}
+                                    fill={v.color || "currentColor"}
+                                    text-anchor="middle"
+                                    class="vector-label"
+                                    font-weight="bold"
+                                >
+                                    {v.label}
+                                </text>
+                            )}
+                        </g>
+                    );
+                })
+            }
 
             {
                 grid && (
@@ -544,16 +646,21 @@ if (grid) {
 
     /* --- VARIANTS --- */
 
-    /* Minimal: Clean look */
+    /* Minimal: Clean look, blending with page */
     .variant-minimal .graph-container {
         background: transparent;
         border: none;
         box-shadow: none;
-        padding: 0;
+        padding: 1rem 0; /* Minimal vertical padding */
     }
+    /* Minimal variant specific overrides for grid/axis */
     .variant-minimal {
-        --grid-color: var(--color-border);
+        --grid-color: rgba(150, 150, 150, 0.2); /* Very subtle grid */
+        --border-color: transparent;
         --axis-color: var(--color-text);
+    }
+    :global(.dark) .variant-minimal {
+        --grid-color: rgba(255, 255, 255, 0.1);
     }
 
     /* Paper: Graph paper look */

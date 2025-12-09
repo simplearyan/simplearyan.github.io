@@ -1,0 +1,85 @@
+---
+title: "Math & Problem Solving Lists"
+description: "Demonstrating new list variants designed for educational content, problem solving, and quizzes."
+pubDate: 2024-01-15
+author: "Aryan"
+tags: ["education", "math", "components"]
+---
+
+import List from "../../components/ui/List.astro";
+
+In educational content, structure is everything. We can't just use simple bullet points for everything. 
+Here we demonstrate new list styles designed for **step-by-step solutions**, **quizzes**, and **fun notes**.
+
+## 1. Step-by-Step Solutions
+The `steps` variant is perfect for derivations or algorithms. Notice the connected vertical line.
+
+### Problem: Solve for $x$ in $x^2 - 5x + 6 = 0$
+
+<List variant="steps">
+  <li>
+    **Factor the Quadratic Equation**
+    Find two numbers that multiply to $6$ and add to $-5$. These are $-2$ and $-3$.
+    So, $(x-2)(x-3) = 0$.
+  </li>
+  <li>
+    **Set Each Factor to Zero**
+    Either $x - 2 = 0$ or $x - 3 = 0$.
+  </li>
+  <li>
+    **Solve for x**
+    $x = 2$ or $x = 3$.
+  </li>
+  <li>
+    **Final Verification**
+    Plug $2$ back in: $4 - 10 + 6 = 0$. Correct.
+  </li>
+</List>
+
+## 2. Quiz / Multiple Choice
+The `options` variant automatically labels items as A, B, C, D and provides a clickable card-like feel.
+
+### Question: What is the derivative of $\sin(x)$?
+
+<List variant="options">
+  <li>$\cos(x)$</li>
+  <li>$-\cos(x)$</li>
+  <li>$\tan(x)$</li>
+  <li>$\sec^2(x)$</li>
+</List>
+
+### Question: Which vector is orthogonal to $(1, 2)$?
+
+<List variant="options">
+  <li>$(2, 1)$</li>
+  <li>$(-2, 1)$</li>
+  <li>$(1, -2)$</li>
+  <li>$(0, 0)$ (Trivial, but technically yes)</li>
+</List>
+
+## 3. Colorful Notes
+The `scribble-colorful` variant cycles through our brand colors for a fun, highlight-marker feel. Great for quick tips or "Why this matters" sections.
+
+<List variant="scribble-colorful" data={[
+    "**Remember**: The dot product of orthogonal vectors is zero.",
+    "**Tip**: Always check the determinant before finding the inverse.",
+    "**Note**: Eigenvalues can be complex numbers.",
+    "**Fact**: Matrices are just linear maps in disguise.",
+    "**Fun**: Linear algebra powers your video games!"
+]} />
+
+## Usage Code
+
+```astro
+/* Steps */
+<List variant="steps">
+  <li>Step 1 content...</li>
+  <li>Step 2 content...</li>
+</List>
+
+/* Options */
+<List variant="options">
+  <li>Option A</li>
+  <li>Option B</li>
+</List>
+```

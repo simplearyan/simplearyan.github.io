@@ -220,15 +220,14 @@ p {
 
 /* Custom Unordered List */
 .prose ul {
-    list-style: none;
-    left: 0;
-    color: var(--color-primary);
-    font-family: 'Kalam', cursive, sans-serif;
-    font-weight: bold;
-    font-size: 1.5em;
-    line-height: 1;
-    transform: rotate(-2deg);
-    transition: color 0.3s ease;
+    list-style: disc; /* Restore bullets */
+    padding-left: 1.5rem;
+    color: var(--color-text); /* Use text color instead of primary */
+    font-family: var(--font-sans); /* Reset to readable sans-serif */
+    font-weight: normal;
+    font-size: 1em;
+    line-height: 1.6;
+    transform: none; /* Remove quirky rotation */
 }
 
 [data-theme="dark"] .prose ul>li::before {

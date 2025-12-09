@@ -1,0 +1,107 @@
+---
+title: "Customizing Markdown: Interactive Vector Math"
+description: "A showcase of how we use custom Astro components to enhance mathematical content, featuring vectors and inner product spaces."
+pubDate: 2024-02-28
+author: "Aryan"
+tags: ["design", "astro", "math", "components"]
+image: "/images/demo/introduction.png"
+---
+
+import Callout from '../../components/demo/Callout.astro';
+import CaptionedFigure from '../../components/demo/CaptionedFigure.astro';
+import ConceptCard from '../../components/demo/ConceptCard.astro';
+
+<CaptionedFigure 
+  src="/images/demo/inner-product-title.png" 
+  alt="Inner Product Space Header" 
+  caption="" 
+/>
+
+Welcome to a demonstration of how we can transform standard Markdown into a rich, textbook-quality learning experience. Instead of just static text, we use custom Astro components to create **interactive notes**, **figures**, and **callouts**.
+
+Let's explore **Inner Product Spaces** to see these components in action.
+
+<CaptionedFigure 
+  src="/images/demo/introduction.png" 
+  alt="Section 1.1 Introduction" 
+/>
+
+## 1. Vector Visualization
+
+When we talk about vectors in $\mathbb{R}^2$, we often visualize them as arrows starting from the origin $(0,0)$.
+
+<Callout type="info" title="Definition">
+  A **Vector** $v$ in the plane can be represented as a coordinate pair $(a, b)$, which corresponds to an arrow from the origin to the point $(a, b)$.
+  
+  $$v = a\hat{i} + b\hat{j}$$
+</Callout>
+
+Here is a visual representation of two vectors, $(1, 2)$ and $(-1, -1)$.
+
+<CaptionedFigure 
+  src="/images/demo/vector-grid.png" 
+  alt="Vector Grid Visualization" 
+  caption="Figure 1.2: Visualization of vectors (1, 2) and (-1, -1) on the Cartesian plane." 
+/>
+
+Notice how clearly the grid helps in identifying the components. This isn't just an image; it's a styled `CaptionedFigure` component that ensures consistent alignment and caption styling across the site.
+
+## 2. Vector Addition
+
+How do we add vectors? Geometrically, we follow the **Parallelogram Law**.
+
+<Callout type="tip" title="The Parallelogram Law">
+  If you have two vectors $v$ and $w$, their sum $v + w$ is the diagonal of the parallelogram formed by $v$ and $w$.
+</Callout>
+
+<CaptionedFigure 
+  src="/images/demo/vector-addition-abstract.png" 
+  alt="Parallelogram Rule" 
+  caption="Visualizing vector addition v + w using the parallelogram rule." 
+/>
+
+### numerical Example
+
+Let's try precise addition. If we have:
+*   $v = (1, 2)$
+*   $w = (2, 1)$
+
+Then $v + w = (1+2, 2+1) = (3, 3)$.
+
+<CaptionedFigure 
+  src="/images/demo/vector-addition-grid.png" 
+  alt="Vector Addition Grid" 
+  caption="Figure 1.4: Visualization of vector addition (1,2) + (2,1) = (3,3)." 
+/>
+
+<Callout type="warning" title="Common Mistake">
+  Remember that vector addition is **component-wise**. You cannot simply add the magnitudes together!
+  $$|v + w| \neq |v| + |w|$$ (unless they are collinear)
+</Callout>
+
+## 3. Quick Concept Review
+
+We can also use interactive cards to summarize key concepts for the student.
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); gap: 1rem;">
+  <ConceptCard title="Inner Product">
+    A generalized way to multiply vectors that gives us a scalar. It allows us to define <strong>angles</strong> and <strong>lengths</strong>.
+  </ConceptCard>
+
+  <ConceptCard title="Orthogonality" icon="📐">
+    Two vectors are orthogonal (perpendicular) if their inner product is zero.
+    $$ \langle v, w \rangle = 0 $$
+  </ConceptCard>
+</div>
+
+---
+
+### How this page is built
+
+This entire page is written in **Markdown (MDX)**. 
+
+*   The blue boxes are `<Callout>` components.
+*   The images are `<CaptionedFigure>` components.
+*   The cards above are `<ConceptCard>` components.
+
+This allows us to write educational content as easily as writing a document, while keeping the output beautiful and distinct.

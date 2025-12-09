@@ -1,0 +1,55 @@
+---
+title: "Custom List Styles"
+description: "A showcase of different list styling variants available via the List component."
+pubDate: 2023-12-25
+author: "Aryan"
+tags: ["design", "components", "typography"]
+---
+import List from "../../components/ui/List.astro";
+
+Lists are versatile tools. Sometimes you need a clean list, sometimes a checklist, and sometimes something that feels handwritten. 
+
+We've introduced a flexible `<List />` component to handle these variations without conflict.
+
+## 1. Default Style
+The standard clean sans-serif list for general content.
+
+<List data={["Item One", "Item Two", "Item Three"]} />
+
+## 2. Hand Drawn Style
+Perfect for "notes" or informal content. Uses the *Kalam* font.
+
+<List variant="hand-drawn" data={["Buy Milk", "Walk the Dog", "Write Code"]} />
+
+### Ordered Hand Drawn
+It works with numbers too!
+
+<List type="ol" variant="hand-drawn" data={["Priority 1", "Priority 2", "Priority 3"]} />
+
+## 3. Checklist Style
+Great for features, pros/cons, or completed tasks. The checkmark is automatic.
+
+<List variant="checklist">
+  <li>Fast Performance</li>
+  <li>SEO Optimized</li>
+  <li>Dark Mode Support</li>
+</List>
+
+## 4. Minimal Style
+A sleek, sidebar-style list layout with a border guide.
+
+<List variant="minimal" data={[
+    "Introduction",
+    "Methodology", 
+    "Results",
+    "Conclusion"
+]} />
+
+## Usage
+Import the component and use the `variant` prop.
+
+```astro
+import List from "../components/ui/List.astro";
+
+<List variant="hand-drawn" data={["A", "B", "C"]} />
+```

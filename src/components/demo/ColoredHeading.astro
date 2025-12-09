@@ -1,0 +1,225 @@
+---
+interface Props {
+    level?: 1 | 2 | 3 | 4 | 5 | 6;
+    text: string;
+    color?: string;
+    style?:
+        | "underline"
+        | "highlight"
+        | "gradient"
+        | "bracket"
+        | "double-underline"
+        | "marker"
+        | "circle";
+    font?: "sans" | "serif" | "mono" | "hand";
+    decoration?: "solid" | "dashed" | "dotted" | "double" | "wavy";
+}
+
+const {
+    level = 2,
+    text,
+    color = "var(--color-primary)",
+    style = "underline",
+    font = "sans",
+    decoration = "solid",
+} = Astro.props;
+
+const Element = `h${level}`;
+
+const fontMap = {
+    sans: "var(--font-heading, sans-serif)",
+    serif: "serif",
+    mono: "monospace",
+    hand: '"Comic Sans MS", "Chalkboard SE", sans-serif', // Fallback for hand-drawn feel
+};
+
+const fontFamily = fontMap[font];
+---
+
+<Element
+    class={`colored-heading style-${style} font-${font}`}
+    style={`--heading-color: ${color}; --heading-font: ${fontFamily}; --decoration-style: ${decoration}`}
+>
+    <span class="text">{text}</span>
+    {
+        style === "circle" && (
+            <svg
+                class="circle-svg"
+                viewBox="0 0 200 60"
+                preserveAspectRatio="none"
+            >
+                <path d="M5,30 Q50,5 95,30 T195,30" />
+            </svg>
+        )
+    }
+</Element>
+
+<style>
+    .colored-heading {
+        margin: 2rem 0 1rem;
+        font-weight: 800;
+        line-height: 1.3;
+        position: relative;
+        display: inline-block;
+        font-family: var(--heading-font);
+        max-width: 100%;
+    }
+
+    h1.colored-heading {
+        font-size: 2.5rem;
+    }
+    h2.colored-heading {
+        font-size: 2rem;
+    }
+    h3.colored-heading {
+        font-size: 1.5rem;
+    }
+
+    /* Base Text Color & Theme Adaptation */
+    .text {
+        color: var(--color-text-main); /* Default to theme text */
+        position: relative;
+        z-index: 1;
+        transition: color 0.3s ease;
+    }
+
+    /* Force color on specific styles where it makes sense */
+    .style-bracket .text,
+    .style-gradient .text {
+        color: inherit;
+    }
+
+    /* --- Styles --- */
+
+    /* Gradient */
+    .style-gradient .text {
+        background: linear-gradient(
+            120deg,
+            var(--heading-color),
+            var(--color-accent, #a855f7)
+        );
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        display: inline-block;
+    }
+
+    /* Underline (Standard) */
+    .style-underline::after {
+        content: "";
+        position: absolute;
+        bottom: -4px;
+        left: 0;
+        width: 100%;
+        height: 4px;
+        background: var(--heading-color);
+        border-radius: 2px;
+        opacity: 0.6;
+        border-bottom-style: var(--decoration-style);
+    }
+
+    /* Double Underline */
+    .style-double-underline::after {
+        content: "";
+        position: absolute;
+        bottom: -6px;
+        left: 0;
+        width: 100%;
+        height: 3px;
+        border-bottom: 3px double var(--heading-color);
+        opacity: 0.7;
+    }
+
+    /* Highlight */
+    .style-highlight .text {
+        color: white; /* Always white text for contrast on highlight */
+        padding: 0 0.2em;
+    }
+    /* Light mode adjustment for highlight text if needed, but white usually works on dark colors. 
+     If heading color is very light, we might need dark text. */
+    .style-highlight::before {
+        content: "";
+        position: absolute;
+        bottom: 2px;
+        left: -2px;
+        right: -2px;
+        height: 85%;
+        background: var(--heading-color);
+        opacity: 0.9;
+        z-index: 0;
+        transform: rotate(-1deg) skewX(-10deg);
+        border-radius: 4px;
+        mix-blend-mode: multiply; /* Better blending in light mode */
+    }
+    :global(.dark) .style-highlight::before {
+        mix-blend-mode: normal;
+        opacity: 0.8;
+    }
+
+    /* Bracket */
+    .style-bracket {
+        padding-left: 1rem;
+        border-left: 6px solid var(--heading-color);
+    }
+    .style-bracket .text {
+        color: var(--heading-color);
+        /* For light mode, ensure contrast. If custom color is too light, might be hard to see. */
+    }
+    /* Auto-darken bracket text in light mode if it's too bright? Hard to do without JS or HSL. 
+     relying on user to pick good colors or default variable. */
+
+    /* Marker */
+    .style-marker .text {
+        /* No forced color change, just background marker */
+    }
+    .style-marker::before {
+        content: "";
+        position: absolute;
+        bottom: 0.1em;
+        left: -0.2em;
+        right: -0.1em;
+        height: 0.5em;
+        background: var(--heading-color);
+        opacity: 0.4;
+        z-index: 0;
+        border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+    }
+
+    /* Circle */
+    .style-circle {
+        padding: 0.2em 0.5em;
+    }
+    .circle-svg {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: 0;
+    }
+    .circle-svg path {
+        fill: none;
+        stroke: var(--heading-color);
+        stroke-width: 3;
+        stroke-linecap: round;
+        vector-effect: non-scaling-stroke;
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 0;
+        /* Simple wobble approximation */
+        d: path(
+            "M5,50 C30,60 70,55 100,50 C130,45 170,40 195,30 C200,20 180,10 150,10 C120,10 80,15 50,20 C20,25 0,35 5,50"
+        );
+    }
+
+    /* Hand-drawn adjustments for global theme */
+    :global(.theme-hand-drawn) .style-underline::after {
+        border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+        height: 6px;
+        bottom: -6px;
+    }
+
+    /* Media query for light mode adaptation */
+    @media (prefers-color-scheme: light) {
+        /* Ensure text isn't too light if it inherits `color-text-main` */
+    }
+</style>
