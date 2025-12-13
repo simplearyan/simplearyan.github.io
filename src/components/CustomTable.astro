@@ -69,24 +69,30 @@ const theme = colors[color];
     --theme-text: ${theme.text};
   `}
 >
-    <table>
-        <thead>
-            <tr>
-                {headers.map((header) => <th>{header}</th>)}
-            </tr>
-        </thead>
-        <tbody>
-            {
-                rows.map((row) => (
+    {
+        rows && rows.length > 0 ? (
+            <table>
+                <thead>
                     <tr>
-                        {row.map((cell) => (
-                            <td>{cell}</td>
+                        {headers.map((header) => (
+                            <th>{header}</th>
                         ))}
                     </tr>
-                ))
-            }
-        </tbody>
-    </table>
+                </thead>
+                <tbody>
+                    {rows.map((row) => (
+                        <tr>
+                            {row.map((cell) => (
+                                <td>{cell}</td>
+                            ))}
+                        </tr>
+                    ))}
+                </tbody>
+            </table>
+        ) : (
+            <slot />
+        )
+    }
 </div>
 
 <script>
@@ -168,35 +174,35 @@ const theme = colors[color];
         font-family: var(--font-mono, monospace);
     }
 
-    table {
+    .custom-table-container :global(table) {
         width: 100%;
         border-collapse: collapse;
         font-size: 0.95rem;
         color: var(--table-text);
     }
 
-    th,
-    td {
+    .custom-table-container :global(th),
+    .custom-table-container :global(td) {
         padding: 0.75rem 1rem;
         text-align: left;
         border-bottom: 1px solid var(--table-border-color);
     }
 
-    th {
+    .custom-table-container :global(th) {
         font-weight: 600;
         background-color: var(--header-bg);
         color: var(--header-text);
     }
 
     /* Style: Normal */
-    .style-normal table {
+    .style-normal :global(table) {
         border: 1px solid var(--table-border-color);
         border-radius: 8px;
         overflow: hidden;
     }
 
     /* Style: Hand-Drawn */
-    .style-hand-drawn table {
+    .style-hand-drawn :global(table) {
         border-collapse: separate;
         border-spacing: 0;
         border: 2px solid var(--table-text);
@@ -204,23 +210,23 @@ const theme = colors[color];
         box-shadow: 2px 3px 5px rgba(0, 0, 0, 0.1);
     }
 
-    .style-hand-drawn th,
-    .style-hand-drawn td {
+    .style-hand-drawn :global(th),
+    .style-hand-drawn :global(td) {
         border-bottom: 2px solid var(--table-text);
         border-right: 2px solid var(--table-text);
     }
 
-    .style-hand-drawn th:last-child,
-    .style-hand-drawn td:last-child {
+    .style-hand-drawn :global(th:last-child),
+    .style-hand-drawn :global(td:last-child) {
         border-right: none;
     }
 
-    .style-hand-drawn tr:last-child td {
+    .style-hand-drawn :global(tr:last-child td) {
         border-bottom: none;
     }
 
     /* Style: Bold */
-    .style-bold th {
+    .style-bold :global(th) {
         background-color: var(--theme-text);
         color: var(--color-bg);
         text-transform: uppercase;
@@ -228,109 +234,109 @@ const theme = colors[color];
         border-bottom: 3px solid var(--theme-border);
     }
 
-    .style-bold table {
+    .style-bold :global(table) {
         border: 3px solid var(--theme-text);
     }
 
-    .style-bold td {
+    .style-bold :global(td) {
         border-bottom: 1px solid var(--theme-text);
         font-weight: 500;
     }
 
     /* Style: Colorful */
-    .style-colorful th {
+    .style-colorful :global(th) {
         background-color: var(--theme-border);
         color: white;
     }
 
-    .style-colorful tr:nth-child(even) {
+    .style-colorful :global(tr:nth-child(even)) {
         background-color: var(--theme-bg);
     }
 
-    .style-colorful table {
+    .style-colorful :global(table) {
         border: 2px solid var(--theme-border);
         border-radius: 8px;
         overflow: hidden;
     }
 
     /* Style: Sketchy */
-    .style-sketchy table {
+    .style-sketchy :global(table) {
         border: 3px solid var(--theme-border);
         border-radius: 4px;
         background: var(--color-code-bg);
         box-shadow: 4px 4px 0 var(--theme-border);
     }
 
-    .style-sketchy th {
+    .style-sketchy :global(th) {
         background: transparent;
         border-bottom: 2px dashed var(--theme-border);
         color: var(--theme-text);
     }
 
-    .style-sketchy td {
+    .style-sketchy :global(td) {
         border-bottom: 1px dashed var(--theme-border);
     }
 
     /* Style: Sketchy Outline */
-    .style-sketchy-outline table {
+    .style-sketchy-outline :global(table) {
         border: 3px solid var(--table-text);
         border-radius: 2px 255px 3px 25px / 255px 5px 225px 3px;
         background: transparent;
     }
 
-    .style-sketchy-outline th {
+    .style-sketchy-outline :global(th) {
         background: transparent;
         border-bottom: 3px solid var(--table-text);
         color: var(--table-text);
     }
 
-    .style-sketchy-outline td {
+    .style-sketchy-outline :global(td) {
         border-bottom: 1px solid var(--table-text);
     }
 
     /* Style: Sketchy Colorful Outline */
-    .style-sketchy-colorful-outline table {
+    .style-sketchy-colorful-outline :global(table) {
         border: 3px solid var(--theme-border);
         border-radius: 2px 255px 3px 25px / 255px 5px 225px 3px;
         background: var(--theme-bg);
     }
 
-    .style-sketchy-colorful-outline th {
+    .style-sketchy-colorful-outline :global(th) {
         background: var(--theme-border);
         color: white;
         border-bottom: 3px solid var(--theme-border);
     }
 
-    .style-sketchy-colorful-outline td {
+    .style-sketchy-colorful-outline :global(td) {
         border-bottom: 1px solid var(--theme-border);
         background: var(--color-code-bg);
     }
 
     /* Style: Minimal */
-    .style-minimal table {
+    .style-minimal :global(table) {
         border: none;
     }
 
-    .style-minimal th {
+    .style-minimal :global(th) {
         background: transparent;
         border-bottom: 2px solid var(--theme-border);
         color: var(--theme-text);
         padding-left: 0;
     }
 
-    .style-minimal td {
+    .style-minimal :global(td) {
         border-bottom: 1px solid var(--color-border);
         padding-left: 0;
     }
 
     /* Style: Bold Colorful */
-    .style-bold-colorful table {
+    .style-bold-colorful :global(table) {
         border: 3px solid var(--theme-border);
         border-radius: 8px;
         overflow: hidden;
     }
 
-    .style-bold-colorful th {
+    .style-bold-colorful :global(th) {
         background-color: var(--theme-border);
         color: white;
         text-transform: uppercase;
@@ -338,11 +344,11 @@ const theme = colors[color];
         border-bottom: 3px solid var(--theme-border);
     }
 
-    .style-bold-colorful tr:nth-child(even) {
+    .style-bold-colorful :global(tr:nth-child(even)) {
         background-color: var(--theme-bg);
     }
 
-    .style-bold-colorful td {
+    .style-bold-colorful :global(td) {
         border-bottom: 1px solid var(--theme-border);
         font-weight: 500;
     }

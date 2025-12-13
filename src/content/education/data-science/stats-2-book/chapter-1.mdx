@@ -12,54 +12,189 @@ hideToc: false
 
 import CinematicText from "../../../../components/cinematic/CinematicText.astro";
 import Concept from "../../../../components/education/Concept.astro";
+import Problem from "../../../../components/education/Problem.astro";
+import Solution from "../../../../components/education/Solution.astro";
+import CustomTable from "../../../../components/CustomTable.astro";
 import CircleEmphasis from "../../../../components/cinematic/CircleEmphasis.astro";
 import ArrowEmphasis from "../../../../components/cinematic/ArrowEmphasis.astro";
+import StrokeUnderline from "../../../../components/cinematic/StrokeUnderline.astro";
 
-<CinematicText variant="hero" as="h1" class="text-4xl mb-8" color="#ec4899">Basic Concepts</CinematicText>
+<CinematicText variant="epic" as="h1" class="text-5xl mb-8 text-center" color="#ec4899">B A S I C &nbsp; C O N C E P T S</CinematicText>
 
-This chapter introduces the <CircleEmphasis color="cyan">foundational mathematical framework</CircleEmphasis> for probability.
+Chapter 1 of the "Stats 2 Book" establishes the <StrokeUnderline color="#ec4899">fundamental vocabulary</StrokeUnderline> and axiomatic framework necessary for studying probability and statistics. This chapter introduces the structure needed to discuss the likelihood of occurrences.
 
-## Definitions and Properties
+Here is a detailed explanation of the key concepts, followed by illustrative examples and exercises based on the source material:
 
-We begin by defining the core terms in probability theory.
+---
 
-<Concept title="The Basics">
-1.  **Sample Space ($\Omega$)**: The set of all possible outcomes of an experiment.
-2.  **Experiment**: A process that leads to one of several possible observations.
-3.  **Outcome**: A single result of an experiment.
-4.  **Event**: A subset of the sample space.
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">1.1 Definitions and Properties</CinematicText>
+
+The foundation of probability theory rests on defining what is possible before determining what is likely.
+
+### Key Definitions
+
+<CustomTable style="sketchy-colorful-outline" color="purple" font="sans">
+| Concept | Definition | Example |
+| :--- | :--- | :--- |
+| **Sample Space** ($S$) | A set listing **all possibilities** (outcomes) that might occur. | When rolling a six-sided die, $S = \{1, 2, 3, 4, 5, 6\}$. |
+| **Outcome** | An element of the sample space $S$. | The result of rolling a die, e.g., '4'. |
+| **Experiment** | The process of actually selecting one of the outcomes listed. | Flipping a coin or waiting for the winner of the World Cup. |
+| **Event** ($E$) | Any subset of the sample space $S$. | Rolling a number > 2: $E = \{3, 4, 5, 6\}$. |
+</CustomTable>
+
+### Probability Axioms
+
+A probability ($P$) is a function that assigns a chance (a number between 0 and 1) to each event $E$. This formally relies on **Kolmogorov's axioms**.
+
+<Concept title="Axiom 1: Certainty">
+The probability of the entire sample space is **1**.
+$$P(S) = 1$$
+*Interpretation:* There is a 100% chance that an experiment will result in some outcome included in $S$.
 </Concept>
 
-Probability is formally defined using **Kolmogorov's axioms**, from which we derive fundamental properties like $P(A^c) = 1 - P(A)$.
+<Concept title="Axiom 2: Additivity">
+For any countable collection of **disjoint** events ($E_1, E_2, \dots$), their combined probability is the sum of their individual probabilities.
+$$P (E_1 \cup E_2 \cup \dots) = P(E_1) + P(E_2) + \dots$$
+*Interpretation:* If events cannot happen simultaneously, their probabilities add up.
+</Concept>
 
-## Equally Likely Outcomes
+### Basic Properties
 
-When all outcomes in a finite sample space are equally likely, we have the **Uniform Distribution**.
+From the two fundamental axioms, several properties can be proven that simplify probability calculations:
 
-<ArrowEmphasis>
-Calculation reduces to counting:
-$$P(E) = \frac{\text{Number of outcomes in } E}{\text{Total number of outcomes in } \Omega}$$
+<CustomTable style="bold-colorful" color="blue" font="sans">
+| Property | Formula | Description |
+| :--- | :--- | :--- |
+| Empty Set | $P(\emptyset) = 0$ | The probability of nothing happening is zero. |
+| Finite Additivity | $P(\cup E_i) = \sum P(E_i)$ | Sum rule for finite disjoint events. |
+| Monotonicity | If $E \subset F, P(E) \le P(F)$ | Subsets cannot be more likely than supersets. |
+| Difference Rule | $P(F \setminus E) = P(F) - P(E)$ | Prob. of $F$ occurring but $E$ not (if $E \subset F$). |
+| Complement Rule | $P(E^c) = 1 - P(E)$ | Prob. that $E$ does NOT occur. |
+| General Addition | $P(E \cup F) = P(E) + P(F) - P(E \cap F)$ | Subtract intersection to avoid double counting. |
+</CustomTable>
+
+### Example and Solution
+
+<Problem number="1" title="Coin Flip Axioms">
+A fair coin flip has a sample space $S = \{\text{heads, tails}\}$. Use the axioms to show that the probability of observing heads is 0.5.
+
+<Solution>
+1.  Let $E = \{\text{heads}\}$ and $F = \{\text{tails}\}$ be two disjoint events.
+2.  Since the coin is "fair," $P(E) = P(F) = p$ for some value $p$.
+3.  The union is the sample space: $S = E \cup F$.
+4.  Using Axiom 1 and Axiom 2:
+    $$1 = P(S) = P(E \cup F) = P(E) + P(F)$$
+5.  Substituting $p$: $1 = 2p \implies p = 0.5$.
+</Solution>
+</Problem>
+
+<Problem number="2" title="Fishing Tonnage">
+A town's fishing fleet has a 35% chance of catching over 400 tons ($P(F)=0.35$) and a 10% chance of catching over 500 tons ($P(E)=0.10$). How likely is it that they will catch <CircleEmphasis color="orange">between 400 and 500 tons</CircleEmphasis>?
+
+<Solution>
+1.  Variable $E$ ("over 500") is a subset of $F$ ("over 400").
+2.  "Between 400 and 500" is the difference set $F \setminus E$.
+3.  Using the Difference Rule:
+    $$P(F \setminus E) = P(F) - P(E)$$
+    
+**Answer:** There is a **25% chance** that between 400 and 500 tons of fish will be caught.
+</Solution>
+</Problem>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">1.2 Equally Likely Outcomes</CinematicText>
+
+When outcomes are finite and equally likely, we have a **Uniform Distribution**.
+
+<ArrowEmphasis color="#ef4444">
+    $$P(E) = \frac{|E|}{|S|} = \frac{\text{Number of outcomes in } E}{\text{Total number of outcomes in } S}$$
 </ArrowEmphasis>
 
-## Conditional Probability and Bayes' Theorem
+Running probability calculations in this setting becomes a pure **counting problem**.
 
-How does knowledge that event $B$ has occurred alter the probability of $A$?
+<Problem number="3" title="Rolling Two Dice">
+Two dice are rolled. How likely is it that their sum will equal eight?
 
+<Solution>
+1.  Total sample space $|S| = 6 \times 6 = 36$.
+2.  Event $E$ (sum is 8): $E = \{(2, 6), (3, 5), (4, 4), (5, 3), (6, 2)\}$.
+3.  Count $|E| = 5$.
+4.  Probability:
+    $$P(E) = \frac{5}{36}$$
+</Solution>
+</Problem>
+
+<Problem number="4" title="Group Selection">
+A group of 12 people includes Grant and Dilip. Pick 3 randomly. How likely is it to include **Grant, but not Dilip**?
+
+<Solution title="Combinatorial Solution">
+1.  **Total Outcomes**: Choose 3 from 12. $|S| = \binom{12}{3} = 220$.
+2.  **Event $E$**: Grant is fixed (1 way). Dilip is out. We need 2 more from the remaining 10.
+3.  **Count $|E|$**: Choose 2 from 10. $|E| = \binom{10}{2} = 45$.
+4.  **Probability**:
+    $$P(E) = \frac{45}{220} = \frac{9}{44}$$
+</Solution>
+</Problem>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">1.3 Conditional Probability</CinematicText>
+
+How is likelihood "altered" by knowledge that another event $B$ has occurred?
+
+<Concept title="Conditional Probability Formula">
 $$P(A|B) = \frac{P(A \cap B)}{P(B)}$$
-
-This leads to one of the most powerful theorems in statistics:
-
-<Concept title="Bayes' Theorem">
-$$P(B|A) = \frac{P(A|B)P(B)}{P(A)}$$
-This allows us to reverse conditional probabilities, updating our beliefs ($P(B)$) given new evidence ($A$).
+*Provided $P(B) > 0$*
 </Concept>
 
-## Independence
+### Bayes' Theorem
 
-Events $A$ and $B$ are **independent** if the occurrence of one does not affect the other:
+One of the most powerful theorems in statistics allows us to **reverse** conditional probabilities.
+
+<Concept title="Bayes' Theorem">
+$$P(B|A) = \frac{P(A|B)P(B)}{\sum P(A|B_j)P(B_j)}$$
+Updates belief $P(B)$ given new evidence $A$.
+</Concept>
+
+<Problem number="5" title="The Swine Flu Test">
+*   Detects Flu 95% of the time if infected: $P(Pos|Flu) = 0.95$.
+*   False Positive rate is 2%: $P(Pos|Healthy) = 0.02$.
+*   Population rate is 1%: $P(Flu) = 0.01$.
+
+If a person tests positive, what is the probability they **actually** have the flu?
+
+<Solution title="Bayesian Check">
+1.  Let $A = \text{Flu}$, $B = \text{Positive Test}$.
+2.  We want $P(A|B)$.
+3.  Apply Bayes' Theorem:
+    $$P(A|B) = \frac{P(B|A)P(A)}{P(B|A)P(A) + P(B|A^c)P(A^c)}$$
+    $$P(A|B) = \frac{(0.95)(0.01)}{(0.95)(0.01) + (0.02)(0.99)}$$
+    $$P(A|B) \approx 0.324$$
+
+**Result:** Only a **32.4%** chance they actually have the flu!
+</Solution>
+</Problem>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">1.4 Independence</CinematicText>
+
+Events are <StrokeUnderline>independent</StrokeUnderline> if the occurrence of one has **no effect** on the other.
 
 $$P(A \cap B) = P(A)P(B)$$
 
-## Using R for Computation
+---
 
-We use **R** for evaluating statistical expressions, vectorized operations, and calculating quantities like factorials and binomial coefficients.
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">1.5 Using R</CinematicText>
+
+R is essential for complex calculations.
+
+<CustomTable style="minimal" font="sans" color="green">
+| Function | Syntax | Purpose |
+| :--- | :--- | :--- |
+| Vector Creation | `c(1, 2, 3)` | Creates a list of numbers. |
+| Sequence | `1:100` | Creates integers from 1 to 100. |
+| Combinations | `choose(n, k)` | Calculates $\binom{n}{k}$. |
+| Summation | `sum(x)` | Adds all elements in vector $x$. |
+</CustomTable>
