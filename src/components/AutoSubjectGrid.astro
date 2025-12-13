@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import SubjectCard from "./SubjectCard.astro";
 import EnhancedSubjectCard from "./EnhancedSubjectCard.astro";
 import ProfessionalSubjectCard from "./ProfessionalSubjectCard.astro";
+import BookCard from "./BookCard.astro";
 
 interface Props {
     courseSlug: string;
@@ -17,61 +18,113 @@ const {
 } = Astro.props;
 
 const allEducation = await getCollection("education");
-const lessons = allEducation
+const allItems = allEducation
     .filter((entry) => entry.data.parent === courseSlug)
     .sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
-const firstItem = lessons[0];
+
+// Separate Textbooks from regular Subjects/Lessons
+const textbooks = allItems.filter((item) =>
+    item.data.tags?.includes("Textbook"),
+);
+const regularItems = allItems.filter(
+    (item) => !item.data.tags?.includes("Textbook"),
+);
+
+const firstItem = allItems[0];
 const isLessonLevel =
     firstItem?.data.type === "unit" || firstItem?.data.type === "lesson";
 const gridTitle = isLessonLevel ? "Course Lessons" : "Course Subjects";
 ---
 
-<div class="grid-container">
-    <h2 class="grid-title">{gridTitle}</h2>
-    <div class="auto-subject-grid">
-        {
-            lessons.map((lesson, index) => {
-                const href = `/education/${lesson.slug}`;
-                const title = lesson.data.title;
-                // Extract subtitle if available or use a default
-                const subtitle =
-                    lesson.data.description || `Module ${index + 1}`;
-                // Use a default icon or one from frontmatter if available (assuming frontmatter might have icon in future)
-                const icon = defaultIcon;
+<div class="grid-wrapper">
+    {/* Regular Subjects Section */}
+    <div class="grid-container">
+        <h2 class="grid-title">{gridTitle}</h2>
+        <div class="auto-subject-grid">
+            {
+                regularItems.map((lesson, index) => {
+                    const href = `/education/${lesson.slug}`;
+                    const title = lesson.data.title;
+                    const subtitle =
+                        lesson.data.description || `Module ${index + 1}`;
+                    const icon = defaultIcon;
 
-                if (cardStyle === "enhanced") {
+                    if (cardStyle === "enhanced") {
+                        return (
+                            <EnhancedSubjectCard
+                                title={title}
+                                subtitle={subtitle}
+                                href={href}
+                                index={index}
+                                icon={icon}
+                            />
+                        );
+                    }
+
+                    if (cardStyle === "original") {
+                        return (
+                            <SubjectCard
+                                title={title}
+                                href={href}
+                                icon={icon}
+                            />
+                        );
+                    }
+
                     return (
-                        <EnhancedSubjectCard
+                        <ProfessionalSubjectCard
                             title={title}
                             subtitle={subtitle}
                             href={href}
-                            index={index}
                             icon={icon}
                         />
                     );
-                }
-
-                if (cardStyle === "original") {
-                    return (
-                        <SubjectCard title={title} href={href} icon={icon} />
-                    );
-                }
-
-                // Default to professional
-                return (
-                    <ProfessionalSubjectCard
-                        title={title}
-                        subtitle={subtitle}
-                        href={href}
-                        icon={icon}
-                    />
-                );
-            })
-        }
+                })
+            }
+        </div>
     </div>
+
+    {/* Textbooks Section */}
+    {
+        textbooks.length > 0 && (
+            <div class="grid-container book-section">
+                <h2 class="grid-title">Course Books & Resources</h2>
+                <div class="book-grid">
+                    {textbooks.map((book) => {
+                        let coverColor = "#3b82f6"; // Default Blue
+                        let pattern = "circles";
+
+                        if (book.data.title.includes("Stats")) {
+                            coverColor = "#ec4899"; // Pink/Rose
+                            pattern = "grid";
+                        } else if (book.data.title.includes("Calculus")) {
+                            coverColor = "#8b5cf6"; // Violet
+                            pattern = "waves";
+                        }
+
+                        return (
+                            <BookCard
+                                title={book.data.title}
+                                subtitle={book.data.description}
+                                href={`/education/${book.slug}`}
+                                coverColor={coverColor}
+                                pattern={pattern as any}
+                            />
+                        );
+                    })}
+                </div>
+            </div>
+        )
+    }
 </div>
 
 <style>
+    .grid-wrapper {
+        display: flex;
+        flex-direction: column;
+        gap: 2rem;
+    }
+
     .grid-container {
         margin-bottom: 3rem;
     }
@@ -102,5 +155,13 @@ const gridTitle = isLessonLevel ? "Course Lessons" : "Course Subjects";
         display: grid;
         gap: 1.5rem;
         grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    }
+
+    .book-grid {
+        display: grid;
+        gap: 2rem;
+        /* Adjusted for better mobile responsiveness - allows 2 columns on most phones */
+        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        padding-top: 1rem;
     }
 </style>

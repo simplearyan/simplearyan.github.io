@@ -1,0 +1,36 @@
+---
+title: "Rank and Nullity"
+description: "Exploring the fundamental subspaces of a matrix and the Rank-Nullity Theorem."
+pubDate: 2025-01-05
+tags: ["Linear Algebra", "Rank", "Nullity"]
+order: 5
+type: "unit"
+subject: "maths-2-book"
+parent: "data-science/maths-2-book/chapters"
+---
+
+import CinematicText from "../../../../components/cinematic/CinematicText.astro";
+import Concept from "../../../../components/education/Concept.astro";
+import StrokeUnderline from "../../../../components/cinematic/StrokeUnderline.astro";
+import CircleEmphasis from "../../../../components/cinematic/CircleEmphasis.astro";
+
+<CinematicText variant="neon" as="h1" class="text-4xl mb-8" color="#f59e0b">Rank and Nullity</CinematicText>
+
+Every matrix $A$ hides important geometric information in its columns and solutions.
+
+## Rank
+The **Rank** of a matrix is the number of **linearly independent columns** (or rows). It tells us the "true" dimension of the output space.
+
+## Null Space & Nullity
+The **Null Space** is the set of all vectors $x$ such that <StrokeUnderline variant="zigzag" color="#facc15">$Ax = 0$</StrokeUnderline>.
+The **Nullity** is the dimension of this Null Space.
+
+<Concept title="The Rank-Nullity Theorem">
+  For an $m \times n$ matrix $A$:
+  
+  <div class="text-center text-xl font-bold my-4">
+    <CircleEmphasis variant="double" color="#f59e0b">Rank(A) + Nullity(A) = n</CircleEmphasis>
+  </div>
+  
+  This fundamental theorem creates a balance: The information preserved (Rank) plus the information lost (Nullity) equals the original input dimension ($n$).
+</Concept>

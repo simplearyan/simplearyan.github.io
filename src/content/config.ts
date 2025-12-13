@@ -43,6 +43,9 @@ const educationCollection = defineCollection({
         parent: z.string().optional(),
         subject: z.string().optional(),
         hideToc: z.boolean().optional().default(false),
+        // Sidebar customization
+        showOverview: z.boolean().optional().default(false),
+        overviewLabel: z.string().optional().default("Overview"),
     }),
 });
 

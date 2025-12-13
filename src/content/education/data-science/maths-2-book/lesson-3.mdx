@@ -1,0 +1,43 @@
+---
+title: "Introduction to Vector Space"
+description: "Formal definition of vector spaces, axioms, and subspaces."
+pubDate: 2025-01-03
+tags: ["Linear Algebra", "Vector Space", "Axioms"]
+order: 3
+type: "unit"
+subject: "maths-2-book"
+parent: "data-science/maths-2-book/chapters"
+---
+
+import CinematicText from "../../../../components/cinematic/CinematicText.astro";
+import Concept from "../../../../components/education/Concept.astro";
+import StrokeUnderline from "../../../../components/cinematic/StrokeUnderline.astro";
+import CircleEmphasis from "../../../../components/cinematic/CircleEmphasis.astro";
+
+<CinematicText variant="comic-verse" as="h1" class="text-4xl mb-8" color="#8b5cf6">The Vector Space</CinematicText>
+
+We are now moving from concrete lists of numbers to the **abstract** definition of a vector space defined over $\mathbb{R}$ (Real numbers).
+
+## The 10 Fundamental Axioms
+
+For a set $V$ to be a Vector Space, it must satisfy **10 axioms** under two operations: *Vector Addition* and *Scalar Multiplication*.
+
+1.  **Closure** (Addition & Multiplication)
+2.  **Associativity**
+3.  **Commutativity**
+4.  **Identity** (Existence of <CircleEmphasis variant="single" color="#6366f1">Zero Vector $\mathbf{0}$</CircleEmphasis>)
+5.  **Inverse** (Additive Inverse)
+6.  *...and distributive properties.*
+
+<Concept title="Subspaces">
+  A **Subspace** is a non-empty subset $W$ of a vector space $V$ that is *itself* a vector space under the same operations.
+  
+  **The Subspace Test**:
+  1.  Is $\mathbf{0} \in W$?
+  2.  Is $W$ closed under addition?
+  3.  Is $W$ closed under scalar multiplication?
+</Concept>
+
+## Key Properties
+*   The zero vector is **unique**.
+*   The additive inverse of any vector is **unique**.

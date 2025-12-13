@@ -1,0 +1,36 @@
+---
+title: "Linear Regression"
+description: "Modeling linear relationships, least squares, and regression inference."
+pubDate: 2025-01-02
+tags: ["Statistics", "Textbook", "Regression", "Least Squares", "Modeling"]
+type: "unit"
+order: 10
+subject: "stats-2-book"
+parent: "data-science/stats-2-book/chapters"
+hideToc: false
+---
+
+import CinematicText from "../../../../components/cinematic/CinematicText.astro";
+import Concept from "../../../../components/education/Concept.astro";
+import ArrowEmphasis from "../../../../components/cinematic/ArrowEmphasis.astro";
+
+<CinematicText variant="hero" as="h1" class="text-4xl mb-8" color="#ec4899">Linear Regression</CinematicText>
+
+Modeling the relationship between independent ($X$) and dependent ($Y$) variables.
+
+## Simple Linear Model
+$$Y_j = \alpha + \beta X_j + \epsilon_j$$
+where errors $\epsilon_j \sim N(0, \sigma^2)$.
+
+## Least Squares
+We find the line $y = a + bx$ that minimizes the **Sum of Squared Errors (SSE)**.
+
+<ArrowEmphasis>
+The slope $b$ and intercept $a$ are themselves random variables!
+$$E[b] = \beta, \quad E[a] = \alpha$$
+</ArrowEmphasis>
+
+## Inference in Regression
+We can test if the relationship is real (Test of Utility):
+$$H_0: \beta = 0$$
+If rejected, $X$ provides significant predictive power for $Y$.

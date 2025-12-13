@@ -1,0 +1,51 @@
+---
+title: "Vector and Matrices"
+description: "Introduction to vectors, matrices, and their fundamental operations in linear algebra."
+pubDate: 2025-01-01
+tags: ["Linear Algebra", "Vectors", "Matrices"]
+order: 1
+type: "unit"
+subject: "maths-2-book"
+parent: "data-science/maths-2-book/chapters"
+---
+
+import CinematicText from "../../../../components/cinematic/CinematicText.astro";
+import Concept from "../../../../components/education/Concept.astro";
+import StrokeUnderline from "../../../../components/cinematic/StrokeUnderline.astro";
+import MarkerHighlight from "../../../../components/cinematic/MarkerHighlight.astro";
+import CircleEmphasis from "../../../../components/cinematic/CircleEmphasis.astro";
+
+<CinematicText variant="hero" as="h1" class="text-4xl mb-8" color="#3b82f6">Vectors and Matrices</CinematicText>
+
+## Vectors: The Building Blocks
+
+At its core, a **vector** is just a <CircleEmphasis variant="rough" color="#ef4444">list of data</CircleEmphasis>. Whether it's a row of GDP numbers or a column of batting averages, vectors structure our data.
+
+<Concept title="Visualizing Vectors">
+  In $R^2$ (2D space), a vector is an **arrow** starting from the origin $(0,0)$.
+  *   **Magnitude**: The length of the arrow.
+  *   **Direction**: Where the arrow points.
+</Concept>
+
+## Understanding Matrices
+
+A **matrix** is a rectangular array of numbers. It's essentially a collection of vectors.
+
+### Types of Matrices
+1.  **Square Matrix**: Same number of rows and columns ($n \times n$).
+2.  **Diagonal Matrix**: Non-zero entries only on the diagonal.
+3.  **Scalar Matrix**: A diagonal matrix where all diagonal elements are equal.
+4.  **Identity Matrix ($I$)**: A scalar matrix with $1$s on the diagonal.
+
+<CinematicText variant="neon" as="h3" class="text-2xl mt-8 mb-4">Matrix Operations</CinematicText>
+
+*   **Addition**: Add corresponding elements.
+*   **Scalar Multiplication**: Multiply every element by the scalar.
+*   **Matrix Multiplication**: The row of the first matrix dots with the column of the second.
+
+## Determinants
+
+The <StrokeUnderline variant="double" color="#8b5cf6">determinant</StrokeUnderline> is a special number calculated from a square matrix.
+
+*   **Invariance**: Adding a multiple of one row to another does **not** change the determinant.
+*   **Minors & Cofactors**: Tools used to calculate determinants of higher-order matrices.

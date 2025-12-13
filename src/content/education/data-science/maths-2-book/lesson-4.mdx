@@ -1,0 +1,35 @@
+---
+title: "Basis and Dimension"
+description: "Understanding the building blocks of vector spaces: Linear Independence, Spanning Sets, Basis, and Dimension."
+pubDate: 2025-01-04
+tags: ["Linear Algebra", "Basis", "Dimension"]
+order: 4
+type: "unit"
+subject: "maths-2-book"
+parent: "data-science/maths-2-book/chapters"
+---
+
+import CinematicText from "../../../../components/cinematic/CinematicText.astro";
+import Concept from "../../../../components/education/Concept.astro";
+import StrokeUnderline from "../../../../components/cinematic/StrokeUnderline.astro";
+import MarkerHighlight from "../../../../components/cinematic/MarkerHighlight.astro";
+
+<CinematicText variant="hero" as="h1" class="text-4xl mb-8" color="#ec4899">Basis & Dimension</CinematicText>
+
+To understand the structure of a vector space, we need to know what creates it (Spanning) and what is redundant (Dependence).
+
+## Core Concepts
+
+1.  **Linear Combination**: Creating new vectors by scaling and adding existing ones ($c_1v_1 + ... + c_kv_k$).
+2.  **Linear Independence**: No vector in the set can be written as a linear combination of the others.
+3.  **Spanning Set**: The set of all possible linear combinations.
+
+<Concept title="The Basis">
+  A **Basis** is the "Goldilocks" set of a vector space. It is:
+  1.  Large enough to <MarkerHighlight color="green">Span</MarkerHighlight> the space.
+  2.  Small enough to be <MarkerHighlight color="blue">Linearly Independent</MarkerHighlight>.
+</Concept>
+
+## Dimension
+
+The <StrokeUnderline variant="double" color="#ec4899">dimension</StrokeUnderline> of a vector space is simply the **number of vectors in its basis**. This number is unique for a given space.

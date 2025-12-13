@@ -124,6 +124,29 @@ const structure = subjects.map((subject) => {
                     </summary>
 
                     <div class="subject-content">
+                        {/* Course Overview Link */}
+                        {subject.data.showOverview && (
+                            <ul
+                                class="unit-list"
+                                style="padding-bottom: 0.5rem;"
+                            >
+                                <li class="unit-item">
+                                    <a
+                                        href={`/education/${subject.slug}`}
+                                        class={
+                                            currentSlug === subject.slug
+                                                ? "active"
+                                                : ""
+                                        }
+                                        style="font-weight: 600;"
+                                    >
+                                        {subject.data.overviewLabel ||
+                                            "Overview"}
+                                    </a>
+                                </li>
+                            </ul>
+                        )}
+
                         {/* Modules */}
                         {modules.map(
                             ({ module, units, isActive: isModuleActive }) => (

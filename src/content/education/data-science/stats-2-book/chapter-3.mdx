@@ -1,0 +1,41 @@
+---
+title: "Discrete Random Variables"
+description: "Formalizing random variables, probability mass functions, and independence."
+pubDate: 2025-01-02
+tags: ["Statistics", "Textbook", "Random Variables", "PMF", "Independence"]
+type: "unit"
+order: 3
+subject: "stats-2-book"
+parent: "data-science/stats-2-book/chapters"
+hideToc: false
+---
+
+import CinematicText from "../../../../components/cinematic/CinematicText.astro";
+import Concept from "../../../../components/education/Concept.astro";
+import ArrowEmphasis from "../../../../components/cinematic/ArrowEmphasis.astro";
+
+<CinematicText variant="comic-verse" as="h1" class="text-4xl mb-8" color="#ec4899">Discrete Random Variables</CinematicText>
+
+A **Random Variable** ($X$) is a function that maps outcomes to numerical values.
+
+## Probability Mass Function (PMF)
+
+For discrete variables, the distribution is defined by the PMF:
+
+$$f_X(t) = P(X=t)$$
+
+## Independence and Dependence
+
+We extend independence to variables. A sequence is **i.i.d.** if the variables are:
+1.  **Independent**
+2.  **Identically Distributed**
+
+<Concept title="Memoryless Property">
+The **Geometric distribution** is memoryless. The probability of success in the next trial doesn't depend on how many failures have already occurred.
+$$P(X > n+m | X > n) = P(X > m)$$
+</Concept>
+
+## Functions of Random Variables
+
+How do we find the distribution of $Z = X + Y$?
+If $X$ and $Y$ are independent, we use **Convolution**.

@@ -1,0 +1,33 @@
+---
+title: "Inner Product Space"
+description: "Geometry in vector spaces: Angles, Lengths, and Orthogonality."
+pubDate: 2025-01-09
+tags: ["Linear Algebra", "Inner Product", "Orthogonality"]
+order: 9
+type: "unit"
+subject: "maths-2-book"
+parent: "data-science/maths-2-book/chapters"
+---
+
+import CinematicText from "../../../../components/cinematic/CinematicText.astro";
+import Concept from "../../../../components/education/Concept.astro";
+import StrokeUnderline from "../../../../components/cinematic/StrokeUnderline.astro";
+import MarkerHighlight from "../../../../components/cinematic/MarkerHighlight.astro";
+
+<CinematicText variant="epic" as="h1" class="text-4xl mb-8" color="#06b6d4">Inner Product Space</CinematicText>
+
+To talk about "length" or "angle" in abstract spaces, we define the <StrokeUnderline variant="double" color="#06b6d4">Inner Product</StrokeUnderline>.
+
+## Core Concepts
+1.  **Inner Product**: Generalization of the dot product $\langle u, v \rangle$.
+2.  **Norm (Length)**: Induced by the inner product $||\mathbf{v}|| = \sqrt{\langle \mathbf{v}, \mathbf{v} \rangle}$.
+3.  **Orthogonality**: Two vectors are orthogonal if their inner product is **zero**.
+
+<Concept title="Gram-Schmidt Orthonormalization">
+  An algorithm to convert any basis into an **Orthonormal Basis** (orthogonal unit vectors).
+  It works by sequentially subtracting the "projection" of the new vector onto the existing ones.
+</Concept>
+
+## Orthogonal Transformations
+Transformations that preserve the inner product (and thus lengths and angles).
+*   **Rotation Matrices** are prime examples.

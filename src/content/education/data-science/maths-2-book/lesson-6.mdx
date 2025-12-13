@@ -1,0 +1,43 @@
+---
+title: "Linear Transformation"
+description: "Mapping vector spaces: Homomorphisms, Isomorphisms, and Matrix Representations."
+pubDate: 2025-01-06
+tags: ["Linear Algebra", "Transformation", "Mapping"]
+order: 6
+type: "unit"
+subject: "maths-2-book"
+parent: "data-science/maths-2-book/chapters"
+---
+
+import CinematicText from "../../../../components/cinematic/CinematicText.astro";
+import Concept from "../../../../components/education/Concept.astro";
+import StrokeUnderline from "../../../../components/cinematic/StrokeUnderline.astro";
+import ArrowEmphasis from "../../../../components/cinematic/ArrowEmphasis.astro";
+
+<CinematicText variant="epic" as="h1" class="text-4xl mb-8" color="#6366f1">Linear Transformations</CinematicText>
+
+A **Linear Transformation** $T: V \to W$ is a function between vector spaces that preserves the structure of the space.
+
+## Defining Properties
+A map $T$ is linear if:
+1.  $T(u + v) = T(u) + T(v)$
+2.  $T(cu) = cT(u)$
+
+## Types of Maps
+*   **Injective (One-to-One)**: Kernel is only $\{0\}$.
+*   **Surjective (Onto)**: Image is all of $W$.
+*   **Isomorphism**: Both Injective and Surjective.
+
+<Concept title="Kernel and Image">
+  *   **Kernel (Null Space)**: Everything that gets smashed to zero. $\text{Ker}(T) = \{ v \mid T(v) = 0 \}$.
+  *   **Image (Range)**: The actual output space. $\text{Im}(T) = \{ T(v) \mid v \in V \}$.
+</Concept>
+
+## Matrix Representation
+Every linear transformation between finite-dimensional spaces can be represented as a <StrokeUnderline variant="straight" color="#6366f1">matrix</StrokeUnderline>.
+
+<div class="flex items-center justify-center gap-4 my-8 p-4 bg-gray-50 rounded-lg">
+  <span>Basis of V</span>
+  <ArrowEmphasis direction="right" text="Transformation Matrix" color="#6366f1" />
+  <span>Basis of W</span>
+</div>

@@ -1,0 +1,65 @@
+---
+title: "Basic Concepts"
+description: "Foundational mathematical framework for probability, including definitions, axioms, conditional probability, and Bayes' Theorem."
+pubDate: 2025-01-02
+tags: ["Statistics", "Textbook", "Probability", "Bayes Theorem"]
+type: "unit"
+order: 1
+subject: "stats-2-book"
+parent: "data-science/stats-2-book/chapters"
+hideToc: false
+---
+
+import CinematicText from "../../../../components/cinematic/CinematicText.astro";
+import Concept from "../../../../components/education/Concept.astro";
+import CircleEmphasis from "../../../../components/cinematic/CircleEmphasis.astro";
+import ArrowEmphasis from "../../../../components/cinematic/ArrowEmphasis.astro";
+
+<CinematicText variant="hero" as="h1" class="text-4xl mb-8" color="#ec4899">Basic Concepts</CinematicText>
+
+This chapter introduces the <CircleEmphasis color="cyan">foundational mathematical framework</CircleEmphasis> for probability.
+
+## Definitions and Properties
+
+We begin by defining the core terms in probability theory.
+
+<Concept title="The Basics">
+1.  **Sample Space ($\Omega$)**: The set of all possible outcomes of an experiment.
+2.  **Experiment**: A process that leads to one of several possible observations.
+3.  **Outcome**: A single result of an experiment.
+4.  **Event**: A subset of the sample space.
+</Concept>
+
+Probability is formally defined using **Kolmogorov's axioms**, from which we derive fundamental properties like $P(A^c) = 1 - P(A)$.
+
+## Equally Likely Outcomes
+
+When all outcomes in a finite sample space are equally likely, we have the **Uniform Distribution**.
+
+<ArrowEmphasis>
+Calculation reduces to counting:
+$$P(E) = \frac{\text{Number of outcomes in } E}{\text{Total number of outcomes in } \Omega}$$
+</ArrowEmphasis>
+
+## Conditional Probability and Bayes' Theorem
+
+How does knowledge that event $B$ has occurred alter the probability of $A$?
+
+$$P(A|B) = \frac{P(A \cap B)}{P(B)}$$
+
+This leads to one of the most powerful theorems in statistics:
+
+<Concept title="Bayes' Theorem">
+$$P(B|A) = \frac{P(A|B)P(B)}{P(A)}$$
+This allows us to reverse conditional probabilities, updating our beliefs ($P(B)$) given new evidence ($A$).
+</Concept>
+
+## Independence
+
+Events $A$ and $B$ are **independent** if the occurrence of one does not affect the other:
+
+$$P(A \cap B) = P(A)P(B)$$
+
+## Using R for Computation
+
+We use **R** for evaluating statistical expressions, vectorized operations, and calculating quantities like factorials and binomial coefficients.

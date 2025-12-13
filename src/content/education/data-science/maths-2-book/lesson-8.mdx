@@ -1,0 +1,35 @@
+---
+title: "Affine Subspaces"
+description: "Moving beyond the origin: Affine subspaces and mappings."
+pubDate: 2025-01-08
+tags: ["Linear Algebra", "Affine", "Geometry"]
+order: 8
+type: "unit"
+subject: "maths-2-book"
+parent: "data-science/maths-2-book/chapters"
+---
+
+import CinematicText from "../../../../components/cinematic/CinematicText.astro";
+import Concept from "../../../../components/education/Concept.astro";
+import StrokeUnderline from "../../../../components/cinematic/StrokeUnderline.astro";
+import ArrowEmphasis from "../../../../components/cinematic/ArrowEmphasis.astro";
+
+<CinematicText variant="comic-verse" as="h1" class="text-4xl mb-8" color="#ef4444">Affine Subspaces</CinematicText>
+
+Linear subspaces must pass through the origin. But solving $Ax=b$ often gives a solution set that doesn't. This is an **Affine Subspace**.
+
+## Definition
+An affine subspace $L$ is a "shifted" vector subspace.
+$$L = \mathbf{v} + U$$
+Where $\mathbf{v}$ is a translation vector and $U$ is a subspace.
+
+<div class="flex items-center justify-center gap-4 my-8 p-4 bg-orange-50 rounded-lg">
+  <span>Linear Subspace (Origin)</span>
+  <ArrowEmphasis direction="right" text="Shift by v" color="#ef4444" />
+  <span>Affine Subspace (Shifted)</span>
+</div>
+
+## Connection to Linear Systems
+The solution to a consistent system $Ax = b$ forms an affine subspace:
+*   $\mathbf{v}$ is a particular solution ($x_p$).
+*   $U$ is the solution to the homogeneous system ($Ax=0$).

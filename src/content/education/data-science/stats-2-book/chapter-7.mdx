@@ -1,0 +1,35 @@
+---
+title: "Sampling and Descriptive Statistics"
+description: "The transition from probability to statistics: empirical distributions and sample estimates."
+pubDate: 2025-01-02
+tags: ["Statistics", "Textbook", "Estimators", "Simulation"]
+type: "unit"
+order: 7
+subject: "stats-2-book"
+parent: "data-science/stats-2-book/chapters"
+hideToc: false
+---
+
+import CinematicText from "../../../../components/cinematic/CinematicText.astro";
+import Concept from "../../../../components/education/Concept.astro";
+import CircleEmphasis from "../../../../components/cinematic/CircleEmphasis.astro";
+
+<CinematicText variant="hero" as="h1" class="text-4xl mb-8" color="#ec4899">Descriptive Statistics</CinematicText>
+
+Probability assumes the model is known. **Statistics** assumes the model is unknown and must be inferred from data.
+
+## The Empirical Distribution
+Assigns probability $1/n$ to each observed data point.
+
+## Estimates
+We use sample statistics to estimate population parameters:
+*   **Sample Mean ($\bar{X}$)** estimates $\mu$.
+*   **Sample Variance ($S^2$)** estimates $\sigma^2$.
+
+<Concept title="Unbiased Estimators">
+Both $\bar{X}$ and $S^2$ are **unbiased**: their expected values equal the true parameters they estimate.
+</Concept>
+
+## Visualization
+*   **Histograms**: For continuous data.
+*   **Q-Q Plots**: Compare sample quantiles to theoretical quantiles to checking distributional assumptions.

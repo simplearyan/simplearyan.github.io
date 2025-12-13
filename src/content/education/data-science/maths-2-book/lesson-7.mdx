@@ -1,0 +1,35 @@
+---
+title: "Equivalence and Similarity"
+description: "Comparing matrices: When are two matrices really the same thing in disguise?"
+pubDate: 2025-01-07
+tags: ["Linear Algebra", "Matrices", "Similarity"]
+order: 7
+type: "unit"
+subject: "maths-2-book"
+parent: "data-science/maths-2-book/chapters"
+---
+
+import CinematicText from "../../../../components/cinematic/CinematicText.astro";
+import Concept from "../../../../components/education/Concept.astro";
+import StrokeUnderline from "../../../../components/cinematic/StrokeUnderline.astro";
+import MarkerHighlight from "../../../../components/cinematic/MarkerHighlight.astro";
+
+<CinematicText variant="hero" as="h1" class="text-4xl mb-8" color="#d946ef">Equivalence & Similarity</CinematicText>
+
+Two matrices can look very different but represent the same underlying linear transformation, just viewed from different bases.
+
+## Equivalence
+Two matrices $A$ and $B$ are **Equivalent** if $B = QAP$, where $P$ and $Q$ are invertible matrices.
+*   **Property**: Equivalent matrices have the same <StrokeUnderline variant="straight" color="#d946ef">Rank</StrokeUnderline>.
+
+## Similarity
+Two square matrices $A$ and $B$ are **Similar** if $B = P^{-1}AP$.
+*   **Note**: Similarity is stricter than equivalence. It's equivalence where $Q = P^{-1}$.
+
+<Concept title="Invariants">
+  Similar matrices share deep properties. They are effectively the "same" operator.
+  *   Same **Rank**
+  *   Same **Determinant**
+  *   Same **Trace**
+  *   Same **Eigenvalues**
+</Concept>

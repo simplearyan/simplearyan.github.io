@@ -1,0 +1,309 @@
+---
+interface Props {
+    title: string;
+    subtitle: string;
+    href: string;
+    coverColor?: string;
+    pattern?: "circles" | "grid" | "waves" | "dots";
+}
+
+const {
+    title,
+    subtitle,
+    href,
+    coverColor = "#3b82f6",
+    pattern = "circles",
+} = Astro.props;
+---
+
+<a href={href} class="book-card-link">
+    <div class="book-card">
+        <div
+            class="book-cover"
+            style={`background: linear-gradient(135deg, ${coverColor}, ${coverColor}dd)`}
+            data-pattern={pattern}
+        >
+            <div class="book-spine"></div>
+            <div class="book-content">
+                <h3 class="book-title">{title}</h3>
+                <p class="book-subtitle">{subtitle}</p>
+                <div class="book-badge" style={`border-color: ${coverColor}40`}>
+                    TEXTBOOK
+                </div>
+            </div>
+            <div class="book-decor"></div>
+        </div>
+        <div class="book-pages"></div>
+    </div>
+</a>
+
+<style>
+    .book-card-link {
+        text-decoration: none;
+        display: block;
+        width: 100%;
+        max-width: 240px; /* Book width */
+        margin: 0 auto;
+        perspective: 1000px;
+    }
+
+    .book-card {
+        position: relative;
+        width: 100%;
+        aspect-ratio: 2/3; /* Book aspect ratio */
+        transition: transform 0.3s ease;
+        transform-style: preserve-3d;
+        transform: rotateY(-3deg);
+    }
+
+    .book-card-link:hover .book-card {
+        transform: rotateY(0deg) scale(1.02) translateY(-5px);
+    }
+
+    .book-cover {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border-radius: 4px 8px 8px 4px;
+        box-shadow:
+            -1px 2px 4px rgba(0, 0, 0, 0.1),
+            /* Spine */ 5px 5px 15px rgba(0, 0, 0, 0.15); /* Drop shadow */
+        z-index: 10;
+        padding: 1.5rem;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        color: white;
+        overflow: hidden;
+    }
+
+    .book-spine {
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: 12px;
+        background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.2) 0%,
+            rgba(255, 255, 255, 0) 20%,
+            rgba(0, 0, 0, 0.1) 100%
+        );
+        z-index: 20;
+        border-right: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .book-content {
+        position: relative;
+        z-index: 30;
+        margin-left: 0.5rem;
+    }
+
+    .book-title {
+        font-family: "Cinzel", serif;
+        font-size: 1.35rem; /* Slightly smaller for mobile safety */
+        font-weight: 700;
+        line-height: 1.2;
+        margin-bottom: 0.5rem;
+        text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    }
+
+    .book-subtitle {
+        font-family: "Inter", sans-serif;
+        font-size: 0.8rem;
+        opacity: 0.9;
+        font-weight: 500;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .book-badge {
+        font-family: "Oswald", sans-serif;
+        font-size: 0.65rem;
+        letter-spacing: 0.15em;
+        background: rgba(0, 0, 0, 0.2);
+        padding: 0.25rem 0.5rem;
+        border-radius: 4px;
+        display: inline-block;
+        margin-top: 1rem;
+        backdrop-filter: blur(4px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Patterns */
+    .book-decor {
+        position: absolute;
+        bottom: -20%;
+        right: -20%;
+        width: 150px;
+        height: 150px;
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        border-radius: 50%;
+        pointer-events: none;
+    }
+
+    /* Circles Pattern (Default) */
+    .book-cover[data-pattern="circles"] .book-decor {
+        border-radius: 50%;
+    }
+    .book-cover[data-pattern="circles"]::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: radial-gradient(
+            circle at 1px 1px,
+            rgba(255, 255, 255, 0.1) 1px,
+            transparent 0
+        );
+        background-size: 20px 20px;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    /* Grid Pattern */
+    .book-cover[data-pattern="grid"] .book-decor {
+        border-radius: 10%; /* Square-ish */
+        border: 2px solid rgba(255, 255, 255, 0.1);
+        transform: rotate(45deg);
+    }
+    .book-cover[data-pattern="grid"]::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-image: linear-gradient(
+                rgba(255, 255, 255, 0.05) 1px,
+                transparent 1px
+            ),
+            linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0.05) 1px,
+                transparent 1px
+            );
+        background-size: 20px 20px;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    /* Waves Pattern */
+    .book-cover[data-pattern="waves"] .book-decor {
+        display: none;
+    }
+    .book-cover[data-pattern="waves"]::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: radial-gradient(
+                circle at 100% 100%,
+                transparent 20%,
+                rgba(255, 255, 255, 0.05) 21%,
+                transparent 22%
+            ),
+            radial-gradient(
+                circle at 0% 0%,
+                transparent 20%,
+                rgba(255, 255, 255, 0.05) 21%,
+                transparent 22%
+            );
+        background-size: 40px 40px;
+        z-index: 1;
+        pointer-events: none;
+    }
+
+    /* Refined Pages effect */
+    .book-pages {
+        position: absolute;
+        top: 3px;
+        right: -10px; /* Reduced specific thickness */
+        width: 14px; /* More depth */
+        height: calc(100% - 6px);
+        background: #fdfdfd;
+        border-radius: 0 3px 3px 0;
+        box-shadow:
+            inset 4px 0 8px rgba(0, 0, 0, 0.1),
+            /* Shadow from cover */ inset -1px 0 2px rgba(0, 0, 0, 0.05),
+            /* Edge definition */ 5px 5px 10px rgba(0, 0, 0, 0.1); /* External shadow */
+        z-index: 0;
+    }
+
+    /* Paper Texture - Vertical striations for stacked pages */
+    .book-pages::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background: repeating-linear-gradient(
+            90deg,
+            transparent,
+            transparent 1px,
+            rgba(0, 0, 0, 0.03) 2px,
+            rgba(0, 0, 0, 0.03) 3px
+        );
+    }
+
+    /* Back cover hint */
+    .book-pages::after {
+        content: "";
+        position: absolute;
+        top: 0;
+        right: 0;
+        width: 2px;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.2);
+        z-index: 1;
+    }
+
+    @media (max-width: 640px) {
+        .book-cover {
+            padding: 1rem;
+        }
+        .book-title {
+            font-size: 1rem; /* Smaller base size */
+            margin-bottom: 0.25rem;
+        }
+        .book-subtitle {
+            font-size: 0.7rem;
+            -webkit-line-clamp: 4; /* Allow more lines since font is smaller */
+        }
+        .book-badge {
+            font-size: 0.6rem;
+            padding: 0.15rem 0.35rem;
+            margin-top: 0.75rem;
+        }
+        .book-decor {
+            width: 100px;
+            height: 100px;
+            bottom: -15%;
+            right: -15%;
+        }
+    }
+
+    /* Extra small screens (narrow columns) */
+    @media (max-width: 400px) {
+        .book-cover {
+            padding: 0.75rem;
+        }
+        .book-title {
+            font-size: 0.9rem;
+            word-break: break-word; /* Prevent overflow of long words like "Probability" */
+        }
+        .book-badge {
+            font-size: 0.5rem;
+        }
+    }
+</style>

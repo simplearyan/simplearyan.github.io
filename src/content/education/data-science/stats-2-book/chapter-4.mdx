@@ -1,0 +1,40 @@
+---
+title: "Summarizing Discrete RVs"
+description: "Expected value, variance, standard deviation, and correlation for discrete distributions."
+pubDate: 2025-01-02
+tags: ["Statistics", "Textbook", "Expected Value", "Variance", "Correlation"]
+type: "unit"
+order: 4
+subject: "stats-2-book"
+parent: "data-science/stats-2-book/chapters"
+hideToc: false
+---
+
+import CinematicText from "../../../../components/cinematic/CinematicText.astro";
+import Concept from "../../../../components/education/Concept.astro";
+import CircleEmphasis from "../../../../components/cinematic/CircleEmphasis.astro";
+
+<CinematicText variant="hero" as="h1" class="text-4xl mb-8" color="#ec4899">Summarizing Random Variables</CinematicText>
+
+This chapter introduces tools for mathematically summarizing distributions.
+
+## Expected Value (The Mean)
+The weighted average of all possible outcomes.
+
+<Concept title="Linearity of Expectation">
+$$E[aX + bY] = aE[X] + bE[Y]$$
+This holds even if $X$ and $Y$ are dependent!
+</Concept>
+
+## Variance and Spread
+**Variance** measures the spread of outcomes from the mean.
+$$Var(X) = E[X^2] - (E[X])^2$$
+
+## Standard Units & Bounds
+We can bound probabilities using universal inequalities:
+*   **Markov’s Inequality**
+*   **Chebychev’s Inequality**
+
+## Covariance and Correlation
+**Covariance** measures the linear relationship between two variables.
+**Correlation** ($\rho$) standardizes this between -1 and 1.

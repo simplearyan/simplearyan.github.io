@@ -1,0 +1,49 @@
+---
+title: "Solving Systems of Linear Equations"
+description: "Mastering techniques to solve linear systems: Cramer's Rule, Inverse Matrix, and Gauss Elimination."
+pubDate: 2025-01-02
+tags: ["Linear Algebra", "Systems", "Gauss Elimination"]
+order: 2
+type: "unit"
+subject: "maths-2-book"
+parent: "data-science/maths-2-book/chapters"
+---
+
+import CinematicText from "../../../../components/cinematic/CinematicText.astro";
+import Concept from "../../../../components/education/Concept.astro";
+import StrokeUnderline from "../../../../components/cinematic/StrokeUnderline.astro";
+import MarkerHighlight from "../../../../components/cinematic/MarkerHighlight.astro";
+import ArrowEmphasis from "../../../../components/cinematic/ArrowEmphasis.astro";
+
+<CinematicText variant="epic" as="h1" class="text-4xl mb-8" color="#10b981">Solving Linear Systems</CinematicText>
+
+When we have multiple linear equations, we look for a solution that satisfies **all** of them simultaneously.
+
+## The Three Possibilities
+
+For any system of linear equations, there are only three possible outcomes:
+1.  <MarkerHighlight color="green">Unique Solution</MarkerHighlight> (Intersects at one point)
+2.  <MarkerHighlight color="yellow">Infinitely Many Solutions</MarkerHighlight> (Lines overlap)
+3.  <MarkerHighlight color="red">No Solution</MarkerHighlight> (Parallel lines)
+
+## Solving Techniques
+
+### 1. Cramer's Rule
+Uses determinants to solve systems where the coefficient matrix is **invertible**. It's elegant but computationally expensive for large systems.
+
+### 2. Inverse Matrix Method
+If $AX = B$ and $A$ is invertible, then <StrokeUnderline variant="straight" color="#3b82f6">$X = A^{-1}B$</StrokeUnderline>.
+
+### 3. Gauss Elimination
+The most robust method. It involves transforming the system's **augmented matrix** into:
+*   **Row Echelon Form (REF)**
+*   **Reduced Row Echelon Form (RREF)**
+
+<Concept title="Homogeneous vs Non-Homogeneous">
+  *   **Homogeneous**: $AX = 0$. Always has at least the trivial solution ($X=0$).
+  *   **Non-Homogeneous**: $AX = B$ (where $B \neq 0$).
+</Concept>
+
+<div class="my-6 p-4 border-l-4 border-purple-500 bg-purple-50">
+    <strong>Key Concept:</strong> Calculating the solution involves identifying <ArrowEmphasis direction="right" text="Free Variables" color="#8b5cf6" /> <em>Independent</em> vs <em>Dependent</em> variables.
+</div>

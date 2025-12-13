@@ -1,0 +1,43 @@
+---
+title: "Sampling and Repeated Trials"
+description: "Models based on repeated independent trials, focusing on Bernoulli trials and sampling methods."
+pubDate: 2025-01-02
+tags: ["Statistics", "Textbook", "Sampling", "Bernoulli", "Poisson"]
+type: "unit"
+order: 2
+subject: "stats-2-book"
+parent: "data-science/stats-2-book/chapters"
+hideToc: false
+---
+
+import CinematicText from "../../../../components/cinematic/CinematicText.astro";
+import Concept from "../../../../components/education/Concept.astro";
+import CircleEmphasis from "../../../../components/cinematic/CircleEmphasis.astro";
+
+<CinematicText variant="epic" as="h1" class="text-4xl mb-8" color="#ec4899">Sampling & Repeated Trials</CinematicText>
+
+We build models based on <CircleEmphasis color="yellow">repeated independent trials</CircleEmphasis>.
+
+## Bernoulli Trials
+
+A **Bernoulli Trial** is an experiment with exactly two outcomes: **Success** or **Failure**.
+
+<Concept title="Key Distributions">
+1.  **Binomial Distribution**: The number of successes in $n$ independent Bernoulli trials.
+2.  **Geometric Distribution**: The number of trials needed to get the *first* success.
+</Concept>
+
+## Poisson Approximation
+
+When $n$ is large and $p$ is small, the Binomial distribution can be difficult to calculate. The **Poisson distribution** serves as a powerful limit approximation.
+
+$$P(X=k) \approx e^{-\lambda} \frac{\lambda^k}{k!}$$
+
+where $\lambda = np$.
+
+## Sampling With and Without Replacement
+
+*   **With Replacement**: Items are returned to the pool. Independence is maintained.
+*   **Without Replacement**: Items are kept. Probabilities change. Described by the **Hypergeometric distribution**.
+
+> Note: If the population is large compared to the sample size, the difference is negligible.

@@ -1,0 +1,39 @@
+---
+title: "Limit Theorems"
+description: "Law of Large Numbers, Central Limit Theorem, and sampling distributions."
+pubDate: 2025-01-02
+tags: ["Statistics", "Textbook", "CLT", "Law of Large Numbers", "Normal Approximation"]
+type: "unit"
+order: 8
+subject: "stats-2-book"
+parent: "data-science/stats-2-book/chapters"
+hideToc: false
+---
+
+import CinematicText from "../../../../components/cinematic/CinematicText.astro";
+import Concept from "../../../../components/education/Concept.astro";
+import ArrowEmphasis from "../../../../components/cinematic/ArrowEmphasis.astro";
+
+<CinematicText variant="epic" as="h1" class="text-4xl mb-8" color="#ec4899">Limit Theorems</CinematicText>
+
+What happens when sample size $n$ becomes very large?
+
+## Weak Law of Large Numbers (WLLN)
+The sample mean $\bar{X}_n$ converges in probability to the true mean $\mu$.
+$$\bar{X}_n \xrightarrow{P} \mu$$
+
+## Central Limit Theorem (CLT)
+The specific shape of the distribution matters less as $n$ grows.
+
+<Concept title="The Fundamental Theorem">
+For large $n$, the standardized sample mean converges to the **Standard Normal Distribution**:
+$$\frac{\sqrt{n}(\bar{X} - \mu)}{\sigma} \xrightarrow{d} Z \sim N(0,1)$$
+</Concept>
+
+This justifies using the **Normal approximation** for many statistical problems.
+
+## Derived Distributions
+From Normal samples, we derive:
+*   **Chi-Square ($\chi^2$)**
+*   **t-distribution**
+*   **F-distribution**

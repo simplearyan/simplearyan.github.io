@@ -1,0 +1,34 @@
+---
+title: "Estimation & Hypothesis Testing"
+description: "Methods for inferring unknown parameters and testing conjectures."
+pubDate: 2025-01-02
+tags: ["Statistics", "Textbook", "Inference", "Hypothesis Testing", "Confidence Intervals"]
+type: "unit"
+order: 9
+subject: "stats-2-book"
+parent: "data-science/stats-2-book/chapters"
+hideToc: false
+---
+
+import CinematicText from "../../../../components/cinematic/CinematicText.astro";
+import Concept from "../../../../components/education/Concept.astro";
+
+<CinematicText variant="comic-verse" as="h1" class="text-4xl mb-8" color="#ec4899">Inference & Testing</CinematicText>
+
+## Estimation Methods
+*   **Method of Moments (MOM)**: Equate sample moments to population moments.
+*   **Maximum Likelihood (MLE)**: Find parameters that maximize the probability of the observed data.
+
+## Confidence Intervals
+Instead of a point estimate, we provide a range of plausible values.
+*   $\sigma$ known: **z-interval**
+*   $\sigma$ unknown: **t-interval**
+
+## Hypothesis Testing
+<Concept title="The Process">
+1.  **Null Hypothesis ($H_0$)**: The default position (e.g., "no effect").
+2.  **P-value**: Probability of seeing data this extreme if $H_0$ is true.
+3.  **Decision**: Reject $H_0$ if P-value $< \alpha$ (significance level).
+</Concept>
+
+Common tests include **z-test**, **t-test**, $\chi^2$-test, and **F-test**.

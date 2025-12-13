@@ -1,0 +1,36 @@
+---
+title: "Continuous Probabilities"
+description: "Probability models for uncountable sample spaces, densities, and continuous distributions."
+pubDate: 2025-01-02
+tags: ["Statistics", "Textbook", "Continuous", "Density", "Normal Distribution"]
+type: "unit"
+order: 5
+subject: "stats-2-book"
+parent: "data-science/stats-2-book/chapters"
+hideToc: false
+---
+
+import CinematicText from "../../../../components/cinematic/CinematicText.astro";
+import Concept from "../../../../components/education/Concept.astro";
+import ArrowEmphasis from "../../../../components/cinematic/ArrowEmphasis.astro";
+
+<CinematicText variant="epic" as="h1" class="text-4xl mb-8" color="#ec4899">Continuous Probabilities</CinematicText>
+
+For continuous variables, individual points have **zero probability**. We use **Density Functions** ($f(x)$).
+
+## The Probability Density Function (PDF)
+$$P(X \in A) = \int_A f_X(x) dx$$
+
+<Concept title="Common Continuous Distributions">
+*   **Uniform**: All intervals of the same length are equally likely.
+*   **Exponential**: Models wait times (Memoryless).
+*   **Normal (Gaussian)**: The bell curve, central to statistics.
+</Concept>
+
+## Joint Distributions
+For two continuous variables, we have a joint density $f(x, y)$.
+Independence means the joint density factors:
+$$f(x, y) = f_X(x)f_Y(y)$$
+
+## Transformations
+We use convolution to find distributions of sums, introducing new families like **Gamma**, **Cauchy**, and **Beta**.

@@ -1,0 +1,34 @@
+---
+title: "Summarising Continuous RVs"
+description: "Expectation, variance, moments, and moment generating functions for continuous variables."
+pubDate: 2025-01-02
+tags: ["Statistics", "Textbook", "Moments", "MGF", "Expectation"]
+type: "unit"
+order: 6
+subject: "stats-2-book"
+parent: "data-science/stats-2-book/chapters"
+hideToc: false
+---
+
+import CinematicText from "../../../../components/cinematic/CinematicText.astro";
+import Concept from "../../../../components/education/Concept.astro";
+
+<CinematicText variant="comic-verse" as="h1" class="text-4xl mb-8" color="#ec4899">Summarising Continuous Variables</CinematicText>
+
+We extend our summary tools to continuous space using integrals.
+
+## Expectation
+$$E[X] = \int_{-\infty}^{\infty} x f(x) dx$$
+
+Properties like linearity and additivity of variance (for independent variables) remain true.
+
+## Moment Generating Functions (M.G.F.)
+The M.G.F. is defined as $M(t) = E[e^{tX}]$.
+
+<Concept title="The Power of MGFs">
+*   **Moments**: $E[X^k]$ can be found by taking the $k$-th derivative of $M(t)$ at $t=0$.
+*   **Uniqueness**: The M.G.F. *uniquely determines* the distribution. If two variables have the same M.G.F., they have the same distribution.
+</Concept>
+
+## Bivariate Normal
+For **Bivariate Normal** variables, zero correlation ($\rho=0$) implies independence. This is a unique property of the normal distribution!
