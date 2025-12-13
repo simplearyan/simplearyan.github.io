@@ -1,0 +1,168 @@
+---
+interface Props {
+    min: number;
+    q1: number;
+    median: number;
+    q3: number;
+    max: number;
+    outliers?: number[];
+    width?: number;
+    height?: number;
+    label?: string;
+    color?: string;
+}
+
+const {
+    min,
+    q1,
+    median,
+    q3,
+    max,
+    outliers = [],
+    width = 400,
+    height = 100,
+    label = "",
+    color = "#3b82f6",
+} = Astro.props;
+
+// Padding for labels and outliers
+const paddingX = 40;
+const paddingY = 20;
+const plotWidth = width - paddingX * 2;
+
+// Determine axis range (handling outliers)
+const allValues = [min, max, ...outliers];
+const axisMin = Math.min(...allValues);
+const axisMax = Math.max(...allValues);
+const range = axisMax - axisMin || 1; // avoid divide by zero
+
+const scaleX = (val: number) =>
+    paddingX + ((val - axisMin) / range) * plotWidth;
+
+const centerY = height / 2;
+const boxHeight = 40;
+---
+
+<div
+    class="boxplot-container"
+    style={`width: ${width}px; height: ${height}px;`}
+>
+    <svg width="100%" height="100%" viewBox={`0 0 ${width} ${height}`}>
+        <!-- Main Axis Line -->
+        <line
+            x1={paddingX}
+            y1={centerY}
+            x2={width - paddingX}
+            y2={centerY}
+            stroke="var(--color-text)"
+            stroke-width="1"
+            opacity="0.3"></line>
+
+        <!-- Whisker Line (Min to Max) -->
+        <line
+            x1={scaleX(min)}
+            y1={centerY}
+            x2={scaleX(max)}
+            y2={centerY}
+            stroke="var(--color-text)"
+            stroke-width="2"></line>
+
+        <!-- Whisker Caps -->
+        <line
+            x1={scaleX(min)}
+            y1={centerY - 10}
+            x2={scaleX(min)}
+            y2={centerY + 10}
+            stroke="var(--color-text)"
+            stroke-width="2"></line>
+        <line
+            x1={scaleX(max)}
+            y1={centerY - 10}
+            x2={scaleX(max)}
+            y2={centerY + 10}
+            stroke="var(--color-text)"
+            stroke-width="2"></line>
+
+        <!-- Box (Q1 to Q3) -->
+        <rect
+            x={scaleX(q1)}
+            y={centerY - boxHeight / 2}
+            width={scaleX(q3) - scaleX(q1)}
+            height={boxHeight}
+            fill={color}
+            fill-opacity="0.2"
+            stroke={color}
+            stroke-width="2"></rect>
+
+        <!-- Median Line -->
+        <line
+            x1={scaleX(median)}
+            y1={centerY - boxHeight / 2}
+            x2={scaleX(median)}
+            y2={centerY + boxHeight / 2}
+            stroke="#ef4444"
+            stroke-width="3"></line>
+
+        <!-- Outliers -->
+        {
+            outliers.map((val) => (
+                <circle
+                    cx={scaleX(val)}
+                    cy={centerY}
+                    r="3"
+                    fill="var(--color-text)"
+                    opacity="0.6"
+                    stroke="none"
+                />
+            ))
+        }
+
+        <!-- Labels (on hover, or static? Let's add simple main labels) -->
+        <text
+            x={scaleX(min)}
+            y={centerY + 35}
+            text-anchor="middle"
+            font-size="10"
+            fill="var(--color-text)">{min}</text
+        >
+        <text
+            x={scaleX(max)}
+            y={centerY + 35}
+            text-anchor="middle"
+            font-size="10"
+            fill="var(--color-text)">{max}</text
+        >
+        <text
+            x={scaleX(median)}
+            y={centerY - 30}
+            text-anchor="middle"
+            font-size="10"
+            fill="var(--color-text)"
+            font-weight="bold">{median}</text
+        >
+
+        {
+            label && (
+                <text
+                    x={10}
+                    y={15}
+                    font-weight="bold"
+                    fill="var(--color-text)"
+                    font-size="12"
+                >
+                    {label}
+                </text>
+            )
+        }
+    </svg>
+</div>
+
+<style>
+    .boxplot-container {
+        display: inline-block;
+        margin: 10px;
+        font-family: var(--font-sans);
+        background: var(--color-code-bg);
+        border-radius: 8px;
+    }
+</style>

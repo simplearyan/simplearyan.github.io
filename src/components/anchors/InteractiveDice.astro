@@ -1,0 +1,117 @@
+---
+import Dice from "./Dice.astro";
+
+interface Props {
+    size?: number;
+    color?: string;
+}
+
+const { size = 100, color = "#3b82f6" } = Astro.props;
+---
+
+<div class="interactive-dice-container">
+    <button class="roll-btn" aria-label="Roll Dice">
+        <div class="dice-wrapper">
+            <!-- Render basic dice, we start with an isometric angle for 3D feel -->
+            <!-- We overwrite the transform via style to force isometric initial state -->
+            <div
+                class="dice-iso-wrapper"
+                style="transform: rotateX(-25deg) rotateY(35deg); transform-style: preserve-3d; width: 100%; height: 100%;"
+            >
+                <Dice size={size} color={color} value={1} animate={false} />
+            </div>
+        </div>
+        <span class="hint">Click to Roll</span>
+    </button>
+</div>
+
+<style>
+    .interactive-dice-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        margin: 2rem 0;
+    }
+
+    .dice-wrapper {
+        perspective: 1000px;
+        transform-style: preserve-3d;
+    }
+
+    .roll-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 1rem;
+        border-radius: 1rem;
+        transition: transform 0.1s;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .roll-btn:active {
+        transform: scale(0.95);
+    }
+
+    .hint {
+        margin-top: 1rem;
+        font-family: var(--font-sans);
+        color: var(--color-text);
+        opacity: 0.7;
+        font-size: 0.9rem;
+    }
+</style>
+
+<script>
+    // Rotation Map (Must match Dice.astro logic)
+    const rotations = {
+        1: { x: 0, y: 0 },
+        2: { x: -90, y: 0 },
+        3: { x: 0, y: -90 },
+        4: { x: 0, y: 90 },
+        5: { x: 90, y: 0 },
+        6: { x: 180, y: 0 },
+    };
+
+    function setupDice(container) {
+        const btn = container.querySelector(".roll-btn");
+        const wrapper = container.querySelector(".dice-iso-wrapper");
+        const diceInfo = container.querySelector(".dice");
+
+        btn.addEventListener("click", () => {
+            if (diceInfo.classList.contains("rolling")) return;
+
+            // 1. Reset wrapper to 0 during roll for chaotic spin
+            wrapper.style.transition = "transform 0.5s";
+            wrapper.style.transform = "rotateX(0deg) rotateY(0deg)";
+
+            diceInfo.classList.add("rolling");
+
+            // 2. Decide Result
+            const result = Math.floor(Math.random() * 6) + 1;
+            const targetRot = rotations[result];
+
+            setTimeout(() => {
+                diceInfo.classList.remove("rolling");
+
+                // 3. Set Final State + Isometric "Look at" angle
+                // If we want it to land "flat" facing camera:
+                // diceInfo.style.transform = `rotateX(${targetRot.x}deg) rotateY(${targetRot.y}deg)`;
+
+                // If we want it to land in isometric view showing the result face:
+                // We need to combine the target rotation with the isometric offset.
+                // Simpler: Set dice to Target, set Wrapper back to Isometric.
+
+                diceInfo.style.transform = `rotateX(${targetRot.x}deg) rotateY(${targetRot.y}deg)`;
+
+                wrapper.style.transform = "rotateX(-25deg) rotateY(35deg)";
+            }, 800);
+        });
+    }
+
+    // Initialize all
+    document.querySelectorAll(".interactive-dice-container").forEach(setupDice);
+</script>
+```

@@ -1,0 +1,65 @@
+---
+// Container for cards to look like a hand
+interface Props {
+    overlap?: number; // negative margin in px
+    fan?: boolean;
+    class?: string;
+}
+
+const { overlap = -30, fan = true, class: className = "" } = Astro.props;
+---
+
+<div class={`hand-container ${className}`}>
+    <slot />
+</div>
+
+<style define:vars={{ overlapPx: `${overlap}px` }}>
+    .hand-container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+        perspective: 1000px;
+    }
+
+    /* Target direct children (Playing Cards container div usually) */
+    .hand-container > :global(*) {
+        margin-left: var(--overlapPx);
+        transition: transform 0.3s ease;
+        box-shadow: -2px 0 5px rgba(0, 0, 0, 0.1);
+    }
+
+    .hand-container > :global(*:first-child) {
+        margin-left: 0;
+    }
+
+    .hand-container > :global(*:hover) {
+        transform: translateY(-20px) scale(1.1);
+        z-index: 10;
+        margin-right: 20px; /* Make room */
+    }
+
+    /* Simple Fan Effect */
+    /* We can't easily select Nth child via CSS variables passed from a slot. */
+    /* But we can do basic rotation */
+    .hand-container > :global(*:nth-child(1)) {
+        transform: rotate(-10deg) translateY(10px);
+    }
+    .hand-container > :global(*:nth-child(2)) {
+        transform: rotate(-5deg) translateY(0px);
+    }
+    .hand-container > :global(*:nth-child(3)) {
+        transform: rotate(0deg) translateY(-5px);
+    }
+    .hand-container > :global(*:nth-child(4)) {
+        transform: rotate(5deg) translateY(0px);
+    }
+    .hand-container > :global(*:nth-child(5)) {
+        transform: rotate(10deg) translateY(10px);
+    }
+
+    /* Override hover for fan */
+    .hand-container > :global(*:hover) {
+        transform: rotate(0deg) translateY(-30px) scale(1.1) !important;
+    }
+</style>

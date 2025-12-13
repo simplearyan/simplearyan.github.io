@@ -1,0 +1,100 @@
+---
+interface Node {
+    id: string;
+    x: number; // 0-100 relatve
+    y: number; // 0-100 relative
+    color?: string;
+    label?: string;
+}
+
+interface Link {
+    source: string;
+    target: string;
+}
+
+interface Props {
+    nodes: Node[];
+    links: Link[];
+    width?: number;
+    height?: number;
+}
+
+const { nodes, links, width = 400, height = 300 } = Astro.props;
+
+// Helper to look up coords
+const getNode = (id: string) => nodes.find((n) => n.id === id);
+
+const scaleX = (val: number) => (val / 100) * width;
+const scaleY = (val: number) => (val / 100) * height;
+---
+
+<div
+    class="network-container"
+    style={`width: ${width}px; height: ${height}px;`}
+>
+    <svg width="100%" height="100%" viewBox={`0 0 ${width} ${height}`}>
+        {/* Links (Line connections) */}
+        {
+            links.map((link) => {
+                const s = getNode(link.source);
+                const t = getNode(link.target);
+                if (!s || !t) return null;
+
+                return (
+                    <line
+                        x1={scaleX(s.x)}
+                        y1={scaleY(s.y)}
+                        x2={scaleX(t.x)}
+                        y2={scaleY(t.y)}
+                        stroke="var(--color-text)"
+                        stroke-width="1.5"
+                        opacity="0.3"
+                    />
+                );
+            })
+        }
+
+        {/* Nodes */}
+        {
+            nodes.map((node) => (
+                <g
+                    transform={`translate(${scaleX(node.x)}, ${scaleY(node.y)})`}
+                >
+                    <circle
+                        r="12"
+                        fill={node.color || "#3b82f6"}
+                        stroke="#fff"
+                        stroke-width="2"
+                        class="network-node"
+                    />
+                    <text
+                        y="4"
+                        text-anchor="middle"
+                        font-size="10"
+                        fill="white"
+                        font-weight="bold"
+                        pointer-events="none"
+                    >
+                        {node.label || node.id}
+                    </text>
+                </g>
+            ))
+        }
+    </svg>
+</div>
+
+<style>
+    .network-container {
+        display: inline-block;
+        margin: 10px;
+        background: var(--color-code-bg);
+        border-radius: 8px;
+    }
+
+    .network-node:hover {
+        r: 15;
+        transition: r 0.3s ease;
+        cursor: pointer;
+        opacity: 0.9;
+    }
+</style>

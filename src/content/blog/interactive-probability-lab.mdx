@@ -1,0 +1,42 @@
+---
+title: "The Probability Lab"
+description: "A hands-on playground. Roll dice, flip coins, and deal cards to test your luck and intuition."
+pubDate: 2025-01-15
+tags: ["Interactive", "Lab", "Playground"]
+image: "/images/blog/lab-cover.jpg"
+---
+
+import InteractiveDice from "../../components/anchors/InteractiveDice.astro";
+import InteractiveCoin from "../../components/anchors/InteractiveCoin.astro";
+import CardDealer from "../../components/anchors/CardDealer.astro";
+import CinematicText from "../../components/cinematic/CinematicText.astro";
+
+<CinematicText variant="epic" as="h1" class="text-5xl mb-12 text-center" color="#ec4899">Probability Lab</CinematicText>
+
+Welcome to the lab. No formulas here—just raw data generation. Test your intuition.
+
+---
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+    
+    <div class="bg-white/5 border border-white/10 rounded-2xl p-8 flex flex-col items-center">
+        <CinematicText variant="comic-verse" as="h2" class="mb-4 text-center" color="#3b82f6">Station 1: The Die</CinematicText>
+        <p class="text-center opacity-70 mb-8">Is it truly random? Click to roll.</p>
+        <InteractiveDice size={120} color="#3b82f6" />
+    </div>
+
+    <div class="bg-white/5 border border-white/10 rounded-2xl p-8 flex flex-col items-center">
+        <CinematicText variant="comic-verse" as="h2" class="mb-4 text-center" color="#eab308">Station 2: The Coin</CinematicText>
+        <p class="text-center opacity-70 mb-8">Heads or Tails? Flip to decide.</p>
+        <InteractiveCoin size={120} color="gold" />
+    </div>
+
+</div>
+
+---
+
+<div class="bg-white/5 border border-white/10 rounded-2xl p-8 flex flex-col items-center my-16">
+    <CinematicText variant="comic-verse" as="h2" class="mb-4 text-center" color="#ef4444">Station 3: The Dealer</CinematicText>
+    <p class="text-center opacity-70 mb-8">1 in 52 chance for any specific card.</p>
+    <CardDealer />
+</div>

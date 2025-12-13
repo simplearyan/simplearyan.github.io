@@ -1,0 +1,127 @@
+---
+interface Props {
+    data: number[]; // Raw points to estimate density
+    width?: number;
+    height?: number;
+    color?: string;
+    label?: string;
+}
+
+const {
+    data,
+    width = 300,
+    height = 400,
+    color = "#8b5cf6", // Violet
+    label = "",
+} = Astro.props;
+
+// Kernel Density Estimation (Simplified Gaussian)
+const min = Math.min(...data);
+const max = Math.max(...data);
+const range = max - min || 1;
+const step = range / 50;
+const pdfPoints = [];
+
+const kernel = (u: number) =>
+    (1 / Math.sqrt(2 * Math.PI)) * Math.exp(-0.5 * u * u);
+const bandwidth = range / 10; // Simple heuristic
+
+let maxDensity = 0;
+
+for (let x = min - range * 0.1; x <= max + range * 0.1; x += step) {
+    let density = 0;
+    for (const val of data) {
+        density += kernel((x - val) / bandwidth);
+    }
+    if (density > maxDensity) maxDensity = density;
+    pdfPoints.push({ x, density });
+}
+
+// Convert to Path
+// x is vertical axis here (Standard for violin plots) -> mapped to SVG Y
+// density is horizontal width -> mapped to SVG X (mirrored)
+
+const paddingY = 30;
+const plotH = height - paddingY * 2;
+const scaleY = (val: number) =>
+    height - paddingY - ((val - min) / range) * plotH + (min / range) * 10; // Adjust offsets?
+// Simpler: map val to [height-padding, padding]
+const mapY = (val: number) =>
+    height - paddingY - ((val - (min - range * 0.1)) / (range * 1.2)) * plotH;
+
+const centerX = width / 2;
+const maxW = width / 2 - 10;
+const mapW = (d: number) => (d / maxDensity) * maxW;
+
+let pathRight = `M ${centerX} ${mapY(pdfPoints[0].x)}`;
+let pathLeft = `M ${centerX} ${mapY(pdfPoints[0].x)}`;
+
+pdfPoints.forEach((p) => {
+    const y = mapY(p.x);
+    const w = mapW(p.density);
+    pathRight += ` L ${centerX + w} ${y}`;
+    pathLeft += ` L ${centerX - w} ${y}`;
+});
+
+// Calculate Median/Quartiles for inner box
+const sorted = [...data].sort((a, b) => a - b);
+const q1 = sorted[Math.floor(sorted.length * 0.25)];
+const median = sorted[Math.floor(sorted.length * 0.5)];
+const q3 = sorted[Math.floor(sorted.length * 0.75)];
+---
+
+<div class="violin-container" style={`width: ${width}px; height: ${height}px;`}>
+    <svg width="100%" height="100%" viewBox={`0 0 ${width} ${height}`}>
+        <path
+            d={`${pathRight} L ${centerX} ${mapY(pdfPoints[pdfPoints.length - 1].x)} Z`}
+            fill={color}
+            fill-opacity="0.5"
+            stroke={color}></path>
+        <path
+            d={`${pathLeft} L ${centerX} ${mapY(pdfPoints[pdfPoints.length - 1].x)} Z`}
+            fill={color}
+            fill-opacity="0.5"
+            stroke={color}></path>
+
+        {/* Inner Box Plot (Thin) */}
+        <line
+            x1={centerX}
+            y1={mapY(min)}
+            x2={centerX}
+            y2={mapY(max)}
+            stroke="var(--color-text)"
+            stroke-width="1"
+            opacity="0.5"></line>
+        <rect
+            x={centerX - 4}
+            y={mapY(q3)}
+            width={8}
+            height={mapY(q1) - mapY(q3)}
+            fill="var(--color-text)"
+            opacity="0.8"></rect>
+        <circle cx={centerX} cy={mapY(median)} r="2" fill="white"></circle>
+
+        {/* Label */}
+        {
+            label && (
+                <text
+                    x={centerX}
+                    y={height - 5}
+                    text-anchor="middle"
+                    font-weight="bold"
+                    fill="var(--color-text)"
+                >
+                    {label}
+                </text>
+            )
+        }
+    </svg>
+</div>
+
+<style>
+    .violin-container {
+        display: inline-block;
+        margin: 10px;
+        font-family: var(--font-sans);
+    }
+</style>

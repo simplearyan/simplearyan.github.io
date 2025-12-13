@@ -1,0 +1,119 @@
+---
+interface Props {
+    count?: number; // Number of dice
+    sides?: number; // Sides per die
+    width?: number;
+    height?: number;
+}
+
+const { count = 2, sides = 6, width = 400, height = 300 } = Astro.props;
+
+// Initial state: Theoretical Distribution (e.g. 2d6 is triangle)
+// Just JS simulation for client side?
+// We'll create a static snapshot for "after 1000 rolls"
+// For 2 dice: Min 2, Max 12.
+// Let's generate a "simulated" dataset of 2000 rolls.
+
+const rolls = 2000;
+const frequencies: Record<number, number> = {};
+const minSum = count;
+const maxSum = count * sides;
+
+// Initialize
+for (let i = minSum; i <= maxSum; i++) frequencies[i] = 0;
+
+// Simulate
+for (let i = 0; i < rolls; i++) {
+    let sum = 0;
+    for (let d = 0; d < count; d++) {
+        sum += Math.floor(Math.random() * sides) + 1;
+    }
+    frequencies[sum]++;
+}
+
+const maxFreq = Math.max(...Object.values(frequencies));
+---
+
+<div
+    class="dice-sim-container"
+    style={`width: ${width}px; height: ${height}px;`}
+>
+    <svg width="100%" height="100%" viewBox={`0 0 ${width} ${height}`}>
+        {/* Bars */}
+        {
+            Object.entries(frequencies).map(([sum, freq], i) => {
+                const sumNum = parseInt(sum);
+                const w = (width - 40) / (maxSum - minSum + 1);
+                const h = (freq / maxFreq) * (height - 50);
+                const x = 30 + (sumNum - minSum) * w;
+                const y = height - 30 - h;
+
+                return (
+                    <g>
+                        <rect
+                            x={x + 2}
+                            y={y}
+                            width={w - 4}
+                            height={h}
+                            fill="#3b82f6"
+                            opacity="0.8"
+                            rx="2"
+                        >
+                            <title>
+                                Sum: {sum}, Freq: {freq}
+                            </title>
+                        </rect>
+
+                        {/* Label periodically */}
+                        {(sumNum === minSum ||
+                            sumNum === maxSum ||
+                            sumNum % 5 === 0) && (
+                            <text
+                                x={x + w / 2}
+                                y={height - 15}
+                                text-anchor="middle"
+                                font-size="10"
+                                fill="var(--color-text)"
+                            >
+                                {sum}
+                            </text>
+                        )}
+                    </g>
+                );
+            })
+        }
+
+        {/* Axis Lines */}
+        <line
+            x1="30"
+            y1={height - 30}
+            x2={width - 10}
+            y2={height - 30}
+            stroke="var(--color-text)"
+            stroke-width="1"></line>
+        <line
+            x1="30"
+            y1="20"
+            x2="30"
+            y2={height - 30}
+            stroke="var(--color-text)"
+            stroke-width="1"></line>
+
+        <text
+            x={width / 2}
+            y="15"
+            text-anchor="middle"
+            font-weight="bold"
+            fill="var(--color-text)">Frequency of Sums (N={rolls})</text
+        >
+    </svg>
+</div>
+
+<style>
+    .dice-sim-container {
+        display: inline-block;
+        margin: 10px;
+        background: var(--color-code-bg);
+        border-radius: 8px;
+    }
+</style>

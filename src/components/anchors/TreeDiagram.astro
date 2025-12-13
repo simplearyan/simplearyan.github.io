@@ -1,0 +1,134 @@
+---
+interface Branch {
+    label: string;
+    prob: string;
+    children?: Branch[];
+}
+
+interface Props {
+    data: Branch[];
+    width?: number;
+    height?: number;
+}
+
+const { data, width = 500, height = 300 } = Astro.props;
+
+// Simple automated layout for 2 levels
+// Root is at x=50, y=height/2
+const startX = 50;
+const startY = height / 2;
+const level1X = width * 0.4;
+const level2X = width * 0.8;
+
+const spreadY = height * 0.8;
+---
+
+<div class="tree-container" style={`width: ${width}px; height: ${height}px;`}>
+    <svg width="100%" height="100%" viewBox={`0 0 ${width} ${height}`}>
+        {
+            data.map((branch, i) => {
+                // Level 1 Positions
+                const totalL1 = data.length;
+                const y1 =
+                    startY - spreadY / 2 + (spreadY / (totalL1 + 1)) * (i + 1);
+
+                return (
+                    <g>
+                        {/* Path to L1 */}
+                        <path
+                            d={`M ${startX} ${startY} C ${startX + 50} ${startY}, ${level1X - 50} ${y1}, ${level1X} ${y1}`}
+                            fill="none"
+                            stroke="var(--color-text)"
+                            stroke-width="2"
+                            opacity="0.6"
+                        />
+
+                        {/* L1 Node label (Event) */}
+                        <circle cx={level1X} cy={y1} r="4" fill="#3b82f6" />
+                        <text
+                            x={level1X + 10}
+                            y={y1 - 10}
+                            font-weight="bold"
+                            fill="var(--color-text)"
+                        >
+                            {branch.label}
+                        </text>
+
+                        {/* Probability Label on path */}
+                        <text
+                            x={(startX + level1X) / 2}
+                            y={(startY + y1) / 2 - 5}
+                            text-anchor="middle"
+                            font-size="12"
+                            fill="var(--color-text)"
+                            opacity="0.8"
+                        >
+                            {branch.prob}
+                        </text>
+
+                        {/* Level 2 Sub-branches */}
+                        {branch.children &&
+                            branch.children.map((sub, j) => {
+                                const totalL2 = branch.children!.length;
+                                // Local spread for this branch
+                                const subSpread = spreadY / totalL1;
+                                const y2 =
+                                    y1 -
+                                    subSpread / 3 +
+                                    (subSpread / (totalL2 + 0.5)) * (j + 0.5); // Adjustment to center
+
+                                return (
+                                    <g>
+                                        <path
+                                            d={`M ${level1X} ${y1} C ${level1X + 30} ${y1}, ${level2X - 30} ${y2}, ${level2X} ${y2}`}
+                                            fill="none"
+                                            stroke="var(--color-text)"
+                                            stroke-width="1.5"
+                                            opacity="0.4"
+                                        />
+
+                                        <circle
+                                            cx={level2X}
+                                            cy={y2}
+                                            r="3"
+                                            fill="#10b981"
+                                        />
+                                        <text
+                                            x={level2X + 10}
+                                            y={y2 + 4}
+                                            font-size="14"
+                                            fill="var(--color-text)"
+                                        >
+                                            {sub.label}
+                                        </text>
+
+                                        <text
+                                            x={(level1X + level2X) / 2}
+                                            y={(y1 + y2) / 2 - 5}
+                                            text-anchor="middle"
+                                            font-size="10"
+                                            fill="var(--color-text)"
+                                            opacity="0.7"
+                                        >
+                                            {sub.prob}
+                                        </text>
+                                    </g>
+                                );
+                            })}
+                    </g>
+                );
+            })
+        }
+
+        {/* Root Node */}
+        <circle cx={startX} cy={startY} r="6" fill="var(--color-text)"></circle>
+    </svg>
+</div>
+
+<style>
+    .tree-container {
+        display: inline-block;
+        margin: 10px;
+        font-family: var(--font-sans);
+    }
+</style>

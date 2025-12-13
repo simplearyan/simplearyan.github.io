@@ -1,0 +1,148 @@
+---
+interface Props {
+    data: { x: number; y: number }[];
+    width?: number;
+    height?: number;
+    xLabel?: string;
+    yLabel?: string;
+    showTrendline?: boolean;
+    color?: string;
+}
+
+const {
+    data,
+    width = 400,
+    height = 250,
+    xLabel = "X",
+    yLabel = "Y",
+    showTrendline = true,
+    color = "#3b82f6",
+} = Astro.props;
+
+// Determine padding & usable area
+const padding = { top: 20, right: 20, bottom: 40, left: 40 };
+const plotWidth = width - padding.left - padding.right;
+const plotHeight = height - padding.top - padding.bottom;
+
+// Scales
+const xMin = Math.min(...data.map((d) => d.x));
+const xMax = Math.max(...data.map((d) => d.x));
+const yMin = Math.min(...data.map((d) => d.y));
+const yMax = Math.max(...data.map((d) => d.y));
+
+const scaleX = (val: number) =>
+    padding.left + ((val - xMin) / (xMax - xMin)) * plotWidth;
+const scaleY = (val: number) =>
+    height - padding.bottom - ((val - yMin) / (yMax - yMin)) * plotHeight;
+
+// Trendline Calculation (Least Squares)
+let trendline = null;
+if (showTrendline && data.length > 1) {
+    const n = data.length;
+    const sumX = data.reduce((a, b) => a + b.x, 0);
+    const sumY = data.reduce((a, b) => a + b.y, 0);
+    const sumXY = data.reduce((a, b) => a + b.x * b.y, 0);
+    const sumXX = data.reduce((a, b) => a + b.x * b.x, 0);
+
+    const slope = (n * sumXY - sumX * sumY) / (n * sumXX - sumX * sumX);
+    const intercept = (sumY - slope * sumX) / n;
+
+    const x1 = xMin;
+    const y1 = slope * x1 + intercept;
+    const x2 = xMax;
+    const y2 = slope * x2 + intercept;
+
+    trendline = {
+        x1: scaleX(x1),
+        y1: scaleY(y1),
+        x2: scaleX(x2),
+        y2: scaleY(y2),
+    };
+}
+---
+
+<div
+    class="scatter-container"
+    style={`width: ${width}px; height: ${height}px;`}
+>
+    <svg width="100%" height="100%" viewBox={`0 0 ${width} ${height}`}>
+        <!-- Axes -->
+        <line
+            x1={padding.left}
+            y1={height - padding.bottom}
+            x2={width - padding.right}
+            y2={height - padding.bottom}
+            stroke="var(--color-text)"
+            stroke-width="1"></line>
+        <line
+            x1={padding.left}
+            y1={padding.top}
+            x2={padding.left}
+            y2={height - padding.bottom}
+            stroke="var(--color-text)"
+            stroke-width="1"></line>
+
+        <!-- Labels -->
+        <text
+            x={width / 2}
+            y={height - 5}
+            text-anchor="middle"
+            font-size="12"
+            fill="var(--color-text)">{xLabel}</text
+        >
+        <text
+            x={10}
+            y={height / 2}
+            text-anchor="middle"
+            transform={`rotate(-90, 10, ${height / 2})`}
+            font-size="12"
+            fill="var(--color-text)">{yLabel}</text
+        >
+
+        <!-- Data Points -->
+        {
+            data.map((point, i) => (
+                <circle
+                    cx={scaleX(point.x)}
+                    cy={scaleY(point.y)}
+                    r="4"
+                    fill={color}
+                    fill-opacity="0.6"
+                    stroke={color}
+                    stroke-width="1"
+                >
+                    <title>
+                        ({point.x}, {point.y})
+                    </title>
+                </circle>
+            ))
+        }
+
+        <!-- Trendline -->
+        {
+            trendline && (
+                <line
+                    x1={trendline.x1}
+                    y1={trendline.y1}
+                    x2={trendline.x2}
+                    y2={trendline.y2}
+                    stroke="#ef4444"
+                    stroke-width="2"
+                    stroke-dasharray="4"
+                />
+            )
+        }
+    </svg>
+</div>
+
+<style>
+    .scatter-container {
+        display: inline-block;
+        margin: 10px;
+        background: var(--color-code-bg);
+        border-radius: 8px;
+    }
+    text {
+        font-family: var(--font-sans);
+    }
+</style>

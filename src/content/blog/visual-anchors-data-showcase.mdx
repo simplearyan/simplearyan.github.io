@@ -1,0 +1,84 @@
+---
+title: "Visual Anchors: Data in the Real World"
+description: "Demonstrating Venn Diagrams, Scatter Plots, and Combinatorics with practical, real-world examples."
+pubDate: 2025-01-08
+tags: ["Statistics", "Visualization", "Devlog", "Real World"]
+---
+
+import VennDiagram from "../../components/anchors/VennDiagram.astro";
+import ScatterPlot from "../../components/anchors/ScatterPlot.astro";
+import PlayingCardHand from "../../components/anchors/PlayingCardHand.astro";
+import PlayingCard from "../../components/PlayingCard.astro";
+import CinematicText from "../../components/cinematic/CinematicText.astro";
+import CustomTable from "../../components/CustomTable.astro";
+
+<CinematicText variant="epic" as="h1" class="text-4xl mb-8 text-center" color="#8b5cf6">Data in the Real World</CinematicText>
+
+Probability isn't just theory—it's market research, climate science, and poker nights. Here is how our new visual anchors help explain these complex domains.
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">1. Market Segmentation (Sets)</CinematicText>
+
+In marketing, understanding the overlap between customer interests is key. A **Venn Diagram** visually computes probabilities like $P(A \cup B)$ (Union) or $P(A \cap B)$ (Intersection).
+
+**Scenario:** A survey of 100 people asked if they own a **Laptop** or a **Tablet**.
+*   Laptop Owners: 70
+*   Tablet Owners: 50
+*   Both: 30
+
+<div class="flex justify-center my-8">
+    <VennDiagram 
+        type="2-set" 
+        labels={["Laptop", "Tablet"]} 
+        colors={["#3b82f6", "#10b981"]}
+    />
+</div>
+
+**Insight**: The probability of finding someone who owns *only* a tablet is $P(Tablet) - P(Both) = 0.5 - 0.3 = 0.2$ (20%). The diagram makes this subtraction intuitive.
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ef4444">2. Correlation (Scatter Plots)</CinematicText>
+
+Does warmer weather lead to more ice cream sales? A **Scatter Plot** reveals the relationship (correlation) between two quantitative variables.
+
+**Data:** Average Daily Temperature (°C) vs. Ice Cream Sales ($).
+
+<div class="flex justify-center my-8">
+    <ScatterPlot 
+        data={[
+            {x: 14, y: 215}, {x: 16, y: 325}, {x: 11, y: 185}, {x: 19, y: 332},
+            {x: 18, y: 406}, {x: 24, y: 522}, {x: 22, y: 412}, {x: 25, y: 614}
+        ]}
+        xLabel="Temp (°C)"
+        yLabel="Sales ($)"
+        color="#f97316"
+    />
+</div>
+
+**Analysis:**
+The red trendline shows a strong **positive correlation**. As temperature ($X$) rises, sales ($Y$) consistently increase. The slope of the line tells us exactly how many extra dollars we earn for each degree of warming.
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#eab308">3. Rare Events (Combinatorics)</CinematicText>
+
+In Poker, a "Royal Flush" is the rarest hand. Why? Because the number of specific combinations is tiny compared to the total number of 5-card hands ($\binom{52}{5} = 2,598,960$).
+
+**The Royal Flush:**
+
+<div class="flex justify-center my-8">
+    <PlayingCardHand overlap={-40}>
+        <PlayingCard rank="10" suit="spades" />
+        <PlayingCard rank="J" suit="spades" />
+        <PlayingCard rank="Q" suit="spades" />
+        <PlayingCard rank="K" suit="spades" />
+        <PlayingCard rank="A" suit="spades" />
+    </PlayingCardHand>
+</div>
+
+**Probability:**
+There are only 4 ways to get a Royal Flush (one per suit).
+$$P(Royal Flush) = \frac{4}{2,598,960} \approx 0.00000154$$
+You are roughly 4 times more likely to get struck by lightning than to overlap these cards in a single deal!

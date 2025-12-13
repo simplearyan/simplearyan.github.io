@@ -1,0 +1,76 @@
+---
+title: "Visual Anchors: Complex Systems"
+description: "From the social web to the law of large numbers. Simulating chaos and connection with our advanced visual tools."
+pubDate: 2025-01-14
+tags: ["Statistics", "Complexity", "Graph Theory", "Simulation"]
+---
+
+import DiceSimulation from "../../components/anchors/DiceSimulation.astro";
+import ViolinPlot from "../../components/anchors/ViolinPlot.astro";
+import NetworkGraph from "../../components/anchors/NetworkGraph.astro";
+import CinematicText from "../../components/cinematic/CinematicText.astro";
+
+<CinematicText variant="epic" as="h1" class="text-4xl mb-8 text-center" color="#8b5cf6">Complexity, Visualized</CinematicText>
+
+The real world isn't just static charts. It's dynamic processes, weirdly shaped distributions, and messy networks.
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">1. The Law of Large Numbers (Dynamic Dice)</CinematicText>
+
+If you roll two dice 10 times, anything can happen. If you roll them **2,000 times**, order guarantees itself. The famous "triangle distribution" (peaking at 7) is inevitable.
+
+<div class="flex justify-center my-8">
+    <DiceSimulation count={2} sides={6} width={500} height={300} />
+</div>
+
+*Why 7?* Because there are more ways to make 7 (1+6, 2+5, 3+4...) than any other number. The simulation proves it.
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#10b981">2. Multimodal Data (Violin Plot)</CinematicText>
+
+Sometimes, an "Average" lies. Imagine looking at exam scores where half the class failed (score ~40) and half aced it (score ~90). The average is 65, but *nobody* got a 65.
+
+A **Violin Plot** shows the *shape*. It would show two bumps ("bimodal"), telling the real story.
+
+<div class="flex justify-center my-8">
+    <ViolinPlot 
+        label="Exam Scores"
+        data={[35, 38, 40, 41, 42, 45, 85, 88, 90, 92, 94, 95, 30, 98]}
+        width={300} 
+        height={300} 
+        color="#10b981"
+    />
+</div>
+
+See the two bulges? That's the "Split Class" phenomenon. A box plot would hide this detail.
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ef4444">3. The Social Web (Network Graph)</CinematicText>
+
+Who influences whom? Graph Theory maps connections (Edges) between people (Nodes). This is how we track viral trends or disease outbreaks.
+
+<div class="flex justify-center my-8">
+    <NetworkGraph 
+        width={400} 
+        height={300}
+        nodes={[
+            { id: "A", x: 50, y: 50, label: "Hub", color: "#ef4444" },
+            { id: "B", x: 20, y: 20, label: "User 1" },
+            { id: "C", x: 80, y: 20, label: "User 2" },
+            { id: "D", x: 20, y: 80, label: "User 3" },
+            { id: "E", x: 80, y: 80, label: "User 4" },
+        ]}
+        links={[
+            { source: "A", target: "B" },
+            { source: "A", target: "C" },
+            { source: "A", target: "D" },
+            { source: "A", target: "E" },
+            { source: "B", target: "C" }, // A side connection
+        ]}
+    />
+</div>
+
+**Insight:** Node "Hub" is central. Removing it breaks the network apart. This is "Centrality" in action.

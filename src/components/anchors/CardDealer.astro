@@ -1,0 +1,121 @@
+---
+import PlayingCard from "../PlayingCard.astro";
+
+// We'll render a default "Back" facing card, and then use JS to flip and change it.
+---
+
+<div class="card-dealer-container">
+    <div class="card-wrapper">
+        <PlayingCard
+            rank="A"
+            suit="spades"
+            flip={true}
+            backContent="Click Deal"
+        />
+    </div>
+
+    <button class="deal-btn">Deal Card</button>
+</div>
+
+<style>
+    .card-dealer-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+        margin: 2rem 0;
+        perspective: 1000px;
+    }
+
+    .card-wrapper {
+        /* Force size for the container */
+        width: 200px;
+        height: 280px;
+    }
+
+    .deal-btn {
+        padding: 0.8rem 2rem;
+        font-size: 1.1rem;
+        background: var(--color-text);
+        color: var(--color-bg);
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-family: var(--font-header);
+        font-weight: bold;
+        transition: transform 0.1s;
+    }
+
+    .deal-btn:active {
+        transform: scale(0.95);
+    }
+</style>
+
+<script>
+    const suits = ["spades", "hearts", "diamonds", "clubs"];
+    const ranks = [
+        "2",
+        "3",
+        "4",
+        "5",
+        "6",
+        "7",
+        "8",
+        "9",
+        "10",
+        "J",
+        "Q",
+        "K",
+        "A",
+    ];
+    const suitIcons = {
+        spades: "♠",
+        hearts: "♥",
+        diamonds: "♦",
+        clubs: "♣",
+    };
+
+    function setupDealer(container) {
+        const btn = container.querySelector(".deal-btn");
+        const cardContainer = container.querySelector(".playing-card"); // The actual card div
+
+        // Elements to update
+        // We need to be careful with selectors because PlayingCard structure is specific
+        // .rank and .suit are inside .card-corner
+
+        btn.addEventListener("click", () => {
+            // 1. Flip to back (if not already) to "shuffle"
+            // Or better: Slide out and slide in?
+            // Let's just flip, change content hidden, flip back.
+
+            // Initial state: Card might be showing front or back.
+            // Force flip to back first.
+            cardContainer.style.transform = "rotateY(180deg)"; // Show back
+
+            setTimeout(() => {
+                // 2. Generate Random
+                const r = ranks[Math.floor(Math.random() * ranks.length)];
+                const s = suits[Math.floor(Math.random() * suits.length)];
+                const icon = suitIcons[s];
+                const isRed = s === "hearts" || s === "diamonds";
+
+                // 3. Update DOM
+                // Color
+                cardContainer.classList.remove("red", "black");
+                cardContainer.classList.add(isRed ? "red" : "black");
+
+                // Text Content
+                const rankSpans = cardContainer.querySelectorAll(".rank");
+                const suitSpans = cardContainer.querySelectorAll(".suit");
+
+                rankSpans.forEach((el) => (el.textContent = r));
+                suitSpans.forEach((el) => (el.textContent = icon));
+
+                // 4. Flip to front
+                cardContainer.style.transform = "rotateY(0deg)";
+            }, 300);
+        });
+    }
+
+    document.querySelectorAll(".card-dealer-container").forEach(setupDealer);
+</script>

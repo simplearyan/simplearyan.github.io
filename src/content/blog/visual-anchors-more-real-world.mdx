@@ -1,0 +1,92 @@
+---
+title: "Visual Anchors: Real World Analysis"
+description: "Exploring Salaries, Correlations, and A/B Testing with our final set of visual anchors: BoxPlots, Heatmaps, and Z-Tests."
+pubDate: 2025-01-12
+tags: ["Statistics", "Visualization", "Data Science"]
+---
+
+import BoxPlot from "../../components/anchors/BoxPlot.astro";
+import Heatmap from "../../components/anchors/Heatmap.astro";
+import ZTestPlot from "../../components/anchors/ZTestPlot.astro";
+import CinematicText from "../../components/cinematic/CinematicText.astro";
+
+<CinematicText variant="epic" as="h1" class="text-4xl mb-8 text-center" color="#10b981">Real World Analysis</CinematicText>
+
+In the final chapter of our Visual Anchors series, we tackle the tools used by Data Scientists every day to make decisions.
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">1. Salary Distributions (Box Plot)</CinematicText>
+
+Descriptive statistics often mislead. "Average salary" can be skewed by one billionaire. A **Box Plot** (or Box-and-Whisker) reveals the true spread: the Median, the Interquartile Range (middle 50%), and the outliers.
+
+**Scenario:** Tech Startup Salaries (in $1000s)
+
+<div class="flex flex-col items-center gap-4 my-8">
+    <BoxPlot 
+        label="Engineering"
+        min={80} q1={110} median={135} q3={160} max={190} 
+        outliers={[250]}
+        width={500} height={120}
+        color="#3b82f6"
+    />
+    <BoxPlot 
+        label="Sales"
+        min={40} q1={60} median={90} q3={130} max={180} 
+        outliers={[]}
+        width={500} height={120}
+        color="#10b981"
+    />
+</div>
+
+**Insight:**
+While the "max" salaries are similar, the **Median** engineer earns remarkably more ($135k vs $90k). Also, notice the outlier in Engineering (the dot at $250k) — that's the CTO!
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#eab308">2. Joint Probability (Heatmap)</CinematicText>
+
+In Chapter 3, we discuss **Joint Distributions** ($P(X=x, Y=y)$). This is effectively a 2D grid of probabilities. A **Heatmap** allows us to spot the "hot zones" of correlation instantly.
+
+**Scenario:** Survey of Transport vs Commute Time.
+*   rows: Car, Bus, Train
+*   cols: &lt;15m, 15-30m, &gt;30m
+
+<div class="flex justify-center my-8">
+    <Heatmap 
+        width={400} 
+        height={300}
+        rowLabels={["Car", "Bus", "Train"]}
+        colLabels={["<15m", "15-30m", ">30m"]}
+        data={[
+            [0.2, 0.1, 0.05],
+            [0.05, 0.25, 0.1],
+            [0.0, 0.05, 0.2]
+        ]}
+    />
+</div>
+
+**Analysis:**
+The dark blue cell (0.25) shows that the most common outcome is **Bus + 15-30m**. The empty cell (0.0) shows nobody takes a Train for &lt;15m.
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ef4444">3. A/B Testing Significance (Z-Test)</CinematicText>
+
+When a business runs an A/B test, they calculate a **Z-Score** to see if the new design is truly better. If the score falls into the "critical region" (the tail), the result is **Statistically Significant**.
+
+**Scenario:**
+*   Null Hypothesis: No difference ($Z=0$).
+*   Observation: We observed a difference of $2.5$ standard errors ($Z=2.5$).
+
+<div class="flex justify-center my-8">
+    <ZTestPlot 
+        zScore={2.5} 
+        tail="right" 
+        width={500} 
+        height={250} 
+    />
+</div>
+
+**Conclusion:**
+The shading represents the **P-value** (probability of seeing this result by luck). Since the area is tiny (and $Z > 1.96$), we **Reject the Null Hypothesis**. The new design worked!

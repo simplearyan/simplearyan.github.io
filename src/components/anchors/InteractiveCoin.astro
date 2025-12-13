@@ -1,0 +1,105 @@
+---
+import Coin from "./Coin.astro";
+
+interface Props {
+    size?: number;
+    color?: string;
+}
+
+const { size = 100, color = "gold" } = Astro.props;
+---
+
+<div class="interactive-coin-container">
+    <button class="flip-btn" aria-label="Flip Coin">
+        <div class="coin-wrapper">
+            <Coin size={size} color={color} outcome="heads" />
+        </div>
+        <span class="hint">Click to Flip</span>
+    </button>
+    <div class="result-text" style="opacity: 0;">Heads</div>
+</div>
+
+<style>
+    .interactive-coin-container {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+        margin: 2rem 0;
+    }
+
+    .flip-btn {
+        background: none;
+        border: none;
+        cursor: pointer;
+        padding: 10px;
+        border-radius: 50%;
+        transition: transform 0.1s;
+    }
+
+    .flip-btn:active {
+        transform: scale(0.95);
+    }
+
+    .hint {
+        display: block;
+        margin-top: 1rem;
+        font-family: var(--font-sans);
+        color: var(--color-text);
+        opacity: 0.7;
+        font-size: 0.9rem;
+    }
+
+    .result-text {
+        font-family: var(--font-header);
+        font-weight: bold;
+        font-size: 1.5rem;
+        transition: opacity 0.3s;
+        margin-top: 0.5rem;
+    }
+</style>
+
+<script>
+    function setupCoin(container) {
+        const btn = container.querySelector(".flip-btn");
+        const coinInner = container.querySelector(".coin"); // Inner div from Coin.astro
+        const resultText = container.querySelector(".result-text");
+
+        btn.addEventListener("click", () => {
+            if (coinInner.classList.contains("flipping")) return;
+
+            // Start Anim
+            coinInner.classList.add("flipping");
+            resultText.style.opacity = "0";
+
+            // Decide
+            const isHeads = Math.random() > 0.5;
+
+            setTimeout(() => {
+                coinInner.classList.remove("flipping");
+
+                // Remove both then add the winner
+                coinInner.classList.remove("heads");
+                coinInner.classList.remove("tails");
+
+                if (isHeads) {
+                    coinInner.classList.add("heads");
+                    // Force transform because CSS specific class might not override inline style if present?
+                    // Coin.astro uses classes .heads { transform: ... } so adding class is enough
+                    // IF the inline style from Astro props doesn't persist forever or conflict.
+                    // Coin.astro renders: style="... --vars ..."
+                    // It does NOT set transform inline, it relies on class `.heads` or `.tails`.
+                    // BUT it adds the prop outcome class initially.
+                    resultText.textContent = "Heads";
+                } else {
+                    coinInner.classList.add("tails");
+                    resultText.textContent = "Tails";
+                }
+
+                resultText.style.opacity = "1";
+            }, 1000); // 1s flip
+        });
+    }
+
+    document.querySelectorAll(".interactive-coin-container").forEach(setupCoin);
+</script>

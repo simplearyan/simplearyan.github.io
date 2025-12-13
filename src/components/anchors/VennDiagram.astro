@@ -1,0 +1,71 @@
+---
+interface Props {
+  type?: "2-set" | "3-set";
+  labels?: string[]; // ["A", "B"] or ["A", "B", "C"]
+  colors?: string[];
+  width?: number;
+  height?: number;
+}
+
+const {
+  type = "2-set",
+  labels = ["Set A", "Set B", "Set C"],
+  colors = ["#ef4444", "#3b82f6", "#10b981"],
+  width = 300,
+  height = 200
+} = Astro.props;
+
+// SVG configurations
+const circleRadius = 60;
+const opacity = 0.4;
+---
+
+<div class="venn-container" style={`width: ${width}px; height: ${height}px;`}>
+  <svg width="100%" height="100%" viewBox="0 0 300 200">
+    {type === "2-set" && (
+      <g>
+        <!-- Set A -->
+        <circle cx="110" cy="100" r={circleRadius} fill={colors[0]} fill-opacity={opacity} stroke={colors[0]} stroke-width="2" />
+        <text x="90" y="100" text-anchor="middle" fill="var(--color-text)" font-weight="bold">{labels[0]}</text>
+        
+        <!-- Set B -->
+        <circle cx="190" cy="100" r={circleRadius} fill={colors[1]} fill-opacity={opacity} stroke={colors[1]} stroke-width="2" />
+        <text x="210" y="100" text-anchor="middle" fill="var(--color-text)" font-weight="bold">{labels[1]}</text>
+        
+        <!-- Center Label (Intersection) -->
+        <text x="150" y="100" text-anchor="middle" font-size="10" fill="var(--color-text)" dy="20">A ∩ B</text>
+      </g>
+    )}
+
+    {type === "3-set" && (
+      <g transform="translate(20, 0)">
+        <!-- Set A (Top) -->
+        <circle cx="130" cy="80" r={circleRadius} fill={colors[0]} fill-opacity={opacity} stroke={colors[0]} stroke-width="2" />
+        <text x="130" y="60" text-anchor="middle" fill="var(--color-text)" font-weight="bold">{labels[0]}</text>
+        
+        <!-- Set B (Bottom Left) -->
+        <circle cx="90" cy="140" r={circleRadius} fill={colors[1]} fill-opacity={opacity} stroke={colors[1]} stroke-width="2" />
+        <text x="70" y="160" text-anchor="middle" fill="var(--color-text)" font-weight="bold">{labels[1]}</text>
+        
+        <!-- Set C (Bottom Right) -->
+        <circle cx="170" cy="140" r={circleRadius} fill={colors[2]} fill-opacity={opacity} stroke={colors[2]} stroke-width="2" />
+        <text x="190" y="160" text-anchor="middle" fill="var(--color-text)" font-weight="bold">{labels[2]}</text>
+        
+        <!-- Center Label -->
+        <text x="130" y="125" text-anchor="middle" font-size="8" fill="var(--color-text)">A∩B∩C</text>
+      </g>
+    )}
+  </svg>
+</div>
+
+<style>
+  .venn-container {
+    display: inline-block;
+    margin: 10px;
+  }
+  text {
+    font-family: var(--font-sans);
+    pointer-events: none;
+    text-shadow: 0 0 4px rgba(255,255,255,0.8);
+  }
+</style>

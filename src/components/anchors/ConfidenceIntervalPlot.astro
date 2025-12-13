@@ -1,0 +1,132 @@
+---
+interface Props {
+    mean?: number; // True population mean
+    sd?: number;
+    n?: number; // Sample size
+    samples?: number; // Number of intervals to simulate
+    confidence?: number; // 0.95
+    width?: number;
+    height?: number;
+}
+
+const {
+    mean = 50,
+    sd = 10,
+    n = 30,
+    samples = 20,
+    confidence = 0.95,
+    width = 400,
+    height = 300,
+} = Astro.props;
+
+// Z-score approx for 95% is 1.96
+const z = 1.96;
+const marginOfError = z * (sd / Math.sqrt(n));
+
+// Generate Data
+const intervals = [];
+for (let i = 0; i < samples; i++) {
+    // Random sample mean
+    // Box-Muller transform for normal distribution simulation
+    const u1 = Math.random();
+    const u2 = Math.random();
+    const zScore =
+        Math.sqrt(-2.0 * Math.log(u1)) * Math.cos(2.0 * Math.PI * u2);
+    const sampleMean = mean + zScore * (sd / Math.sqrt(n));
+
+    // Bounds
+    const lower = sampleMean - marginOfError;
+    const upper = sampleMean + marginOfError;
+    const captured = lower <= mean && upper >= mean;
+
+    intervals.push({ sampleMean, lower, upper, captured });
+}
+
+// Ranges for plotting
+const minVal = mean - 4 * (sd / Math.sqrt(n));
+const maxVal = mean + 4 * (sd / Math.sqrt(n));
+const scaleX = (val: number) => ((val - minVal) / (maxVal - minVal)) * width;
+---
+
+<div class="ci-container" style={`width: ${width}px; height: ${height}px;`}>
+    <svg width="100%" height="100%" viewBox={`0 0 ${width} ${height}`}>
+        <!-- True Mean Line -->
+        <line
+            x1={scaleX(mean)}
+            y1={0}
+            x2={scaleX(mean)}
+            y2={height}
+            stroke="var(--color-text)"
+            stroke-width="2"
+            stroke-dasharray="5,5"
+            opacity="0.5"></line>
+        <text
+            x={scaleX(mean) + 5}
+            y={15}
+            font-size="12"
+            fill="var(--color-text)"
+            opacity="0.7">True Mean (μ)</text
+        >
+
+        <!-- Intervals -->
+        {
+            intervals.map((interval, i) => {
+                const y = (height / (samples + 1)) * (i + 1);
+                const color = interval.captured ? "#10b981" : "#ef4444"; // Green or Red
+
+                return (
+                    <g class="interval-group">
+                        <line
+                            x1={scaleX(interval.lower)}
+                            y1={y}
+                            x2={scaleX(interval.upper)}
+                            y2={y}
+                            stroke={color}
+                            stroke-width="2"
+                        />
+                        <circle
+                            cx={scaleX(interval.sampleMean)}
+                            cy={y}
+                            r="3"
+                            fill={color}
+                        />
+
+                        {/* Error bars caps */}
+                        <line
+                            x1={scaleX(interval.lower)}
+                            y1={y - 4}
+                            x2={scaleX(interval.lower)}
+                            y2={y + 4}
+                            stroke={color}
+                            stroke-width="2"
+                        />
+                        <line
+                            x1={scaleX(interval.upper)}
+                            y1={y - 4}
+                            x2={scaleX(interval.upper)}
+                            y2={y + 4}
+                            stroke={color}
+                            stroke-width="2"
+                        />
+                    </g>
+                );
+            })
+        }
+    </svg>
+</div>
+
+<style>
+    .ci-container {
+        display: inline-block;
+        margin: 10px;
+        font-family: var(--font-sans);
+        background: var(--color-code-bg);
+        border: 1px solid rgba(0, 0, 0, 0.05);
+        border-radius: 8px;
+    }
+
+    .interval-group:hover circle {
+        r: 5;
+        transition: r 0.2s ease;
+    }
+</style>

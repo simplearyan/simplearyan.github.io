@@ -1,0 +1,129 @@
+---
+interface Props {
+  rows?: number;
+  width?: number;
+  height?: number;
+  bins?: number[]; // Optional manual bin counts, otherwise we calculate ideal Binomial
+}
+
+const { 
+  rows = 8,
+  width = 300,
+  height = 400,
+  bins: customBins 
+} = Astro.props;
+
+// Calculate Peg Positions (Triangular Grid)
+const pegs = [];
+const startX = width / 2;
+const rowHeight = (height * 0.6) / rows;
+const pegSpacing = width / (rows + 4);
+
+for (let r = 0; r < rows; r++) {
+    for (let c = 0; c <= r; c++) {
+        // Offset each row to center it
+        const xOffset = (c - r / 2) * pegSpacing;
+        pegs.push({ cx: startX + xOffset, cy: 40 + r * rowHeight });
+    }
+}
+
+// Binomial Distribution for "Piles" at bottom
+// n = rows, p = 0.5
+const factorial = (n: number): number => (n <= 1 ? 1 : n * factorial(n - 1));
+const nCk = (n: number, k: number) => factorial(n) / (factorial(k) * factorial(n - k));
+
+const binCounts = customBins || Array.from({ length: rows + 1 }, (_, k) => nCk(rows, k));
+const maxBin = Math.max(...binCounts);
+
+// Generate "Balls" for animation
+// We'll create a few balls that loop with different delays
+const ballCount = 20;
+const balls = Array.from({ length: ballCount }, (_, i) => ({
+    id: i,
+    delay: Math.random() * 5,
+    pathOffset: (Math.random() - 0.5) * 40 // simple random end X variance for illusion
+}));
+
+---
+
+<div class="galton-container" style={`width: ${width}px; height: ${height}px;`}>
+    <svg width="100%" height="100%" viewBox={`0 0 ${width} ${height}`}>
+        <!-- Pegs -->
+        {pegs.map(peg => (
+            <circle cx={peg.cx} cy={peg.cy} r="3" fill="var(--color-text)" opacity="0.5" />
+        ))}
+
+        <!-- Falling Balls Animation -->
+        {balls.map(ball => (
+            <circle 
+                r="4" 
+                fill="#3b82f6" 
+                class="falling-ball" 
+                style={`
+                    --delay: ${ball.delay}s; 
+                    --end-x: ${ball.pathOffset}px;
+                    --start-x: ${width/2}px;
+                    --total-h: ${height * 0.7}px;
+                `}
+            />
+        ))}
+
+        <!-- Bins / Piles -->
+        {binCounts.map((count, i) => {
+             const x = startX + (i - rows/2) * pegSpacing;
+             const h = (count / maxBin) * (height * 0.25);
+             return (
+                 <g>
+                    <!-- Bin Wall -->
+                    <line x1={x - pegSpacing/2} y1={height - 20} x2={x - pegSpacing/2} y2={height - 50} stroke="var(--color-text)" stroke-width="1" opacity="0.3" />
+                    <!-- Pile -->
+                    <rect 
+                        x={x - pegSpacing/2 + 2} 
+                        y={height - 20 - h} 
+                        width={pegSpacing - 4} 
+                        height={h} 
+                        fill="#3b82f6" 
+                        opacity="0.6" 
+                        rx="2"
+                    />
+                 </g>
+             )
+        })}
+        <!-- Floor -->
+        <line x1="20" y1={height - 20} x2={width - 20} y2={height - 20} stroke="var(--color-text)" stroke-width="2" />
+    </svg>
+</div>
+
+<style>
+    .galton-container {
+        display: inline-block;
+        margin: 10px;
+        background: var(--color-code-bg);
+        border-radius: 12px;
+        overflow: hidden;
+    }
+
+    .falling-ball {
+        /* Start at top center */
+        cx: var(--start-x);
+        cy: 20px;
+        opacity: 0;
+        animation: drop 4s infinite ease-in;
+        animation-delay: var(--delay);
+    }
+
+    @keyframes drop {
+        0% { transform: translate(0, 0); opacity: 1; cy: 20px; }
+        /* Simulate hitting pegs roughly */
+        10% { transform: translate(-5px, 30px); }
+        20% { transform: translate(5px, 60px); }
+        30% { transform: translate(-10px, 90px); }
+        40% { transform: translate(10px, 120px); }
+        50% { transform: translate(-15px, 150px); }
+        
+        /* Fall to bottom */
+        80% { transform: translate(var(--end-x), var(--total-h)); opacity: 1; }
+        90% { transform: translate(var(--end-x), var(--total-h)); opacity: 0; }
+        100% { transform: translate(var(--end-x), var(--total-h)); opacity: 0; }
+    }
+</style>

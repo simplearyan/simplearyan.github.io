@@ -1,0 +1,94 @@
+---
+title: "Advanced Anchors: Visualizing Complexity"
+description: "From the chaos of the Galton Board to the logic of Bayes' trees. Seeing advanced statistical concepts in action."
+pubDate: 2025-01-10
+tags: ["Statistics", "Visualization", "Advanced", "Devlog"]
+---
+
+import GaltonBoard from "../../components/anchors/GaltonBoard.astro";
+import TreeDiagram from "../../components/anchors/TreeDiagram.astro";
+import ConfidenceIntervalPlot from "../../components/anchors/ConfidenceIntervalPlot.astro";
+import CinematicText from "../../components/cinematic/CinematicText.astro";
+import CustomTable from "../../components/CustomTable.astro";
+
+<CinematicText variant="epic" as="h1" class="text-4xl mb-8 text-center" color="#eab308">Complex Concepts, Clarified</CinematicText>
+
+As we move to Chapters 4 and beyond, statistics deals with continuous chaos, complex conditions, and uncertainty. Here are the tools to tame them.
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">1. The Central Limit Theorem (Galton Board)</CinematicText>
+
+How does the bell curve arise from nature? The **Galton Board** (or Bean Machine) shows this physically. Balls drop through a grid of pegs. At each step, they randomly bounce left or right (Bernoulli trials).
+
+By the time they hit the bottom, the piles form a **Binomial Distribution**. As row count increases, this becomes the **Normal Distribution**.
+
+<div class="flex justify-center my-8">
+    <GaltonBoard rows={10} width={300} height={400} />
+</div>
+
+*Watch the balls accumulate. Order emerges from random bounces.*
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#10b981">2. Bayes' Theorem (Tree Diagram)</CinematicText>
+
+Conditional probability is notorious for tripping up our intuition. "If a test is 99% accurate, and you test positive, do you have the disease?"
+
+A **Tree Diagram** splits the world into paths, making the logic visible.
+
+**Scenario:**
+*   Disease Rate: 1% ($P(D) = 0.01$)
+*   Test Accuracy: 90% ($P(+|D) = 0.9$)
+*   False Positive Rate: 10% ($P(+|D^c) = 0.1$)
+
+<div class="flex justify-center my-8">
+    <TreeDiagram 
+        width={500} 
+        height={300}
+        data={[
+            {
+                label: "Disease (1%)", 
+                prob: "0.01",
+                children: [
+                    { label: "Positive", prob: "0.9" },
+                    { label: "Negative", prob: "0.1" }
+                ]
+            },
+            {
+                label: "Healthy (99%)", 
+                prob: "0.99",
+                children: [
+                    { label: "Positive", prob: "0.1" },
+                    { label: "Negative", prob: "0.9" }
+                ]
+            }
+        ]}
+    />
+</div>
+
+**Analysis:**
+You can see there are TWO ways to get a "Positive" result.
+1.  Top path: $0.01 \times 0.9 = 0.009$ (True Positive)
+2.  Bottom path: $0.99 \times 0.1 = 0.099$ (False Positive)
+
+Most positives are actually false alarms!
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ef4444">3. Sampling Variability (Confidence Intervals)</CinematicText>
+
+When we say "95% Confidence," we don't mean the true value has a 95% chance of being in our specific interval. We mean that if we repeated the experiment 100 times, **95 of our created intervals would capture the truth**.
+
+<div class="flex justify-center my-8">
+    <ConfidenceIntervalPlot 
+        mean={50} 
+        sd={15} 
+        n={30} 
+        samples={15} 
+        width={400} 
+        height={300} 
+    />
+</div>
+
+**Look closely:** The **red intervals** completely miss the dotted line (the Truth). This visualizes the risk inherent in any sampling method.
