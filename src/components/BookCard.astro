@@ -5,6 +5,8 @@ interface Props {
     href: string;
     coverColor?: string;
     pattern?: "circles" | "grid" | "waves" | "dots";
+    fontStyle?: "serif" | "sans" | "display" | "handwritten";
+    layoutStyle?: "classic" | "minimal" | "modern";
 }
 
 const {
@@ -13,15 +15,18 @@ const {
     href,
     coverColor = "#3b82f6",
     pattern = "circles",
+    fontStyle = "serif",
+    layoutStyle = "classic",
 } = Astro.props;
 ---
 
 <a href={href} class="book-card-link">
-    <div class="book-card">
+    <div class="book-card" data-layout={layoutStyle}>
         <div
             class="book-cover"
             style={`background: linear-gradient(135deg, ${coverColor}, ${coverColor}dd)`}
             data-pattern={pattern}
+            data-font={fontStyle}
         >
             <div class="book-spine"></div>
             <div class="book-content">
@@ -290,6 +295,63 @@ const {
         height: 100%;
         background: rgba(0, 0, 0, 0.2);
         z-index: 1;
+    }
+
+    /* Font Styles */
+    .book-cover[data-font="serif"] .book-title {
+        font-family: "Cinzel", serif;
+    }
+    .book-cover[data-font="sans"] .book-title {
+        font-family: "Montserrat", sans-serif;
+        letter-spacing: -0.02em;
+    }
+    .book-cover[data-font="display"] .book-title {
+        font-family: "Oswald", sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+    .book-cover[data-font="handwritten"] .book-title {
+        font-family: "Kalam", cursive;
+        letter-spacing: 0;
+        line-height: 1;
+    }
+
+    /* Layout Styles: Minimal */
+    .book-card[data-layout="minimal"] .book-cover {
+        box-shadow: none;
+        border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+    .book-card[data-layout="minimal"] .book-spine,
+    .book-card[data-layout="minimal"] .book-pages,
+    .book-card[data-layout="minimal"] .book-decor {
+        display: none;
+    }
+    .book-card[data-layout="minimal"] .book-badge {
+        background: transparent;
+        border: 1px solid white;
+        backdrop-filter: none;
+    }
+
+    /* Layout Styles: Modern */
+    .book-card[data-layout="modern"] .book-cover {
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+    .book-card[data-layout="modern"] .book-spine {
+        background: linear-gradient(
+            90deg,
+            rgba(255, 255, 255, 0.4) 0%,
+            transparent 100%
+        );
+        width: 4px;
+    }
+    .book-card[data-layout="modern"] .book-badge {
+        background: rgba(255, 255, 255, 0.2);
+        backdrop-filter: blur(12px);
+        border-radius: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.3);
+        color: white;
+        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
     }
 
     /* Fallback / Fine-tuning for extremely small containers if needed */

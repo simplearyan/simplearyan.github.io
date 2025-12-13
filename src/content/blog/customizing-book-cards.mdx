@@ -1,0 +1,123 @@
+---
+title: "Customizing Book Cards"
+description: "A showcase of the versatile design system for educational resources."
+pubDate: 2025-12-13
+tags: ["Design System", "Components"]
+---
+
+import BookCard from "../../components/BookCard.astro";
+import CinematicContainer from "../../components/cinematic/CinematicContainer.astro";
+import CinematicText from "../../components/cinematic/CinematicText.astro";
+
+<CinematicContainer>
+  <CinematicText variant="epic" text="Book Design System" />
+</CinematicContainer>
+
+The `BookCard` component is a flexible building block designed to represent textbooks and learning resources with distinct visual identities. It supports various layout styles, font families, and decorative patterns.
+
+## Layout Variants
+
+The system offers three core layout philosophies to match different aesthetic needs.
+
+<div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 2rem; margin-top: 2rem;">
+
+    <div>
+        ### Classic
+        The default textbook look with a realistic spine, depth, and serif typography. Ideal for traditional academic subjects.
+        <br/><br/>
+        <BookCard
+            title="Ancient History"
+            subtitle="The Rise of Civilizations"
+            href="#"
+            coverColor="#8b4513"
+            pattern="grid"
+            layoutStyle="classic"
+            fontStyle="serif"
+        />
+    </div>
+
+    <div>
+        ### Modern
+        A sleeker, glassmorphic approach with subtle gradients and softer edges. Perfect for contemporary subjects like CS or Design.
+        <br/><br/>
+        <BookCard
+            title="UX Design"
+            subtitle="Principles of Interaction"
+            href="#"
+            coverColor="#6366f1"
+            pattern="dots"
+            layoutStyle="modern"
+            fontStyle="sans"
+        />
+    </div>
+
+    <div>
+        ### Minimal
+        A flat, high-contrast design that removes skeuomorphic elements like spines and page depth. Great for digital-first resources.
+        <br/><br/>
+        <BookCard
+            title="Clean Code"
+            subtitle="Solid Principles"
+            href="#"
+            coverColor="#10b981"
+            layoutStyle="minimal"
+            fontStyle="display"
+        />
+    </div>
+
+</div>
+
+## Font Personalities
+
+Typography plays a crucial role in establishing the tone of the subject matter.
+
+### Serif (Cinzel)
+Best for history, literature, and formal mathematics.
+<div style="max-width: 200px; margin: 1rem auto;">
+    <BookCard
+        title="Literature"
+        subtitle="The Great Classics"
+        href="#"
+        coverColor="#be185d"
+        fontStyle="serif"
+    />
+</div>
+
+### Sans (Montserrat)
+Clean and readable. Excellent for science, engineering, and technology.
+<div style="max-width: 200px; margin: 1rem auto;">
+    <BookCard
+        title="Physics I"
+        subtitle="Mechanics & Waves"
+        href="#"
+        coverColor="#0ea5e9"
+        fontStyle="sans"
+        pattern="waves"
+    />
+</div>
+
+### Display (Oswald)
+Bold and impactful. Suitable for workshop titles or impactful guidebooks.
+<div style="max-width: 200px; margin: 1rem auto;">
+    <BookCard
+        title="Impact"
+        subtitle="Visual Storytelling"
+        href="#"
+        coverColor="#f59e0b"
+        fontStyle="display"
+        layoutStyle="modern"
+    />
+</div>
+
+### Handwritten (Kalam)
+Approachable and friendly. Usage: Primary education or creative arts.
+<div style="max-width: 200px; margin: 1rem auto;">
+    <BookCard
+        title="Art Basics"
+        subtitle="Sketching 101"
+        href="#"
+        coverColor="#84cc16"
+        fontStyle="handwritten"
+        pattern="circles"
+    />
+</div>

@@ -1,0 +1,82 @@
+---
+interface Props {
+    className?: string;
+    minHeight?: string;
+}
+
+const { className = "", minHeight = "400px" } = Astro.props;
+---
+
+<div class={`cinematic-wrapper ${className}`}>
+    <div class="cinematic-background">
+        <div class="ambient-glow"></div>
+        <div class="grid-overlay"></div>
+    </div>
+    <div class="cinematic-content">
+        <slot />
+    </div>
+</div>
+
+<style>
+    .cinematic-wrapper {
+        position: relative;
+        width: 100%;
+        min-height: var(--minHeight);
+        background: #09090b; /* Very dark background */
+        border-radius: 12px;
+        overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2rem;
+        margin: 2rem 0;
+        box-shadow: 0 20px 40px -10px rgba(0, 0, 0, 0.5);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+
+    .cinematic-background {
+        position: absolute;
+        inset: 0;
+        z-index: 0;
+    }
+
+    .ambient-glow {
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+            circle at 50% 50%,
+            rgba(59, 130, 246, 0.15),
+            transparent 70%
+        );
+    }
+
+    .grid-overlay {
+        position: absolute;
+        inset: 0;
+        background-image: linear-gradient(
+                rgba(255, 255, 255, 0.03) 1px,
+                transparent 1px
+            ),
+            linear-gradient(
+                90deg,
+                rgba(255, 255, 255, 0.03) 1px,
+                transparent 1px
+            );
+        background-size: 40px 40px;
+        mask-image: radial-gradient(
+            circle at 50% 50%,
+            black 40%,
+            transparent 100%
+        );
+    }
+
+    .cinematic-content {
+        position: relative;
+        z-index: 10;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 2rem;
+    }
+</style>
