@@ -3,11 +3,20 @@ import { getCollection } from "astro:content";
 import SubjectCard from "./SubjectCard.astro";
 import EnhancedSubjectCard from "./EnhancedSubjectCard.astro";
 import ProfessionalSubjectCard from "./ProfessionalSubjectCard.astro";
+import HolographicSubjectCard from "./HolographicSubjectCard.astro";
+import SwissSubjectCard from "./SwissSubjectCard.astro";
+import OrganicSubjectCard from "./OrganicSubjectCard.astro";
 import BookCard from "./BookCard.astro";
 
 interface Props {
     courseSlug: string;
-    cardStyle?: "original" | "enhanced" | "professional";
+    cardStyle?:
+        | "original"
+        | "enhanced"
+        | "professional"
+        | "holographic"
+        | "swiss"
+        | "organic";
     defaultIcon?: string;
 }
 
@@ -68,6 +77,43 @@ const gridTitle = isLessonLevel ? "Course Lessons" : "Course Subjects";
                                 subtitle={subtitle}
                                 href={href}
                                 index={index}
+                                icon={icon}
+                                color={cardColor}
+                            />
+                        );
+                    }
+
+                    if (cardStyle === "holographic") {
+                        return (
+                            <HolographicSubjectCard
+                                title={title}
+                                subtitle={subtitle}
+                                href={href}
+                                icon={icon}
+                                color={cardColor}
+                            />
+                        );
+                    }
+
+                    if (cardStyle === "swiss") {
+                        return (
+                            <SwissSubjectCard
+                                title={title}
+                                subtitle={subtitle}
+                                href={href}
+                                index={index + 1}
+                                icon={icon}
+                                color={cardColor}
+                            />
+                        );
+                    }
+
+                    if (cardStyle === "organic") {
+                        return (
+                            <OrganicSubjectCard
+                                title={title}
+                                subtitle={subtitle}
+                                href={href}
                                 icon={icon}
                                 color={cardColor}
                             />

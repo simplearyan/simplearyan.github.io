@@ -157,6 +157,8 @@ for (const [moduleSlug, lessons] of lessonsByModule.entries()) {
         transform: translateY(-4px);
         border-color: var(--color-primary);
         box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
+        background: var(--color-surface) !important; /* Override prose hover */
+        text-decoration: none !important;
     }
 
     .card-content {
