@@ -175,8 +175,17 @@ const gridTitle = isLessonLevel ? "Course Lessons" : "Course Subjects";
     .book-grid {
         display: grid;
         gap: 2rem;
-        /* Adjusted for better mobile responsiveness - allows 2 columns on most phones */
-        grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+        /* Uniform grid with fixed minimum width to prevent squashed cards */
+        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
         padding-top: 1rem;
+        justify-items: center; /* Center cards in their cells */
+    }
+
+    @media (max-width: 480px) {
+        .book-grid {
+            /* On very small screens, maybe just 2 columns with smaller gap or 1 column if needed */
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1rem;
+        }
     }
 </style>

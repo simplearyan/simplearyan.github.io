@@ -42,9 +42,14 @@ const {
         text-decoration: none;
         display: block;
         width: 100%;
-        max-width: 240px; /* Book width */
+        /* Ensure the card doesn't get too small or too huge */
+        min-width: 120px;
+        max-width: 220px;
         margin: 0 auto;
         perspective: 1000px;
+        /* Container Query Setup */
+        container-type: inline-size;
+        container-name: book-card;
     }
 
     .book-card {
@@ -71,7 +76,8 @@ const {
             -1px 2px 4px rgba(0, 0, 0, 0.1),
             /* Spine */ 5px 5px 15px rgba(0, 0, 0, 0.15); /* Drop shadow */
         z-index: 10;
-        padding: 1.5rem;
+        /* Responsive padding linked directly to container width */
+        padding: 7cqw;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -103,16 +109,19 @@ const {
 
     .book-title {
         font-family: "Cinzel", serif;
-        font-size: 1.35rem; /* Slightly smaller for mobile safety */
+        /* Base proportional font size */
+        font-size: 11cqw !important;
         font-weight: 700;
-        line-height: 1.2;
+        line-height: 1.15;
         margin-bottom: 0.5rem;
+        /* margin-top:  !important; */
         text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        word-wrap: break-word;
     }
 
     .book-subtitle {
         font-family: "Inter", sans-serif;
-        font-size: 0.8rem;
+        font-size: 6.5cqw;
         opacity: 0.9;
         font-weight: 500;
         text-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
@@ -120,19 +129,33 @@ const {
         -webkit-line-clamp: 3;
         -webkit-box-orient: vertical;
         overflow: hidden;
+        line-height: 1.3;
     }
 
     .book-badge {
         font-family: "Oswald", sans-serif;
-        font-size: 0.65rem;
+        font-size: 5cqw;
         letter-spacing: 0.15em;
         background: rgba(0, 0, 0, 0.2);
         padding: 0.25rem 0.5rem;
         border-radius: 4px;
         display: inline-block;
-        margin-top: 1rem;
+        margin-top: auto;
         backdrop-filter: blur(4px);
         border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    /* Adjustments for smaller cards */
+    @container book-card (max-width: 180px) {
+        .book-title {
+            font-size: 9.5cqw; /* Reduced multiplier */
+        }
+        .book-subtitle {
+            font-size: 5.5cqw;
+        }
+        .book-badge {
+            font-size: 4.5cqw;
+        }
     }
 
     /* Patterns */
@@ -140,8 +163,9 @@ const {
         position: absolute;
         bottom: -20%;
         right: -20%;
-        width: 150px;
-        height: 150px;
+        /* Responsive decor size */
+        width: 60cqw;
+        height: 60cqw;
         border: 2px solid rgba(255, 255, 255, 0.1);
         border-radius: 50%;
         pointer-events: none;
@@ -268,42 +292,10 @@ const {
         z-index: 1;
     }
 
-    @media (max-width: 640px) {
-        .book-cover {
-            padding: 1rem;
-        }
-        .book-title {
-            font-size: 1rem; /* Smaller base size */
-            margin-bottom: 0.25rem;
-        }
+    /* Fallback / Fine-tuning for extremely small containers if needed */
+    @container book-card (max-width: 140px) {
         .book-subtitle {
-            font-size: 0.7rem;
-            -webkit-line-clamp: 4; /* Allow more lines since font is smaller */
-        }
-        .book-badge {
-            font-size: 0.6rem;
-            padding: 0.15rem 0.35rem;
-            margin-top: 0.75rem;
-        }
-        .book-decor {
-            width: 100px;
-            height: 100px;
-            bottom: -15%;
-            right: -15%;
-        }
-    }
-
-    /* Extra small screens (narrow columns) */
-    @media (max-width: 400px) {
-        .book-cover {
-            padding: 0.75rem;
-        }
-        .book-title {
-            font-size: 0.9rem;
-            word-break: break-word; /* Prevent overflow of long words like "Probability" */
-        }
-        .book-badge {
-            font-size: 0.5rem;
+            -webkit-line-clamp: 2; /* Reduce lines on very small cards */
         }
     }
 </style>
