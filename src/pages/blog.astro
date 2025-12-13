@@ -23,16 +23,67 @@ const posts = (await getCollection("blog")).sort(
 
     <div class="container content-grid">
         {
-            posts.map((post) => (
-                <BlogCard
-                    title={post.data.title}
-                    description={post.data.description}
-                    date={post.data.pubDate}
-                    image={post.data.image}
-                    href={`/blog/${post.slug}`}
-                    tags={post.data.tags}
-                />
-            ))
+            posts.map((post, index) => {
+                // 1. Pastel Palette (Light Mode - High Luminance, Low Saturation)
+                const pastelColors = [
+                    "#e0f2fe", // Light Sky
+                    "#fce7f3", // Light Pink
+                    "#dcfce7", // Light Green
+                    "#fef3c7", // Light Amber
+                    "#ede9fe", // Light Violet
+                    "#ffe4e6", // Light Rose
+                ];
+
+                // 2. Dark Palette (Dark Mode - Low Luminance, Desaturated)
+                const darkColors = [
+                    "#0c4a6e", // Dark Sky
+                    "#831843", // Dark Pink
+                    "#14532d", // Dark Green
+                    "#78350f", // Dark Amber
+                    "#4c1d95", // Dark Violet
+                    "#881337", // Dark Rose
+                ];
+
+                // 3. Selection Logic
+                // Use frontmatter color if available (assuming it's light mode, we might need a dark generator or manual overrides later)
+                // For now, if custom color is strict string, use it.
+                // Or fallback to pattern.
+                const colorIndex = index % pastelColors.length;
+
+                // If frontmatter has cardColor, use it for light.
+                // For dark, we default to a standard dark surface or try to darken it?
+                // Let's allow users to provide a hex. If they do, currently we use it for LIGHT.
+                // Ideally we'd darken it for dark mode or ask for both.
+                // For this MVP, we'll assume the frontmatter is the LIGHT variant.
+                // And for dark mode, we fallback to specific dark theme or a generic one if custom is used.
+
+                let light = pastelColors[colorIndex];
+                let dark = darkColors[colorIndex];
+
+                // 3. Selection Logic
+                console.log(
+                    `Post: ${post.data.title}, cardColor: ${post.data.cardColor}`,
+                );
+
+                if (post.data.cardColor) {
+                    light = post.data.cardColor;
+                    // For custom colors, default dark to a neutral dark to be safe
+                    dark = "#1f2937";
+                }
+
+                return (
+                    <BlogCard
+                        title={post.data.title}
+                        description={post.data.description}
+                        date={post.data.pubDate}
+                        image={post.data.image}
+                        href={`/blog/${post.slug}`}
+                        tags={post.data.tags}
+                        lightColor={light}
+                        darkColor={dark}
+                    />
+                );
+            })
         }
     </div>
 </Layout>

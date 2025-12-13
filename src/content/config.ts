@@ -12,6 +12,7 @@ const blogCollection = defineCollection({
         fancyHeadings: z.boolean().optional().default(false),
         tags: z.array(z.string()).default([]),
         hideToc: z.boolean().optional().default(false),
+        cardColor: z.string().optional(),
     }),
 });
 
