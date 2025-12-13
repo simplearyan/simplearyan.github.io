@@ -1,0 +1,72 @@
+---
+title: "2025 Market Report: Visualized"
+description: "Using hand-drawn emphasis to bring dry data to life."
+pubDate: 2025-12-12
+tags: ["data", "report", "visualization", "emphasis"]
+image: "/images/blog-placeholder-2.jpg"
+showImage: true
+---
+
+import CinematicText from '../../components/cinematic/CinematicText.astro';
+import StrokeUnderline from '../../components/cinematic/StrokeUnderline.astro';
+import ArrowEmphasis from '../../components/cinematic/ArrowEmphasis.astro';
+import MarkerHighlight from '../../components/cinematic/MarkerHighlight.astro';
+import CircleEmphasis from '../../components/cinematic/CircleEmphasis.astro';
+
+<div class="bg-gray-50 border-2 border-gray-200 p-8 rounded-xl shadow-sm my-8">
+  
+  <div class="text-center mb-8">
+    <CinematicText variant="comic-verse" color="#1e3a8a" class="text-4xl text-blue-900 mb-2">
+      Q4 PERFORMANCE
+    </CinematicText>
+    <p class="text-gray-500 uppercase tracking-widest">Confidential Review</p>
+  </div>
+
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-8 font-sans">
+    
+    <div class="p-6 bg-white rounded shadow-sm border-l-4 border-green-400">
+      <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+        Revenue <ArrowEmphasis direction="up" color="#22c55e" variant="sharp" />
+      </h3>
+      <p class="text-4xl font-black text-gray-800 mb-2">
+        <StrokeUnderline variant="double" color="#22c55e" thickness="4px">$4.2M</StrokeUnderline>
+      </p>
+      <p class="text-sm text-gray-600">
+        Over performing by <MarkerHighlight color="green">+15%</MarkerHighlight>.
+      </p>
+    </div>
+
+    <div class="p-6 bg-white rounded shadow-sm border-l-4 border-red-400">
+       <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+        Churn Rate <StrokeUnderline variant="zigzag" color="#ef4444" thickness="2px">Alert</StrokeUnderline>
+      </h3>
+      <p class="text-4xl font-black text-gray-800 mb-2">
+        3.8%
+      </p>
+       <p class="text-sm text-gray-600">
+        <CircleEmphasis variant="rough" color="#ef4444">Action Required</CircleEmphasis>
+      </p>
+    </div>
+
+  </div>
+
+  <div class="mt-8 p-6 bg-yellow-50 rounded border border-yellow-200">
+    <h4 class="font-bold text-yellow-800 mb-2 uppercase">Project Status</h4>
+    <ul class="space-y-2">
+      <li class="flex items-center gap-2">
+        <span class="text-green-600">✓</span> Alpha Launch: <StrokeUnderline variant="strike" color="#666">Pending</StrokeUnderline> <strong>DONE</strong>
+      </li>
+      <li class="flex items-center gap-2">
+        <span class="text-blue-600">→</span> Beta Testing: <ArrowEmphasis direction="left" color="#3b82f6" variant="curved" text="Starts Monday" />
+      </li>
+      <li>
+        <span class="text-red-500">!</span> Budget: <StrokeUnderline variant="coil" color="#ef4444">Tight</StrokeUnderline>
+      </li>
+    </ul>
+  </div>
+
+</div>
+
+## How to use this style
+
+This report demonstrates how mixing legitimate business formatting with hand-drawn annotations (`ArrowEmphasis`, `StrokeUnderline` with `strike` variant) makes the data feel reviewed and human.

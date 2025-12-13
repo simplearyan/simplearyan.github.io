@@ -1,0 +1,46 @@
+---
+title: "The Hand-Drawn Touch"
+description: "Adding natural, human-like emphasis to digital text with stroke underlines."
+pubDate: 2025-12-12
+tags: ["design", "css", "svg", "tutorial"]
+image: "/images/blog-placeholder-4.jpg"
+showImage: true
+---
+
+import StrokeUnderline from '../../components/cinematic/StrokeUnderline.astro';
+import CinematicText from '../../components/cinematic/CinematicText.astro';
+
+Digital typography often feels too rigid. By adding imperfect, hand-drawn elements, we can bring warmth and focus to specific words.
+
+## Examples
+
+You can use the stroke to highlight <StrokeUnderline color="#3b82f6" thickness="4px">key concepts</StrokeUnderline> in your text.
+
+### Different Colors
+
+<div class="text-2xl leading-loose my-8 font-serif">
+  We can create <StrokeUnderline color="#ef4444" variant="messy">urgent alerts</StrokeUnderline>, 
+  <StrokeUnderline color="#22c55e" variant="curve">positive vibes</StrokeUnderline>, or 
+  <StrokeUnderline color="#a855f7" thickness="6px">creative flourishes</StrokeUnderline>.
+</div>
+
+### Cinematic Integration
+
+Combined with our cinematic headings, it creates a powerful effect.
+
+<div class="my-12 text-center">
+  <CinematicText variant="impact" class="text-black dark:text-white mb-4 block">
+    GET <StrokeUnderline color="#2563eb" thickness="8px" class="inline-block">VISUALS</StrokeUnderline>
+  </CinematicText>
+  <p class="text-gray-500">The stroke mimics the provided reference image style.</p>
+</div>
+
+## Usage
+
+```astro
+import StrokeUnderline from '../../components/cinematic/StrokeUnderline.astro';
+
+<StrokeUnderline color="red" variant="messy">Important</StrokeUnderline>
+```
+
+The component uses SVG to draw the line, ensuring it scales without losing quality.

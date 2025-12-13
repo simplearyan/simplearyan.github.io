@@ -1,0 +1,92 @@
+---
+interface Props {
+    direction?: "left" | "right" | "up" | "down";
+    color?: string;
+    variant?: "curved" | "sharp" | "doodle";
+    class?: string;
+    text?: string; // Optional label for the arrow
+}
+
+const {
+    direction = "left",
+    color = "red",
+    variant = "curved",
+    class: className,
+    text,
+} = Astro.props;
+
+// Rotation mapping
+const rotations = {
+    left: "rotate(0deg)",
+    right: "rotate(180deg)",
+    up: "rotate(90deg)",
+    down: "rotate(-90deg)",
+};
+
+const transform = rotations[direction];
+---
+
+<div
+    class={`arrow-emphasis-wrapper ${className || ""}`}
+    style={`--arrow-color: ${color};`}
+>
+    <div class="arrow-container" style={`transform: ${transform};`}>
+        <svg class="arrow-svg" viewBox="0 0 100 50" preserveAspectRatio="none">
+            {
+                variant === "curved" && (
+                    <path d="M90,10 Q50,40 10,25 M10,25 L25,15 M10,25 L20,35" />
+                )
+            }
+            {
+                variant === "sharp" && (
+                    <path d="M95,25 L5,25 M5,25 L20,10 M5,25 L20,40" />
+                )
+            }
+            {
+                variant === "doodle" && (
+                    <path
+                        d="M90,20 C70,10 50,30 30,25 C20,22 10,25 5,25 M5,25 L15,15 M5,25 L15,35"
+                        stroke-dasharray="5,2"
+                    />
+                )
+            }
+        </svg>
+    </div>
+    {text && <span class="arrow-label">{text}</span>}
+</div>
+
+<style>
+    .arrow-emphasis-wrapper {
+        display: inline-flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        position: relative;
+        vertical-align: middle;
+    }
+
+    .arrow-container {
+        width: 60px;
+        height: 30px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .arrow-svg path {
+        fill: none;
+        stroke: var(--arrow-color);
+        stroke-width: 3px;
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        vector-effect: non-scaling-stroke;
+    }
+
+    .arrow-label {
+        font-family: "Kalam", cursive;
+        color: var(--arrow-color);
+        font-size: 0.8em;
+        margin-top: 4px;
+        font-weight: bold;
+    }
+</style>

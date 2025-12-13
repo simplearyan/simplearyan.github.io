@@ -1,0 +1,49 @@
+---
+title: "The Comic Verse Aesthetic"
+description: "Recreating the bold, high-contrast typography style of modern digital comic platforms."
+pubDate: 2025-12-12
+tags: ["design", "typography", "comic-verse", "recreation"]
+image: "/images/blog-placeholder-2.jpg"
+showImage: true
+---
+
+import CinematicText from '../../components/cinematic/CinematicText.astro';
+import CinematicHighlight from '../../components/cinematic/CinematicHighlight.astro';
+
+We recently analyzed a design featuring a striking mix of condensed typography and vibrant highlights. Here is a recreation of that style using our new components.
+
+<div class="bg-black p-8 md:p-16 my-8 rounded-lg relative overflow-hidden group">
+  {/* Background Texture Simulation */}
+  <div class="absolute inset-0 opacity-20 pointer-events-none" style="background-image: url('https://www.transparenttextures.com/patterns/black-felt.png');"></div>
+  
+  <div class="relative z-10 text-center space-y-4">
+    <CinematicText variant="comic-verse">
+      Comic Verse is a digital platform for 
+      comic fans, offering a <CinematicHighlight color="red">Diverse Collection</CinematicHighlight>.
+    </CinematicText>
+
+    <CinematicText variant="comic-verse">
+      Users can <CinematicHighlight color="cyan">Read</CinematicHighlight>, <CinematicHighlight color="red">Buy</CinematicHighlight> digital editions, 
+      and order physical copies.
+    </CinematicText>
+
+    <CinematicText variant="comic-verse">
+      <CinematicHighlight color="red">The Goal</CinematicHighlight> is to merge <CinematicHighlight color="cyan">Digital Convenience</CinematicHighlight> 
+      with the appeal of <CinematicHighlight color="red">Physical Collections</CinematicHighlight>.
+    </CinematicText>
+  </div>
+</div>
+
+## How It's Made
+
+We successfully extracted the following design tokens:
+- **Font**: Oswald (Bold, Condensed)
+- **Colors**: Red (`#FF4D00`), Cyan (`#00E5FF`)
+- **Style**: Italicized highlights within upright text.
+
+```astro
+<CinematicText variant="comic-verse">
+  Key information is <CinematicHighlight color="cyan">Highlighted</CinematicHighlight> 
+  for emphasis.
+</CinematicText>
+```

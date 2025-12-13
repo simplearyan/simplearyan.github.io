@@ -1,0 +1,92 @@
+---
+interface Props {
+    color?: string;
+    width?: string;
+    padding?: string;
+    variant?: "single" | "double" | "rough";
+    class?: string;
+}
+
+const {
+    color = "#ef4444",
+    width = "3px",
+    padding = "0.5rem",
+    variant = "rough",
+    class: className,
+} = Astro.props;
+
+// SVG Path logic could be complex for flexible text, but simple ellipse works for most scale
+// We use a slightly randomized ellipse path to look hand drawn
+---
+
+<span
+    class={`circle-emphasis-wrapper ${className || ""}`}
+    style={`--padding: ${padding};`}
+>
+    <slot />
+    <svg
+        class={`circle-sketch variant-${variant}`}
+        viewBox="0 0 100 100"
+        preserveAspectRatio="none"
+        style={`--stroke-color: ${color}; --stroke-width: ${width};`}
+    >
+        {variant === "single" && <ellipse cx="50" cy="50" rx="49" ry="40" />}
+        {
+            variant === "double" && (
+                <>
+                    <ellipse cx="50" cy="50" rx="49" ry="40" />
+                    <ellipse
+                        cx="50"
+                        cy="50"
+                        rx="45"
+                        ry="35"
+                        style="opacity: 0.7"
+                    />
+                </>
+            )
+        }
+        {
+            variant === "rough" && (
+                <path d="M10,50 Q20,5 50,5 T90,50 T50,95 T10,50 M8,52 Q18,8 48,8" /> /* Simulates a quick double loop start */
+            )
+        }
+    </svg>
+</span>
+
+<style>
+    .circle-emphasis-wrapper {
+        position: relative;
+        display: inline-block;
+        padding: var(--padding);
+        z-index: 10;
+    }
+
+    .circle-sketch {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        pointer-events: none;
+        z-index: -1;
+        overflow: visible;
+    }
+
+    .circle-sketch ellipse,
+    .circle-sketch path {
+        fill: none;
+        stroke: var(--stroke-color);
+        stroke-width: var(--stroke-width);
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        vector-effect: non-scaling-stroke;
+    }
+
+    /* Specific tweak for 'rough' to look like the uploaded red circle */
+    .variant-rough path {
+        d: path(
+            "M4,50 C4,25 25,2 50,4 C75,6 98,25 96,50 C94,75 75,98 50,96 C25,94 2,75 5,48"
+        );
+        transform: rotate(-2deg);
+    }
+</style>

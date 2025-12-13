@@ -1,0 +1,98 @@
+---
+interface Props {
+    color?: string; // Hex, rgb, or class name (if using currentcolor, but we usually want specific strokes)
+    thickness?: string;
+    class?: string;
+    variant?:
+        | "curve"
+        | "straight"
+        | "messy"
+        | "zigzag"
+        | "double"
+        | "strike"
+        | "coil";
+}
+
+const {
+    color = "#3b82f6",
+    thickness = "3px",
+    class: className,
+    variant = "curve",
+} = Astro.props;
+
+// SVG Paths for different styles
+const paths = {
+    curve: "M6 24C30 20 150 10 280 18C200 22 80 28 20 30", // Smooth visual curve simulation
+    straight: "M5 30 L295 30",
+    messy: "M5 20 C50 15, 100 25, 150 20 C200 15, 250 25, 295 20",
+    zigzag: "M5 20 L20 10 L35 30 L50 10 L65 30 L80 10 L95 30 L110 10 L125 30 L140 10 L155 30 L170 10 L185 30 L200 10 L215 30 L230 10 L245 30 L260 10 L275 30 L295 20",
+    double: "M5 25 L295 25 M10 32 L290 32",
+    strike: "M5 20 L295 15",
+    coil: "M5 20 Q 20 5, 35 20 T 65 20 T 95 20 T 125 20 T 155 20 T 185 20 T 215 20 T 245 20 T 275 20 T 295 20",
+};
+
+const currentPath = paths[variant];
+---
+
+<span
+    class={`stroke-underline-wrapper ${className || ""}`}
+    data-variant={variant}
+>
+    <slot />
+    <svg
+        class="stroke-underline"
+        viewBox="0 0 300 40"
+        preserveAspectRatio="none"
+        xmlns="http://www.w3.org/2000/svg"
+        style={`--stroke-color: ${color}; --stroke-width: ${thickness};`}
+    >
+        <path d={currentPath}></path>
+    </svg>
+</span>
+
+<style>
+    .stroke-underline-wrapper {
+        position: relative;
+        display: inline-block;
+    }
+
+    .stroke-underline {
+        position: absolute;
+        bottom: -10%; /* Adjust based on font size/line height, might need tuning */
+        left: 0;
+        width: 100%;
+        height: 0.6em; /* Scale height relative to font size */
+        pointer-events: none;
+        z-index: -1;
+        overflow: visible;
+    }
+
+    .stroke-underline-wrapper[data-variant="strike"] .stroke-underline {
+        bottom: 30%; /* Move up for strikethrough */
+        height: 1em;
+    }
+
+    .stroke-underline path {
+        fill: none;
+        stroke: var(--stroke-color);
+        stroke-width: var(--stroke-width);
+        stroke-linecap: round;
+        stroke-linejoin: round;
+        vector-effect: non-scaling-stroke; /* Keeps stroke width consistent even if we stretch the SVG */
+        /* Add a little animation for fun */
+        stroke-dasharray: 1000;
+        stroke-dashoffset: 1000;
+        animation: dash 1s ease-out forwards;
+    }
+
+    /* Only animate when in view? For now global animation on load */
+    @keyframes dash {
+        to {
+            stroke-dashoffset: 0;
+        }
+    }
+
+    :global([data-theme="dark"]) .stroke-underline-wrapper {
+        /* Optional dark mode adjustments if needed, though color prop usually handles it */
+    }
+</style>

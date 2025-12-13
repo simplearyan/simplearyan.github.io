@@ -1,0 +1,11 @@
+/* Global CSS Additions for Cinematic Fonts */
+/* Appended to src/styles/global.css typically, or here if we just want to ensure availability */
+
+/* Just in case tailwind isn't configured, we add standard classes */
+.font-cinzel {
+    font-family: 'Cinzel', serif;
+}
+
+.font-oswald {
+    font-family: 'Oswald', sans-serif;
+}

@@ -1,0 +1,27 @@
+---
+interface Props {
+    color?: "red" | "cyan" | "white";
+    class?: string;
+}
+
+const { color = "red", class: className } = Astro.props;
+
+const colors = {
+    red: "text-[#FF4D00]", // Comic Verse Red
+    cyan: "text-[#00E5FF]", // Comic Verse Cyan
+    white: "text-white",
+};
+---
+
+<span
+    class={`cinematic-highlight font-oswald font-bold italic uppercase tracking-tighter ${colors[color]} ${className || ""}`}
+>
+    <slot />
+</span>
+
+<style>
+    /* Optional: Add a slight transform for extra impact if desired, matching the skew in some referenced styles */
+    .cinematic-highlight {
+        display: inline-block; /* Allows transform to work if we added it */
+    }
+</style>

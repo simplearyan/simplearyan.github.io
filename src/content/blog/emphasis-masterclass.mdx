@@ -1,0 +1,51 @@
+---
+title: "The Annotator's Toolkit"
+description: "A complete guide to digital emphasis using circles, highlighters, and strokes."
+pubDate: 2025-12-12
+tags: ["design", "tutorial", "emphasis", "showcase"]
+image: "/images/blog-placeholder-5.jpg"
+showImage: true
+---
+
+import CircleEmphasis from '../../components/cinematic/CircleEmphasis.astro';
+import MarkerHighlight from '../../components/cinematic/MarkerHighlight.astro';
+import StrokeUnderline from '../../components/cinematic/StrokeUnderline.astro';
+import CinematicText from '../../components/cinematic/CinematicText.astro';
+
+When we read on paper, we circle things. We highlight them. We scribble notes. Let's bring that fidelity to the web.
+
+## The Circle
+
+Use the <CircleEmphasis color="#ef4444" padding="0.2rem">Circle Emphasis</CircleEmphasis> to draw immediate attention. It supports different variants:
+
+- **Rough**: <CircleEmphasis variant="rough" color="red">Look at this!</CircleEmphasis>
+- **Double**: For <CircleEmphasis variant="double" color="blue">extra importance</CircleEmphasis>.
+- **Single**: A cleaner <CircleEmphasis variant="single" color="green">selection</CircleEmphasis>.
+
+## The Highlighter
+
+Just like your favorite neon markers.
+- <MarkerHighlight color="yellow">Standard Yellow</MarkerHighlight>
+- <MarkerHighlight color="pink">Neon Pink</MarkerHighlight>
+- <MarkerHighlight color="cyan">Electric Cyan</MarkerHighlight>
+- <MarkerHighlight color="green">Bright Green</MarkerHighlight>
+
+## The Stroke scale
+
+Underlines can be subtle or bold.
+- **Thin**: <StrokeUnderline thickness="2px" color="black" class="dark:text-white">A delicate note.</StrokeUnderline>
+- **Thick**: <StrokeUnderline thickness="6px" color="#facc15">A bold claim!</StrokeUnderline>
+
+## Combining Styles
+
+<div class="my-12 p-8 border-2 border-dashed border-gray-300 rounded-lg text-center">
+  <CinematicText variant="hero" class="text-black dark:text-white text-3xl mb-4">
+    The <MarkerHighlight color="yellow">Ultimate</MarkerHighlight> Guide
+  </CinematicText>
+  
+  <p class="text-xl leading-relaxed">
+    By combining <CircleEmphasis color="#ef4444">cinematic text</CircleEmphasis> with 
+    <StrokeUnderline color="#3b82f6" variant="messy">hand-drawn elements</StrokeUnderline>, 
+    we create a unique, organic feel.
+  </p>
+</div>

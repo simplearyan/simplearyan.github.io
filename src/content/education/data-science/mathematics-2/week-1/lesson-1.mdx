@@ -12,24 +12,34 @@ parent: "data-science/mathematics-2/week-1"
 import Concept from "../../../../../components/education/Concept.astro";
 import Problem from "../../../../../components/education/Problem.astro";
 import Solution from "../../../../../components/education/Solution.astro";
+import CinematicText from "../../../../../components/cinematic/CinematicText.astro";
+import StrokeUnderline from "../../../../../components/cinematic/StrokeUnderline.astro";
+import CircleEmphasis from "../../../../../components/cinematic/CircleEmphasis.astro";
+import MarkerHighlight from "../../../../../components/cinematic/MarkerHighlight.astro";
+import ArrowEmphasis from "../../../../../components/cinematic/ArrowEmphasis.astro";
 
-Vectors are **foundational elements of linear algebra**. They are essential in mathematics, particularly for data science. Fundamentally, a vector can be thought of simply as a **list**.
+Vectors are <MarkerHighlight color="yellow">foundational elements of linear algebra</MarkerHighlight>. They are essential in mathematics, particularly for data science. Fundamentally, a vector can be thought of simply as a <CircleEmphasis variant="rough" color="#ef4444">list</CircleEmphasis>.
 
-## Basics and Representation
+<CinematicText variant="epic" as="h2" class="text-3xl font-bold mt-8 mb-4" color="#4f46e5">Basics and Representation</CinematicText>
 
-In practical terms, vectors often arise from **tabular data**. For instance, if you look at a table showing India's GDP or cricket team batting averages, a vector corresponds to a row or a column of that data.
+In practical terms, vectors often arise from <StrokeUnderline variant="zigzag" color="#f59e0b">tabular data</StrokeUnderline>. For instance, if you look at a table showing India's GDP or cricket team batting averages, a vector corresponds to a row or a column of that data.
 
-1.  **Row Vector:** A list of numbers arranged horizontally, representing a row of data.
+1.  <span class="font-bold text-lg"><StrokeUnderline variant="double" color="#ec4899">Row Vector</StrokeUnderline>:</span> A list of numbers arranged horizontally, representing a row of data.
     *   *Example:* If we take the batting averages of five players against South Africa from a table, we get a row vector like $(64.35, 31.92, 33.30, 26.00, 49.87)$.
-2.  **Column Vector:** A list of numbers arranged vertically, representing a column of data.
+2.  <span class="font-bold text-lg"><StrokeUnderline variant="double" color="#3b82f6">Column Vector</StrokeUnderline>:</span> A list of numbers arranged vertically, representing a column of data.
     *   *Example:* The averages scored by R. Sharma against several teams can be represented as a column vector:
-        $$
-        \begin{pmatrix} 61.33 \\ 50.44 \\ 33.47 \\ 33.30 \\ 46.25 \\ 51.42 \end{pmatrix}
-        $$
+        <div class="flex items-center gap-4">
+             <ArrowEmphasis direction="right" color="#3b82f6" text="Vertical List" variant="doodle" />
+             <div>
+             $$
+             \begin{pmatrix} 61.33 \\ 50.44 \\ 33.47 \\ 33.30 \\ 46.25 \\ 51.42 \end{pmatrix}
+             $$
+             </div>
+        </div>
 
 Vectors in $R^n$ (n-dimensional real space) are lists, rows, or columns containing **$n$ real entries**, and they are equivalent to points in $R^n$.
 
-### The Importance of Vectors
+<CinematicText variant="comic-verse" as="h3" class="text-2xl font-bold mt-6 mb-4">The Importance of Vectors</CinematicText>
 
 Vectors are important because they allow for **arithmetic operations on these lists**.
 
@@ -46,7 +56,7 @@ For example, if you wanted to find the average sectoral GDP over 10 years, you c
 A vector in a physical context is defined by two fundamental properties: **magnitude (size)** and **direction**. The length of the arrow represents the magnitude, and the arrowhead indicates the direction. Examples of vectors in physics include Velocity, Acceleration, and Force. Importantly, a vector does **not** have position; it remains the same if displaced parallel to itself without changing its length.
 
 
-### Vector Operations
+<CinematicText variant="neon" as="h3" class="text-2xl font-bold mt-6 mb-4">Vector Operations</CinematicText>
 
 **A. Addition:**
 Vector addition is done **coordinate-wise**.
@@ -57,7 +67,7 @@ Multiplying a vector by a **scalar** (a real number) means multiplying **each en
 *Example:* If Buyer A buys the same items two days in a row, the total quantity vector can be found by scalar multiplication: $2 \cdot (8, 8, 4, 10, 4) = (16, 16, 8, 20, 8)$.
 
 <Concept title="Visual Anchor: Vector Addition">
-  Vector addition in $R^2$ can be visualized using the **head-to-tail method** or the **parallelogram law**.
+  Vector addition in $R^2$ can be visualized using the <StrokeUnderline variant="coil" color="#8b5cf6">head-to-tail method</StrokeUnderline> or the **parallelogram law**.
 
   When adding two vectors, say $(1, 2)$ and $(2, 1)$, draw them both starting from the origin. Complete the figure to form a parallelogram. The **diagonal of the parallelogram** starting from the origin represents the resultant vector from the addition.
   
@@ -71,7 +81,7 @@ Multiplying a vector by a **scalar** (a real number) means multiplying **each en
 We can apply these basic rules to solve problems involving vector arithmetic. Let $A = (1, 2)$ and $B = (2, 3)$.
 
 <Problem number={1} title="Vector Operations">
-  Choose the set of correct options using the vectors $A=(1, 2)$ and $B=(2, 3)$.
+  Choose the set of correct options using the vectors <MarkerHighlight color="cyan">$A=(1, 2)$</MarkerHighlight> and <MarkerHighlight color="cyan">$B=(2, 3)$</MarkerHighlight>.
 
   *   Option 1: $2A$ is the vector $(2, 4)$.
   *   Option 2: $3B$ is the vector $(6, 9)$.
@@ -81,15 +91,15 @@ We can apply these basic rules to solve problems involving vector arithmetic. Le
   <Solution>
     **All options are correct**, based on scalar multiplication and coordinate-wise addition/subtraction.
 
-    *   **Option 1 (Scalar Multiplication):** $2A = 2 \cdot (1, 2) = (2 \cdot 1, 2 \cdot 2) = (2, 4)$. (Correct)
-    *   **Option 2 (Scalar Multiplication):** $3B = 3 \cdot (2, 3) = (3 \cdot 2, 3 \cdot 3) = (6, 9)$. (Correct)
-    *   **Option 3 (Addition):** $A + B = (1, 2) + (2, 3) = (1+2, 2+3) = (3, 5)$. (Correct)
-    *   **Option 4 (Subtraction):** $A - B = (1, 2) - (2, 3) = (1-2, 2-3) = (-1, -1)$. (Correct)
+    *   **Option 1 (Scalar Multiplication):** $2A = 2 \cdot (1, 2) = (2 \cdot 1, 2 \cdot 2) = (2, 4)$. <MarkerHighlight color="green">(Correct)</MarkerHighlight>
+    *   **Option 2 (Scalar Multiplication):** $3B = 3 \cdot (2, 3) = (3 \cdot 2, 3 \cdot 3) = (6, 9)$. <MarkerHighlight color="green">(Correct)</MarkerHighlight>
+    *   **Option 3 (Addition):** $A + B = (1, 2) + (2, 3) = (1+2, 2+3) = (3, 5)$. <MarkerHighlight color="green">(Correct)</MarkerHighlight>
+    *   **Option 4 (Subtraction):** $A - B = (1, 2) - (2, 3) = (1-2, 2-3) = (-1, -1)$. <MarkerHighlight color="green">(Correct)</MarkerHighlight>
   </Solution>
 </Problem>
 
 <Problem number={2} title="Finding a Scalar">
-  Let $A = (1, 1, 1)$ and $B = (2, -1, 4)$ be two vectors. Suppose $cA + 3B = (4, j, k)$, where $c, j, k$ are real numbers (scalars). Find the value of $c$.
+  Let $A = (1, 1, 1)$ and $B = (2, -1, 4)$ be two vectors. Suppose $cA + 3B = (4, j, k)$, where $c, j, k$ are real numbers (scalars). <StrokeUnderline variant="zigzag" color="#f59e0b">Find the value of $c$</StrokeUnderline>.
 
   <Solution>
     We use scalar multiplication and coordinate-wise addition.
@@ -101,15 +111,18 @@ We can apply these basic rules to solve problems involving vector arithmetic. Le
     $$c + 6 = 4$$
     $$c = 4 - 6 = -2$$
     
-    The value of $c$ is **$-2$**.
+    <div class="flex items-center gap-4 mt-4">
+      <ArrowEmphasis direction="right" text="Result" color="#ef4444" />
+      <span>The value of $c$ is <CircleEmphasis variant="rough" color="#ef4444">$-2$</CircleEmphasis>.</span>
+    </div>
   </Solution>
 </Problem>
 
 <Problem number={3} title="Finding Unknown Components">
-  Given the result $c=-2$ from Question 2, find the value of $j + k$.
+  Given the result $c=-2$ from Question 2, find the <MarkerHighlight color="pink">value of $j + k$</MarkerHighlight>.
 
   <Solution>
-    Substitute $c = -2$ back into the resultant vector derived in Question 2:
+    <StrokeUnderline variant="straight" color="#3b82f6">Substitute $c = -2$</StrokeUnderline> back into the resultant vector derived in Question 2:
     $$(-2)A + 3B = ((-2) + 6, (-2) - 3, (-2) + 12)$$
     $$(-2)A + 3B = (4, -5, 10)$$
 
@@ -117,7 +130,7 @@ We can apply these basic rules to solve problems involving vector arithmetic. Le
 
     $$j + k = -5 + 10 = 5$$
     
-    The value of $j + k$ is **$5$**.
+    The value of $j + k$ is <CircleEmphasis variant="double" color="#8b5cf6">$5$</CircleEmphasis>.
   </Solution>
 </Problem>
 

@@ -1,0 +1,54 @@
+---
+interface Props {
+    color?: "yellow" | "cyan" | "green" | "pink";
+    variant?: "straight" | "messy";
+    class?: string;
+}
+
+const {
+    color = "yellow",
+    variant = "straight",
+    class: className,
+} = Astro.props;
+
+const colors = {
+    yellow: "#fef08a",
+    cyan: "#67e8f9",
+    green: "#86efac",
+    pink: "#f9a8d4",
+};
+
+const hex = colors[color];
+---
+
+<span class={`marker-highlight-wrapper ${className || ""}`}>
+    <span class="highlight-bg" style={`--bg-color: ${hex}`}></span>
+    <span class="content"><slot /></span>
+</span>
+
+<style>
+    .marker-highlight-wrapper {
+        position: relative;
+        display: inline-block;
+        padding: 0 4px;
+    }
+
+    .highlight-bg {
+        position: absolute;
+        top: 10%;
+        left: 0;
+        width: 100%;
+        height: 80%;
+        background-color: var(--bg-color);
+        z-index: -1;
+        transform: skewX(-10deg) rotate(-1deg);
+        border-radius: 2px;
+        opacity: 0.8;
+        mix-blend-mode: multiply; /* Gives that real highlighter transparency feeling */
+    }
+
+    :global([data-theme="dark"]) .highlight-bg {
+        mix-blend-mode: normal; /* Multiply doesn't work well on dark backgrounds */
+        opacity: 0.5;
+    }
+</style>
