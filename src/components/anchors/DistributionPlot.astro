@@ -1,0 +1,148 @@
+---
+interface Props {
+    type?: "normal" | "binomial";
+    mean?: number;
+    sd?: number;
+    n?: number; // for binomial
+    p?: number; // for binomial
+    width?: number;
+    height?: number;
+    color?: string;
+    fill?: boolean;
+}
+
+const {
+    type = "normal",
+    mean = 0,
+    sd = 1,
+    n = 10,
+    p = 0.5,
+    width = 300,
+    height = 150,
+    color = "#3b82f6",
+    fill = true,
+} = Astro.props;
+
+// Normal PDF function
+const normalPDF = (x: number, m: number, s: number) => {
+    return (
+        (1 / (s * Math.sqrt(2 * Math.PI))) *
+        Math.exp(-0.5 * Math.pow((x - m) / s, 2))
+    );
+};
+
+// Binomial PMF function
+const binomialPMF = (k: number, n: number, p: number) => {
+    // Factorial helper
+    const fact = (num: number): number => (num <= 1 ? 1 : num * fact(num - 1));
+    // Combination
+    const nCk = fact(n) / (fact(k) * fact(n - k));
+    return nCk * Math.pow(p, k) * Math.pow(1 - p, n - k);
+};
+
+let pathData = "";
+let xMin = 0,
+    xMax = 0,
+    yMax = 0;
+
+if (type === "normal") {
+    xMin = mean - 4 * sd;
+    xMax = mean + 4 * sd;
+    yMax = normalPDF(mean, mean, sd); // Peak
+
+    // Generate points
+    const points = [];
+    const steps = 100;
+    for (let i = 0; i <= steps; i++) {
+        const x = xMin + (i * (xMax - xMin)) / steps;
+        const y = normalPDF(x, mean, sd);
+        points.push({ x, y });
+    }
+
+    // Convert to SVG coords
+    pathData = `M 0 ${height}`; // Start bottom left
+    points.forEach((pt, i) => {
+        const sx = ((pt.x - xMin) / (xMax - xMin)) * width;
+        const sy = height - (pt.y / yMax) * (height * 0.9); // Leave 10% headroom
+        pathData += ` L ${sx} ${sy}`;
+    });
+    if (fill) pathData += ` L ${width} ${height} Z`;
+}
+
+// Binomial Bar generation would be separate rects, but for "curve" approx we can just draw lines?
+// Let's stick to Normal curve anchor primarily as requested in plan "DistributionPlot.astro: SVG path based Normal/Binomial curves"
+// For binomial, drawing discrete bars is better.
+
+const isBinomial = type === "binomial";
+const binomialBars: { x: number; h: number }[] = [];
+
+if (isBinomial) {
+    xMin = 0;
+    xMax = n + 1; // Give some breathing room
+    // Find max prob for scaling
+    let maxProb = 0;
+    for (let k = 0; k <= n; k++) {
+        const prob = binomialPMF(k, n, p);
+        if (prob > maxProb) maxProb = prob;
+    }
+
+    for (let k = 0; k <= n; k++) {
+        const prob = binomialPMF(k, n, p);
+        const barHeight = (prob / maxProb) * (height * 0.9);
+        const xPos = (k / n) * (width * 0.8) + width * 0.1; // Center in view
+        binomialBars.push({ x: xPos, h: barHeight });
+    }
+}
+---
+
+<div
+    class="distribution-plot"
+    style={`width: ${width}px; height: ${height}px;`}
+>
+    <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
+        <!-- Axis -->
+        <line
+            x1="0"
+            y1={height}
+            x2={width}
+            y2={height}
+            stroke="var(--color-text)"
+            stroke-width="2"></line>
+
+        {
+            type === "normal" && (
+                <path
+                    d={pathData}
+                    fill={fill ? `${color}40` : "none"}
+                    stroke={color}
+                    stroke-width="3"
+                />
+            )
+        }
+
+        {
+            type === "binomial" &&
+                binomialBars.map((bar) => (
+                    <rect
+                        x={bar.x - width / n / 3}
+                        y={height - bar.h}
+                        width={width / n / 1.5}
+                        height={bar.h}
+                        fill={color}
+                        opacity="0.7"
+                        rx="2"
+                    />
+                ))
+        }
+    </svg>
+</div>
+
+<style>
+    .distribution-plot {
+        display: inline-block;
+        margin: 10px;
+    }
+    svg {
+        overflow: visible;
+    }
+</style>

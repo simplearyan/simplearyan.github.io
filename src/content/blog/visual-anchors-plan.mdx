@@ -1,0 +1,63 @@
+---
+title: "The Plan: Anchoring Stats 2 with Visuals"
+description: "Our roadmap for integrating interactive visual anchors like Dice, Urns, and Graphs into the Mathematics 2 textbook."
+pubDate: 2025-01-06
+tags: ["Statistics", "Pedagogy", "Plan"]
+---
+
+import Dice from "../../components/anchors/Dice.astro";
+import Coin from "../../components/anchors/Coin.astro";
+import Urn from "../../components/anchors/Urn.astro";
+import DistributionPlot from "../../components/anchors/DistributionPlot.astro";
+import CustomTable from "../../components/CustomTable.astro";
+
+# Visual Anchors Plan
+
+The concepts presented across the chapters of the "Stats 2 book" lend themselves well to concrete visual illustrations. We are moving beyond static images to interactive Astro components.
+
+## 1. Basic Probability (Chapter 1)
+
+**Goal:** define fundamental vocabulary (Sample Space, Outcome, Event).
+
+| Anchor | Concept | Implementation |
+| :--- | :--- | :--- |
+| <Dice value={5} size={40} color="#eee" /> | **Sample Space ($S$)** | Use 3D dice to show $S=\{1..6\}$. |
+| <Coin outcome="heads" size={40} color="gold" /> | **Binary Outcomes** | Flipping coins for $P(H)=0.5$. |
+
+## 2. Sampling & Repeated Trials (Chapter 2)
+
+**Goal:** Emphasize repetition and replacement.
+
+| Anchor | Concept | Implementation |
+| :--- | :--- | :--- |
+| **Repetitive Flips** | **Bernoulli Trials** | Sequences of <Coin size={30} /> to show Binomial/Geometric patterns. |
+| <Urn size={60} ballCounts={{red:3, blue:5}} /> | **Sampling Dependence** | Urn schemes for Hypergeometric distribution (Sampling without replacement). |
+
+## 3. Discrete Random Variables (Chapter 3)
+
+**Goal:** Shift from concrete outcomes to numerical functions.
+
+*   **Multi-Flip Coin Table**: Mapping outcomes ($hhh \to 3$) using tables.
+*   **Convolution**: Using multiple dice <Dice size={30} /> + <Dice size={30} /> to explain summing random variables.
+
+## 4. Continuous Distributions (Chapters 4-7)
+
+**Goal:** Visualizing density and spread.
+
+<div class="my-8 p-6 bg-slate-50 dark:bg-slate-900 rounded-xl border border-slate-200 dark:border-slate-800">
+    <h3 class="text-center mb-4">The Normal Bell Curve</h3>
+    <div class="flex justify-center">
+        <DistributionPlot type="normal" width={400} height={200} color="#6366f1" />
+    </div>
+    <p class="text-center mt-4 text-sm">
+        Used for <strong>PDF Graphs</strong>, <strong>Standard Deviation</strong>, and <strong>Q-Q Plots</strong>.
+    </p>
+</div>
+
+## 5. Relationships & Testing (Chapters 6-10)
+
+**Goal:** Decisions based on data.
+
+*   **Bivariate Density**: Visualizing Correlation.
+*   **Regression Lines**: Least Squares fit.
+*   **Z-Test Area**: Using the Normal Curve tail areas to explain P-values.

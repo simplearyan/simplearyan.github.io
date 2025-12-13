@@ -133,16 +133,16 @@ const {
         </main>
 
         <aside id="toc-container" class="course-toc">
-                {
-                    !hideToc && (
-                        <div>
-                    {headings.length > 0 && (
-                        <TableOfContents headings={headings} />
-                    )}
+            {
+                !hideToc && (
+                    <div>
+                        {headings.length > 0 && (
+                            <TableOfContents headings={headings} />
+                        )}
                     </div>
-            )
-        }
-                </aside>
+                )
+            }
+        </aside>
     </div>
 </Layout>
 
@@ -348,6 +348,9 @@ const {
         flex-grow: 1;
         padding: 2rem 3rem;
         min-width: 0;
+        max-width: 100%;
+        overflow-wrap: break-word; /* Prevent long words from blowing out */
+        overflow-x: hidden; /* Force clip content */
     }
 
     .course-container {

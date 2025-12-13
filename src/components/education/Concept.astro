@@ -1,12 +1,13 @@
 ---
 interface Props {
     title?: string;
+    variant?: "default" | "minimal" | "interactive" | "gamified";
 }
 
-const { title = "Core Concept" } = Astro.props;
+const { title = "Core Concept", variant = "default" } = Astro.props;
 ---
 
-<div class="concept-box">
+<div class={`concept-box variant-${variant}`}>
     <div class="concept-icon">💡</div>
     <div class="concept-content-wrapper">
         <h4 class="concept-title">{title}</h4>
@@ -30,6 +31,8 @@ const { title = "Core Concept" } = Astro.props;
         display: flex;
         gap: 1rem;
         align-items: flex-start;
+        max-width: 100%;
+        box-sizing: border-box;
     }
 
     :global([data-theme="dark"]) .concept-box {
@@ -38,6 +41,41 @@ const { title = "Core Concept" } = Astro.props;
             rgba(16, 185, 129, 0.1),
             rgba(16, 185, 129, 0.05)
         );
+    }
+
+    .concept-box.variant-minimal {
+        background: transparent;
+        border: 1px solid var(--color-border);
+        border-left: 4px solid var(--color-text-muted);
+        box-shadow: none;
+    }
+
+    .concept-box.variant-interactive {
+        cursor: pointer;
+        transition:
+            transform 0.2s,
+            box-shadow 0.2s;
+        background: var(--color-bg-secondary);
+        border-left: 4px solid var(--color-primary);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+    .concept-box.variant-interactive:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .concept-box.variant-gamified {
+        background: #fff;
+        border: 2px solid #000;
+        box-shadow: 4px 4px 0 #000;
+        border-radius: 8px;
+        border-left: 2px solid #000; /* Override default left border width */
+    }
+    :global([data-theme="dark"]) .concept-box.variant-gamified {
+        background: #1a1a1a;
+        border-color: #fff;
+        box-shadow: 4px 4px 0 #fff;
+        border-left-color: #fff;
     }
 
     .concept-icon {
@@ -63,5 +101,12 @@ const { title = "Core Concept" } = Astro.props;
     .concept-body {
         font-size: 0.95rem;
         color: var(--color-text);
+        overflow-x: auto; /* Handle Math overflow */
+        max-width: 100%;
+    }
+
+    .concept-content-wrapper {
+        min-width: 0; /* Important for flex child truncation */
+        flex: 1;
     }
 </style>

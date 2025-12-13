@@ -1,0 +1,260 @@
+---
+interface Props {
+    value?: 1 | 2 | 3 | 4 | 5 | 6;
+    size?: number; // pixel size
+    color?: string;
+    dotColor?: string;
+    animate?: boolean;
+}
+
+const {
+    value = 1,
+    size = 60,
+    color = "white",
+    dotColor = "#333",
+    animate = false,
+} = Astro.props;
+
+// Map values to rotations
+const rotations = {
+    1: { x: 0, y: 0 },
+    2: { x: -90, y: 0 },
+    3: { x: 0, y: -90 },
+    4: { x: 0, y: 90 },
+    5: { x: 90, y: 0 },
+    6: { x: 180, y: 0 },
+};
+
+const currentRotation = rotations[value];
+---
+
+<div
+    class="dice-scene"
+    style={`width: ${size}px; height: ${size}px; perspective: ${size * 3}px;`}
+>
+    <div
+        class={`dice ${animate ? "rolling" : ""}`}
+        style={`
+    width: 100%; 
+    height: 100%; 
+    --dice-color: ${color}; 
+    --dot-color: ${dotColor};
+    transform: rotateX(${currentRotation.x}deg) rotateY(${currentRotation.y}deg);
+  `}
+    >
+        <div class="face front">
+            <span class="dot center"></span>
+        </div>
+        <div class="face back">
+            <span class="dot top-left"></span>
+            <span class="dot bottom-right"></span>
+            <span class="dot top-right"></span>
+            <span class="dot bottom-left"></span>
+            <span class="dot center-left"></span>
+            <span class="dot center-right"></span>
+        </div>
+        <div class="face right">
+            <span class="dot top-left"></span>
+            <span class="dot bottom-right"></span>
+            <span class="dot top-right"></span>
+            <span class="dot bottom-left"></span>
+        </div>
+        <div class="face left">
+            <span class="dot top-right"></span>
+            <span class="dot bottom-left"></span>
+            <span class="dot center"></span>
+        </div>
+        <div class="face top">
+            <span class="dot top-right"></span>
+            <span class="dot bottom-left"></span>
+        </div>
+        <div class="face bottom">
+            <span class="dot top-left"></span>
+            <span class="dot bottom-right"></span>
+            <span class="dot top-right"></span>
+            <span class="dot bottom-left"></span>
+            <span class="dot center"></span>
+        </div>
+    </div>
+</div>
+
+<style>
+    .dice-scene {
+        display: inline-block;
+        margin: 10px;
+    }
+
+    .dice {
+        position: relative;
+        width: 100%;
+        height: 100%;
+        transform-style: preserve-3d;
+        transition: transform 1s ease-out;
+    }
+
+    .rolling {
+        animation: roll 2s infinite linear;
+    }
+
+    .face {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: var(--dice-color);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.1);
+        border-radius: 10%;
+        display: grid;
+        grid-template: repeat(3, 1fr) / repeat(3, 1fr);
+        padding: 10%;
+        box-sizing: border-box;
+    }
+
+    /* 3D Transforms for faces */
+    .front {
+        transform: rotateY(0deg) translateZ(calc(var(--size) / 2));
+    } /* Handled by JS inline style for translateZ? No, strict CSS needs pixels. */
+    /* We can't use calc(100% / 2) in translateZ smoothly without a container variable. */
+    /* Let's use JS to inject the translateZ based on props, BUT CSS vars are cleaner. */
+
+    .dice {
+        /* We need to know the translations depth */
+        /* Since width is 100%, we strictly need half width */
+    }
+
+    .face {
+        /* Dynamic translateZ fix */
+        transform: rotateY(0deg) translateZ(calc(var(--dice-size, 60px) / 2));
+    }
+</style>
+
+<!-- Correcting the style block to use CSS variable for size injected from props -->
+<style define:vars={{ sizeVal: size + "px" }}>
+    .dice {
+        transform-style: preserve-3d;
+    }
+    .face {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: var(--dice-color);
+        border: 2px solid rgba(0, 0, 0, 0.05);
+        border-radius: 12%;
+        /* TranslateZ is half the size */
+        transform: rotateY(0deg) translateZ(calc(var(--sizeVal) / 2));
+    }
+
+    .front {
+        transform: rotateY(0deg) translateZ(calc(var(--sizeVal) / 2));
+    }
+    .right {
+        transform: rotateY(90deg) translateZ(calc(var(--sizeVal) / 2));
+    }
+    .back {
+        transform: rotateY(180deg) translateZ(calc(var(--sizeVal) / 2));
+    }
+    .left {
+        transform: rotateY(-90deg) translateZ(calc(var(--sizeVal) / 2));
+    }
+    .top {
+        transform: rotateX(90deg) translateZ(calc(var(--sizeVal) / 2));
+    }
+    .bottom {
+        transform: rotateX(-90deg) translateZ(calc(var(--sizeVal) / 2));
+    }
+
+    .dot {
+        background-color: var(--dot-color);
+        border-radius: 50%;
+        align-self: center;
+        justify-self: center;
+        width: 25%;
+        height: 25%;
+        box-shadow: inset 1px 1px 2px rgba(0, 0, 0, 0.3);
+    }
+
+    /* Position dots */
+    /* 1 */
+    .front .center {
+        grid-area: 2 / 2;
+    }
+
+    /* 2 */
+    .top .top-right {
+        grid-area: 1 / 3;
+    }
+    .top .bottom-left {
+        grid-area: 3 / 1;
+    }
+
+    /* 3 */
+    .left .top-right {
+        grid-area: 1 / 3;
+    }
+    .left .center {
+        grid-area: 2 / 2;
+    }
+    .left .bottom-left {
+        grid-area: 3 / 1;
+    }
+
+    /* 4 */
+    .right .top-left {
+        grid-area: 1 / 1;
+    }
+    .right .top-right {
+        grid-area: 1 / 3;
+    }
+    .right .bottom-left {
+        grid-area: 3 / 1;
+    }
+    .right .bottom-right {
+        grid-area: 3 / 3;
+    }
+
+    /* 5 */
+    .bottom .top-left {
+        grid-area: 1 / 1;
+    }
+    .bottom .top-right {
+        grid-area: 1 / 3;
+    }
+    .bottom .center {
+        grid-area: 2 / 2;
+    }
+    .bottom .bottom-left {
+        grid-area: 3 / 1;
+    }
+    .bottom .bottom-right {
+        grid-area: 3 / 3;
+    }
+
+    /* 6 */
+    .back .top-left {
+        grid-area: 1 / 1;
+    }
+    .back .top-right {
+        grid-area: 1 / 3;
+    }
+    .back .center-left {
+        grid-area: 2 / 1;
+    }
+    .back .center-right {
+        grid-area: 2 / 3;
+    }
+    .back .bottom-left {
+        grid-area: 3 / 1;
+    }
+    .back .bottom-right {
+        grid-area: 3 / 3;
+    }
+
+    @keyframes roll {
+        0% {
+            transform: rotateX(0deg) rotateY(0deg);
+        }
+        100% {
+            transform: rotateX(360deg) rotateY(720deg);
+        }
+    }
+</style>

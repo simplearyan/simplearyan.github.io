@@ -12,32 +12,208 @@ hideToc: false
 
 import CinematicText from "../../../../components/cinematic/CinematicText.astro";
 import Concept from "../../../../components/education/Concept.astro";
+import Problem from "../../../../components/education/Problem.astro";
+import Solution from "../../../../components/education/Solution.astro";
+import CustomTable from "../../../../components/CustomTable.astro";
 import CircleEmphasis from "../../../../components/cinematic/CircleEmphasis.astro";
+import ArrowEmphasis from "../../../../components/cinematic/ArrowEmphasis.astro";
+import StrokeUnderline from "../../../../components/cinematic/StrokeUnderline.astro";
+import PlayingCard from "../../../../components/PlayingCard.astro";
+import ScribbleCard from "../../../../components/ScribbleCard.astro";
 
-<CinematicText variant="epic" as="h1" class="text-4xl mb-8" color="#ec4899">Sampling & Repeated Trials</CinematicText>
+<CinematicText variant="epic" as="h1" class="text-5xl mb-8 text-center" color="#ec4899">SAMPLING & REPEATED TRIALS</CinematicText>
 
-We build models based on <CircleEmphasis color="yellow">repeated independent trials</CircleEmphasis>.
+Chapter 2 of the "Stats 2 book" introduces the crucial concepts of <StrokeUnderline color="#ec4899">repeated trials and sampling</StrokeUnderline>, providing the mathematical framework for analysing sequences of experiments where the outcomes influence each other or are drawn from a limited pool. This framework builds upon the basic concepts of probability space and events discussed in Chapter 1.
 
-## Bernoulli Trials
+The chapter primarily focuses on three major statistical distributions that arise from repeating experiments: **Bernoulli Trials** (leading to Binomial and Geometric distributions), the **Poisson Approximation**, and the **Hypergeometric Distribution** (for sampling without replacement).
 
-A **Bernoulli Trial** is an experiment with exactly two outcomes: **Success** or **Failure**.
+<div class="flex justify-center my-8">
+  <PlayingCard rank="A" suit="spades" animation="fade-up" duration="0.8s">
+    ### Probability<br/>Models
+    
+    Bernoulli, Binomial,<br/>& Poisson
+  </PlayingCard>
+</div>
 
-<Concept title="Key Distributions">
-1.  **Binomial Distribution**: The number of successes in $n$ independent Bernoulli trials.
-2.  **Geometric Distribution**: The number of trials needed to get the *first* success.
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">2.1 Bernoulli Trials: Success, Failure, and Repetition</CinematicText>
+
+Bernoulli trials form the foundation for modelling repetitive experiments that yield a binary outcome.
+
+### Concept Explanation: Bernoulli Trial
+
+<Concept title="Bernoulli Trial" variant="gamified">
+A single Bernoulli trial is an experiment where the outcome is classified strictly as either a **"Success"** or a **"Failure"**.
+
+*   Let $p$ be the probability of success on any given trial.
+*   The trials in a sequence are always assumed to be **independent**.
 </Concept>
 
-## Poisson Approximation
+<CustomTable style="sketchy-colorful-outline" color="purple" font="sans">
+| Experiment | Success Event Example | Probability ($p$) |
+| :--- | :--- | :--- |
+| Toss a fair coin | Head appears | $1/2$ |
+| Roll a die | Six appears | $1/6$ |
+</CustomTable>
 
-When $n$ is large and $p$ is small, the Binomial distribution can be difficult to calculate. The **Poisson distribution** serves as a powerful limit approximation.
+If we denote a single trial with parameter $p$ as $Bernoulli(p)$, we define the sample space $S = \{\text{success, failure}\}$ where $P(\{\text{success}\}) = p$.
 
-$$P(X=k) \approx e^{-\lambda} \frac{\lambda^k}{k!}$$
+### The Binomial Distribution (Counting Successes)
 
-where $\lambda = np$.
+When you perform $n$ independent Bernoulli trials and you are interested in the **total number of successes ($k$)** observed, the resulting distribution is the **Binomial Distribution** ($Binomial(n, p)$).
 
-## Sampling With and Without Replacement
+<ScribbleCard scribbleStyle="neat" backPattern="grid" animationDuration="1s">
+  <div slot="front">
+    <h3>Binomial Probability</h3>
+    <br/>
+    $$P(B_k) = \binom{n}{k} p^k (1-p)^{n-k}$$
+    <br/>
+    <p>For $0 \le k \le n$</p>
+  </div>
+  <div slot="back">
+    <h3>Interpretation</h3>
+    <p>Probability of exactly <strong>k</strong> successes in <strong>n</strong> trials.</p>
+    <p>$\binom{n}{k}$ counts the arrangements.</p>
+    <p>$p^k (1-p)^{n-k}$ is the probability of one specific sequence.</p>
+  </div>
+</ScribbleCard>
 
-*   **With Replacement**: Items are returned to the pool. Independence is maintained.
-*   **Without Replacement**: Items are kept. Probabilities change. Described by the **Hypergeometric distribution**.
+#### Example Question and Concept Application (Mode)
 
-> Note: If the population is large compared to the sample size, the difference is negligible.
+<Problem number="1" title="Free Throw Mode">
+**Question:** If a basketball player, Mark, is a $p=0.7$ free-throw shooter and attempts $n=10$ independent free throws, what is the most likely number of shots he will make?
+
+<Solution>
+**Concept Explanation (Mode):** The "mode" is the value of $k$ that makes the probability $P(B_k)$ largest. For a $Binomial(n, p)$ distribution, the most likely number of successes is the integer $k$ given by the formula: $k = \lfloor p(n+1) \rfloor$.
+
+**Solution:**
+Using $p=0.7$ and $n=10$:
+$$k = \lfloor 0.7(10 + 1) \rfloor = \lfloor 0.7 \times 11 \rfloor = \lfloor 7.7 \rfloor$$
+The most likely number of successful throws is **7**.
+</Solution>
+</Problem>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">The Geometric Distribution (Waiting for Success)</CinematicText>
+
+The Geometric Distribution ($Geometric(p)$) describes the probability that the **first success occurs exactly on the $k^{\text{th}}$ trial**.
+
+<div class="flex justify-center gap-4 my-8 flex-wrap">
+    <PlayingCard rank="K" suit="hearts" animation="zoom-in" duration="0.8s" delay="0.2s" flip={true} backContent="Memoryless">
+        ### Geometric<br/>Prop
+        
+        The only discrete<br/>memoryless dist.
+    </PlayingCard>
+    
+    <Concept title="Geometric Probability" variant="minimal">
+    For the first success to occur on the $k^{\text{th}}$ trial, the first $k-1$ trials must all be failures, and the $k^{\text{th}}$ trial must be a success.
+    
+    $$\mathbf{P(C_k) = (1-p)^{k-1} p} \quad \text{for } k \ge 1$$
+    </Concept>
+</div>
+
+**Key Property:** The Geometric distribution is **memoryless**. This means that if an event (like finding a head on a coin toss) hasn't occurred by trial $n$, the probability that it takes $m$ more trials is the same as the probability it would have taken $m$ trials from the start.
+
+#### Example Question and Solution
+
+<Problem number="2" title="Rolling a Six">
+**Question:** A fair die is rolled repeatedly. What is the probability that the first 6 appears exactly on the fifth roll?
+
+<Solution>
+**Concept:** Success is rolling a 6 ($p=1/6$). We are looking for $k=5$.
+
+**Solution:** The probability of failure is $1 - 1/6 = 5/6$.
+$$P(\text{first 6 on roll 5}) = \left(\frac{5}{6}\right)^{5-1} \cdot \frac{1}{6} = \frac{625}{7776}$$
+</Solution>
+</Problem>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">2.2 Poisson Approximation: When $n$ is Large and $p$ is Small</CinematicText>
+
+Calculating Binomial probabilities directly becomes computationally challenging when the number of trials ($n$) is very large. The **Poisson Distribution** serves as an effective approximation in cases where $n$ is large and the probability of success ($p$) is very small, provided the product $\lambda = np$ remains constant.
+
+<ScribbleCard scribbleStyle="messy" backPattern="dots" animationDuration="1.2s">
+  <div slot="front">
+    <h3>Poisson Formula</h3>
+    <br/>
+    $$P(\{k\}) = \frac{e^{-\lambda} \lambda^k}{k!}$$
+    <br/>
+    <p>where $\lambda = np$ (Average Rate)</p>
+  </div>
+  <div slot="back">
+    <h3>Limit Case</h3>
+    <p>Approximation for Binomial when:</p>
+    <ul>
+        <li>$n \to \infty$</li>
+        <li>$p \to 0$</li>
+        <li>$\lambda = np$ constant</li>
+    </ul>
+  </div>
+</ScribbleCard>
+
+### Example Question and Solution (Approximation)
+
+<Problem number="3" title="Independence Day Births">
+**Question:** A college has $n=1460$ students. Assuming a birthrate probability $p=1/365$, what is the probability that five or more students were born on Independence Day?
+
+<Solution>
+**Concept:** Since $n$ is large (1460) and $p$ is small ($1/365$), we use the Poisson approximation.
+1. Calculate $\lambda$: $\lambda = np = 1460 \times (1/365) = 4$.
+2. The problem asks for $P(X \ge 5)$, where $X \sim Poisson(4)$.
+
+**Solution:**
+It is easier to calculate the complement $1 - P(X \le 4)$.
+$$P(X \ge 5) \approx 1 - \sum_{k=0}^4 P(X=k) = 1 - \left[ \frac{e^{-4} 4^0}{0!} + \frac{e^{-4} 4^1}{1!} + \frac{e^{-4} 4^2}{2!} + \frac{e^{-4} 4^3}{6} + \frac{e^{-4} 4^4}{24} \right]$$
+This calculation yields an approximate probability of **0.3711631**.
+</Solution>
+</Problem>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">2.3 Sampling: With and Without Replacement</CinematicText>
+
+The methods used for Bernoulli trials (Binomial distribution) assume independence, which implies "sampling with replacement" (i.e., selecting an item and making it available for future selection).
+
+However, in many real-world scenarios, sampling is done **without replacement**, meaning that once an item is selected, it is removed from the population pool, and subsequent trials are therefore dependent on previous outcomes.
+
+### The Hypergeometric Distribution (Sampling Without Replacement)
+
+The **Hypergeometric Distribution** ($HyperGeo(N, r, m)$) models the number of successes ($k$) found in a sample when sampling without replacement from a finite population.
+
+*   **$N$**: Total population size.
+*   **$r$**: Number of individuals with the characteristic (successes) in $N$.
+*   **$m$**: Sample size chosen.
+*   **$k$**: Number of successes found in the sample.
+
+#### Concept: Hypergeometric Probability
+
+<Concept title="Hypergeometric Formula" variant="gamified">
+The probability $P(\{k\})$ is calculated by counting the number of ways to select $k$ successes from $r$ available items, and $m-k$ failures from $N-r$ available items, divided by the total number of ways to choose $m$ items from $N$.
+
+$$\mathbf{P(\{k\}) = \frac{\binom{r}{k} \binom{N-r}{m-k}}{\binom{N}{m}}} \quad \text{.}$$
+</Concept>
+
+#### Example Question and Solution (Town Residents)
+
+<Problem number="4" title="Town Demographics">
+**Question:** In a town of $N=5000$ residents, $r=1000$ are under age 18. If $m=4$ residents are selected randomly *without replacement*, what is the probability that exactly $k=2$ of them will be under 18?
+
+<Solution>
+**Solution:**
+We use the Hypergeometric formula with $N=5000$, $r=1000$, $m=4$, and $k=2$. The number of non-successes is $N-r=4000$.
+
+$$P(\{2\}) = \frac{\binom{1000}{2} \binom{4000}{2}}{\binom{5000}{4}}$$
+This result is approximately **0.153592**.
+
+**Approximation Note:**
+<ArrowEmphasis color="blue">
+When the sample size ($m$) is small relative to the population size ($N$), sampling without replacement gives very similar results to sampling with replacement (Binomial).
+</ArrowEmphasis>
+
+*   **Hypergeometric Result:** $\approx 0.153592$
+*   **Binomial Approximation Result:** $P(k=2) = \binom{4}{2} (1/5)^2 (4/5)^2 = 0.1536$
+</Solution>
+</Problem>
