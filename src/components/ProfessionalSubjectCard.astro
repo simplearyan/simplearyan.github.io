@@ -73,6 +73,10 @@ const {
             var(--accent-color) 30%,
             var(--color-border)
         );
+        background: var(
+            --color-surface
+        ) !important; /* Override global link hover styles */
+        text-decoration: none !important;
     }
 
     .card-content {
@@ -100,11 +104,12 @@ const {
     }
 
     .professional-card:hover .icon-box {
-        background: var(--accent-color);
-        color: white;
+        /* background: var(--accent-color); Remove solid fill */
+        /* color: white; */
         transform: scale(1.05) rotate(3deg);
         box-shadow: 0 4px 12px
-            color-mix(in srgb, var(--accent-color) 40%, transparent);
+            color-mix(in srgb, var(--accent-color) 20%, transparent);
+        border-color: var(--accent-color);
     }
 
     .text-content {

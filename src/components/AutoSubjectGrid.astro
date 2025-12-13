@@ -49,6 +49,18 @@ const gridTitle = isLessonLevel ? "Course Lessons" : "Course Subjects";
                         lesson.data.description || `Module ${index + 1}`;
                     const icon = defaultIcon;
 
+                    // Determine color based on title
+                    let cardColor = "var(--color-primary)";
+                    if (title.includes("Mathematics")) {
+                        cardColor = "#ef4444"; // Red
+                    } else if (title.includes("Statistics")) {
+                        cardColor = "#f59e0b"; // Amber/Orange
+                    } else if (title.includes("English")) {
+                        cardColor = "#3b82f6"; // Blue
+                    } else if (title.includes("Computational")) {
+                        cardColor = "#10b981"; // Emerald
+                    }
+
                     if (cardStyle === "enhanced") {
                         return (
                             <EnhancedSubjectCard
@@ -57,6 +69,7 @@ const gridTitle = isLessonLevel ? "Course Lessons" : "Course Subjects";
                                 href={href}
                                 index={index}
                                 icon={icon}
+                                color={cardColor}
                             />
                         );
                     }
@@ -67,6 +80,7 @@ const gridTitle = isLessonLevel ? "Course Lessons" : "Course Subjects";
                                 title={title}
                                 href={href}
                                 icon={icon}
+                                color={cardColor}
                             />
                         );
                     }
@@ -77,6 +91,7 @@ const gridTitle = isLessonLevel ? "Course Lessons" : "Course Subjects";
                             subtitle={subtitle}
                             href={href}
                             icon={icon}
+                            color={cardColor}
                         />
                     );
                 })
