@@ -1,8 +1,8 @@
 ---
-title: "Limit Theorems"
-description: "Law of Large Numbers, Central Limit Theorem, and sampling distributions."
-pubDate: 2025-01-02
-tags: ["Statistics", "Textbook", "CLT", "Law of Large Numbers", "Normal Approximation"]
+title: "Sampling Distributions and Limit Theorems"
+description: "The theoretical foundations of inference: Joint Distributions, Weak Law of Large Numbers (WLLN), and geometrical convergence via the Central Limit Theorem (CLT)."
+pubDate: 2025-01-12
+tags: ["Statistics", "Textbook", "Limit Theorems", "CLT", "WLLN"]
 type: "unit"
 order: 8
 subject: "stats-2-book"
@@ -12,28 +12,124 @@ hideToc: false
 
 import CinematicText from "../../../../components/cinematic/CinematicText.astro";
 import Concept from "../../../../components/education/Concept.astro";
+import Problem from "../../../../components/education/Problem.astro";
+import Solution from "../../../../components/education/Solution.astro";
+import CustomTable from "../../../../components/CustomTable.astro";
+import CircleEmphasis from "../../../../components/cinematic/CircleEmphasis.astro";
 import ArrowEmphasis from "../../../../components/cinematic/ArrowEmphasis.astro";
+import StrokeUnderline from "../../../../components/cinematic/StrokeUnderline.astro";
 
-<CinematicText variant="epic" as="h1" class="text-4xl mb-8" color="#ec4899">Limit Theorems</CinematicText>
+<CinematicText variant="epic" as="h1" class="text-5xl mb-8 text-center" color="#ec4899">LIMIT THEOREMS</CinematicText>
 
-What happens when sample size $n$ becomes very large?
+Chapter 8, <StrokeUnderline color="#ec4899">Sampling Distributions and Limit Theorems</StrokeUnderline>, delves into the crucial theoretical concepts that underpin almost all statistical inference. This chapter explains what happens to sample statistics, like the mean ($\bar{X}$), when the sample size ($n$) becomes very large, focusing on two foundational results: the Weak Law of Large Numbers (WLLN) and the Central Limit Theorem (CLT).
 
-## Weak Law of Large Numbers (WLLN)
-The sample mean $\bar{X}_n$ converges in probability to the true mean $\mu$.
-$$\bar{X}_n \xrightarrow{P} \mu$$
+---
 
-## Central Limit Theorem (CLT)
-The specific shape of the distribution matters less as $n$ grows.
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">8.1 Setting the Stage: Multi-dimensional Continuous Variables</CinematicText>
 
-<Concept title="The Fundamental Theorem">
-For large $n$, the standardized sample mean converges to the **Standard Normal Distribution**:
-$$\frac{\sqrt{n}(\bar{X} - \mu)}{\sigma} \xrightarrow{d} Z \sim N(0,1)$$
+To study sample statistics, we first need a framework for discussing several random variables simultaneously. Since a sample $\{X_1, X_2, \dots, X_n\}$ consists of $n$ random variables, understanding their relationships is essential.
+
+### Concepts of Joint Distributions
+
+1.  **Joint Distribution Function ($F$):** This function gives the probability that all variables fall below specified values:
+    $$F(x_1, x_2, \dots, x_n) = P(X_1 \leq x_1, X_2 \leq x_2, \dots, X_n \leq x_n)$$
+
+2.  **Joint Density ($f$):** For continuous variables, probability is found by integrating the joint density function $f(x_1, \dots, x_n)$ over the desired region.
+
+3.  **Independence is Key:** If the variables are **mutually independent** (a fundamental assumption for most random samples), their joint density function is simply the product of their individual marginal densities:
+    $$f(x_1, x_2, \dots, x_n) = f_{X_1}(x_1) f_{X_2}(x_2) \cdots f_{X_n}(x_n)$$
+
+### Order Statistics
+When we observe a sample, arranging the values from smallest to largest gives us the **order statistics**. $X_{(1)} \le X_{(2)} \le \cdots \le X_{(n)}$.
+
+<Problem number="1" title="CDF of the Maximum">
+**Question:** If $X_1, \dots, X_n$ are i.i.d. samples, what is the Cumulative Distribution Function (CDF) of the maximum value, $X_{(n)}$?
+
+<Solution>
+**Solution:** The maximum $X_{(n)}$ is less than or equal to $x$ if and only if *all* $X_i$ are less than or equal to $x$. Due to independence:
+$$F_{(n)}(x) = P(X_{(n)} \leq x) = \prod_{i=1}^{n} P(X_i \leq x) = (F(x))^n$$
+</Solution>
+</Problem>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">8.2 The Weak Law of Large Numbers (WLLN)</CinematicText>
+
+The WLLN is the first major limit theorem, providing formal confirmation of the common intuition that as you gather more data, the sample average gets closer to the true population average.
+
+### Concept: Convergence in Probability
+
+<Concept title="Convergence in Probability" variant="minimal">
+The WLLN describes **convergence in probability** ($\xrightarrow{p}$). A sequence of random variables $X_n$ converges to $X$ in probability if, for any tiny distance $\epsilon$, the chance that $X_n$ is further away from $X$ than $\epsilon$ eventually goes to zero as $n$ increases:
+$$\lim_{n \to \infty} P(|X_n - X| > \epsilon) = 0$$
 </Concept>
 
-This justifies using the **Normal approximation** for many statistical problems.
+### The WLLN Theorem
 
-## Derived Distributions
-From Normal samples, we derive:
-*   **Chi-Square ($\chi^2$)**
-*   **t-distribution**
-*   **F-distribution**
+If $X_1, X_2, \dots$ are i.i.d. random variables with finite mean $\mu$ and finite variance $\sigma^2$, then the sample mean $\bar{X}_n$ converges in probability to $\mu$:
+$$\lim_{n \to \infty} P(|\bar{X}_n - \mu| > \epsilon) = 0$$
+
+<div class="my-4 text-sm text-gray-300">
+**Proof Insight:** Applying **Chebyshev's Inequality** to $\bar{X}_n$:
+$$P(|\bar{X}_n - \mu| > \epsilon) \leq \frac{Var[\bar{X}_n]}{\epsilon^2} = \frac{\sigma^2}{n\epsilon^2}$$
+As $n \to \infty$, the upper bound $\sigma^2/(n\epsilon^2)$ goes to zero.
+</div>
+
+### Application: Sample Proportion
+The WLLN formally validates the intuitive link between theoretical probability and observed frequency. The sample proportion ($\hat{p}$) converges to the true probability ($p$).
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">8.3 Convergence in Distribution</CinematicText>
+
+Convergence in distribution ($\xrightarrow{d}$) describes how the *shape* of the distribution of a random variable sequence approaches a limiting shape.
+
+### The Power of Moment Generating Functions (MGFs)
+The most practical way to prove convergence in distribution is often through **Moment Generating Functions (MGFs)**.
+
+**MGF Convergence Theorem:** If the MGFs $M_n(t)$ of a sequence $X_n$ exist and converge to $M(t)$, and $M(t)$ is the MGF of some random variable $X$, then $X_n$ converges in distribution to $X$.
+
+**Example:** Proving that Binomial approaches Poisson when $n \to \infty$ and $p \to 0$ ($np = \lambda$) is done by showing the limit of the Binomial MGF equals the Poisson MGF $e^{\lambda(e^t - 1)}$.
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">8.4 The Central Limit Theorem (CLT)</CinematicText>
+
+The Central Limit Theorem is arguably the most fundamental result in statistics, explaining why the Normal distribution appears so frequently.
+
+### The CLT Theorem
+
+<Concept title="Central Limit Theorem" variant="gamified">
+Let $X_1, X_2, \dots$ be i.i.d. random variables with finite mean $\mu$ and finite variance $\sigma^2$. If we standardize the sample mean $\bar{X}_n$:
+
+$$Y_n = \frac{\sqrt{n}(\bar{X}_n - \mu)}{\sigma} = \frac{S_n - n\mu}{\sigma \sqrt{n}}$$
+
+Then, as $n \to \infty$, $Y_n$ converges in distribution to the **Standard Normal** distribution, $Z \sim \text{Normal}(0, 1)$.
+
+$$\frac{\sqrt{n}(\bar{X}_n - \mu)}{\sigma} \xrightarrow{d} Z$$
+</Concept>
+
+**Insight:** The sampling distribution of the sample mean approaches a Normal distribution, even if the original population distribution is highly non-normal.
+
+### Application: Normal Approximation
+
+<Problem number="2" title="Normal Approximation">
+**Question:** $Y \sim \text{Gamma}(100, 4)$ is the sum of $n=100$ independent $\text{Exponential}(4)$ random variables. Approximate $P(20 < Y \leq 30)$.
+
+<Solution>
+**Solution:**
+1.  **Identify Parameters:** For Exponential(4), $\mu = 0.25$, $\sigma = 0.25$.
+2.  **Sum Parameters:** $E[S_{100}] = 100(0.25) = 25$ and $SD[S_{100}] = 0.25\sqrt{100} = 2.5$.
+3.  **Standardize:**
+    $$P(20 < S_{100} \leq 30) \approx P\left( \frac{20 - 25}{2.5} < Z \leq \frac{30 - 25}{2.5} \right) = P(-2 < Z \leq 2)$$
+4.  **Calculate:** $P(-2 < Z \leq 2) \approx \mathbf{0.9544}$.
+</Solution>
+</Problem>
+
+### Continuity Correction
+When approximating discrete, integer-valued RVs (like Binomial), extend the interval by 0.5 units:
+$$P(a < S_n \leq b) \approx P\left( \frac{a + 0.5 - n\mu}{\sigma \sqrt{n}} < Z \leq \frac{b + 0.5 - n\mu}{\sigma \sqrt{n}} \right)$$
+
+<div class="my-6 p-4 border-l-4 border-emerald-500 bg-emerald-900/20 italic">
+    **Race Car Analogy:** The **Weak Law of Large Numbers** tells you the race car (the sample mean) will eventually converge and finish the race at the true mean ($\mu$). The **Central Limit Theorem** describes *how* the car travels to that finish line, showing that its distribution around the finish line (when standardized) always follows the same predictable, bell-shaped path (the Normal distribution), regardless of how the race started.
+</div>

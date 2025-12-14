@@ -1,8 +1,8 @@
 ---
-title: "Continuous Probabilities"
-description: "Probability models for uncountable sample spaces, densities, and continuous distributions."
-pubDate: 2025-01-02
-tags: ["Statistics", "Textbook", "Continuous", "Density", "Normal Distribution"]
+title: "Continuous Probabilities and Random Variables"
+description: "Transitioning from discrete sums to continuous integrals, density functions, and key distributions like Normal and Exponential."
+pubDate: 2025-01-09
+tags: ["Statistics", "Textbook", "Continuous", "Integration", "Normal Distribution"]
 type: "unit"
 order: 5
 subject: "stats-2-book"
@@ -12,25 +12,163 @@ hideToc: false
 
 import CinematicText from "../../../../components/cinematic/CinematicText.astro";
 import Concept from "../../../../components/education/Concept.astro";
+import Problem from "../../../../components/education/Problem.astro";
+import Solution from "../../../../components/education/Solution.astro";
+import CustomTable from "../../../../components/CustomTable.astro";
+import CircleEmphasis from "../../../../components/cinematic/CircleEmphasis.astro";
 import ArrowEmphasis from "../../../../components/cinematic/ArrowEmphasis.astro";
+import StrokeUnderline from "../../../../components/cinematic/StrokeUnderline.astro";
 
-<CinematicText variant="epic" as="h1" class="text-4xl mb-8" color="#ec4899">Continuous Probabilities</CinematicText>
+<CinematicText variant="epic" as="h1" class="text-5xl mb-8 text-center" color="#ec4899">CONTINUOUS PROBABILITIES</CinematicText>
 
-For continuous variables, individual points have **zero probability**. We use **Density Functions** ($f(x)$).
+Chapter 5 of your statistics textbook, <StrokeUnderline color="#ec4899">Continuous Probabilities and Random Variables</StrokeUnderline>, marks a significant transition in how we define and calculate probabilities. Unlike discrete variables (like counts or die rolls) which have a countable number of outcomes, continuous variables (like temperature, time, or height) can take on any value within a range. This shift requires abandoning sums and introducing the concept of density and integration.
 
-## The Probability Density Function (PDF)
-$$P(X \in A) = \int_A f_X(x) dx$$
+---
 
-<Concept title="Common Continuous Distributions">
-*   **Uniform**: All intervals of the same length are equally likely.
-*   **Exponential**: Models wait times (Memoryless).
-*   **Normal (Gaussian)**: The bell curve, central to statistics.
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">5.1 The Necessary Shift: From Sums to Integrals</CinematicText>
+
+In discrete probability, every outcome has a specific chance of occurring, and we calculate the probability of an event by summing up the likelihoods of the relevant outcomes. This approach fails entirely in the continuous world.
+
+### Concept: Zero Probability for Individual Outcomes
+
+If you try to assign a uniform probability $p$ to every single outcome $x$ in an uncountable interval (like (0, 1)), the total probability $P(S)$ would diverge to infinity if $p>0$.
+
+Therefore, for any continuous random variable $X$, the probability of landing on any single exact point is zero: **$P(X = a) = 0$**.
+
+<div class="my-6 p-6 border border-gray-700 rounded-lg bg-gray-900/50">
+    **Question:** If $P(X=x) = 0$ for every point $x$, how can the total probability $P(S)$ still be 1?
+    
+    **Explanation:** The fundamental axioms of probability only allow us to sum up the probabilities of a **countable** collection of disjoint events. Since the interval (0, 1) contains an **uncountable** collection of points, the probability of the entire space is still 1, even though the probability of any individual point is zero.
+</div>
+
+### Concept: The Probability Density Function (PDF)
+
+Since individual points have zero probability, we must define probability over intervals or sets, which is done using a function called the **probability density function ($f(x)$)**, or simply the density.
+
+1.  **Non-Negative:** The density must be non-negative for all values of $x$ (probabilities cannot be negative).
+2.  **Total Area is One:** The total area under the density curve must equal one (representing 100% certainty that the outcome occurs somewhere on the real line): $\int_{-\infty}^{\infty} f(x) dx = 1$.
+
+<Concept title="Probability via Integration" variant="gamified">
+The probability of a continuous random variable $X$ falling into an event $A$ is found by calculating the area under the density curve over that set $A$:
+
+$$P(X \in A) = \int_A f(x) dx$$
 </Concept>
 
-## Joint Distributions
-For two continuous variables, we have a joint density $f(x, y)$.
-Independence means the joint density factors:
-$$f(x, y) = f_X(x)f_Y(y)$$
+#### Example: Non-Uniform Density
 
-## Transformations
-We use convolution to find distributions of sums, introducing new families like **Gamma**, **Cauchy**, and **Beta**.
+<Problem number="1" title="Area under Density">
+A density function $f(x)$ may not be constant, meaning equal-length intervals might have different probabilities.
+
+If a density is given by $f(x) = 3x^2$ for $0 < x < 1$:
+*   $P([0.2, 0.4]) = \int_{0.2}^{0.4} 3x^2 dx = 0.056$
+*   $P([0.6, 0.8]) = \int_{0.6}^{0.8} 3x^2 dx = 0.296$
+
+The second interval (which is further away from zero) has a much higher probability, reflecting that the density function is larger in that region.
+</Problem>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">5.2 & 5.3 Summarizing Continuous Variables</CinematicText>
+
+### Concept: The Cumulative Distribution Function (CDF)
+
+The **distribution function** or **Cumulative Distribution Function ($F(x)$)** of a random variable $X$ gives the probability that $X$ is less than or equal to a specific value $x$:
+
+$$F(x) = P(X \leq x)$$
+
+For a continuous random variable with density $f(x)$, the CDF is the integral of the density up to point $x$:
+$$F(x) = \int_{-\infty}^{x} f(x) dx$$
+
+This relationship is crucial, as the CDF is differentiable wherever the density $f(x)$ is continuous, and **$F'(x) = f(x)$**. This means that the PDF and the CDF contain the exact same information about the distribution of $X$.
+
+### Key Continuous Distributions
+
+<CustomTable style="sketchy-colorful-outline" color="blue" font="sans">
+| Distribution | Notation | Density Function ($f(x)$) | Core Application |
+| :--- | :--- | :--- | :--- |
+| **Uniform** | $Uniform(a, b)$ | $\frac{1}{b-a}$, for $a < x < b$ | Modelling random choice where all results in an interval are equally likely. |
+| **Exponential** | $Exp(\lambda)$ | $\lambda e^{-\lambda x}$, for $x > 0$ | Modelling waiting times, queue times, or lifetimes. |
+| **Normal** | $Normal(\mu, \sigma^2)$ | $\frac{1}{\sigma \sqrt{2\pi}} e^{-(x-\mu)^2 / 2\sigma^2}$ | The fundamental distribution in statistics, arising as a limit of many phenomena. |
+</CustomTable>
+
+### Feature Highlight: Exponential Memoryless Property
+
+The exponential distribution has a unique characteristic shared with the discrete Geometric distribution: the **memoryless property**.
+If $X \sim Exp(\lambda)$, the probability that the event has not occurred by time $s$, and still requires at least $t$ more time, is the same as the probability it would have required time $t$ from the start: $\mathbf{P(X > s + t | X > s) = P(X > t)}$.
+
+### Standardizing and Linear Transformations
+
+If a random variable $X$ has density $f_X(x)$ and you create a new random variable $Y = aX + b$ (where $a \neq 0$), the density of $Y$ ($f_Y(y)$) is directly related to $f_X(x)$:
+
+$$f_Y(y) = \frac{1}{|a|} f_X \left( \frac{y-b}{a} \right)$$
+
+This rule is vital for **standardization**, especially for the Normal distribution. If $X \sim Normal(\mu, \sigma^2)$, the standardized variable $Z = \frac{X-\mu}{\sigma}$ always results in a **Standard Normal** variable, $Z \sim Normal(0, 1)$.
+
+#### Example: Normal Probability Calculation
+
+<Problem number="2" title="Cashew Weights">
+**Example:** A machine filling bags of cashews produces weights $Y \sim \text{Normal}(200, 4^2)$.
+
+**Question:** How likely is it that a bag has fewer than 195 grams?
+
+<Solution>
+**Solution:** We standardize 195 grams to find the equivalent $Z$-score, where $Z \sim \text{Normal}(0, 1)$:
+$$P(Y < 195) = P \left( Z < \frac{195 - 200}{4} \right) = P(Z < -1.25)$$
+
+Using the symmetry of the Normal distribution and/or a table, we find $P(Z < -1.25) \approx 0.106$. There is about a **10.6% chance** of producing a bag this light.
+</Solution>
+</Problem>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">5.4 Multiple Continuous Random Variables</CinematicText>
+
+When dealing with two or more continuous random variables ($X, Y$), their relationship is summarized using joint, marginal, and conditional densities.
+
+### Concept: Joint and Marginal Densities
+
+1.  **Joint Density ($f(x, y)$):** This function describes the likelihood of both $X$ and $Y$ taking on values within a two-dimensional region $A \subset \mathbb{R}^2$.
+    $$P((X, Y) \in A) = \iint_A f(x, y) dx dy$$
+    The volume under $f(x, y)$ over the entire plane must equal 1.
+
+2.  **Marginal Density ($f_X(x)$):** If you are only interested in the probability distribution of $X$, regardless of $Y$'s outcome, you find the marginal density by integrating the joint density over all possible values of $Y$:
+    $$f_X(x) = \int_{-\infty}^{\infty} f(x, y) dy$$
+
+### Concept: Independence
+Two continuous random variables $X$ and $Y$ are **independent** if and only if their joint density is simply the product of their marginal densities for all $x, y \in \mathbb{R}$:
+
+$$f(x, y) = f_X(x) f_Y(y)$$
+
+<div class="my-6">
+    <ArrowEmphasis color="purple">**Example: Dependent Variables (Uniform on a Disk)**</ArrowEmphasis>
+    If $X$ and $Y$ are uniformly distributed over a circular disk (a dependent region), they are generally **not independent**.
+    *   If you observe $X$ near the edge of the disk (e.g., $X=4$ in a disk of radius 5), the range of possible values for $Y$ becomes severely limited (dependent).
+    *   If they were independent, the joint density would factor. For a disk of radius 5, the marginal density $f_X(x)$ is found to be proportional to $\sqrt{25 - x^2}$. The joint density $f(x, y) = 1/(25\pi)$ does not equal the product of the marginal densities.
+</div>
+
+### Concept: Conditional Density
+In the continuous setting, calculating the probability of $X$ given that $Y$ takes an exact value $b$ ($P(X|Y=b)$) is formally impossible because $P(Y=b)=0$.
+
+Instead, we define a **conditional density** based on the joint and marginal densities, which represents the distribution of $X$ given that $Y$ is known to be $b$:
+
+$$f_{X|Y=b}(x) = \frac{f(x, b)}{f_Y(b)}$$
+(Provided $f_Y(b) > 0$).
+
+Once the conditional density is found, you can calculate conditional probabilities by integration:
+$$P(X \in A | Y=b) = \int_A f_{X|Y=b}(x) dx$$
+
+#### Example: Conditional Uniformity
+
+<Problem number="3" title="Triangular Distribution">
+**Example:** Suppose the joint density $f(x, y)$ is uniform over the region $T = \{(x, y) | 0 < x < y < 4\}$ (a triangular region).
+The marginal density of $Y$ is $f_Y(y) = y/8$ for $0 < y < 4$.
+
+**Question:** What is the conditional distribution of $X$ given $Y=b$?
+
+<Solution>
+**Solution:** Using the definition:
+$$f_{X|Y=b}(x) = \frac{f(x, b)}{f_Y(b)} = \frac{1/8}{b/8} = \frac{1}{b}, \quad \text{for } 0 < x < b$$
+
+The conditional distribution $(X|Y=b)$ is **Uniform$(0, b)$**. This makes sense: if we know $Y$ is fixed at $b$, $X$ can be anywhere between 0 and $b$.
+</Solution>
+</Problem>

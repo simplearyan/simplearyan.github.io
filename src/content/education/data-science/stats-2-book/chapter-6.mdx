@@ -1,8 +1,8 @@
 ---
-title: "Summarising Continuous RVs"
-description: "Expectation, variance, moments, and moment generating functions for continuous variables."
-pubDate: 2025-01-02
-tags: ["Statistics", "Textbook", "Moments", "MGF", "Expectation"]
+title: "Summarising Continuous Random Variables"
+description: "Extending expected value and variance to continuous variables, exploring Moment Generating Functions and Bivariate Normal distributions."
+pubDate: 2025-01-10
+tags: ["Statistics", "Textbook", "Continuous", "MGF", "Bivariate Normal"]
 type: "unit"
 order: 6
 subject: "stats-2-book"
@@ -12,23 +12,211 @@ hideToc: false
 
 import CinematicText from "../../../../components/cinematic/CinematicText.astro";
 import Concept from "../../../../components/education/Concept.astro";
+import Problem from "../../../../components/education/Problem.astro";
+import Solution from "../../../../components/education/Solution.astro";
+import CustomTable from "../../../../components/CustomTable.astro";
+import CircleEmphasis from "../../../../components/cinematic/CircleEmphasis.astro";
+import ArrowEmphasis from "../../../../components/cinematic/ArrowEmphasis.astro";
+import StrokeUnderline from "../../../../components/cinematic/StrokeUnderline.astro";
 
-<CinematicText variant="comic-verse" as="h1" class="text-4xl mb-8" color="#ec4899">Summarising Continuous Variables</CinematicText>
+<CinematicText variant="epic" as="h1" class="text-5xl mb-8 text-center" color="#ec4899">SUMMARISING CONTINUOUS RVs</CinematicText>
 
-We extend our summary tools to continuous space using integrals.
+Chapter 6 of your statistics book, <StrokeUnderline color="#ec4899">Summarising Continuous Random Variables</StrokeUnderline>, is the natural continuation of Chapter 4, translating the concepts of average (Expected Value) and spread (Variance/Standard Deviation) from the discrete world (sums) to the continuous world (integrals). It also introduces Moment Generating Functions as powerful tools for working with distributions and concludes by defining Bivariate Normal distributions.
 
-## Expectation
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">6.1 Expected Value ($E[X]$): The Continuous Average</CinematicText>
+
+The expected value, or mean ($\mu$), of a continuous random variable $X$ is the measure of the "long-run average" or the theoretical center of its probability density function (PDF), $f(x)$.
+
+### Concept and Calculation
+
+<Concept title="Continuous Expectation" variant="gamified">
+In the continuous setting, the summation used for discrete RVs is replaced by integration over the entire range of possible outcomes:
+
 $$E[X] = \int_{-\infty}^{\infty} x f(x) dx$$
 
-Properties like linearity and additivity of variance (for independent variables) remain true.
-
-## Moment Generating Functions (M.G.F.)
-The M.G.F. is defined as $M(t) = E[e^{tX}]$.
-
-<Concept title="The Power of MGFs">
-*   **Moments**: $E[X^k]$ can be found by taking the $k$-th derivative of $M(t)$ at $t=0$.
-*   **Uniqueness**: The M.G.F. *uniquely determines* the distribution. If two variables have the same M.G.F., they have the same distribution.
+If this integral converges to a real number, the variable has **finite expectation**.
 </Concept>
 
-## Bivariate Normal
-For **Bivariate Normal** variables, zero correlation ($\rho=0$) implies independence. This is a unique property of the normal distribution!
+### Example 1: Expected Value of a Uniform Distribution
+
+<Problem number="1" title="Uniform Expectation">
+**Concept:** The uniform distribution is the simplest continuous distribution, where the density is constant over a given interval. Intuitively, the average should be the midpoint of that interval.
+
+**Question:** What is the expected value of $X \sim \text{Uniform}(a, b)$?
+
+<Solution>
+**Solution:** The density is $f(x) = 1/(b-a)$ for $a < x < b$.
+$$E[X] = \int_{a}^{b} x \cdot \frac{1}{b-a} dx = \frac{1}{b-a} \left[ \frac{x^2}{2} \right]_{a}^{b} = \frac{1}{2(b-a)} (b^2 - a^2) = \frac{b+a}{2}$$
+</Solution>
+</Problem>
+
+### Key Properties of Expected Value
+The linearity properties established for discrete variables hold true for continuous variables as well, using integrals instead of sums:
+1.  $E[aX] = aE[X]$
+2.  $E[X + Y] = E[X] + E[Y]$
+3.  $E[aX + bY] = aE[X] + bE[Y]$
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">6.1 Variance and Standard Deviation: The Continuous Spread</CinematicText>
+
+Variance and standard deviation quantify the spread of a continuous random variable around its expected value.
+
+### Concept and Calculation
+
+<Concept title="Continuous Variance" variant="minimal">
+The **variance** ($\text{Var}[X]$) is the expected value of the squared distance between $X$ and its mean, $\mu = E[X]$:
+
+$$Var[X] = E[(X - E[X])^2] = \int_{-\infty}^{\infty} (x - E[X])^2 f_X(x) dx$$
+
+The **standard deviation** ($\text{SD}[X]$ or $\sigma$) is the square root of the variance.
+</Concept>
+
+### Key Properties of Variance
+The properties mirror the discrete case:
+1.  **Alternate Formula:** $Var[X] = E[X^2] - (E[X])^2$.
+2.  **Scaling:** $Var[aX] = a^2 \cdot Var[X]$.
+3.  **Shifting:** $Var[X + a] = Var[X]$.
+4.  **Independence (Product):** If $X$ and $Y$ are independent, $E[XY] = E[X]E[Y]$.
+5.  **Independence (Sum):** If $X$ and $Y$ are independent, $Var[X + Y] = Var[X] + Var[Y]$.
+
+### Example 2: Variance of a Uniform Distribution
+
+<Problem number="2" title="Uniform Variance">
+**Question:** What is the variance of $X \sim \text{Uniform}(a, b)$? (We know $E[X] = (a+b)/2$).
+
+<Solution>
+**Solution:** Using the formula $\text{Var}[X] = E[X^2] - (E[X])^2$:
+
+First, calculate $E[X^2]$:
+$$E[X^2] = \int_{a}^{b} x^2 \cdot \frac{1}{b-a} dx = \frac{1}{3(b-a)} (b^3 - a^3) = \frac{b^2 + ab + a^2}{3}$$
+
+Next, subtract the squared mean:
+$$Var[X] = \frac{b^2 + ab + a^2}{3} - \left( \frac{b+a}{2} \right)^2 = \frac{4(b^2+ab+a^2) - 3(b^2+2ab+a^2)}{12}$$
+$$Var[X] = \frac{b^2 - 2ab + a^2}{12} = \frac{(b-a)^2}{12}$$
+
+The standard deviation is $SD[X] = \frac{b-a}{\sqrt{12}}$.
+</Solution>
+</Problem>
+
+### Application: Central Theorems
+
+The well-known inequalities from discrete probability generalize to the continuous domain. These bounds apply universally, regardless of the specific shape of the continuous distribution.
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4 my-6">
+    <div class="p-4 border border-purple-500/30 rounded-lg bg-purple-900/10">
+        <h4 class="text-xl font-bold text-purple-400 mb-2">Markov's Inequality</h4>
+        For a non-negative continuous RV $X$ with finite mean $\mu$, and any $c>0$:
+        $$P(X \geq c) \leq \frac{\mu}{c}$$
+    </div>
+    <div class="p-4 border border-blue-500/30 rounded-lg bg-blue-900/10">
+        <h4 class="text-xl font-bold text-blue-400 mb-2">Chebychev's Inequality</h4>
+        For any continuous RV $X$ with finite non-zero variance $\sigma^2$, and any $k>0$:
+        $$P(|X - \mu| \geq k\sigma) \leq \frac{1}{k^2}$$
+    </div>
+</div>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">6.2 Conditional Expectation and Variance</CinematicText>
+
+For continuous random variables $X$ and $Y$ with a joint density $f(x, y)$, knowing the outcome of $X$ changes the expected value and spread of $Y$. This leads to the concepts of conditional expectation and conditional variance.
+
+### Concept: Conditional Expectation
+The conditional expectation of $Y$ given $X=x$ uses the conditional density $f_{Y|X=x}(y)$:
+
+$$E[Y | X=x] = \int_{-\infty}^{\infty} y f_{Y|X=x}(y) dy = \int_{-\infty}^{\infty} y \frac{f(x, y)}{f_X(x)} dy$$
+
+Where $f_X(x)$ is the marginal density of $X$.
+
+### Laws of Total Expectation and Variance
+These powerful theorems allow the overall (unconditional) average and variance of a variable to be computed from its conditional characteristics.
+
+<CustomTable style="bold-colorful" color="green" font="sans">
+| Theorem | Formula | Description |
+| :--- | :--- | :--- |
+| **Law of Total Expectation** | $E[X] = E[E[X\|Y]]$ | Expectation of the conditional expectation. |
+| **Law of Total Variance** | $Var[X] = E[Var[X\|Y]] + Var[E[X\|Y]]$ | Sum of expected conditional variance and variance of conditional expectation. |
+</CustomTable>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">6.2 Covariance and Correlation: Measuring Relationships</CinematicText>
+
+When dealing with two continuous random variables, covariance and correlation measure the strength and direction of their linear relationship.
+
+### Concept: Covariance
+
+<Concept title="Covariance Formula">
+The **covariance** ($\text{Cov}[X, Y]$) measures the degree to which $X$ and $Y$ move together.
+
+$$Cov[X,Y] = E[(X - E[X])(Y - E[Y])] = \int_{-\infty}^{\infty} \int_{-\infty}^{\infty} (x-\mu_X)(y-\mu_Y) f(x, y) dx dy$$
+
+The alternate computational formula is:
+$$Cov[X,Y] = E[XY] - E[X]E[Y]$$
+</Concept>
+
+A key consequence: If $X$ and $Y$ are **independent**, then $\mathbf{Cov[X,Y] = 0}$ (they are uncorrelated). (Note: The converse is generally not true).
+
+### Concept: Correlation
+The **correlation coefficient** ($\rho[X, Y]$) is the standardized version of covariance, restricted between $-1$ and $1$:
+
+$$\rho[X,Y] = \frac{Cov[X,Y]}{\sigma_X \sigma_Y}$$
+
+It is dimensionless and measures the degree of linear association.
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">6.3 Moment Generating Functions (MGFs)</CinematicText>
+
+The moment generating function ($M(t)$) is a mathematical tool that, when it exists, can fully define the distribution of a random variable and simplify complex calculations.
+
+### Definition and Moments
+The $k$-th **moment** of $X$ is $m_k = E[X^k]$. The MGF is defined as the expected value of $e^{tX}$:
+
+$$M(t) = E[e^{tX}]$$
+
+The MGF generates moments via its derivatives evaluated at $t=0$: $E[X^k] = M^{(k)}(0)$.
+
+### Key Properties of MGFs
+1.  **Linear Transformation:** $M_{aX}(t) = M_X(at)$.
+2.  **Sum of Independents:** If $X$ and $Y$ are independent, the MGF of their sum is the product of their individual MGFs:
+    $$M_{X+Y}(t) = M_X(t) M_Y(t)$$
+3.  **Uniqueness Theorem:** If two random variables have the same MGF over an open interval containing 0, they have the **exact same distribution**.
+
+### Example 3: Sum of Independent Normals (MGF Application)
+
+<Problem number="3" title="MGF of Normal Sum">
+**Question:** If $X \sim \text{Normal}(\mu_1, \sigma_1^2)$ and $Y \sim \text{Normal}(\mu_2, \sigma_2^2)$ are independent, what is the distribution of their sum?
+
+<Solution>
+**Solution:**
+$$M_{X+Y}(t) = M_X(t) M_Y(t)$$
+Since the MGF for a single normal variable is $M(t) = e^{\mu t + (1/2)\sigma^2 t^2}$, the resulting MGF of the sum is:
+$$M_{X+Y}(t) = e^{\mu_1 t + (1/2)\sigma_1^2 t^2} \cdot e^{\mu_2 t + (1/2)\sigma_2^2 t^2} = e^{(\mu_1 + \mu_2) t + (1/2)(\sigma_1^2 + \sigma_2^2) t^2}$$
+
+By the uniqueness theorem, $X+Y$ must be distributed as $\mathbf{\text{Normal}(\mu_1 + \mu_2, \sigma_1^2 + \sigma_2^2)}$.
+</Solution>
+</Problem>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">6.4 Bivariate Normal Distributions</CinematicText>
+
+This section discusses the properties of a joint distribution where linear combinations of the constituent variables are always normally distributed.
+
+### Definition and Properties
+
+<Concept title="Bivariate Normal" variant="minimal">
+A pair of random variables $(X, Y)$ is **bivariate normal** if every linear combination $aX + bY$ is a normally distributed random variable.
+
+1.  **Marginal Normality:** $X$ and $Y$ individually are also normally distributed.
+2.  **Determination by Moments:** The joint distribution is completely determined by the means, variances, and correlation.
+3.  **Independence is Uncorrelation:** For bivariate normal variables, $Cov[X, Y] = 0$ if and only if $X$ and $Y$ are independent.
+</Concept>
+
+<div class="my-6 p-4 border-l-4 border-yellow-500 bg-yellow-900/20 italic">
+    **Analogy:** Summarizing a continuous random variable is like weighing an object. The Expected Value is the measurement of the object's mass (its central tendency), while the Variance is a measure of the precision of the scale (how spread out the possible readings are). Covariance, then, is like simultaneously weighing two interconnected objects to see how much one influences the other's reading.
+</div>

@@ -13,6 +13,7 @@ const {
     color = "white",
     dotColor = "#333",
     animate = false,
+    standalone = true, // If true, applies own perspective. If false, relies on parent perspective (preserve-3d).
 } = Astro.props;
 
 // Map values to rotations
@@ -30,7 +31,11 @@ const currentRotation = rotations[value];
 
 <div
     class="dice-scene"
-    style={`width: ${size}px; height: ${size}px; perspective: ${size * 3}px;`}
+    style={`
+        width: ${size}px; 
+        height: ${size}px; 
+        ${standalone ? `perspective: ${size * 3}px;` : "transform-style: preserve-3d;"}
+    `}
 >
     <div
         class={`dice ${animate ? "rolling" : ""}`}

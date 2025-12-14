@@ -1,8 +1,8 @@
 ---
-title: "Estimation & Hypothesis Testing"
-description: "Methods for inferring unknown parameters and testing conjectures."
-pubDate: 2025-01-02
-tags: ["Statistics", "Textbook", "Inference", "Hypothesis Testing", "Confidence Intervals"]
+title: "Estimation and Hypothesis Testing"
+description: "The core of statistical inference: Method of Moments, Maximum Likelihood, Confidence Intervals, and Hypothesis Testing."
+pubDate: 2025-01-13
+tags: ["Statistics", "Textbook", "Inference", "Hypothesis Testing", "MLE"]
 type: "unit"
 order: 9
 subject: "stats-2-book"
@@ -12,23 +12,126 @@ hideToc: false
 
 import CinematicText from "../../../../components/cinematic/CinematicText.astro";
 import Concept from "../../../../components/education/Concept.astro";
+import Problem from "../../../../components/education/Problem.astro";
+import Solution from "../../../../components/education/Solution.astro";
+import CustomTable from "../../../../components/CustomTable.astro";
+import CircleEmphasis from "../../../../components/cinematic/CircleEmphasis.astro";
+import ArrowEmphasis from "../../../../components/cinematic/ArrowEmphasis.astro";
+import StrokeUnderline from "../../../../components/cinematic/StrokeUnderline.astro";
 
-<CinematicText variant="comic-verse" as="h1" class="text-4xl mb-8" color="#ec4899">Inference & Testing</CinematicText>
+<CinematicText variant="epic" as="h1" class="text-5xl mb-8 text-center" color="#ec4899">ESTIMATION & INFERENCE</CinematicText>
 
-## Estimation Methods
-*   **Method of Moments (MOM)**: Equate sample moments to population moments.
-*   **Maximum Likelihood (MLE)**: Find parameters that maximize the probability of the observed data.
+Chapter 9, <StrokeUnderline color="#ec4899">Estimation and Hypothesis Testing</StrokeUnderline>, marks the bridge from theoretical probability and the study of sample statistics (Chapters 7 and 8) to the core application of **statistical inference**. This chapter explores methods used to leverage observed data to make formal statements, educated guesses, or concrete judgments about unknown characteristics of the underlying population distribution.
 
-## Confidence Intervals
-Instead of a point estimate, we provide a range of plausible values.
-*   $\sigma$ known: **z-interval**
-*   $\sigma$ unknown: **t-interval**
+---
 
-## Hypothesis Testing
-<Concept title="The Process">
-1.  **Null Hypothesis ($H_0$)**: The default position (e.g., "no effect").
-2.  **P-value**: Probability of seeing data this extreme if $H_0$ is true.
-3.  **Decision**: Reject $H_0$ if P-value $< \alpha$ (significance level).
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">9.1 The Core Problem: Estimating Unknown Parameters</CinematicText>
+
+In statistics, we often assume an observed sample ($X_1, X_2, \dots, X_n$) comes from a distribution with an unknown shape or parameter(s) ($p_1, p_2, \dots, p_d$, denoted as $p$). The goal of estimation is to use the sample data to provide a best guess for these unknown parameters.
+
+### Concept: Point Estimator
+
+<Concept title="Point Estimator" variant="minimal">
+A **point estimator** is a function, $g(X_1, X_2, \dots, X_n)$, that takes the sample values as input and produces a single value (the **estimate**) intended to approximate the true parameter(s).
 </Concept>
 
-Common tests include **z-test**, **t-test**, $\chi^2$-test, and **F-test**.
+**Example:** If $X$ has an unknown mean $\mu$, the **sample mean** ($\bar{X}$) is an **unbiased estimator** of $\mu$.
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">9.2 Method of Moments</CinematicText>
+
+The Method of Moments relies on matching sample moments to population moments.
+
+### Concept
+
+1.  **Sample Moment:** $m_k = \frac{1}{n} \sum_{i=1}^{n} X_i^k$
+2.  **Population Moment:** $\mu_k = E[X^k]$ (function of unknown parameters).
+3.  **Solve:** Set $m_k = \mu_k$ for $k=1 \dots d$ and solve for parameters.
+
+**Example: Normal Distribution ($\mu, \sigma^2$)**
+*   $\hat{\mu} = \bar{X}$
+*   $\hat{\sigma}^2 = \frac{1}{n} \sum X_i^2 - (\bar{X})^2$
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">9.3 Maximum Likelihood Estimate (MLE)</CinematicText>
+
+The MLE method determines the parameter ($\hat{p}$) that makes the observed data "most likely".
+
+### Concept: Likelihood Function
+
+<Concept title="Likelihood Function" variant="gamified">
+The **likelihood function**, $L(p)$, is the joint probability of the sample as a function of the parameters:
+
+$$L(p; X_1, \dots, X_n) = \prod_{i=1}^{n} f(X_i | p)$$
+
+The **MLE ($\hat{p}$)** comes from maximising this function (or usually $\ln L$).
+</Concept>
+
+**Example:** For Bernoulli($p$), the MLE is the sample proportion $\hat{p} = \bar{X}$.
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">9.4 Confidence Intervals</CinematicText>
+
+A **confidence interval** provides a range of values within which the true unknown parameter is expected to lie with a specified **confidence level** ($\beta$).
+
+### Construction
+
+1.  **Known $\sigma$ (Z-interval):** Uses the Standard Normal distribution ($Z$).
+    $$Z = \frac{\sqrt{n}(\bar{X} - \mu)}{\sigma}$$
+
+2.  **Unknown $\sigma$ (T-interval):** Uses the **t-distribution** ($t_{n-1}$) and sample deviation $S$.
+    $$T = \frac{\sqrt{n}(\bar{X} - \mu)}{S}$$
+
+**Key Difference:** T-intervals are typically **wider** than Z-intervals, reflecting the extra uncertainty of estimating $\sigma$.
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">9.5 Hypothesis Testing</CinematicText>
+
+Hypothesis testing is a procedure to judge the plausibility of a conjecture about a parameter.
+
+### Core Concepts
+*   **Null Hypothesis ($H_0$):** Baseline statement (e.g., $\mu = 10$).
+*   **Alternate Hypothesis ($H_a$):** Contradiction (e.g., $\mu \neq 10$).
+*   **Significance Level ($\alpha$):** Threshold for rejection (e.g., 0.05).
+*   **P-value:** Probability of seeing data this extreme if $H_0$ were true.
+
+### Standardized Tests
+
+<CustomTable style="bold-colorful" color="blue" font="sans">
+| Test Name | Purpose | Test Statistic | Null Hypothesis |
+| :--- | :--- | :--- | :--- |
+| **Z-test** | Test $\mu$ ($\sigma$ known/$n$ large) | $Z = \frac{\bar{X} - \mu_0}{\sigma/\sqrt{n}}$ | $\mu = \mu_0$ |
+| **T-test** | Test $\mu$ ($\sigma$ unknown) | $T = \frac{\bar{X} - \mu_0}{S/\sqrt{n}}$ | $\mu = \mu_0$ |
+| **$\chi^2$-test** | Test $\sigma^2$ | $W = \frac{(n-1)S^2}{\sigma_0^2}$ | $\sigma = \sigma_0$ |
+| **F-test** | Compare two variances | $R = \frac{S_1^2}{S_2^2}$ | $\sigma_1 = \sigma_2$ |
+</CustomTable>
+
+### Example: Z-test on Sample Mean
+
+<Problem number="1" title="Hypothesis Test">
+**Scenario:** Normal population, $\sigma=3.0$, $n=16$, $\bar{X}=10.2$.
+Test $H_0: \mu = 9.5$ vs $H_a: \mu > 9.5$ at $\alpha=0.05$.
+
+<Solution>
+1.  **Test Statistic:**
+    $$Z_{\text{obs}} = \frac{\sqrt{16}(10.2 - 9.5)}{3.0} \approx 0.933$$
+2.  **P-value:** $P(Z \geq 0.933) \approx 0.175$.
+3.  **Conclusion:** Since $0.175 > 0.05$, we **do not reject $H_0$**.
+</Solution>
+</Problem>
+
+### Goodness of Fit ($\chi^2$)
+
+Test if observed categorical data matches expected counts.
+
+<Concept title="Chi-Square Statistic">
+$$\chi^2 = \sum_{j=1}^{k} \frac{(Y_j - np_j)^2}{np_j}$$
+</Concept>
+
+<div class="my-6 p-4 border-l-4 border-orange-500 bg-orange-900/20 italic">
+    **Analogy:** Estimation is like trying to guess the location of a hidden treasure. Point estimation gives you a single set of coordinates, while a confidence interval gives you a small map. Hypothesis testing is like testing a rumour about the treasure's location ($H_0$) against the evidence found in the field.
+</div>

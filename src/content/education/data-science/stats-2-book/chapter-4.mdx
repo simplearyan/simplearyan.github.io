@@ -1,7 +1,7 @@
 ---
-title: "Summarizing Discrete RVs"
-description: "Expected value, variance, standard deviation, and correlation for discrete distributions."
-pubDate: 2025-01-02
+title: "Summarizing Discrete Random Variables"
+description: "Deriving numerical characteristics—expected value, variance, and standard deviation—to summarize behavior of discrete random variables."
+pubDate: 2025-01-08
 tags: ["Statistics", "Textbook", "Expected Value", "Variance", "Correlation"]
 type: "unit"
 order: 4
@@ -12,29 +12,215 @@ hideToc: false
 
 import CinematicText from "../../../../components/cinematic/CinematicText.astro";
 import Concept from "../../../../components/education/Concept.astro";
+import Problem from "../../../../components/education/Problem.astro";
+import Solution from "../../../../components/education/Solution.astro";
+import CustomTable from "../../../../components/CustomTable.astro";
 import CircleEmphasis from "../../../../components/cinematic/CircleEmphasis.astro";
+import ArrowEmphasis from "../../../../components/cinematic/ArrowEmphasis.astro";
+import StrokeUnderline from "../../../../components/cinematic/StrokeUnderline.astro";
+import PlayingCard from "../../../../components/PlayingCard.astro";
 
-<CinematicText variant="hero" as="h1" class="text-4xl mb-8" color="#ec4899">Summarizing Random Variables</CinematicText>
+<CinematicText variant="epic" as="h1" class="text-5xl mb-8 text-center" color="#ec4899">SUMMARIZING DISCRETE RVs</CinematicText>
 
-This chapter introduces tools for mathematically summarizing distributions.
+Chapter 4 of the "Stats 2 Book", <StrokeUnderline color="#ec4899">Summarizing Discrete Random Variables</StrokeUnderline>, focuses on deriving numerical characteristics—like the average and the spread—that summarize the behaviour of a random variable (RV) without listing every possible outcome. These summaries allow you to understand the "typical" result and the likelihood of unusual results.
 
-## Expected Value (The Mean)
-The weighted average of all possible outcomes.
+The chapter covers five main concepts: **Expected Value** (Average), **Variance and Standard Deviation** (Spread), **Conditional Expectation**, and **Covariance and Correlation** (Relationships between RVs).
 
-<Concept title="Linearity of Expectation">
-$$E[aX + bY] = aE[X] + bE[Y]$$
-This holds even if $X$ and $Y$ are dependent!
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">4.1 Expected Value ($E[X]$): The Average Outcome</CinematicText>
+
+The **expected value** ($E[X]$), or **average**, of a discrete random variable $X$ is essentially a long-run weighted average of all its possible outcomes. It tells you what value you should expect, on average, if you repeated the experiment many times.
+
+### Concept and Calculation
+
+<Concept title="Expected Value Formula" variant="gamified">
+The calculation of the expected value relies on weighting each possible outcome ($t$) by its likelihood ($P(X=t)$) and summing these products:
+$$E[X] = \sum_{t} t \cdot P(X=t)$$
 </Concept>
 
-## Variance and Spread
-**Variance** measures the spread of outcomes from the mean.
-$$Var(X) = E[X^2] - (E[X])^2$$
+For beginner intuition, consider rolling a standard fair die. The possible outcomes are $t \in \{1, 2, 3, 4, 5, 6\}$, each with a probability $P(X=t) = 1/6$.
+$$E[X] = 1(1/6) + 2(1/6) + 3(1/6) + 4(1/6) + 5(1/6) + 6(1/6) = 3.5$$
 
-## Standard Units & Bounds
-We can bound probabilities using universal inequalities:
-*   **Markov’s Inequality**
-*   **Chebychev’s Inequality**
+### Example: Expected Value of a Lottery Ticket
 
-## Covariance and Correlation
-**Covariance** measures the linear relationship between two variables.
-**Correlation** ($\rho$) standardizes this between -1 and 1.
+<Problem number="1" title="Lottery Valuation">
+**Example (4.1.2):** A lottery ticket can be worth £200, £20, or nothing (£0).
+*   $P(X=200) = 1/1000$
+*   $P(X=20) = 27/1000$
+*   $P(X=0) = 972/1000$
+
+**Question:** What is the average value of such a ticket?
+<Solution>
+**Solution:** Applying the definition of expected value:
+$$E[X] = 200\left(\frac{1}{1000}\right) + 20\left(\frac{27}{1000}\right) + 0\left(\frac{972}{1000}\right) = 0.20 + 0.54 + 0 = 0.74$$
+
+**Answer:** The expected value of the ticket is **£0.74** (or 74 pence).
+</Solution>
+</Problem>
+
+### Key Properties of Expected Value
+
+<div class="my-6">
+    <ArrowEmphasis color="purple">**1. Linearity:**</ArrowEmphasis>
+    The expectation of a sum of random variables is the sum of their individual expectations, regardless of whether they are independent.
+    $$\mathbf{E[aX + bY] = aE[X] + bE[Y]}$$
+    
+    <ArrowEmphasis color="purple">**2. Independence (Product Rule):**</ArrowEmphasis>
+    If $X$ and $Y$ are **independent** discrete random variables, the expected value of their product is the product of their expected values.
+    $$\mathbf{E[XY] = E[X]E[Y]}$$ 
+    *(Note: This property generally fails if $X$ and $Y$ are dependent.)*
+</div>
+
+### Application: Expected Values of Common Distributions
+Using these rules simplifies calculating the expectations for fundamental distributions:
+
+<CustomTable style="sketchy-colorful-outline" color="blue" font="sans">
+| Distribution | Parameter(s) | Expected Value ($E[X]$) |
+| :--- | :--- | :--- |
+| **Bernoulli($p$)** | $p \in$ (Success/Failure) | $\mathbf{p}$ |
+| **Binomial($n, p$)** | $n$ trials, $p$ success probability | $\mathbf{np}$ |
+| **Geometric($p$)** | Trials until 1st success | $\mathbf{1/p}$ |
+</CustomTable>
+
+The expected number of successes in $n$ independent Bernoulli trials (Binomial) is simply the sum of the individual Bernoulli expected values: $E[X_1 + \dots + X_n] = p + \dots + p = np$.
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">4.2 Variance and Standard Deviation: Quantifying Spread</CinematicText>
+
+While the expected value tells you the central point of the distribution, it does not tell you **how spread out** the outcomes are.
+
+### Concept and Calculation
+
+<Concept title="Variance & Standard Deviation" variant="minimal">
+The **variance** ($Var[X]$) is the average of the squared distances between each outcome $X$ and the mean $E[X]$.
+$$\mathbf{Var[X] = E[(X - E[X])^2]}$$
+
+The **standard deviation** ($SD[X]$ or $\sigma$) is the square root of the variance. The standard deviation is typically viewed as the **typical distance from the average**.
+</Concept>
+
+### Key Properties of Variance
+1.  **Alternate Formula:** Variance is often easier to compute using the second moment ($E[X^2]$):
+    $$\mathbf{Var[X] = E[X^2] - (E[X])^2}$$
+2.  **Scaling:** When scaling a random variable by a constant $a$, the variance scales by $a^2$:
+    $$\mathbf{Var[aX] = a^2 \cdot Var[X]}$$
+3.  **Shifting:** Adding a constant $a$ (a location shift) does not change the spread:
+    $$\mathbf{Var[X + a] = Var[X]}$$
+4.  **Independence (Sum Rule):** If $X$ and $Y$ are **independent** random variables, their variances add:
+    $$\mathbf{Var[X + Y] = Var[X] + Var[Y]}$$
+
+### Example: Variance of a Die Roll
+
+<Problem number="2" title="Die Roll Spread">
+**Question:** What are the variance and standard deviation of a single roll of a fair die ($E[X]=3.5$)?
+
+<Solution>
+**Solution:** The variance is the average squared distance from the mean 3.5:
+$$Var[X] = \frac{1}{6}\left( (1-3.5)^2 + (2-3.5)^2 + (3-3.5)^2 + (4-3.5)^2 + (5-3.5)^2 + (6-3.5)^2 \right)$$
+$$Var[X] = \frac{35}{12} \approx 2.917$$
+
+**The Standard Deviation** is $SD[X] = \sqrt{35/12} \approx \mathbf{1.71}$. This confirms that a typical deviation from the mean 3.5 is about 1.71.
+</Solution>
+</Problem>
+
+### Variance of Common Distributions
+
+<CustomTable style="bold-colorful" color="green" font="sans">
+| Distribution | Variance ($Var[X]$) |
+| :--- | :--- |
+| **Bernoulli($p$)** | $\mathbf{p(1-p)}$ |
+| **Binomial($n, p$)** | $\mathbf{np(1-p)}$ |
+| **Geometric($p$)** | $\mathbf{(1-p)/p^2}$ |
+</CustomTable>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">4.3 Standard Units and Chebyshev's Inequality</CinematicText>
+
+When discussing variability, it is useful to express outcomes in **standard units**—the number of standard deviations ($\sigma$) an outcome is from the expected value ($\mu$).
+
+### Chebyshev's Inequality
+The **Chebyshev’s Inequality** provides a universal upper bound on the probability that a random variable $X$ will deviate significantly from its mean, regardless of the specific shape of the distribution.
+
+<Concept title="Chebyshev's Inequality" variant="gamified">
+For any random variable $X$ with finite variance $\sigma^2$, and for any value $k>0$:
+$$\mathbf{P(|X - \mu| \geq k\sigma) \leq \frac{1}{k^2}}$$
+
+**Explanation:** This inequality states that the chance of an outcome being $k$ or more standard deviations away from the average is at most $1/k^2$.
+</Concept>
+
+### Example (4.3.5)
+
+<Problem number="3" title="Chebyshev Bound">
+**Example (4.3.5):** Find an upper bound on the likelihood that $X$ will be **more than two standard deviations** from its expected value.
+
+<Solution>
+**Solution:** Set $k=2$:
+$$P(|X - \mu| \geq 2\sigma) \leq \frac{1}{2^2} = \frac{1}{4}$$
+
+**Conclusion:** There is at most a **25% chance** that a random variable will be more than two standard deviations from its expected value.
+</Solution>
+</Problem>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">4.4 Conditional Expectation and Total Expectation</CinematicText>
+
+**Conditional expected value** ($E[X|A]$) is the expected value of $X$ given that some event $A$ has definitely occurred. The conditioning event $A$ alters the underlying probabilities, thus potentially changing the average outcome.
+
+### Law of Total Expectation
+This theorem relates the overall expected value $E[X]$ to conditional expected values over a set of disjoint events $\{B_i\}$ that cover the entire sample space ($S$).
+
+<Concept title="Law of Total Expectation">
+$$\mathbf{E[X] = \sum_{i} E[X|B_i]P(B_i)}$$
+</Concept>
+
+### Example (4.4.5)
+
+<Problem number="4" title="Investment Return">
+**Example (4.4.5):** A venture capitalist estimates the expected return on an investment ($X$) conditional on economic outlooks $A$ (stronger), $B$ (same), or $C$ (weaker):
+*   $E[X|A] = 3$ million (P(A) = 0.1)
+*   $E[X|B] = 1$ million (P(B) = 0.4)
+*   $E[X|C] = -1$ million (P(C) = 0.5)
+
+**Question:** What is the overall expected return ($E[X]$)?
+
+<Solution>
+**Solution:** Using the Law of Total Expectation:
+$$E[X] = E[X|A]P(A) + E[X|B]P(B) + E[X|C]P(C)$$
+$$E[X] = 3(0.1) + 1(0.4) + (-1)(0.5) = 0.3 + 0.4 - 0.5 = 0.2$$
+
+The expected return on investment is <CircleEmphasis>**$0.2 million**</CircleEmphasis> (£200,000).
+</Solution>
+</Problem>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">4.5 Covariance and Correlation: Measuring Relationships</CinematicText>
+
+When analyzing two random variables, $X$ and $Y$, the goal is often to determine how they relate to each other—if knowing one changes your expectation of the other.
+
+### Covariance ($Cov[X, Y]$)
+The **covariance** measures the degree to which two random variables vary together.
+$$Cov[X,Y] = E[(X - E[X])(Y - E[Y])]$$
+
+*   **Positive Covariance ($> 0$):** $X$ tends to be above average when $Y$ is above average. They are **positively correlated**.
+*   **Negative Covariance ($< 0$):** $X$ tends to be above average when $Y$ is below average. They are **negatively correlated**.
+*   **Zero Covariance ($= 0$):** $X$ and $Y$ are **uncorrelated**.
+
+**Property:** If $X$ and $Y$ are **independent**, then $Cov[X,Y] = 0$. (The converse is not necessarily true).
+
+The calculation is often simplified using the alternate formula:
+$$Cov[X,Y] = E[XY] - E[X]E[Y]$$
+
+### Correlation ($\rho[X, Y]$)
+The **correlation coefficient** ($\rho$) is the dimensionless, standardized version of the covariance. It is standardized by dividing the covariance by the product of the standard deviations ($\sigma_X \sigma_Y$).
+
+<Concept title="Correlation Coefficient">
+$$\rho[X,Y] = \frac{Cov[X,Y]}{\sigma_X \sigma_Y}$$
+
+**Range and Interpretation:** The correlation coefficient is always bounded between $\mathbf{-1}$ and $\mathbf{1}$. 
+*   $+1$: Strong positive linear relationship.
+*   $-1$: Strong negative linear relationship.
+</Concept>

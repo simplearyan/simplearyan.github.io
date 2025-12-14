@@ -1,8 +1,8 @@
 ---
 title: "Sampling and Descriptive Statistics"
-description: "The transition from probability to statistics: empirical distributions and sample estimates."
-pubDate: 2025-01-02
-tags: ["Statistics", "Textbook", "Estimators", "Simulation"]
+description: "Transitioning from probability to statistics: using sample data to estimate population parameters like mean and variance."
+pubDate: 2025-01-11
+tags: ["Statistics", "Textbook", "Sampling", "Estimation", "Descriptive Statistics"]
 type: "unit"
 order: 7
 subject: "stats-2-book"
@@ -12,24 +12,116 @@ hideToc: false
 
 import CinematicText from "../../../../components/cinematic/CinematicText.astro";
 import Concept from "../../../../components/education/Concept.astro";
+import Problem from "../../../../components/education/Problem.astro";
+import Solution from "../../../../components/education/Solution.astro";
+import CustomTable from "../../../../components/CustomTable.astro";
 import CircleEmphasis from "../../../../components/cinematic/CircleEmphasis.astro";
+import ArrowEmphasis from "../../../../components/cinematic/ArrowEmphasis.astro";
+import StrokeUnderline from "../../../../components/cinematic/StrokeUnderline.astro";
 
-<CinematicText variant="hero" as="h1" class="text-4xl mb-8" color="#ec4899">Descriptive Statistics</CinematicText>
+<CinematicText variant="epic" as="h1" class="text-5xl mb-8 text-center" color="#ec4899">SAMPLING & DESCRIPTIVE STATS</CinematicText>
 
-Probability assumes the model is known. **Statistics** assumes the model is unknown and must be inferred from data.
+Chapter 7 of your statistics book, <StrokeUnderline color="#ec4899">Sampling and Descriptive Statistics</StrokeUnderline>, introduces the fundamental transition from theoretical probability (what should happen) to practical statistics (what we observe and infer). It focuses on using data collected from a sample to estimate and describe unknown properties of the larger population distribution.
 
-## The Empirical Distribution
-Assigns probability $1/n$ to each observed data point.
+The core idea is that when a distribution is unknown, we can look at the **empirical distribution** derived solely from the sampled data, and use it to estimate key characteristics like the average and the variance.
 
-## Estimates
-We use sample statistics to estimate population parameters:
-*   **Sample Mean ($\bar{X}$)** estimates $\mu$.
-*   **Sample Variance ($S^2$)** estimates $\sigma^2$.
+---
 
-<Concept title="Unbiased Estimators">
-Both $\bar{X}$ and $S^2$ are **unbiased**: their expected values equal the true parameters they estimate.
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">7.1 The Statistical Context</CinematicText>
+
+### Concept: Probability vs. Statistics
+The book draws a distinction: **Probability** involves studying experiments when the model (the underlying distribution or laws) is fully known. **Statistics** involves trying to infer unknown aspects of that model based on observed outcomes.
+
+For instance, if we flip a coin 100 times, the results ($X_1, X_2, \dots, X_{100}$) are random variables derived from a Bernoulli distribution with an unknown probability $p$. Statistics seeks to use the 60 heads observed in the sample ($\sum X_i = 60$) to say something about the unknown, long-run probability $p$.
+
+### Concept: The Sample
+We typically model repeated measurements (like height, weight, or arsenic content) taken from a population as **independent and identically distributed (i.i.d.) random variables** ($X_1, X_2, \dots, X_n$). While sampling is sometimes done "without replacement," if the sample size ($n$) is small compared to the population size, the results are highly similar to i.i.d. sampling "with replacement".
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">7.1 The Empirical Distribution</CinematicText>
+
+Since the true underlying distribution of the population is unknown, the **empirical distribution** is defined purely from the observed data points.
+
+### Concept and Definition
+
+<Concept title="Empirical Distribution" variant="minimal">
+The empirical distribution is a **discrete distribution** that assigns equal probability to every observed data point.
+
+If $X_1, X_2, \dots, X_n$ are the observed i.i.d. samples, the probability mass function ($f(t)$) of the empirical distribution is:
+$$f(t) = \frac{1}{n} \# \{X_i = t\}$$
+where $\#\{X_i = t\}$ is the count of how many times the value $t$ appeared in the sample.
 </Concept>
 
-## Visualization
-*   **Histograms**: For continuous data.
-*   **Q-Q Plots**: Compare sample quantiles to theoretical quantiles to checking distributional assumptions.
+**Intuition:** If you have five data points $\{1, 1, 2, 4, 6\}$, the empirical distribution states that $P(X=1) = 2/5$, and $P(X=t) = 1/5$ for $t \in \{2, 4, 6\}$.
+
+### Key Properties
+1.  **Randomness:** The empirical distribution is itself a **random quantity**, as every new set of sampled data will generate a different distribution.
+2.  **Inference:** It is expected that as the sample size ($n$) grows, the empirical distribution should converge to and provide information about the true, underlying distribution.
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#ec4899">7.2 Descriptive Statistics</CinematicText>
+
+Descriptive statistics are summary numerical measures derived from the empirical distribution to estimate the actual parameters of the underlying distribution.
+
+### 7.2.1 Sample Mean ($\bar{X}$)
+The sample mean is the long-familiar average of the observed data points. It serves as an estimator for the true population mean ($\mu$).
+
+<Concept title="Sample Mean">
+$$\bar{X} = \frac{X_1 + X_2 + \dots + X_n}{n}$$
+</Concept>
+
+*   **Unbiased Estimator:** $E[\bar{X}] = \mu$. On average, $\bar{X}$ accurately targets the unknown population mean.
+*   **Consistency:** $SD[\bar{X}] = \frac{\sigma}{\sqrt{n}}$. As $n \to \infty$, the sample mean converges to the true mean.
+
+### 7.2.2 Sample Variance ($S^2$)
+The sample variance estimates the true population variance ($\sigma^2$).
+
+<Concept title="Sample Variance">
+$$S^2 = \frac{(X_1 - \bar{X})^2 + (X_2 - \bar{X})^2 + \dots + (X_n - \bar{X})^2}{n - 1}$$
+</Concept>
+
+*   **Note:** Using $(n-1)$ ensures that $S^2$ is an **unbiased estimator** ($E[S^2] = \sigma^2$).
+
+### 7.2.3 Sample Proportion ($\hat{p}$) and Empirical CDF
+When an event $A$ occurs in the population with probability $p = P(X \in A)$, the sample version of this is the **sample proportion** ($\hat{p}$).
+
+<Concept title="Sample Proportion">
+$$\hat{p} = \frac{\# \{X_i \in A\}}{n}$$
+</Concept>
+
+The sample proportion is an excellent estimator: $E[\hat{p}] = p$ and $Var(\hat{p}) = \frac{p(1-p)}{n}$.
+
+The sample analog of the CDF is the **Empirical Cumulative Distribution Function (ECDF)**:
+$$F_n(t) = \frac{\# \{X_i \leq t\}}{n}$$
+
+---
+
+### Example: Sample Mean and Variance
+
+<Problem number="1" title="Machine Weights">
+**Scenario:** We sample $n=4$ items from a machine population and find their measured weights are $\{10, 12, 9, 13\}$. The true mean weight $\mu$ and variance $\sigma^2$ are unknown.
+
+**Question:** What are the estimates for the true mean and variance?
+
+<Solution>
+1.  **Calculate Sample Mean ($\bar{X}$):**
+    $$\bar{X} = \frac{10 + 12 + 9 + 13}{4} = \frac{44}{4} = 11$$
+    The point estimate for the true mean $\mu$ is $\bar{\mathbf{X}} = 11$.
+
+2.  **Calculate Sample Variance ($S^2$):**
+    First, find the squared deviations from the mean:
+    *   $(10-11)^2 = 1$
+    *   $(12-11)^2 = 1$
+    *   $(9-11)^2 = 4$
+    *   $(13-11)^2 = 4$
+    
+    $$S^2 = \frac{1 + 1 + 4 + 4}{4 - 1} = \frac{10}{3} \approx 3.33$$
+    The estimate for the true variance $\sigma^2$ is $\mathbf{S^2 = 3.33}$.
+</Solution>
+</Problem>
+
+<div class="my-6 p-4 border-l-4 border-cyan-500 bg-cyan-900/20 italic">
+    **Analogy:** If the population distribution is a vast, unseen ocean, **Sampling and Descriptive Statistics** are like dropping a small cup (the sample) into the ocean and analyzing its contents. The sample mean and variance are your best **unbiased guesses** as to the average depth and wave height of the entire ocean, knowing that if you use a big enough cup (large $n$), your guess will be highly accurate (consistency).
+</div>
