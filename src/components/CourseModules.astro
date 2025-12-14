@@ -50,14 +50,23 @@ subjectItems
     });
 
 // Sort lessons within each module
+// Sort lessons within each module
 for (const [moduleSlug, lessons] of lessonsByModule.entries()) {
     lessons.sort((a: any, b: any) => (a.data.order || 0) - (b.data.order || 0));
 }
+
+const PASTEL_COLORS = [
+    "#60a5fa", // Blue
+    "#a78bfa", // Purple
+    "#fb923c", // Orange
+    "#f87171", // Red
+    "#4ade80", // Green
+];
 ---
 
 <div class="course-modules">
     {
-        modules.map((module) => {
+        modules.map((module, moduleIndex) => {
             const moduleLessons = lessonsByModule.get(module.slug) || [];
 
             return (
@@ -69,28 +78,38 @@ for (const [moduleSlug, lessons] of lessonsByModule.entries()) {
 
                     {moduleLessons.length > 0 ? (
                         <div class="lessons-grid">
-                            {moduleLessons.map((lesson: any) => (
-                                <a
-                                    href={`/education/${lesson.slug}`}
-                                    class="lesson-card"
-                                >
-                                    <div class="card-content">
-                                        <span class="lesson-number">
-                                            Lesson {lesson.data.order}
-                                        </span>
-                                        <h3 class="lesson-title">
-                                            {lesson.data.title.replace(
-                                                /^Lesson \d+: /,
-                                                "",
-                                            )}
-                                        </h3>
-                                        <p class="lesson-desc">
-                                            {lesson.data.description}
-                                        </p>
-                                    </div>
-                                    <div class="card-arrow">→</div>
-                                </a>
-                            ))}
+                            {moduleLessons.map(
+                                (lesson: any, lessonIndex: number) => {
+                                    const borderColor =
+                                        PASTEL_COLORS[
+                                            (moduleIndex + lessonIndex) %
+                                                PASTEL_COLORS.length
+                                        ];
+                                    return (
+                                        <a
+                                            href={`/education/${lesson.slug}`}
+                                            class="lesson-card"
+                                            style={`--card-border: ${borderColor}`}
+                                        >
+                                            <div class="card-content">
+                                                <span class="lesson-number">
+                                                    Lesson {lesson.data.order}
+                                                </span>
+                                                <h3 class="lesson-title">
+                                                    {lesson.data.title.replace(
+                                                        /^Lesson \d+: /,
+                                                        "",
+                                                    )}
+                                                </h3>
+                                                <p class="lesson-desc">
+                                                    {lesson.data.description}
+                                                </p>
+                                            </div>
+                                            <div class="card-arrow">→</div>
+                                        </a>
+                                    );
+                                },
+                            )}
                         </div>
                     ) : (
                         <p class="no-lessons">Content coming soon...</p>
@@ -141,7 +160,7 @@ for (const [moduleSlug, lessons] of lessonsByModule.entries()) {
 
     .lesson-card {
         background: var(--color-surface);
-        border: 1px solid var(--color-border);
+        border: 4px solid var(--card-border, var(--color-border));
         border-radius: 12px;
         padding: 1.5rem;
         text-decoration: none;
@@ -155,7 +174,7 @@ for (const [moduleSlug, lessons] of lessonsByModule.entries()) {
 
     .lesson-card:hover {
         transform: translateY(-4px);
-        border-color: var(--color-primary);
+        /* border-color: var(--color-primary); Removed to keep pastel border */
         box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
         background: var(--color-surface) !important; /* Override prose hover */
         text-decoration: none !important;
@@ -170,6 +189,7 @@ for (const [moduleSlug, lessons] of lessonsByModule.entries()) {
         font-size: 0.75rem;
         text-transform: uppercase;
         letter-spacing: 0.1em;
+        color: var(--card-border, var(--color-primary));
         color: var(--color-primary);
         display: block;
         margin-bottom: 0.5rem;

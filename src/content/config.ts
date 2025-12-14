@@ -47,6 +47,7 @@ const educationCollection = defineCollection({
         // Sidebar customization
         showOverview: z.boolean().optional().default(false),
         overviewLabel: z.string().optional().default("Overview"),
+        cardColor: z.string().optional(),
     }),
 });
 

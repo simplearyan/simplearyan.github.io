@@ -10,6 +10,7 @@ interface Props {
     institution: string;
     courseType: string;
     tags?: string[];
+    cardColor?: string;
 }
 
 const {
@@ -21,19 +22,21 @@ const {
     institution,
     courseType,
     tags = [],
+    cardColor,
 } = Astro.props;
 
 // Color mapping for course types
+// Color mapping for course types (Pastel Shades)
 const getCategoryColor = (type: string) => {
     const normalizedType = type.toLowerCase();
-    if (normalizedType.includes("degree")) return "var(--color-primary)";
-    if (normalizedType.includes("course")) return "var(--color-secondary)";
-    if (normalizedType.includes("certification")) return "#d97706"; // Amber/Orange
-    if (normalizedType.includes("foundation")) return "#ef4444"; // Red
-    return "var(--color-primary)"; // Default to primary instead of muted for better visibility
+    if (normalizedType.includes("degree")) return "#60a5fa"; // Pastel Blue (slightly deeper for text/border visibility)
+    if (normalizedType.includes("course")) return "#a78bfa"; // Pastel Purple
+    if (normalizedType.includes("certification")) return "#fb923c"; // Pastel Orange
+    if (normalizedType.includes("foundation")) return "#f87171"; // Pastel Red
+    return "#4ade80"; // Pastel Green
 };
 
-const categoryColor = getCategoryColor(courseType);
+const finalColor = cardColor || getCategoryColor(courseType);
 
 // Check if the course is new (less than 30 days old)
 const isNew =
@@ -47,21 +50,15 @@ const isNew =
     data-date={date.toISOString()}
     data-category={courseType}
     data-tags={tags.join(",")}
-    style={`--category-color: ${categoryColor};`}
+    style={`--category-color: ${finalColor};`}
 >
-    {
-        isNew && (
-            <div class="new-label-wrapper">
-                <span class="new-label">NEW!</span>
-            </div>
-        )
-    }
+    {isNew && <span class="new-sticker">NEW</span>}
     <span class="recently-opened-label">Opened Recently</span>
     <div class="card-header">
         <div class="institution-badge">
             <span class="institution">{institution}</span>
-            <span class="separator">•</span>
-            <span class="course-type" style={`color: ${categoryColor}`}
+
+            <span class="course-type" style={`color: ${finalColor}`}
                 >{courseType}</span
             >
         </div>

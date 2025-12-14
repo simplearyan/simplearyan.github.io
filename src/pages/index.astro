@@ -10,19 +10,19 @@ const posts = (await getCollection("blog"))
 ---
 
 <Layout title="Home">
-	<section class="hero animate-fade-in">
+	<!-- <section class="hero animate-fade-in">
 		<h1>
 			<span class="civic">find</span>
 			<span class="aryan">(solution)</span>
 			<span class="logo-x">x</span>
 		</h1>
 		<p class="subtitle">A public notebook and learning hub.</p>
-	</section>
+	</section> -->
 
 	<section class="education-section hidden" id="education-section">
 		<div class="section-header">
 			<h2 class="section-title">Continue Learning</h2>
-			<a href="/education" class="view-all">View All Courses →</a>
+			<a href="/education" class="view-all">View All Courses</a>
 		</div>
 		<div class="education-grid" id="education-grid">
 			{
@@ -51,6 +51,7 @@ const posts = (await getCollection("blog"))
 								}
 								courseType={course.data.courseType || "Course"}
 								tags={course.data.tags}
+								cardColor={course.data.cardColor}
 							/>
 						</div>
 					))
@@ -60,32 +61,69 @@ const posts = (await getCollection("blog"))
 
 	<div class="section-header">
 		<h2 class="section-title">Read Blog</h2>
-		<a href="/blog" class="view-all">View All Posts →</a>
+		<a href="/blog" class="view-all">View All Posts</a>
 	</div>
 	<section class="posts-grid">
 		{
-			posts.map((post) => (
-				<article class="post-card animate-fade-in">
-					<a href={`/blog/${post.slug}`}>
-						<div class="post-content">
-							<span class="post-date">
-								{post.data.pubDate.toLocaleDateString("en-US", {
-									year: "numeric",
-									month: "long",
-									day: "numeric",
-								})}
-							</span>
-							<h2>{post.data.title}</h2>
-							<p>{post.data.description}</p>
-							<div class="post-tags">
-								{post.data.tags.map((tag) => (
-									<span class="tag">#{tag}</span>
-								))}
+			posts.map((post, index) => {
+				// 1. Pastel Palette (Light Mode)
+				const pastelColors = [
+					"#e0f2fe", // Light Sky
+					"#fce7f3", // Light Pink
+					"#dcfce7", // Light Green
+					"#fef3c7", // Light Amber
+					"#ede9fe", // Light Violet
+					"#ffe4e6", // Light Rose
+				];
+
+				// 2. Dark Palette (Dark Mode)
+				const darkColors = [
+					"#0c4a6e", // Dark Sky
+					"#831843", // Dark Pink
+					"#14532d", // Dark Green
+					"#78350f", // Dark Amber
+					"#4c1d95", // Dark Violet
+					"#881337", // Dark Rose
+				];
+
+				const colorIndex = index % pastelColors.length;
+				let light = pastelColors[colorIndex];
+				let dark = darkColors[colorIndex];
+
+				if (post.data.cardColor) {
+					light = post.data.cardColor;
+					dark = "#1f2937"; // distinct fallback
+				}
+
+				return (
+					<article
+						class="post-card animate-fade-in"
+						style={`--card-light: ${light}; --card-dark: ${dark};`}
+					>
+						<a href={`/blog/${post.slug}`}>
+							<div class="post-content">
+								<span class="post-date">
+									{post.data.pubDate.toLocaleDateString(
+										"en-US",
+										{
+											year: "numeric",
+											month: "long",
+											day: "numeric",
+										},
+									)}
+								</span>
+								<h2>{post.data.title}</h2>
+								<p>{post.data.description}</p>
+								<div class="post-tags">
+									{post.data.tags.map((tag) => (
+										<span class="tag">#{tag}</span>
+									))}
+								</div>
 							</div>
-						</div>
-					</a>
-				</article>
-			))
+						</a>
+					</article>
+				);
+			})
 		}
 	</section>
 
@@ -155,26 +193,26 @@ const posts = (await getCollection("blog"))
 					if (grid && educationSection) {
 						educationSection.classList.remove("hidden");
 
-						// Helper to get category color (replicated from EducationCard.astro)
+						// Helper to get category color (Pastel Shades - replicated from EducationCard.astro)
 						const getCategoryColor = (type) => {
-							if (!type) return "var(--color-primary)";
+							if (!type) return "#4ade80";
 							const normalizedType = type.toLowerCase();
 							if (normalizedType.includes("degree"))
-								return "var(--color-primary)";
+								return "#60a5fa"; // Pastel Blue
 							if (normalizedType.includes("course"))
-								return "var(--color-secondary)";
+								return "#a78bfa"; // Pastel Purple
 							if (normalizedType.includes("certification"))
-								return "#d97706";
+								return "#fb923c"; // Pastel Orange
 							if (normalizedType.includes("foundation"))
-								return "#ef4444";
-							return "var(--color-primary)";
+								return "#f87171"; // Pastel Red
+							return "#4ade80"; // Pastel Green
 						};
 
 						coursesToAdd.forEach((course) => {
 							const data = course.data;
-							const categoryColor = getCategoryColor(
-								data.courseType || "Course",
-							);
+							const categoryColor =
+								data.cardColor ||
+								getCategoryColor(data.courseType || "Course");
 							const href = `/education/${course.slug}`;
 
 							const cardHTML = `
@@ -313,7 +351,7 @@ const posts = (await getCollection("blog"))
 	}
 
 	.post-card {
-		background: var(--color-bg);
+		background: var(--card-light, var(--color-bg));
 		border: 1px solid var(--color-border);
 		border-radius: 12px;
 		overflow: hidden;
@@ -321,6 +359,10 @@ const posts = (await getCollection("blog"))
 			transform 0.2s ease,
 			box-shadow 0.2s ease,
 			border-color 0.2s ease;
+	}
+
+	:global([data-theme="dark"]) .post-card {
+		background: var(--card-dark, var(--color-bg));
 	}
 
 	.post-card:hover {
@@ -342,26 +384,36 @@ const posts = (await getCollection("blog"))
 	}
 
 	.post-date {
-		font-size: 0.875rem;
-		color: #888;
+		font-size: 0.85rem;
+		color: var(--color-text);
+		opacity: 0.8;
 		display: block;
 		margin-bottom: var(--spacing-sm);
+		font-family: "Inter", sans-serif;
+		letter-spacing: 0.05em;
+		text-transform: uppercase;
+		font-weight: 500;
 	}
 
 	.post-card h2 {
 		font-size: 1.5rem;
 		margin-bottom: var(--spacing-sm);
 		line-height: 1.3;
+		font-family: "Outfit", sans-serif;
+		font-weight: 700;
+		color: var(--color-heading);
 	}
 
 	.post-card p {
-		color: #666;
-		font-size: 1rem;
+		color: var(--color-text);
+		font-size: 1.05rem;
 		margin-bottom: var(--spacing-md);
 		display: -webkit-box;
 		-webkit-line-clamp: 3;
 		-webkit-box-orient: vertical;
 		overflow: hidden;
+		opacity: 0.9;
+		line-height: 1.6;
 	}
 
 	.post-tags {
@@ -372,11 +424,29 @@ const posts = (await getCollection("blog"))
 
 	.tag {
 		font-size: 0.75rem;
-		background-color: var(--color-code-bg);
-		padding: 0.25rem 0.5rem;
-		border-radius: 4px;
+		background-color: rgba(255, 255, 255, 0.6);
+		padding: 0.35rem 0.85rem;
+		border-radius: 9999px; /* Pill shape */
 		color: var(--color-text);
-		font-family: var(--font-mono);
+		font-family: "Inter", sans-serif;
+		font-weight: 500;
+		border: 1px solid rgba(0, 0, 0, 0.05);
+		transition: all 0.2s ease;
+		letter-spacing: 0.02em;
+	}
+
+	.tag:hover {
+		background-color: rgba(255, 255, 255, 0.9);
+		transform: translateY(-1px);
+	}
+
+	:global([data-theme="dark"]) .tag {
+		background-color: rgba(0, 0, 0, 0.3);
+		border-color: rgba(255, 255, 255, 0.1);
+	}
+
+	:global([data-theme="dark"]) .tag:hover {
+		background-color: rgba(0, 0, 0, 0.5);
 	}
 
 	@media (max-width: 768px) {
@@ -400,6 +470,9 @@ const posts = (await getCollection("blog"))
 	/* Education Section Styles */
 	.education-section {
 		margin-bottom: var(--spacing-xl);
+		margin-top: var(--spacing-xl);
+		padding-bottom: var(--spacing-xl);
+		border-bottom: 1px solid var(--color-border);
 	}
 
 	.section-header {
@@ -419,9 +492,11 @@ const posts = (await getCollection("blog"))
 	.view-all {
 		/* font-family: var(--font-mono); */
 		font-family: "Montserrat", sans-serif;
+		font-family: "Playfair Display", serif;
+		font-family: "Inter", sans-serif;
 		font-size: 0.9rem;
 		color: var(--color-primary);
-		font-weight: 600;
+		font-weight: 700;
 		text-transform: uppercase;
 		letter-spacing: 0.02em;
 	}

@@ -90,49 +90,62 @@
     opacity: 0;
 }
 
-/* New Label Styling */
-.new-label-wrapper {
+/* Sticker Label Styling */
+.new-sticker {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 80px;
-    height: 80px;
-    overflow: hidden;
-    z-index: 20;
-    pointer-events: none;
-}
-
-@keyframes shimmer {
-    0% {
-        background-position: -200% 0;
-    }
-
-    100% {
-        background-position: 200% 0;
-    }
-}
-
-.new-label {
-    position: absolute;
-    top: 12px;
-    left: -28px;
-    width: 100px;
-    background: linear-gradient(135deg,
-            #ff4d4d 0%,
-            #f9cb28 50%,
-            #ff4d4d 100%);
-    background-size: 200% 100%;
-    color: white;
-    text-align: center;
-    font-size: 0.6rem;
+    top: 6px;
+    left: -6px;
+    background: var(--category-color);
+    color: #fff;
     font-weight: 800;
-    padding: 0.2rem 0;
-    transform: rotate(-45deg);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
-    font-family: var(--font-sans);
+    font-size: 0.75rem;
+    padding: 0.2rem 0.6rem;
+    width: auto;
+    height: auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transform: rotate(-12deg);
+
+    /* Stamp/Wavy Edge Effect */
+    --r: 2px;
+    /* Radius of holes */
+    --g: 8px;
+    /* Gap/Size */
+
+    /* Mask: Center Solid Rectangle + Repeating Radial Holes on edges */
+    -webkit-mask:
+        linear-gradient(#000 0 0) center / calc(100% - 8px) calc(100% - 8px) no-repeat,
+        radial-gradient(var(--r) at var(--r) var(--r), #0000 98%, #000) calc(-1 * var(--r)) calc(-1 * var(--r)) / var(--g) var(--g) repeat;
+    mask:
+        linear-gradient(#000 0 0) center / calc(100% - 8px) calc(100% - 8px) no-repeat,
+        radial-gradient(var(--r) at var(--r) var(--r), #0000 98%, #000) calc(-1 * var(--r)) calc(-1 * var(--r)) / var(--g) var(--g) repeat;
+
+    filter: drop-shadow(0 2px 2px rgba(0, 0, 0, 0.2));
+    z-index: 20;
+    font-family: "Kalam", cursive;
     letter-spacing: 0.05em;
+    pointer-events: none;
+    animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) forwards;
+    /* Ensure no border interferes with mask */
+    border: none;
+    box-shadow: none;
+    border-radius: 2px;
+    /* Slight rounding of the box itself before masking */
+    /* Ensure sizing is sufficient */
+    min-width: 44px;
     text-transform: uppercase;
-    animation: shimmer 3s infinite linear;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.15);
+}
+
+/* Dark mode adjustment */
+[data-theme="dark"] .new-sticker {
+    color: #fff;
+    /* Filter shadow might need boost */
+    filter: drop-shadow(0 3px 6px rgba(0, 0, 0, 0.5));
+    border: none;
+    box-shadow: none;
+    text-shadow: 1px 1px 0 rgba(0, 0, 0, 0.2);
 }
 
 .recently-opened-label {
@@ -427,9 +440,7 @@
     font-weight: 700;
 }
 
-.separator {
-    display: none;
-}
+
 
 
 
