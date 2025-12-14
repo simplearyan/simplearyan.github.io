@@ -3,13 +3,13 @@ import ThemeToggle from "./ThemeToggle.astro";
 import Search from "./Search.astro";
 
 interface Props {
-  disableStickyMobile?: boolean;
+  disableSticky?: boolean;
 }
 
-const { disableStickyMobile = false } = Astro.props;
+const { disableSticky = false } = Astro.props;
 ---
 
-<header class:list={[{ "disable-sticky-mobile": disableStickyMobile }]}>
+<header class:list={[{ "disable-sticky": disableSticky }]}>
   <div class="container header-content">
     <a href="/" class="logo">
       <span class="logo-a">aryan</span>
@@ -105,6 +105,10 @@ const { disableStickyMobile = false } = Astro.props;
     transition:
       background-color 0.3s ease,
       border-color 0.3s ease;
+  }
+
+  header.disable-sticky {
+    position: relative !important;
   }
 
   .header-content {
@@ -275,9 +279,6 @@ const { disableStickyMobile = false } = Astro.props;
   @media (max-width: 1024px) {
     header {
       margin-bottom: 0;
-    }
-    header.disable-sticky-mobile {
-      position: relative;
     }
   }
 

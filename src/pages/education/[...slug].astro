@@ -51,7 +51,9 @@ const nextLesson =
             headings={headings}
             hideToc={item.data.hideToc}
         >
-            <article class={`prose ${item.data.hideToc ? "max-w-75ch" : "max-w-75ch"}`}>
+            <article
+                class={`prose ${item.data.hideToc ? "max-w-75ch" : "max-w-75ch"}`}
+            >
                 <div class="lesson-header">
                     <h1>{item.data.title}</h1>
                     <button
@@ -290,10 +292,24 @@ const nextLesson =
     }
 </style>
 
+<script is:inline>
+    // Blocking script to prevent flicker
+    const savedZen = localStorage.getItem("zenMode") === "true";
+    if (savedZen) {
+        document.body.classList.add("zen-mode");
+    }
+</script>
+
 <script>
     const zenToggle = document.getElementById("zen-mode-toggle");
     const enterIcon = document.querySelector(".zen-icon-enter");
     const exitIcon = document.querySelector(".zen-icon-exit");
+
+    // Sync UI with current state (applied by blocking script)
+    if (document.body.classList.contains("zen-mode")) {
+        enterIcon?.classList.add("hidden");
+        exitIcon?.classList.remove("hidden");
+    }
 
     function toggleZenMode() {
         document.body.classList.toggle("zen-mode");
@@ -305,18 +321,15 @@ const nextLesson =
         localStorage.setItem("zenMode", isZen.toString());
     }
 
-    // Initialize from storage
-    const savedZen = localStorage.getItem("zenMode") === "true";
-    if (savedZen) {
-        // Don't auto-enable on load to avoid confusion, but maybe we should?
-        // For now, let's start fresh or maybe just respect it?
-        // Let's respect it but ensure UI syncs
-        document.body.classList.add("zen-mode");
-        enterIcon?.classList.add("hidden");
-        exitIcon?.classList.remove("hidden");
-    }
-
     zenToggle?.addEventListener("click", toggleZenMode);
+
+    // Support View Transitions
+    document.addEventListener("astro:after-swap", () => {
+        const isZen = localStorage.getItem("zenMode") === "true";
+        if (isZen) {
+            document.body.classList.add("zen-mode");
+        }
+    });
 </script>
 
 <script define:vars={{ slug: item.data.parent || item.slug }}>

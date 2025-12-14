@@ -367,6 +367,22 @@ const {
         width: 250px;
         flex-shrink: 0;
         padding: 2rem 1.5rem 2rem 0;
+        position: sticky;
+        top: 2rem;
+        height: calc(100vh - 2rem);
+        overflow-y: auto;
+    }
+
+    /* Scrollbar Styling for TOC */
+    .course-toc::-webkit-scrollbar {
+        width: 4px;
+    }
+    .course-toc::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .course-toc::-webkit-scrollbar-thumb {
+        background: var(--color-border);
+        border-radius: 10px;
     }
 
     @media (max-width: 1024px) {

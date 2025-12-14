@@ -113,7 +113,7 @@ const socialImageURL = new URL(image, Astro.url);
 		</script>
 	</head>
 	<body>
-		<Header disableStickyMobile={disableStickyHeader} />
+		<Header disableSticky={disableStickyHeader} />
 		<main class={fullWidth ? "" : "container"}>
 			<slot />
 		</main>
