@@ -1,0 +1,316 @@
+---
+title: "End Term Dec 2024"
+description: "End Term Dec 2024"
+pubDate: 2024-01-25
+tags: ["Statistics", "Data Science"]
+type: "unit"
+order: 1
+subject: "statistics-2"
+parent: "data-science/statistics-2/pyqs"
+---
+
+import HandDrawnBox from "../../../../../components/HandDrawnBox.astro";
+import CinematicText from "../../../../../components/CinematicText.astro";
+
+<CinematicText 
+  text="End Term Dec 2024" 
+  font="cinematic" 
+  animation="blur-reveal" 
+  className="text-4xl text-center mb-8"
+/>
+
+## End Term Dec 2024
+
+<div class="question-card" style="border: 1px solid var(--color-border); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; background: var(--color-surface);">
+
+**Question 198**  
+*Question Id:* 6406531043751 | *Type:* SA | *Marks:* 3  
+*Label:* Short Answer Question
+
+---
+
+A four sided die is such that the probability of getting any number from one to three is $\theta$, and the probability of getting four is $1 - 3\theta$. The die is rolled seven times and outcomes are
+
+$$1, 4, 3, 4, 3, 2, 4.$$
+
+Find the maximum likelihood estimate of $\theta$. Enter the answer correct to two decimal places.
+
+---
+
+**Response Type:** Numeric  
+**Evaluation Required:** Yes  
+**Show Word Count:** Yes  
+**Possible Answers:** 0.16 to 0.22
+
+</div>
+
+<details class="solution-details" style="margin-top: 1rem; border: 1px solid var(--color-border); border-radius: 8px; overflow: hidden;">
+<summary style="padding: 1rem; cursor: pointer; background: var(--color-surface); font-weight: 600;">View Detailed Solution</summary>
+<div class="solution-content" style="padding: 1.5rem; border-top: 1px solid var(--color-border);">
+
+### Phase 1: The Core Concepts
+
+To solve this problem, you need to understand **Maximum Likelihood Estimation (MLE)**.
+
+#### 1. What is a Likelihood Function ($L$)?
+Imagine you have a die, but you don't know if it's fair. You roll it a few times and get specific numbers.
+The **Likelihood** is the probability of getting *that specific sequence of numbers*, assuming a specific variable (parameter) is true.
+
+* **Formula:** $L(\theta) = P(x_1) \cdot P(x_2) \cdot P(x_3) \dots$
+    *(We multiply the probabilities because each roll is an "independent event" — one roll doesn't affect the next).*
+
+#### 2. What is Maximum Likelihood Estimation (MLE)?
+In statistics, we work backward. We have the data (the rolls), and we want to find the "best guess" for the probability ($\theta$).
+The MLE is simply the value of $\theta$ that makes the observed data **most likely to have happened**.
+To find this "maximum" point, we use calculus (derivatives).
+
+#### 3. Why use Log-Likelihood ($\ln L$)?
+The Likelihood function usually involves multiplying many small numbers ($x \cdot y \cdot z$). Calculus is hard with multiplication (Product Rule).
+Calculus is easy with addition.
+By taking the natural log ($\ln$) of the function, we turn multiplication into addition:
+* **Log Rule:** $\ln(a \cdot b) = \ln(a) + \ln(b)$
+* **Power Rule:** $\ln(x^n) = n \cdot \ln(x)$
+
+This makes the derivative much easier to solve, and the maximum point remains at the same spot.
+
+---
+
+### Phase 2: Step-by-Step Solution
+
+#### Step 1: Define the Probabilities
+From the question text:
+* The probability of getting a 1, 2, or 3 is $\theta$.
+    * $P(1) = \theta$
+    * $P(2) = \theta$
+    * $P(3) = \theta$
+* The probability of getting a 4 is the remaining probability.
+    * $P(4) = 1 - 3\theta$
+
+#### Step 2: Analyze the Data
+The observed outcomes are: **1, 4, 3, 4, 3, 2, 4**
+
+Let's count how many times each type of probability appears:
+* **Type A (Outcome 1, 2, or 3):**
+    * We have a 1, a 3, a 3, and a 2.
+    * Total count ($n_A$) = **4**
+* **Type B (Outcome 4):**
+    * We have a 4, a 4, and a 4.
+    * Total count ($n_B$) = **3**
+
+Total rolls = 7.
+
+#### Step 3: Build the Likelihood Function
+We multiply the probability of each specific roll that occurred.
+$$L(\theta) = \theta \cdot (1-3\theta) \cdot \theta \cdot (1-3\theta) \cdot \theta \cdot \theta \cdot (1-3\theta)$$
+
+Group them together using exponents:
+$$L(\theta) = \theta^4 \cdot (1-3\theta)^3$$
+
+*(Read this as: We got the "$\theta$" outcome 4 times, and the "$1-3\theta$" outcome 3 times).*
+
+#### Step 4: Take the Log-Likelihood
+Now, apply the natural log ($\ln$) to make it solvable.
+$$l(\theta) = \ln( L(\theta) )$$
+$$l(\theta) = \ln( \theta^4 \cdot (1-3\theta)^3 )$$
+
+Using the Log Rules ($\ln(ab) = \ln a + \ln b$ and $\ln(x^n) = n\ln x$):
+$$l(\theta) = 4\ln(\theta) + 3\ln(1-3\theta)$$
+
+#### Step 5: Differentiate and Maximize
+To find the maximum, we take the derivative with respect to $\theta$ and set it to equal 0.
+
+**Recall the derivative formulas:**
+1.  $\frac{d}{dx} \ln(x) = \frac{1}{x}$
+2.  **Chain Rule:** $\frac{d}{dx} \ln(u) = \frac{1}{u} \cdot u'$
+
+Let's derive our equation:
+$$l'(\theta) = \frac{d}{d\theta}[4\ln(\theta)] + \frac{d}{d\theta}[3\ln(1-3\theta)]$$
+
+1.  First part: $4 \cdot (\frac{1}{\theta}) = \frac{4}{\theta}$
+2.  Second part (Chain Rule applies here because the inside is $1-3\theta$, not just $\theta$):
+    * Derivative of outer $\ln$ function: $3 \cdot \frac{1}{1-3\theta}$
+    * Multiplied by derivative of inside function ($1-3\theta$): $-3$
+    * Result: $3 \cdot \frac{1}{1-3\theta} \cdot (-3) = \frac{-9}{1-3\theta}$
+
+**Combine them:**
+$$l'(\theta) = \frac{4}{\theta} - \frac{9}{1-3\theta}$$
+
+#### Step 6: Solve for $\theta$
+Set the derivative to 0 to find the maximum likelihood estimate.
+
+$$\frac{4}{\theta} - \frac{9}{1-3\theta} = 0$$
+
+Move the negative term to the right side:
+$$\frac{4}{\theta} = \frac{9}{1-3\theta}$$
+
+Cross-multiply:
+$$4(1 - 3\theta) = 9\theta$$
+
+Expand:
+$$4 - 12\theta = 9\theta$$
+
+Add $12\theta$ to both sides:
+$$4 = 21\theta$$
+
+Divide by 21:
+$$\theta = \frac{4}{21}$$
+
+#### Step 7: Final Calculation
+Now we convert the fraction to a decimal.
+$$4 \div 21 \approx 0.190476...$$
+
+The question asks for the answer correct to **two decimal places**.
+$$0.1904... \rightarrow \mathbf{0.19}$$
+
+### Final Answer
+The maximum likelihood estimate of $\theta$ is **0.19**.
+
+</div>
+</details>
+
+<div class="question-card" style="border: 1px solid var(--color-border); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; background: var(--color-surface); margin-top: 3rem;">
+
+**Question 1**  
+*Topic:* Maximum Likelihood Estimation
+
+---
+
+A four sided die is such that the probability of getting any number from one to three is $\theta$, and the probability of getting four is $1 - 3\theta$. The die is rolled seven times and outcomes are
+$1, 4, 3, 4, 3, 2, 4.$
+Find the maximum likelihood estimate of $\theta$. Enter the answer correct to two decimal places.
+
+---
+
+**Response Type:** Numeric  
+**Answer:** 0.19
+
+</div>
+
+<details class="solution-details" style="margin-top: 1rem; border: 1px solid var(--color-border); border-radius: 8px; overflow: hidden;">
+<summary style="padding: 1rem; cursor: pointer; background: var(--color-surface); font-weight: 600;">View Detailed Solution (Question 1)</summary>
+<div class="solution-content" style="padding: 1.5rem; border-top: 1px solid var(--color-border);">
+
+#### Solution to Question 1: Maximum Likelihood Estimation (MLE)
+
+**1. The Concept: What is MLE?**
+Maximum Likelihood Estimation is a method to find the most likely value of a parameter (in this case, $\theta$) that would produce the data you actually observed.
+* **Likelihood Function ($L$):** The probability of seeing your specific data sequence. Since die rolls are independent, we multiply the probabilities of each roll.
+* **Log-Likelihood ($\ln L$):** We take the natural log of $L$ to turn multiplication into addition, making it easier to take the derivative.
+
+**2. Step-by-Step Solution**
+
+**Step A: Define Probabilities**
+* Probability of rolling 1, 2, or 3: $P(1)=P(2)=P(3) = \theta$
+* Probability of rolling 4: $P(4) = 1 - 3\theta$
+
+**Step B: Analyze Observed Data**
+Sequence: $\{1, 4, 3, 4, 3, 2, 4\}$
+* Count of outcome $\{1, 2, 3\}$: We have a 1, a 3, a 3, and a 2. **(Total count = 4)**
+* Count of outcome $\{4\}$: We have three 4s. **(Total count = 3)**
+
+**Step C: Build the Likelihood Function**
+$$L(\theta) = (\theta)^4 \cdot (1 - 3\theta)^3$$
+
+**Step D: Take the Log-Likelihood ($l$)**
+Using the log rules $\ln(a \cdot b) = \ln(a) + \ln(b)$ and $\ln(x^n) = n \cdot \ln(x)$:
+$$l(\theta) = 4\ln(\theta) + 3\ln(1 - 3\theta)$$
+
+**Step E: Differentiate and Maximize**
+Take the derivative with respect to $\theta$ and set it to 0.
+$$l'(\theta) = \frac{d}{d\theta}[4\ln(\theta)] + \frac{d}{d\theta}[3\ln(1 - 3\theta)]$$
+$$0 = \frac{4}{\theta} + 3 \cdot \frac{1}{1 - 3\theta} \cdot (-3)$$  *(Note: The -3 comes from the chain rule on $1-3\theta$)*
+$$0 = \frac{4}{\theta} - \frac{9}{1 - 3\theta}$$
+
+**Step F: Solve for $\theta$**
+Move the negative term to the other side:
+$$\frac{4}{\theta} = \frac{9}{1 - 3\theta}$$
+
+Cross-multiply:
+$$4(1 - 3\theta) = 9\theta$$
+$$4 - 12\theta = 9\theta$$
+$$4 = 21\theta$$
+$$\theta = \frac{4}{21}$$
+
+**Final Calculation:**
+$$\theta \approx 0.19047...$$
+Rounding to two decimal places:
+**Answer: 0.19**
+
+</div>
+</details>
+
+<div class="question-card" style="border: 1px solid var(--color-border); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; background: var(--color-surface); margin-top: 3rem;">
+
+**Question 2**  
+*Topic:* Power of a Test
+
+---
+
+Let $X \sim \text{Binomial}(100, p)$. Let the null and alternative hypothesis be $H_0 : p = 0.5$ and $H_A : p \neq 0.5$. Consider a test that rejects $H_0$ if $|X - 300| > 50$. What is the power of the test against the alternative $\text{Binomial}(100, p)$ as a function of $p$?
+
+---
+
+**Response Type:** Multiple Choice
+
+</div>
+
+<details class="solution-details" style="margin-top: 1rem; border: 1px solid var(--color-border); border-radius: 8px; overflow: hidden;">
+<summary style="padding: 1rem; cursor: pointer; background: var(--color-surface); font-weight: 600;">View Detailed Solution (Question 2)</summary>
+<div class="solution-content" style="padding: 1.5rem; border-top: 1px solid var(--color-border);">
+
+#### Solution to Question 2: Power of the Test
+
+**1. The Concept: Power of a Test**
+The "Power" of a statistical test is the probability that you correctly reject the Null Hypothesis ($H_0$) when the Alternative Hypothesis ($H_A$) is actually true.
+* **Rejection Region:** The set of outcomes where you decide to reject $H_0$.
+* **Formula:** Power $= P(\text{Outcome falls in Rejection Region} \mid \text{True parameter } p)$
+
+**2. Step-by-Step Solution**
+
+**Step A: Analyze the Rejection Condition**
+The problem states we reject $H_0$ if:
+$$|X - 300| > 50$$
+This inequality splits into two parts:
+1.  $X - 300 > 50 \implies X > 350$
+2.  $X - 300 < -50 \implies X < 250$
+
+So, the **Rejection Region** is $X < 250$ or $X > 350$.
+
+*> **Teacher's Note:** There is likely a typo in the question numbers ($|X-300| > 50$ for $n=100$? $X$ can only go up to 100). The logic below strictly follows the algebraic form provided in the question options, likely approximating with a much larger scale or using the numbers abstractly.*
+
+**Step B: Standardize to Z-scores**
+We approximate the Binomial distribution with a Normal distribution.
+* **Mean ($\mu$):** $n \cdot p = 100p$
+* **Standard Deviation ($\sigma$):** $\sqrt{n \cdot p(1-p)} = \sqrt{100p(1-p)} = 10\sqrt{p(1-p)}$
+
+We convert the boundary values ($X = 250$ and $X = 350$) into Z-scores using the formula $Z = \frac{X - \mu}{\sigma}$.
+
+**Lower Z-score ($Z_L$) for $X=250$:**
+$$Z_L = \frac{250 - 100p}{10\sqrt{p(1-p)}}$$
+*Algebraic Trick:* Divide the numerator and denominator by 10 to match the answer options.
+$$Z_L = \frac{25 - 10p}{\sqrt{p(1-p)}}$$
+
+**Upper Z-score ($Z_U$) for $X=350$:**
+$$Z_U = \frac{350 - 100p}{10\sqrt{p(1-p)}}$$
+*Simplify by 10:*
+$$Z_U = \frac{35 - 10p}{\sqrt{p(1-p)}}$$
+
+**Step C: Construct the Probability Function**
+The Power is the probability of being in the rejection region:
+$$\text{Power} = P(Z < Z_L) + P(Z > Z_U)$$
+
+Using the Cumulative Distribution Function ($F_Z$ or $\Phi$) representing the area to the left:
+* $P(Z < Z_L) = F_Z(Z_L)$
+* $P(Z > Z_U) = 1 - F_Z(Z_U)$
+
+Combine them:
+$$\text{Power} = 1 + F_Z(Z_L) - F_Z(Z_U)$$
+
+**Step D: Match with Options**
+Substitute our simplified $Z_L$ and $Z_U$ back in:
+$$\text{Power} = 1 + F_Z\left(\frac{25 - 10p}{\sqrt{p(1-p)}}\right) - F_Z\left(\frac{35 - 10p}{\sqrt{p(1-p)}}\right)$$
+
+**Answer:** This matches the **first option** (marked with the green check).
+
+</div>
+</details>

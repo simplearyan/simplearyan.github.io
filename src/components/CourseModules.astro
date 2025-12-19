@@ -20,6 +20,11 @@ const modules = subjectItems
     .filter((item) => item.data.type === "module")
     .sort((a, b) => (a.data.order || 0) - (b.data.order || 0));
 
+// Get PYQs (Previous Year Questions)
+const pyqs = subjectItems
+    .filter((item) => item.data.type === "pyq")
+    .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
 // Get Lessons (Units) and group by parent module
 const lessonsByModule = new Map();
 
@@ -117,6 +122,39 @@ const PASTEL_COLORS = [
                 </div>
             );
         })
+    }
+
+    {
+        pyqs.length > 0 && (
+            <div class="module-section pyq-section">
+                <div class="module-header">
+                    <h2 class="module-title">Previous Year Questions</h2>
+                    <p class="module-desc">
+                        Practice with past exam papers and quizzes.
+                    </p>
+                </div>
+
+                <div class="lessons-grid">
+                    {pyqs.map((pyq) => (
+                        <a href={`/education/${pyq.slug}`} class="pyq-card">
+                            <div class="pyq-icon">📄</div>
+                            <div class="pyq-content">
+                                <h3 class="pyq-title">{pyq.data.title}</h3>
+                                <div class="pyq-meta">
+                                    <span class="pyq-tag">
+                                        {pyq.data.tags[0] || "Exam"}
+                                    </span>
+                                    <span class="pyq-date">
+                                        {pyq.data.pubDate.getFullYear()}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="card-arrow">↓</div>
+                        </a>
+                    ))}
+                </div>
+            </div>
+        )
     }
 </div>
 
@@ -245,5 +283,69 @@ const PASTEL_COLORS = [
         .lessons-grid {
             grid-template-columns: 1fr;
         }
+    }
+
+    /* PYQ Card Styles */
+    .pyq-card {
+        background: var(--color-surface);
+        border: 1px solid var(--color-border);
+        border-left: 4px solid var(--color-text-muted); /* Distinct slate/grey marker */
+        border-radius: 6px; /* Sharper corners for "paper" feel */
+        padding: 1.25rem;
+        text-decoration: none;
+        transition: all 0.2s ease;
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        position: relative;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+    }
+
+    .pyq-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1);
+        border-left-color: var(--color-heading);
+        background: var(--color-surface); /* Ensure no conflict */
+    }
+
+    .pyq-icon {
+        font-size: 1.5rem;
+        opacity: 0.5;
+        filter: grayscale(100%);
+    }
+
+    .pyq-content {
+        flex: 1;
+    }
+
+    .pyq-title {
+        font-family: "Playfair Display", serif;
+        font-size: 1.2rem;
+        font-weight: 600;
+        color: var(--color-heading);
+        margin: 0 0 0.35rem 0;
+        line-height: 1.2;
+    }
+
+    .pyq-meta {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 0.75rem;
+        color: var(--color-text-muted);
+        font-family: "Inter", sans-serif;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+    }
+
+    .pyq-tag {
+        background: rgba(0, 0, 0, 0.05);
+        padding: 0.25rem 0.6rem;
+        border-radius: 4px;
+        font-weight: 600;
+    }
+
+    :global([data-theme="dark"]) .pyq-tag {
+        background: rgba(255, 255, 255, 0.1);
     }
 </style>
