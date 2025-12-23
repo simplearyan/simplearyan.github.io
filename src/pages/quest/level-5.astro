@@ -1,0 +1,10 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { Level5Page } from "../../components/quest/levels/Level5";
+
+const title = "Level 5: Detective's Trial - Statistical Quest";
+---
+
+<Layout title={title}>
+    <Level5Page client:only="react" />
+</Layout>

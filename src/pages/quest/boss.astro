@@ -1,0 +1,10 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { BossLevelPage } from "../../components/quest/levels/BossLevel";
+
+const title = "Boss Level: Regression Ridge - Statistical Quest";
+---
+
+<Layout title={title}>
+    <BossLevelPage client:only="react" />
+</Layout>

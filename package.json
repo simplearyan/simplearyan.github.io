@@ -10,16 +10,25 @@
   },
   "dependencies": {
     "@astrojs/mdx": "^4.3.12",
+    "@astrojs/react": "^4.4.2",
     "@astrojs/sitemap": "^3.6.0",
+    "@dnd-kit/core": "^6.3.1",
+    "@dnd-kit/sortable": "^10.0.0",
+    "@dnd-kit/utilities": "^3.2.2",
     "astro": "^5.16.2",
     "chart.js": "^4.5.1",
+    "clsx": "^2.1.1",
+    "framer-motion": "^12.23.26",
     "fuse.js": "^7.1.0",
     "markmap-lib": "^0.18.12",
     "markmap-toolbar": "^0.18.12",
     "markmap-view": "^0.18.12",
     "mermaid": "^11.12.1",
+    "react": "^19.2.3",
+    "react-dom": "^19.2.3",
     "rehype-katex": "^7.0.1",
-    "remark-math": "^6.0.0"
+    "remark-math": "^6.0.0",
+    "tailwind-merge": "^3.4.0"
   },
   "devDependencies": {
     "vite-plugin-pwa": "^1.2.0"

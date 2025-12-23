@@ -1,0 +1,12 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { QuestHome } from "../../components/quest/pages/QuestHome";
+
+const title = "Statistical Quest - SimpleAryan";
+const description =
+    "Master statistics through an interactive journey. From data classification to regression models.";
+---
+
+<Layout title={title} description={description}>
+    <QuestHome client:only="react" />
+</Layout>

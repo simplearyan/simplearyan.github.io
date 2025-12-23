@@ -1,0 +1,11 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { QuestShell } from "../../components/quest/layout/QuestShell";
+import { Level1Page } from "../../components/quest/levels/Level1";
+
+const title = "Level 1: Foundation of Data - Statistical Quest";
+---
+
+<Layout title={title}>
+    <Level1Page client:only="react" />
+</Layout>

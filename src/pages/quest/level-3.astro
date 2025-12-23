@@ -1,0 +1,10 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { Level3Page } from "../../components/quest/levels/Level3";
+
+const title = "Level 3: Probability Portal - Statistical Quest";
+---
+
+<Layout title={title}>
+    <Level3Page client:only="react" />
+</Layout>

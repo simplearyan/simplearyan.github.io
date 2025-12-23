@@ -1,6 +1,7 @@
 ---
 import Layout from "../layouts/Layout.astro";
 import BlogCard from "../components/BlogCard.astro";
+import InFeedAd from "../components/InFeedAd.astro";
 import { getCollection } from "astro:content";
 
 const posts = (await getCollection("blog")).sort(
@@ -72,16 +73,19 @@ const posts = (await getCollection("blog")).sort(
                 }
 
                 return (
-                    <BlogCard
-                        title={post.data.title}
-                        description={post.data.description}
-                        date={post.data.pubDate}
-                        image={post.data.image}
-                        href={`/blog/${post.slug}`}
-                        tags={post.data.tags}
-                        lightColor={light}
-                        darkColor={dark}
-                    />
+                    <>
+                        <BlogCard
+                            title={post.data.title}
+                            description={post.data.description}
+                            date={post.data.pubDate}
+                            image={post.data.image}
+                            href={`/blog/${post.slug}`}
+                            tags={post.data.tags}
+                            lightColor={light}
+                            darkColor={dark}
+                        />
+                        {index === 2 && <InFeedAd />}
+                    </>
                 );
             })
         }
