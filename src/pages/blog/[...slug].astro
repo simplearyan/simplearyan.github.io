@@ -32,6 +32,7 @@ import Underline from "../../components/annotations/Underline.astro";
 import Aside from "../../components/annotations/Aside.astro";
 import BlogCard from "../../components/BlogCard.astro";
 import MultiplexAd from "../../components/ads/MultiplexAd.astro";
+import HorizontalAd from "../../components/ads/HorizontalAd.astro";
 import type { AstroComponentFactory } from "astro/runtime/server/index.js";
 
 export async function getStaticPaths() {
@@ -149,6 +150,7 @@ const components = {
 			<article
 				class={`blog-post animate-fade-in ${post.data.fancyHeadings ? "fancy-headings" : ""} ${post.data.hideToc ? "wide-layout" : ""}`}
 			>
+				<HorizontalAd />
 				<header class="post-header">
 					<div class="post-meta">
 						<time datetime={post.data.pubDate.toISOString()}>
@@ -187,6 +189,7 @@ const components = {
 				</div>
 
 				<ShareButtons title={post.data.title} url={url!} />
+				<HorizontalAd />
 
 				{relatedPostsToShow.length > 0 && (
 					<div class="related-post-container">
