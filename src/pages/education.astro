@@ -3,11 +3,20 @@ import Layout from "../layouts/Layout.astro";
 import { getCollection } from "astro:content";
 import EducationCard from "../components/EducationCard.astro";
 import EducationInFeedAd from "../components/ads/EducationInFeedAd.astro";
+import BookCard from "../components/BookCard.astro";
 
 const educationItems = await getCollection("education");
+
+// Filter Courses
 const sortedItems = educationItems
     .filter((item) => item.data.type === "course")
     .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf());
+
+// Filter Books
+const bookItems = educationItems.filter(
+    (item) =>
+        item.data.tags.includes("Textbook") && item.data.type === "subject",
+);
 ---
 
 <Layout title="Education | SimpleAryan">
@@ -40,6 +49,55 @@ const sortedItems = educationItems
                     ))
                 }
             </div>
+
+            {
+                bookItems.length > 0 && (
+                    <section class="books-section">
+                        <div class="section-header">
+                            <h2 class="section-title">Essential Textbooks</h2>
+                            <div class="section-line" />
+                        </div>
+
+                        <div class="books-grid">
+                            {bookItems.map((book) => {
+                                // Assign separate styles based on the book
+                                const isMaths = book.slug.includes("maths-2");
+                                const isStats = book.slug.includes("stats-2");
+
+                                let pattern = "circles";
+                                let fontStyle = "serif";
+                                let layoutStyle = "classic";
+
+                                if (isMaths) {
+                                    pattern = "grid";
+                                    fontStyle = "sans";
+                                    layoutStyle = "modern";
+                                } else if (isStats) {
+                                    pattern = "waves";
+                                    fontStyle = "serif";
+                                    layoutStyle = "classic";
+                                }
+
+                                return (
+                                    <BookCard
+                                        title={book.data.title
+                                            .replace("Book:", "")
+                                            .trim()}
+                                        subtitle={book.data.description}
+                                        href={`/education/${book.slug}`}
+                                        coverColor={
+                                            book.data.cardColor || "#3b82f6"
+                                        }
+                                        pattern={pattern}
+                                        fontStyle={fontStyle}
+                                        layoutStyle={layoutStyle}
+                                    />
+                                );
+                            })}
+                        </div>
+                    </section>
+                )
+            }
         </div>
     </main>
 </Layout>
@@ -192,7 +250,6 @@ const sortedItems = educationItems
         margin-bottom: var(--spacing-xl);
     }
 
-    /* Background glow effect */
     .page-header::before {
         content: "";
         position: absolute;
@@ -208,6 +265,45 @@ const sortedItems = educationItems
         );
         z-index: -1;
         pointer-events: none;
+    }
+
+    .books-section {
+        margin-top: 1rem;
+        margin-bottom: 2rem;
+        position: relative;
+    }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+        margin-bottom: 3rem;
+        max-width: 1000px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .section-title {
+        font-family: "Playfair Display", serif;
+        font-size: 2rem;
+        font-weight: 700;
+        color: var(--color-heading);
+        white-space: nowrap;
+        margin-bottom: 0; /* Override previous margin */
+    }
+
+    .section-line {
+        height: 1px;
+        background: linear-gradient(to right, var(--color-border), transparent);
+        flex-grow: 1;
+        margin-top: 0.5rem;
+    }
+
+    .books-grid {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 3rem;
     }
 
     h1 {
