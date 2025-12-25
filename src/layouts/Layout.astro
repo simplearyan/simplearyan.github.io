@@ -3,6 +3,7 @@ import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import VerticalRailAd from "../components/ads/VerticalRailAd.astro";
+import ThinVerticalRailAd from "../components/ads/ThinVerticalRailAd.astro";
 
 interface Props {
 	title: string;
@@ -116,10 +117,21 @@ const socialImageURL = new URL(image, Astro.url);
 	<body>
 		<Header disableSticky={disableStickyHeader} />
 		{
-			Astro.url.pathname !== "/" &&
-				!Astro.url.pathname.startsWith("/education/") && (
-					<VerticalRailAd />
-				)
+			Astro.url.pathname !== "/" && (
+				<>
+					{/* Show Thin Rail Ad on Education Pages */}
+					{(Astro.url.pathname.startsWith("/education") ||
+						Astro.url.pathname === "/education") && (
+						<ThinVerticalRailAd />
+					)}
+
+					{/* Show Regular Rail Ad on Other Pages (Blog, etc) */}
+					{!Astro.url.pathname.startsWith("/education") &&
+						Astro.url.pathname !== "/education" && (
+							<VerticalRailAd />
+						)}
+				</>
+			)
 		}
 		<main class={fullWidth ? "" : "container"}>
 			<slot />
