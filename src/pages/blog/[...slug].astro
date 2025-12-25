@@ -31,6 +31,7 @@ import Arrow from "../../components/annotations/Arrow.astro";
 import Underline from "../../components/annotations/Underline.astro";
 import Aside from "../../components/annotations/Aside.astro";
 import BlogCard from "../../components/BlogCard.astro";
+import MultiplexAd from "../../components/MultiplexAd.astro";
 import type { AstroComponentFactory } from "astro/runtime/server/index.js";
 
 export async function getStaticPaths() {
@@ -215,6 +216,8 @@ const components = {
 						</div>
 					</div>
 				)}
+
+				<MultiplexAd />
 			</article>
 		</Layout>
 	) : type === "tag" && tag && tagPosts ? (
