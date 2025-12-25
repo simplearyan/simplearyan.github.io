@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import CourseLayout from "../../layouts/CourseLayout.astro";
 import EducationSingleLayout from "../../layouts/EducationSingleLayout.astro";
 import ShareButtons from "../../components/ShareButtons.astro";
+import HorizontalAd from "../../components/ads/HorizontalAd.astro";
 
 import CourseModules from "../../components/CourseModules.astro";
 
@@ -54,6 +55,7 @@ const nextLesson =
             <article
                 class={`prose ${item.data.hideToc ? "max-w-75ch" : "max-w-75ch"}`}
             >
+                <HorizontalAd />
                 <div class="lesson-header">
                     <h1>{item.data.title}</h1>
                     <button
@@ -74,10 +76,10 @@ const nextLesson =
                             stroke-linejoin="round"
                             class="zen-icon-enter"
                         >
-                            <path d="M8 3H5a2 2 0 0 0-2 2v3" />
-                            <path d="M16 3h3a2 2 0 0 1 2 2v3" />
-                            <path d="M8 21H5a2 2 0 0 1-2-2v-3" />
-                            <path d="M16 21h3a2 2 0 0 0 2-2v-3" />
+                            <path d="M8 3H5a2 0 0 0-2 2v3" />
+                            <path d="M16 3h3a2 0 0 1 2 2v3" />
+                            <path d="M8 21H5a2 0 0 1-2-2v-3" />
+                            <path d="M16 21h3a2 0 0 0 2-2v-3" />
                         </svg>
                         <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -91,10 +93,10 @@ const nextLesson =
                             stroke-linejoin="round"
                             class="zen-icon-exit hidden"
                         >
-                            <path d="M8 12H5a2 2 0 0 1-2-2V7" />
-                            <path d="M16 12h3a2 2 0 0 0 2-2V7" />
-                            <path d="M8 12h-3a2 2 0 0 0-2 2v3" />
-                            <path d="M16 12h3a2 2 0 0 1 2 2v3" />
+                            <path d="M8 12H5a2 0 0 1-2-2V7" />
+                            <path d="M16 12h3a2 0 0 0 2-2V7" />
+                            <path d="M8 12h-3a2 0 0 0-2 2v3" />
+                            <path d="M16 12h3a2 0 0 1 2 2v3" />
                         </svg>
                     </button>
                 </div>
@@ -105,6 +107,8 @@ const nextLesson =
                     url={Astro.url}
                     label="Share this lesson"
                 />
+
+                <HorizontalAd />
 
                 <div class="lesson-navigation">
                     {prevLesson ? (
