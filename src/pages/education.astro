@@ -2,6 +2,7 @@
 import Layout from "../layouts/Layout.astro";
 import { getCollection } from "astro:content";
 import EducationCard from "../components/EducationCard.astro";
+import EducationInFeedAd from "../components/ads/EducationInFeedAd.astro";
 
 const educationItems = await getCollection("education");
 const sortedItems = educationItems
@@ -21,18 +22,21 @@ const sortedItems = educationItems
 
             <div class="education-grid" id="education-grid">
                 {
-                    sortedItems.map((item) => (
-                        <EducationCard
-                            title={item.data.title}
-                            description={item.data.description}
-                            date={item.data.pubDate}
-                            image={item.data.image}
-                            institution={item.data.institution || ""}
-                            courseType={item.data.courseType || ""}
-                            tags={item.data.tags}
-                            href={`/education/${item.slug}`}
-                            cardColor={item.data.cardColor}
-                        />
+                    sortedItems.map((item, index) => (
+                        <>
+                            <EducationCard
+                                title={item.data.title}
+                                description={item.data.description}
+                                date={item.data.pubDate}
+                                image={item.data.image}
+                                institution={item.data.institution || ""}
+                                courseType={item.data.courseType || ""}
+                                tags={item.data.tags}
+                                href={`/education/${item.slug}`}
+                                cardColor={item.data.cardColor}
+                            />
+                            {index === 2 && <EducationInFeedAd />}
+                        </>
                     ))
                 }
             </div>
