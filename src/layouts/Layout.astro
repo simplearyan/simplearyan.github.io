@@ -115,7 +115,12 @@ const socialImageURL = new URL(image, Astro.url);
 	</head>
 	<body>
 		<Header disableSticky={disableStickyHeader} />
-		{Astro.url.pathname !== "/" && <VerticalRailAd />}
+		{
+			Astro.url.pathname !== "/" &&
+				!Astro.url.pathname.startsWith("/education/") && (
+					<VerticalRailAd />
+				)
+		}
 		<main class={fullWidth ? "" : "container"}>
 			<slot />
 		</main>
