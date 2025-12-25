@@ -2,35 +2,65 @@
 
 ---
 
-<div class="vertical-rail-ad">
-    <div class="ad-label">Advertisement</div>
-    <script
-        async
-        src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7993314093599705"
-        crossorigin="anonymous"></script>
-    <!-- VERTICAL_AD -->
-    <ins
-        class="adsbygoogle"
-        style="display:block"
-        data-ad-client="ca-pub-7993314093599705"
-        data-ad-slot="9544937585"
-        data-ad-format="auto"
-        data-full-width-responsive="true"></ins>
-    <script is:inline>
-        (adsbygoogle = window.adsbygoogle || []).push({});
-    </script>
+<div class="vertical-rail-container">
+    <!-- Left Rail -->
+    <div class="vertical-rail-ad left-rail">
+        <div class="ad-label">Advertisement</div>
+        <script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7993314093599705"
+            crossorigin="anonymous"></script>
+        <!-- VERTICAL_AD -->
+        <ins
+            class="adsbygoogle"
+            style="display:block"
+            data-ad-client="ca-pub-7993314093599705"
+            data-ad-slot="9544937585"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script is:inline>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
+
+    <!-- Right Rail -->
+    <div class="vertical-rail-ad right-rail">
+        <div class="ad-label">Advertisement</div>
+        <script
+            async
+            src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7993314093599705"
+            crossorigin="anonymous"></script>
+        <!-- VERTICAL_AD -->
+        <ins
+            class="adsbygoogle"
+            style="display:block"
+            data-ad-client="ca-pub-7993314093599705"
+            data-ad-slot="9544937585"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script is:inline>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+    </div>
 </div>
 
 <style>
     .vertical-rail-ad {
         position: fixed;
         top: 50%;
-        left: 20px; /* Adjust placement */
         transform: translateY(-50%);
-        width: 160px; /* Standard wide skyscraper width, or dynamic */
+        width: 160px;
         min-height: 600px;
         z-index: 1000;
         display: none; /* Hidden by default */
+    }
+
+    .left-rail {
+        left: 10px;
+    }
+
+    .right-rail {
+        right: 10px;
     }
 
     .ad-label {
@@ -41,9 +71,8 @@
         text-align: center;
     }
 
-    /* Show only on large desktop screens where there is space */
-    @media (min-width: 1540px) {
-        /* 1200px container + 2*160px rails + safety margin */
+    /* Show only on large desktop screens */
+    @media (min-width: 1560px) {
         .vertical-rail-ad {
             display: block;
         }

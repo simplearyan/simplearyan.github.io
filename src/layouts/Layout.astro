@@ -115,7 +115,7 @@ const socialImageURL = new URL(image, Astro.url);
 	</head>
 	<body>
 		<Header disableSticky={disableStickyHeader} />
-		<VerticalRailAd />
+		{Astro.url.pathname !== "/" && <VerticalRailAd />}
 		<main class={fullWidth ? "" : "container"}>
 			<slot />
 		</main>
