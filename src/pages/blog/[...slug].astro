@@ -33,6 +33,7 @@ import Aside from "../../components/annotations/Aside.astro";
 import BlogCard from "../../components/BlogCard.astro";
 import MultiplexAd from "../../components/ads/MultiplexAd.astro";
 import HorizontalAd from "../../components/ads/HorizontalAd.astro";
+import InFeedAd from "../../components/ads/InFeedAd.astro";
 import type { AstroComponentFactory } from "astro/runtime/server/index.js";
 
 export async function getStaticPaths() {
@@ -244,17 +245,21 @@ const components = {
 			</div>
 
 			<div class="container content-grid">
-				{tagPosts.map((p) => (
-					<BlogCard
-						title={p.data.title}
-						description={p.data.description}
-						date={p.data.pubDate}
-						image={p.data.image}
-						href={`/blog/${p.slug}`}
-						tags={p.data.tags}
-					/>
+				{tagPosts.map((p, index) => (
+					<>
+						<BlogCard
+							title={p.data.title}
+							description={p.data.description}
+							date={p.data.pubDate}
+							image={p.data.image}
+							href={`/blog/${p.slug}`}
+							tags={p.data.tags}
+						/>
+						{index === 2 && <InFeedAd />}
+					</>
 				))}
 			</div>
+			<MultiplexAd />
 		</Layout>
 	) : null
 }
