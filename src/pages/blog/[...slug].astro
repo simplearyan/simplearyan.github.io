@@ -91,15 +91,15 @@ if (type === "post") {
 	// Get related posts
 	const allPosts = await getCollection("blog");
 	const relatedPosts = allPosts
-		.filter((p) => p.slug !== post.slug)
-		.filter((p) => p.data.tags?.some((t) => post.data.tags?.includes(t)));
+		.filter((p) => p.slug !== post!.slug)
+		.filter((p) => p.data.tags?.some((t) => post!.data.tags?.includes(t)));
 
 	// Get up to 4 related posts
 	relatedPostsToShow = relatedPosts.slice(0, 4);
 	if (relatedPostsToShow.length < 4) {
 		const morePosts = allPosts
 			.filter(
-				(p) => p.slug !== post.slug && !relatedPostsToShow.includes(p),
+				(p) => p.slug !== post!.slug && !relatedPostsToShow.includes(p),
 			)
 			.slice(0, 4 - relatedPostsToShow.length);
 		relatedPostsToShow = [...relatedPostsToShow, ...morePosts];
@@ -228,6 +228,7 @@ const components = {
 		<Layout
 			title={`Blog Posts tagged with ${tag} | SimpleAryan`}
 			description={`Browse all blog posts tagged with ${tag}.`}
+			fullWidth={true}
 		>
 			<div class="hero">
 				<div class="container">
@@ -244,22 +245,57 @@ const components = {
 				</div>
 			</div>
 
-			<div class="container content-grid">
-				{tagPosts.map((p, index) => (
-					<>
-						<BlogCard
-							title={p.data.title}
-							description={p.data.description}
-							date={p.data.pubDate}
-							image={p.data.image}
-							href={`/blog/${p.slug}`}
-							tags={p.data.tags}
-						/>
-						{index === 2 && <InFeedAd />}
-					</>
-				))}
+			<div class="wide-container content-grid">
+				{tagPosts.map((p, index) => {
+					// 1. Pastel Palette (Light Mode)
+					const pastelColors = [
+						"#e0f2fe", // Light Sky
+						"#fce7f3", // Light Pink
+						"#dcfce7", // Light Green
+						"#fef3c7", // Light Amber
+						"#ede9fe", // Light Violet
+						"#ffe4e6", // Light Rose
+					];
+
+					// 2. Dark Palette (Dark Mode)
+					const darkColors = [
+						"#0c4a6e", // Dark Sky
+						"#831843", // Dark Pink
+						"#14532d", // Dark Green
+						"#78350f", // Dark Amber
+						"#4c1d95", // Dark Violet
+						"#881337", // Dark Rose
+					];
+
+					const colorIndex = index % pastelColors.length;
+					let light = pastelColors[colorIndex];
+					let dark = darkColors[colorIndex];
+
+					if (p.data.cardColor) {
+						light = p.data.cardColor;
+						dark = "#1f2937";
+					}
+
+					return (
+						<>
+							<BlogCard
+								title={p.data.title}
+								description={p.data.description}
+								date={p.data.pubDate}
+								image={p.data.image}
+								href={`/blog/${p.slug}`}
+								tags={p.data.tags}
+								lightColor={light}
+								darkColor={dark}
+							/>
+							{index === 2 && <InFeedAd />}
+						</>
+					);
+				})}
 			</div>
-			<MultiplexAd />
+			<div class="wide-container">
+				<MultiplexAd />
+			</div>
 		</Layout>
 	) : null
 }
@@ -270,6 +306,20 @@ const components = {
 		max-width: 1200px;
 		margin: 0 auto;
 		padding: 0 var(--spacing-md);
+	}
+
+	.wide-container {
+		width: 100%;
+		max-width: 800px;
+		margin: 0 auto;
+		padding: 0 var(--spacing-md);
+		transition: max-width 0.3s ease;
+	}
+
+	@media (min-width: 1250px) {
+		.wide-container {
+			max-width: 1200px;
+		}
 	}
 
 	/* Post Styles */
@@ -482,7 +532,7 @@ const components = {
 
 	.content-grid {
 		display: grid;
-		grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+		grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
 		gap: var(--spacing-lg);
 		padding-bottom: var(--spacing-xl);
 	}

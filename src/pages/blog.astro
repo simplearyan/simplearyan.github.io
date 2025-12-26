@@ -13,6 +13,7 @@ const posts = (await getCollection("blog")).sort(
 <Layout
     title="Blog | SimpleAryan"
     description="Thoughts on web development, design, and technology."
+    fullWidth={true}
 >
     <div class="hero">
         <div class="container">
@@ -23,9 +24,10 @@ const posts = (await getCollection("blog")).sort(
         </div>
     </div>
 
-    <div class="container content-grid">
+    <div class="wide-container content-grid">
         {
             posts.map((post, index) => {
+                // ... (rest of the map function is unchanged, omitted here for brevity if tool allows partial match, but replace_file_content requires exact blocks. I will include the start of map to be safe, but actually I can just target the surrounding markup)
                 // 1. Pastel Palette (Light Mode - High Luminance, Low Saturation)
                 const pastelColors = [
                     "#e0f2fe", // Light Sky
@@ -91,7 +93,9 @@ const posts = (await getCollection("blog")).sort(
             })
         }
     </div>
-    <MultiplexAd />
+    <div class="wide-container">
+        <MultiplexAd />
+    </div>
 </Layout>
 
 <style>
@@ -116,9 +120,23 @@ const posts = (await getCollection("blog")).sort(
         margin: 0 auto;
     }
 
+    .wide-container {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 var(--spacing-md);
+        transition: max-width 0.3s ease;
+    }
+
+    @media (min-width: 1250px) {
+        .wide-container {
+            max-width: 1200px;
+        }
+    }
+
     .content-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
         gap: var(--spacing-lg);
         padding-bottom: var(--spacing-xl);
     }
