@@ -104,7 +104,8 @@ const posts = (await getCollection("blog")).sort(
         text-align: center;
         background-color: var(--color-bg);
         border-bottom: 1px solid var(--color-border);
-        margin-bottom: var(--spacing-xl);
+        margin: 0 auto var(--spacing-xl);
+        max-width: 800px;
     }
 
     h1 {
@@ -118,6 +119,13 @@ const posts = (await getCollection("blog")).sort(
         color: var(--color-text-muted);
         max-width: 600px;
         margin: 0 auto;
+    }
+
+    .container {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 0 var(--spacing-md);
     }
 
     .wide-container {
