@@ -138,7 +138,7 @@ const socialImageURL = new URL(image, Astro.url);
 			<slot />
 		</main>
 		<Footer />
-		{Astro.url.pathname !== "/" && <StickyBottomAd />}
+		<!-- {Astro.url.pathname !== "/" && <StickyBottomAd />} -->
 		<script>
 			if ("serviceWorker" in navigator) {
 				window.addEventListener("load", () => {
