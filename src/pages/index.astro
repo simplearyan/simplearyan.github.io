@@ -3,6 +3,27 @@ import Layout from "../layouts/Layout.astro";
 import { getCollection } from "astro:content";
 import EducationCard from "../components/EducationCard.astro";
 import "../styles/education-card.css";
+import BookCard from "../components/BookCard.astro";
+import MultiplexAd from "../components/ads/MultiplexAd.astro";
+
+const allEducationItems = await getCollection("education");
+
+// Filter Server-side 'New' courses for Education Section
+const newCourses = allEducationItems
+	.filter((course) => {
+		const isNew =
+			(new Date().getTime() - new Date(course.data.pubDate).getTime()) /
+				(1000 * 3600 * 24) <
+			30;
+		return isNew && course.data.type === "course";
+	})
+	.slice(0, 3); // Limit to 3 new courses
+
+// Filter Books
+const bookItems = allEducationItems.filter(
+	(item) =>
+		item.data.tags.includes("Textbook") && item.data.type === "subject",
+);
 
 const posts = (await getCollection("blog"))
 	.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
@@ -27,37 +48,80 @@ const posts = (await getCollection("blog"))
 		<div class="education-grid" id="education-grid">
 			{
 				/* Server-side rendered 'New' courses */
-				(await getCollection("education"))
-					.filter((course) => {
-						const isNew =
-							(new Date().getTime() -
-								new Date(course.data.pubDate).getTime()) /
-								(1000 * 3600 * 24) <
-							30;
-						return isNew;
-					})
-					.slice(0, 3) // Limit to 3 new courses
-					.map((course) => (
-						<div class="education-card-wrapper">
-							<EducationCard
-								title={course.data.title}
-								description={course.data.description}
-								date={course.data.pubDate}
-								image={course.data.image}
-								href={`/education/${course.slug}`}
-								institution={
-									course.data.institution ||
-									"Unknown Institution"
-								}
-								courseType={course.data.courseType || "Course"}
-								tags={course.data.tags}
-								cardColor={course.data.cardColor}
-							/>
-						</div>
-					))
+				newCourses.map((course) => (
+					<div class="education-card-wrapper">
+						<EducationCard
+							title={course.data.title}
+							description={course.data.description}
+							date={course.data.pubDate}
+							image={course.data.image}
+							href={`/education/${course.slug}`}
+							institution={
+								course.data.institution || "Unknown Institution"
+							}
+							courseType={course.data.courseType || "Course"}
+							tags={course.data.tags}
+							cardColor={course.data.cardColor}
+						/>
+					</div>
+				))
 			}
 		</div>
 	</section>
+
+	{
+		bookItems.length > 0 && (
+			<section class="books-section">
+				<div class="section-header">
+					<h2 class="section-title">Essential Textbooks</h2>
+					<a href="/education" class="view-all">
+						View All Books
+					</a>
+				</div>
+				<div class="books-grid">
+					{bookItems.map((book) => {
+						// Assign separate styles based on the book
+						const isMaths = book.slug.includes("maths-2");
+						const isStats = book.slug.includes("stats-2");
+
+						let pattern: "circles" | "grid" | "waves" | "dots" =
+							"circles";
+						let fontStyle:
+							| "serif"
+							| "sans"
+							| "display"
+							| "handwritten" = "serif";
+						let layoutStyle: "classic" | "minimal" | "modern" =
+							"classic";
+
+						if (isMaths) {
+							pattern = "grid";
+							fontStyle = "sans";
+							layoutStyle = "modern";
+						} else if (isStats) {
+							pattern = "waves";
+							fontStyle = "serif";
+							layoutStyle = "classic";
+						}
+
+						return (
+							<BookCard
+								title={book.data.title
+									.replace("Book:", "")
+									.trim()}
+								subtitle={book.data.description}
+								href={`/education/${book.slug}`}
+								coverColor={book.data.cardColor || "#3b82f6"}
+								pattern={pattern}
+								fontStyle={fontStyle}
+								layoutStyle={layoutStyle}
+							/>
+						);
+					})}
+				</div>
+			</section>
+		)
+	}
 
 	<div class="section-header">
 		<h2 class="section-title">Read Blog</h2>
@@ -126,6 +190,8 @@ const posts = (await getCollection("blog"))
 			})
 		}
 	</section>
+
+	<MultiplexAd />
 
 	<script is:inline>
 		// Client-side logic for Recently Opened courses
@@ -541,6 +607,28 @@ const posts = (await getCollection("blog"))
 
 		.education-card-wrapper > .education-card {
 			flex: 1;
+		}
+	}
+
+	/* Books Section Styles */
+	.books-section {
+		margin-bottom: var(--spacing-xl);
+		padding-bottom: var(--spacing-xl);
+		border-bottom: 1px solid var(--color-border);
+		text-align: center;
+	}
+
+	.books-grid {
+		display: grid;
+		grid-template-columns: repeat(2, 180px);
+		justify-content: center;
+		gap: 2rem;
+	}
+
+	@media (max-width: 480px) {
+		.books-grid {
+			grid-template-columns: repeat(2, 1fr);
+			gap: 1rem;
 		}
 	}
 </style>

@@ -4,6 +4,7 @@ import { getCollection } from "astro:content";
 import EducationCard from "../components/EducationCard.astro";
 import EducationInFeedAd from "../components/ads/EducationInFeedAd.astro";
 import BookCard from "../components/BookCard.astro";
+import HorizontalAd from "../components/ads/HorizontalAd.astro";
 
 const educationItems = await getCollection("education");
 
@@ -109,6 +110,7 @@ const bookItems = educationItems.filter(
                     </section>
                 )
             }
+            <HorizontalAd />
         </div>
     </main>
 </Layout>
