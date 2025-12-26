@@ -4,6 +4,7 @@ import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import VerticalRailAd from "../components/ads/VerticalRailAd.astro";
 import ThinVerticalRailAd from "../components/ads/ThinVerticalRailAd.astro";
+import StickyBottomAd from "../components/ads/StickyBottomAd.astro";
 
 interface Props {
 	title: string;
@@ -137,6 +138,7 @@ const socialImageURL = new URL(image, Astro.url);
 			<slot />
 		</main>
 		<Footer />
+		{Astro.url.pathname !== "/" && <StickyBottomAd />}
 		<script>
 			if ("serviceWorker" in navigator) {
 				window.addEventListener("load", () => {
