@@ -3,6 +3,7 @@ import Layout from "../layouts/Layout.astro";
 import BlogCard from "../components/BlogCard.astro";
 import InFeedAd from "../components/ads/InFeedAd.astro";
 import MultiplexAd from "../components/ads/MultiplexAd.astro";
+import BlueInFeedAd from "../components/ads/BlueInFeedAd.astro";
 import { getCollection } from "astro:content";
 
 const posts = (await getCollection("blog")).sort(
@@ -88,6 +89,7 @@ const posts = (await getCollection("blog")).sort(
                             darkColor={dark}
                         />
                         {index === 2 && <InFeedAd />}
+                        {index === 6 && <BlueInFeedAd />}
                     </>
                 );
             })
