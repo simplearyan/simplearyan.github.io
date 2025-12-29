@@ -33,6 +33,7 @@ import Aside from "../../components/annotations/Aside.astro";
 import BlogCard from "../../components/BlogCard.astro";
 import MultiplexAd from "../../components/ads/MultiplexAd.astro";
 import HorizontalAd from "../../components/ads/HorizontalAd.astro";
+import FixedHorizontalAd from "../../components/ads/FixedHorizontalAd.astro";
 import InFeedAd from "../../components/ads/InFeedAd.astro";
 import InArticleAd from "../../components/ads/InArticleAd.astro";
 import H2Ad from "../../components/ads/H2Ad.astro";
@@ -196,6 +197,7 @@ const components = {
 
 				{relatedPostsToShow.length > 0 && (
 					<div class="related-post-container">
+						<FixedHorizontalAd />
 						<h3 class="related-heading">Read Next</h3>
 						<div class="related-grid">
 							{relatedPostsToShow.map((relatedPost) => (
