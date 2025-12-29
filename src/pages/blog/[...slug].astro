@@ -79,6 +79,7 @@ const { type } = props;
 let post: CollectionEntry<"blog"> | undefined;
 let Content: AstroComponentFactory | undefined;
 let relatedPostsToShow: CollectionEntry<"blog">[] = [];
+let latestPosts: CollectionEntry<"blog">[] = [];
 let url: URL | undefined;
 
 // Variables for Tag View
@@ -93,9 +94,26 @@ if (type === "post") {
 
 	// Get related posts
 	const allPosts = await getCollection("blog");
+	const currentTags = post!.data.tags || [];
+
 	const relatedPosts = allPosts
 		.filter((p) => p.slug !== post!.slug)
-		.filter((p) => p.data.tags?.some((t) => post!.data.tags?.includes(t)));
+		.map((p) => {
+			const commonTags =
+				p.data.tags?.filter((t) => currentTags.includes(t)) || [];
+			return {
+				post: p,
+				score: commonTags.length,
+			};
+		})
+		.filter((item) => item.score > 0)
+		.sort((a, b) => {
+			if (b.score !== a.score) return b.score - a.score; // Higher score first
+			return (
+				b.post.data.pubDate.valueOf() - a.post.data.pubDate.valueOf()
+			); // Newer first
+		})
+		.map((item) => item.post);
 
 	// Get up to 4 related posts
 	relatedPostsToShow = relatedPosts.slice(0, 4);
@@ -107,6 +125,12 @@ if (type === "post") {
 			.slice(0, 4 - relatedPostsToShow.length);
 		relatedPostsToShow = [...relatedPostsToShow, ...morePosts];
 	}
+
+	// Get latest posts (excluding current and related)
+	latestPosts = allPosts
+		.filter((p) => p.slug !== post!.slug && !relatedPostsToShow.includes(p))
+		.sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+		.slice(0, 4);
 } else {
 	tag = props.tag;
 	tagPosts = props.posts;
@@ -217,6 +241,35 @@ const components = {
 									<div class="related-content">
 										<h4 class="related-title">
 											{relatedPost.data.title}
+										</h4>
+									</div>
+								</a>
+							))}
+						</div>
+					</div>
+				)}
+
+				{latestPosts.length > 0 && (
+					<div class="related-post-container">
+						<h3 class="related-heading">Latest Blogs</h3>
+						<div class="related-grid">
+							{latestPosts.map((latestPost) => (
+								<a
+									href={`/blog/${latestPost.slug}`}
+									class="related-card"
+								>
+									{latestPost.data.image && (
+										<div class="related-image-wrapper">
+											<OptimizedImage
+												src={latestPost.data.image}
+												alt={latestPost.data.title}
+												class="related-image"
+											/>
+										</div>
+									)}
+									<div class="related-content">
+										<h4 class="related-title">
+											{latestPost.data.title}
 										</h4>
 									</div>
 								</a>
