@@ -5,7 +5,7 @@ import EducationSingleLayout from "../../layouts/EducationSingleLayout.astro";
 import ShareButtons from "../../components/ShareButtons.astro";
 import HorizontalAd from "../../components/ads/HorizontalAd.astro";
 
-import CourseModules from "../../components/CourseModules.astro";
+import ThinHorizontalAd from "../../components/ads/ThinHorizontalAd.astro";
 
 export async function getStaticPaths() {
     const educationItems = await getCollection("education");
@@ -141,6 +141,7 @@ const nextLesson =
 
                 {currentCourseItems.length > 0 && (
                     <div class="all-chapters-section">
+                        <ThinHorizontalAd />
                         <h2 class="section-title">All Chapters in this Book</h2>
                         <div class="chapters-grid">
                             {currentCourseItems.map((chapter, index) => {
