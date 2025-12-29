@@ -11,11 +11,115 @@ hideToc: false
 ---
 
 import CinematicText from "../../../../components/cinematic/CinematicText.astro";
+import Concept from "../../../../components/education/Concept.astro";
+import StrokeUnderline from "../../../../components/cinematic/StrokeUnderline.astro";
+import MarkerHighlight from "../../../../components/cinematic/MarkerHighlight.astro";
+import Problem from "../../../../components/education/Problem.astro";
+import Solution from "../../../../components/education/Solution.astro";
 
-<CinematicText variant="hero" as="h1" class="text-4xl mb-6 text-center" color="#3b82f6">Factorial</CinematicText>
+<CinematicText variant="epic" as="h1" class="text-5xl mb-8 text-center" color="#3b82f6">FACTORIAL</CinematicText>
 
-The final chapters deal with advanced counting techniques.
+Chapter 7 of the sources is dedicated to the concept of **Factorials**, which serves as a vital mathematical tool for the principles of counting and probability discussed in the surrounding chapters.
 
-## Definition
+---
 
-Defines the product of positive integers ($n!$).
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">Key Concepts and Formulas</CinematicText>
+
+<div class="grid grid-cols-1 gap-4">
+    <Concept title="The Factorial Formula ($n!$)">
+    The product of the first $n$ positive integers is called **$n$ factorial**.
+    
+    $$n! = n \times (n - 1) \times (n - 2) \times \dots \times 1$$
+    </Concept>
+
+    <Concept title="The Zero Convention">
+    By mathematical convention, <MarkerHighlight color="purple">$0! = 1$</MarkerHighlight>.
+    </Concept>
+
+    <Concept title="The Recursive Property">
+    For any integer $i \le n$, you can "stop" the factorial expansion at any point by adding a factorial sign to the remaining product.
+    
+    *   **Formula:** $n! = n \times (n - 1) \times \dots \times (n - i + 1) \times (n - i)!$.
+    *   *Example:* $5! = 5 \times 4!$ or $5! = 5 \times 4 \times 3!$.
+    </Concept>
+</div>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">Examples for Understanding</CinematicText>
+
+<div class="space-y-6">
+    <div class="bg-blue-50 dark:bg-gray-800 p-4 rounded-lg border-l-4 border-blue-500">
+        <h4 class="font-bold text-lg text-blue-700 dark:text-blue-300 mb-2">1. Applied Counting</h4>
+        <p>In an 8-athlete race with no ties, the total possible ways they can finish is the product of available spots:</p>
+        <p class="mt-2 text-center font-mono text-lg">$8 \times 7 \times 6 \times 5 \times 4 \times 3 \times 2 \times 1 = \mathbf{8!}$</p>
+    </div>
+
+    <div class="bg-green-50 dark:bg-gray-800 p-4 rounded-lg border-l-4 border-green-500">
+        <h4 class="font-bold text-lg text-green-700 dark:text-green-300 mb-2">2. Simplifying Fractions</h4>
+        <p>To simplify $\frac{6!}{3!}$, you expand the larger factorial until it matches the smaller one, allowing them to cancel out:</p>
+        <p class="mt-2 text-center font-mono text-lg">$\frac{6 \times 5 \times 4 \times 3!}{3!} = 6 \times 5 \times 4 = \mathbf{120}$</p>
+    </div>
+
+    <div class="bg-orange-50 dark:bg-gray-800 p-4 rounded-lg border-l-4 border-orange-500">
+        <h4 class="font-bold text-lg text-orange-700 dark:text-orange-300 mb-2">3. Expressing Products as Factorials</h4>
+        <p>To express $25 \times 24 \times 23$ as a factorial, you complete the sequence down to 1 and then divide by the part you added:</p>
+        <p class="mt-2 text-center font-mono text-lg">$\frac{25 \times 24 \times 23 \times (22 \times 21 \times \dots \times 1)}{22 \times 21 \times \dots \times 1} = \mathbf{\frac{25!}{22!}}$</p>
+    </div>
+</div>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">Practice Questions and Solutions</CinematicText>
+
+<Problem number="1" title="Solving for $n$">
+If $\frac{(n-1)!}{(n-3)!} = 6$, find the value of $n$.
+
+<Solution>
+Expand $(n-1)!$ until it reaches $(n-3)!$:
+$$\frac{(n-1)(n-2)(n-3)!}{(n-3)!} = 6 \implies (n-1)(n-2) = 6$$
+$$n^2 - 3n + 2 = 6 \implies n^2 - 3n - 4 = 0$$
+$$(n-4)(n+1) = 0$$
+Since $n$ must be a positive integer, **$n = 4$**.
+</Solution>
+</Problem>
+
+<Problem number="2" title="Expression Conversion">
+Express $\frac{7 \times 6}{4 \times 3}$ in terms of factorials.
+
+<Solution>
+Multiply by the missing numbers to create full factorial sequences:
+$$\frac{(7 \times 6 \times 5!) \times 2!}{5! \times (4 \times 3 \times 2!)} = \mathbf{\frac{7! \times 2!}{5! \times 4!}}$$
+</Solution>
+</Problem>
+
+<Problem number="3" title="Equating Factorials">
+If $\frac{1}{(n-4)!} = \frac{20}{(n-2)!}$, calculate $n$.
+
+<Solution>
+1.  Cross-multiply: $(n-2)! = 20(n-4)!$.
+2.  Expand $(n-2)!$ to $(n-2)(n-3)(n-4)!$.
+3.  $(n-2)(n-3)(n-4)! = 20(n-4)!$.
+4.  $(n-2)(n-3) = 20$.
+    $$n^2 - 5n + 6 = 20 \implies n^2 - 5n - 14 = 0$$
+    $$(n-7)(n+2) = 0$$
+    Thus, **$n = 7$**.
+</Solution>
+</Problem>
+
+<Problem number="4" title="Basic Calculation">
+Find the value of the expression $\frac{6 \times 5 \times 4!}{4}$.
+
+<Solution>
+$6 \times 5 = 30$, and $4! = 24$.
+$$\frac{30 \times 24}{4} = 30 \times 6 = \mathbf{180}$$
+</Solution>
+</Problem>
+
+---
+
+<Concept title="The Countdown Analogy" variant="gamified">
+Think of a factorial as a **"Strict Countdown."** 
+
+If you are launching a rocket from T-minus 10 ($10!$), you must count every single integer down to 1. If you decide to stop at T-minus 4 to take a break, you have completed the first part of the product ($10 \times 9 \times 8 \times 7 \times 6 \times 5$) but you still have the "rest of the countdown" ($4!$) waiting to be finished later.
+</Concept>

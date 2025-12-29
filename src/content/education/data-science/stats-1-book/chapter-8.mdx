@@ -1,6 +1,6 @@
 ---
 title: "Permutation"
-description: "Focuses on ordered arrangements."
+description: "Covers the various ways to calculate ordered arrangements of objects."
 pubDate: 2025-01-02
 tags: ["Stats 1 Vol 1", "Counting", "Permutation", "Order"]
 type: "unit"
@@ -11,14 +11,121 @@ hideToc: false
 ---
 
 import CinematicText from "../../../../components/cinematic/CinematicText.astro";
+import Concept from "../../../../components/education/Concept.astro";
+import StrokeUnderline from "../../../../components/cinematic/StrokeUnderline.astro";
+import MarkerHighlight from "../../../../components/cinematic/MarkerHighlight.astro";
+import Problem from "../../../../components/education/Problem.astro";
+import Solution from "../../../../components/education/Solution.astro";
 
-<CinematicText variant="hero" as="h1" class="text-4xl mb-6 text-center" color="#3b82f6">Permutation</CinematicText>
+<CinematicText variant="epic" as="h1" class="text-4xl md:text-5xl mb-8 text-center" color="#3b82f6">PERMUTATION</CinematicText>
 
-Focuses on **ordered arrangements**.
+Chapter 8 of the sources, titled **"Permutation"**, covers the various ways to calculate <StrokeUnderline color="#3b82f6">ordered arrangements</StrokeUnderline> of objects. It progresses from basic definitions to specific formulas for scenarios involving repetition, identical objects, and circular seating.
 
-## Concepts
+---
 
-It covers formulas for:
-*   Cases where repetition is allowed or not.
-*   Circular permutations.
-*   Rearranging letters in words.
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">1. Definition of Permutation</CinematicText>
+
+<Concept title="Ordered Arrangement">
+A permutation is defined as an **ordered arrangement** of all or some of $n$ objects. The key factor in permutations is that <MarkerHighlight color="green">order matters</MarkerHighlight>.
+
+**Example:** For the set $\{A, B, C\}$, the arrangements $AB$ and $BA$ are considered distinct permutations.
+</Concept>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">2. Permutation Formula (Repetition Not Allowed)</CinematicText>
+
+When you have $n$ distinct objects and want to arrange $r$ of them without using any object more than once, the formula is:
+
+<Concept title="Formula ($nP_r$)">
+$$nP_r = \frac{n!}{(n - r)!}$$
+
+*   **Special Cases:**
+    *   $nP_0 = 1$
+    *   $nP_1 = n$
+    *   $nP_n = n!$
+</Concept>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">3. Permutation with Repetition</CinematicText>
+
+<Concept title="Formula ($n^r$)">
+If you are arranging $r$ objects from a collection of $n$ objects and you are **allowed to use the same object multiple times**, the total number of arrangements is:
+$$n \times n \times ... \times n = n^r$$
+
+*   **Example:** Arranging 2 letters from $\{A, B, C\}$ with repetition allows for $3^2 = 9$ ways.
+</Concept>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">4. Rearranging Letters (Identical Objects)</CinematicText>
+
+When some objects are identical, the number of unique permutations decreases because swapping two identical items doesn't create a new arrangement.
+
+<Concept title="Identical Objects Formula">
+If there are several groups of identical items ($p_1, p_2, \dots$), the formula is:
+$$\frac{n!}{p_1! p_2! \dots p_k!}$$
+
+*   **Example:** In the word **"STATISTICS"** (10 letters; S=3, T=3, I=2), the total arrangements are $\frac{10!}{3! 3! 1! 2! 1!} = 50,400$.
+</Concept>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">5. Circular Permutation</CinematicText>
+
+Arranging objects in a circle is different from arranging them in a line because there is no fixed starting point.
+
+*   **Clockwise and anticlockwise are different:** $(n - 1)!$.
+*   **Clockwise and anticlockwise are the same:** $\frac{(n - 1)!}{2}$.
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">Practice Session</CinematicText>
+
+<Problem number="1" title="Selecting Leadership">
+From a committee of 8 persons, in how many ways can we choose a chairman and a vice-chairman, assuming one person cannot hold more than one position?
+
+<Solution>
+Here $n = 8$ and $r = 2$. Using the formula $nP_r$:
+$$8P_2 = \frac{8!}{(8 - 2)!} = \frac{8!}{6!} = 8 \times 7 = \mathbf{56 \text{ ways}}$$
+</Solution>
+</Problem>
+
+<Problem number="2" title="Rearranging Words">
+How many ways can the letters in the word **"DATA"** be rearranged?
+
+<Solution>
+Total letters $n = 4$. The letter 'A' repeats $p = 2$ times.
+$$\text{Ways} = \frac{4!}{2!} = \frac{24}{2} = \mathbf{12 \text{ ways}}$$
+</Solution>
+</Problem>
+
+<Problem number="3" title="Solving for $n$">
+Find the value of $n$ if $nP_4 = 20 \times nP_2$.
+
+<Solution>
+1.  Expand the formula: $\frac{n!}{(n - 4)!} = 20 \times \frac{n!}{(n - 2)!}$.
+2.  Simplify: $\frac{1}{(n - 4)!} = \frac{20}{(n - 2)(n - 3)(n - 4)!}$.
+3.  $(n - 2)(n - 3) = 20 \implies n^2 - 5n + 6 = 20$.
+4.  $n^2 - 5n - 14 = 0 \implies (n - 7)(n + 2) = 0$.
+5.  Since $n$ must be positive, **$n = 7$**.
+</Solution>
+</Problem>
+
+<Problem number="4" title="Round Table Seating">
+Seven people are going to sit at a round table. How many different ways can this be done?
+
+<Solution>
+Using the circular permutation formula $(n - 1)!$:
+$$(7 - 1)! = 6! = 6 \times 5 \times 4 \times 3 \times 2 \times 1 = \mathbf{720 \text{ ways}}$$
+</Solution>
+</Problem>
+
+---
+
+<Concept title="The Musical Chairs Analogy" variant="gamified">
+Think of **linear permutations** like people sitting in numbered theatre seats; if the first person moves to the end, everyone looks different relative to their seat number.
+
+**Circular permutations** are like a game of musical chairs where everyone moves one seat to the left—the people sitting next to you haven't changed, so the "arrangement" remains the same until someone actually changes their relative position.
+</Concept>

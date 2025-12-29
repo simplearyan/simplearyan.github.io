@@ -1,6 +1,6 @@
 ---
 title: "Combination"
-description: "Discusses selections where order does not matter."
+description: "Focuses on the mathematical methods for selecting objects when the order of selection does not matter."
 pubDate: 2025-01-02
 tags: ["Stats 1 Vol 1", "Counting", "Combination", "Selection"]
 type: "unit"
@@ -11,12 +11,141 @@ hideToc: false
 ---
 
 import CinematicText from "../../../../components/cinematic/CinematicText.astro";
+import Concept from "../../../../components/education/Concept.astro";
+import StrokeUnderline from "../../../../components/cinematic/StrokeUnderline.astro";
+import MarkerHighlight from "../../../../components/cinematic/MarkerHighlight.astro";
+import Problem from "../../../../components/education/Problem.astro";
+import Solution from "../../../../components/education/Solution.astro";
 
-<CinematicText variant="hero" as="h1" class="text-4xl mb-6 text-center" color="#3b82f6">Combination</CinematicText>
+<CinematicText variant="epic" as="h1" class="text-4xl md:text-5xl mb-8 text-center" color="#3b82f6">COMBINATION</CinematicText>
 
-Discusses selections where **order does not matter**.
+Chapter 9 of the sources, titled **Combination**, focuses on the mathematical methods for selecting objects when the <StrokeUnderline color="#3b82f6">order of selection does not matter</StrokeUnderline>. This is the primary distinction from permutations, which are used when order is significant.
 
-## Applications
+---
 
-*   Providing the formula for $nCr$.
-*   Application in probability and geometry (such as drawing lines in a circle).
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">1. Definition and Fundamental Formula</CinematicText>
+
+<Concept title="Combination Formula ($nCr$)">
+A combination is a selection of $r$ objects from a collection of $n$ distinct objects. The notation used is $nCr$ or $\binom{n}{r}$, known as the **binomial coefficient**.
+
+$$nCr = \frac{n!}{r!(n-r)!}$$
+
+**Relationship to Permutation:** Each combination of $r$ objects can be arranged in $r!$ ways; therefore, $nCr = \frac{nPr}{r!}$.
+</Concept>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">2. Key Mathematical Results</CinematicText>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <Concept title="Symmetry Property" variant="minimal">
+    $$nCr = nC(n-r)$$
+    Selecting $r$ objects to keep is the same as rejecting $n-r$ objects.
+    </Concept>
+
+    <Concept title="Boundary Values" variant="minimal">
+    For any value of $n$:
+    *   $nCn = 1$
+    *   $nC0 = 1$
+    </Concept>
+
+    <Concept title="Pascal's Rule" variant="minimal">
+    $$nCr = {}^{n-1}C_{r-1} + {}^{n-1}C_r$$
+    (Provided that $1 \leq r \leq n$)
+    </Concept>
+</div>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">3. Permutation vs. Combination</CinematicText>
+
+Understanding when to use which method is a core topic:
+
+<div class="space-y-4">
+    <div class="p-4 border-l-4 border-orange-500 bg-orange-50 dark:bg-gray-800 rounded">
+        <strong class="text-lg text-orange-700 dark:text-orange-300">Permutation</strong>
+        <p>Use when <MarkerHighlight color="orange">order matters</MarkerHighlight>.</p>
+        <em class="text-sm">Example: Awarding Gold, Silver, and Bronze medals.</em>
+    </div>
+    <div class="p-4 border-l-4 border-green-500 bg-green-50 dark:bg-gray-800 rounded">
+        <strong class="text-lg text-green-700 dark:text-green-300">Combination</strong>
+        <p>Use when <MarkerHighlight color="green">order does not matter</MarkerHighlight>.</p>
+        <em class="text-sm">Example: Choosing the top three athletes to proceed to a next round.</em>
+    </div>
+</div>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">4. Drawing Lines and Shapes</CinematicText>
+
+Combinations are used to solve geometric counting problems:
+
+<ul class="list-disc ml-6 space-y-2">
+    <li>**Lines in a Circle:** Given $n$ points on a circle, the number of unique line segments (without direction) is **$nC2$**.</li>
+    <li>**Triangles:** To determine the number of triangles that can be formed from $n$ points where no three are collinear, you use **$nC3$**.</li>
+</ul>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">Practice Session</CinematicText>
+
+<div class="mb-8 space-y-4">
+    <div class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
+        <h4 class="font-bold mb-2">Example 1: Selection Logic</h4>
+        <p class="mb-2">How many ways can we select two students from a group of three ($A, B, C$)?</p>
+        <p class="font-mono text-blue-600 dark:text-blue-400">
+            $3C2 = \frac{3!}{2!(3-2)!} = \mathbf{3}$ ways ($AB, AC, BC$)
+        </p>
+    </div>
+
+    <div class="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
+        <h4 class="font-bold mb-2">Example 2: Grouping with Constraints</h4>
+        <p class="mb-2">A team of 11 from 17 players. If 5 are bowlers and the team must include <strong>exactly 4 bowlers</strong>?</p>
+        <ol class="list-decimal ml-5 text-sm">
+            <li>Select 4 bowlers from 5: $5C4 = 5$</li>
+            <li>Select 7 others from 12: $12C7 = 792$</li>
+            <li>Total: $5 \times 792 = \mathbf{3960}$ ways</li>
+        </ol>
+    </div>
+</div>
+
+<Problem number="1" title="Solving for $n$">
+If $nC2 = nC3$, find the value of $n$.
+
+<Solution>
+Using the property $nCx = nCy \implies x + y = n$, we have:
+$$2 + 3 = n \implies \mathbf{n = 5}$$
+</Solution>
+</Problem>
+
+<Problem number="2" title="Committee Formation">
+Out of a group of six men and eight women, you need to form a committee of three men and five women. In how many ways can this be done?
+
+<Solution>
+1.  Select 3 men from 6: $6C3 = \frac{6 \times 5 \times 4}{3 \times 2 \times 1} = 20$.
+2.  Select 5 women from 8: $8C5 = 8C3 = \frac{8 \times 7 \times 6}{3 \times 2 \times 1} = 56$.
+3.  Total: $20 \times 56 = \mathbf{1120}$ **ways**.
+</Solution>
+</Problem>
+
+<Problem number="3" title="Playing Cards">
+In how many ways can you choose 4 cards from a 52-card deck if all four must be of the **same suit**?
+
+<Solution>
+1.  Choose 1 suit out of 4: $4C1 = 4$ ways.
+2.  Choose 4 cards from the 13 in that suit: $13C4 = 715$ ways.
+3.  Total: $4 \times 715 = \mathbf{2860}$ **ways**.
+</Solution>
+</Problem>
+
+---
+
+<Concept title="The Grocery Bag Analogy" variant="gamified">
+Think of a **Combination** as a **grocery bag**.
+
+When you pick three items—an apple, a banana, and a pear—and put them in your bag, it doesn't matter which one you grabbed first; you still have the same bag of fruit.
+
+A **Permutation**, however, is like a **priority list** for eating them. If your list says "Apple first, then Banana, then Pear," that is a completely different experience from "Pear first, then Apple, then Banana."
+
+In combinations, we only care about **what is in the bag**.
+</Concept>
