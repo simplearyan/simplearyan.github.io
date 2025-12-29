@@ -5,12 +5,27 @@ interface Props {
 }
 
 const { number, title } = Astro.props;
+
+import katex from "katex";
+
+const renderTitle = (text: string) => {
+    return text.replace(/\$([^\$]+)\$/g, (_, match) => {
+        try {
+            return katex.renderToString(match, {
+                throwOnError: false,
+                displayMode: false,
+            });
+        } catch (e) {
+            return match;
+        }
+    });
+};
 ---
 
 <div class="problem-card">
     <div class="problem-header">
         <span class="problem-number">Q{number}</span>
-        {title && <h3 class="problem-title">{title}</h3>}
+        {title && <h3 class="problem-title" set:html={renderTitle(title)} />}
     </div>
     <div class="problem-content">
         <slot />

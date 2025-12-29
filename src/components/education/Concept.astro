@@ -5,12 +5,27 @@ interface Props {
 }
 
 const { title = "Core Concept", variant = "default" } = Astro.props;
+
+import katex from "katex";
+
+const renderTitle = (text: string) => {
+    return text.replace(/\$([^\$]+)\$/g, (_, match) => {
+        try {
+            return katex.renderToString(match, {
+                throwOnError: false,
+                displayMode: false,
+            });
+        } catch (e) {
+            return match;
+        }
+    });
+};
 ---
 
 <div class={`concept-box variant-${variant}`}>
     <div class="concept-icon">💡</div>
     <div class="concept-content-wrapper">
-        <h4 class="concept-title">{title}</h4>
+        <h4 class="concept-title" set:html={renderTitle(title)} />
         <div class="concept-body">
             <slot />
         </div>

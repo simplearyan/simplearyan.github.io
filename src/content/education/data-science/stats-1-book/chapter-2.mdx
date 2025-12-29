@@ -1,0 +1,158 @@
+---
+title: "Data"
+description: "Focuses on the nature of information itself and how it is categorised."
+pubDate: 2025-01-02
+tags: ["Stats 1 Vol 1", "Data", "Structured", "Unstructured", "Categorical", "Numerical", "Scales"]
+type: "unit"
+order: 2
+subject: "stats-1-book"
+parent: "data-science/stats-1-book/chapters"
+hideToc: false
+---
+
+import CinematicText from "../../../../components/cinematic/CinematicText.astro";
+import Concept from "../../../../components/education/Concept.astro";
+import StrokeUnderline from "../../../../components/cinematic/StrokeUnderline.astro";
+import MarkerHighlight from "../../../../components/cinematic/MarkerHighlight.astro";
+import Problem from "../../../../components/education/Problem.astro";
+import Solution from "../../../../components/education/Solution.astro";
+
+<CinematicText variant="epic" as="h1" class="text-5xl mb-8 text-center" color="#3b82f6">D A T A</CinematicText>
+
+Chapter 2 of the sources, titled **Data**, focuses on defining what data is and providing a framework for how it is organised, classified, and measured. <StrokeUnderline color="#3b82f6">Data</StrokeUnderline> are defined as the facts and figures collected, analysed, and summarised for the purpose of presentation and interpretation.
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">1. Unstructured vs. Structured Data</CinematicText>
+
+The sources first distinguish between how data is organised:
+
+<Concept title="Unstructured Data">
+Information that is **not organised in a predefined manner** and is typically text-heavy. It requires significant work to process and is often of little use when scattered.
+
+**Examples:** YouTube comments, image files, social media posts, and song lyrics.
+</Concept>
+
+<Concept title="Structured Data">
+A **standardised, clearly defined format** (usually tabular) that is easy to analyse. To be useful, the context of the text and numbers must be known.
+
+**Examples:** A **student dataset** showing Name, Gender, and Marks, or a **fertiliser dataset** showing types and amounts used.
+</Concept>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">2. Variables and Cases</CinematicText>
+
+Within structured data tables, two components are essential:
+
+<ul class="list-disc ml-6 space-y-4 text-lg">
+    <li>
+        <strong>Case (Observation):</strong> The individual <MarkerHighlight color="blue">unit for which data is collected</MarkerHighlight>, uniquely identifying each row.
+    </li>
+    <li>
+        <strong>Variable:</strong> A characteristic or attribute that <MarkerHighlight color="green">varies across different units</MarkerHighlight>, typically represented by the columns.
+        <br/>
+        <em class="text-base text-gray-600 dark:text-gray-400">Example: In a student table, each student (Anjali, Pradeep) is a <strong>case</strong>, while their "Gender" or "Marks" are <strong>variables</strong>.</em>
+    </li>
+</ul>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">3. Classification of Data</CinematicText>
+
+Data is broadly classified into two categories:
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <Concept title="Categorical Data (Qualitative)" variant="minimal">
+    Identifies **group membership**. You cannot perform meaningful mathematical operations on this data.
+    
+    *Example:* Gender (Male/Female) or School Board (CBSE, ICSE, State Board).
+    </Concept>
+
+    <Concept title="Numerical Data (Quantitative)" variant="minimal">
+    Describes **numerical properties** and allows for mathematical operations.
+    
+    *Example:* Marks obtained in an exam or height in centimetres.
+    </Concept>
+</div>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">4. Time-Series vs. Cross-Sectional Data</CinematicText>
+
+This distinction depends on **when** and **where** the data is recorded:
+
+<Concept title="Time-Series Data">
+Data recorded for **one subject over a period of time** in chronological order.
+
+*Example:* Observing the temperature in Delhi every day for a week.
+</Concept>
+
+<Concept title="Cross-Sectional Data">
+Data observed for **several subjects at the same time**.
+
+*Example:* Observing the temperature of Delhi, Chennai, and Mumbai on the same specific day.
+</Concept>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">5. Scales of Measurement</CinematicText>
+
+There are four levels of measurement used to collect data:
+
+1.  **Nominal:** Labels or names used to identify characteristics with **no inherent order**.
+    *   *Example:* Blood group, Hair colour, or Brand names.
+2.  **Ordinal:** Labels where the **order or rank is meaningful**, but the exact distance between values is not fixed.
+    *   *Example:* Service ratings such as "Excellent," "Good," and "Poor".
+3.  **Interval:** Numeric data where the **interval between values is fixed**, but there is **no absolute zero**. Ratios are meaningless here because zero is arbitrary.
+    *   *Example:* Temperature in Celsius or Fahrenheit (0°C does not mean "no temperature").
+4.  **Ratio:** Numeric data with all the properties of interval data plus an **absolute zero**. Ratios between values are meaningful.
+    *   *Example:* Height, Weight, and Marks.
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">Practice Questions</CinematicText>
+
+<Problem number="1" title="Data Classification">
+What kind of data are "Social media posts"?
+
+<Solution>
+**Unstructured data**, because they are not organised in a predefined, standardised tabular format.
+</Solution>
+</Problem>
+
+<Problem number="2" title="Data Type">
+Values of temperature and humidity in a room are measured for 24 hours at regular intervals of 30 minutes. What type of data is this?
+
+<Solution>
+**Time-series data**, because the observations are recorded over a period of time for a single location.
+</Solution>
+</Problem>
+
+<Problem number="3" title="Scale Indentification">
+Which scale of measurement is used for "Brand name of a mobile phone"?
+
+<Solution>
+**Nominal scale**, as these are simply labels used for identification with no meaningful order.
+</Solution>
+</Problem>
+
+<Problem number="4" title="Mathematical Operations">
+If a variable allows for both addition and subtraction, which scales of measurement could it belong to?
+
+<Solution>
+**Interval and Ratio scales**, as both are numeric and allow for calculating differences between values.
+</Solution>
+</Problem>
+
+---
+
+<Concept title="The Library Analogy" variant="gamified">
+Think of **Unstructured Data** as a giant pile of books on the floor; you know there is information there, but it's hard to find anything.
+
+*   **Structured Data** is like those same books organised on shelves by **Case** (the specific book) and **Variable** (the genre, author, or page count).
+*   The **Scales of Measurement** are like the different ways you might categorise the books:
+    *   **Nominal** for the colour of the cover.
+    *   **Ordinal** for a "Top 10" list.
+    *   **Ratio** for the actual weight of the book in grams.
+</Concept>

@@ -1,4 +1,5 @@
 ---
+import katex from "katex";
 import type { MarkdownHeading } from "astro";
 
 interface Props {
@@ -9,6 +10,39 @@ const { headings } = Astro.props;
 
 // Filter out h1 (title) and keep only h2 and h3
 const toc = headings.filter((h) => h.depth > 1 && h.depth <= 3);
+
+const renderHeading = (text: string) => {
+    // 1. Handle explicit $...$ delimiters
+    if (text.includes("$")) {
+        return text.replace(/\$([^$]+)\$/g, (m, math) => {
+            try {
+                return katex.renderToString(math, {
+                    throwOnError: false,
+                    displayMode: false,
+                });
+            } catch {
+                return m;
+            }
+        });
+    }
+
+    // 2. Heuristic: Handle math-like content (containing backslashes) inside parentheses
+    // e.g. "Correlation (\rho)"
+    return text.replace(
+        /(\(|^)([^()]*\\[^()]*?)(\)|$)/g,
+        (match, prefix, inner, suffix) => {
+            try {
+                const html = katex.renderToString(inner, {
+                    throwOnError: false,
+                    displayMode: false,
+                });
+                return prefix + html + suffix;
+            } catch {
+                return match;
+            }
+        },
+    );
+};
 ---
 
 <nav class="toc">
@@ -17,7 +51,10 @@ const toc = headings.filter((h) => h.depth > 1 && h.depth <= 3);
         {
             toc.map((heading) => (
                 <li class={`toc-item depth-${heading.depth}`}>
-                    <a href={`#${heading.slug}`}>{heading.text}</a>
+                    <a
+                        href={`#${heading.slug}`}
+                        set:html={renderHeading(heading.text)}
+                    />
                 </li>
             ))
         }

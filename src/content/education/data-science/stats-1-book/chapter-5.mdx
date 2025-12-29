@@ -1,0 +1,145 @@
+---
+title: "Association Between Two Variables"
+description: "Explores how information about one variable can provide insight into another."
+pubDate: 2025-01-02
+tags: ["Stats 1 Vol 1", "Association", "Correlation", "Scatter Plots", "Covariance"]
+type: "unit"
+order: 5
+subject: "stats-1-book"
+parent: "data-science/stats-1-book/chapters"
+hideToc: false
+---
+
+import CinematicText from "../../../../components/cinematic/CinematicText.astro";
+import Concept from "../../../../components/education/Concept.astro";
+import StrokeUnderline from "../../../../components/cinematic/StrokeUnderline.astro";
+import MarkerHighlight from "../../../../components/cinematic/MarkerHighlight.astro";
+import Problem from "../../../../components/education/Problem.astro";
+import Solution from "../../../../components/education/Solution.astro";
+import BarChart from "../../../../components/charts/BarChart.astro";
+import ScatterPlot from "../../../../components/anchors/ScatterPlot.astro";
+
+<CinematicText variant="epic" as="h1" class="text-4xl md:text-5xl mb-8 text-center" color="#3b82f6">ASSOCIATION BETWEEN TWO VARIABLES</CinematicText>
+
+Chapter 5 of the sources is titled **"Association between two variables"** and explores how information about one variable can provide insights into another. The chapter is divided into three main sections based on the types of variables being compared: <StrokeUnderline color="#3b82f6">categorical-categorical</StrokeUnderline>, <StrokeUnderline color="#3b82f6">numerical-numerical</StrokeUnderline>, and <StrokeUnderline color="#3b82f6">categorical-numerical</StrokeUnderline>.
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">1. Association Between Two Categorical Variables</CinematicText>
+
+To determine if an association exists between two categorical variables, researchers use a **contingency table**.
+
+<Concept title="Criteria for Association">
+*   **Not Associated:** The row (or column) relative frequencies are the **same** for all rows (or columns).
+*   **Associated:** If these frequencies **differ significantly** across rows or columns.
+</Concept>
+
+<div class="my-6 p-4 bg-white dark:bg-gray-800 rounded-lg border border-gray-200 dark:border-gray-700">
+    <h4 class="font-bold text-center mb-4">Example: Smartphone Ownership</h4>
+    <p class="text-center mb-4 text-sm text-gray-600 dark:text-gray-400">
+        Female Ownership: 77.27% | Male Ownership: 75%
+        <br/>
+        Since these values are nearly identical, Gender and Ownership are <strong>not associated</strong>.
+    </p>
+    <BarChart 
+        data={[
+            { label: "Female (%)", value: 77.3 },
+            { label: "Male (%)", value: 75.0 }
+        ]}
+        style="sketchy"
+        color="blue"
+        height={250}
+    />
+</div>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">2. Association Between Two Numerical Variables</CinematicText>
+
+The sources define several tools to examine the relationship between two quantitative variables.
+
+1.  **Scatter Plots:** A visual test where pairs of values are displayed as points on a two-dimensional plane.
+2.  **Describing Patterns:** Check for **Direction** (up/down), **Curvature** (linear/curve), **Variation** (clustering), and **Outliers**.
+3.  **Covariance:** Quantifies linear association strength but units are difficult to interpret.
+4.  **Pearson Correlation Coefficient ($r$):** Unitless measure between **-1 and +1**.
+5.  **Fitting a Line and $R^2$:** Goodness of fit; closer to 1 signifies a good fit.
+
+<Concept title="Example: Car Age vs Price">
+A study of car ages and prices showed that as age increases, price decreases.
+*   **Trend:** Negative Linear Association ($r \approx -1$).
+</Concept>
+
+<div class="flex justify-center my-6">
+    <ScatterPlot
+        data={[
+            { x: 1, y: 20000 },
+            { x: 2, y: 18000 },
+            { x: 3, y: 16000 },
+            { x: 5, y: 12000 },
+            { x: 8, y: 6000 }
+        ]}
+        xLabel="Age (Years)"
+        yLabel="Price ($)"
+        showTrendline={true}
+        width={500}
+        height={300}
+        color="#ef4444"
+    />
+</div>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">3. Association Between Categorical and Numerical Variables</CinematicText>
+
+When one variable is numerical and the other is categorical with exactly two categories (dichotomous), the **Point Bi-serial Correlation Coefficient ($r_{pb}$)** is used.
+
+<Concept title="Procedure" variant="minimal">
+You group the numerical data based on the two categories (often coded as 0 and 1) and compare their means relative to the overall population standard deviation.
+</Concept>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">Practice Questions</CinematicText>
+
+<Problem number="1" title="Categorical Association">
+In a study of 10,000 students, 80% of males passed an exam and 79.9% of females passed. Is there an association between gender and passing?
+
+<Solution>
+**No.** Because the row relative frequencies (80% and 79.9%) are effectively the same for both rows, the variables are **not associated**.
+</Solution>
+</Problem>
+
+<Problem number="2" title="Covariance Units">
+If the covariance between weight (kg) and height (m) is calculated, what are its units?
+
+<Solution>
+The units are **kg $\times$ m**.
+</Solution>
+</Problem>
+
+<Problem number="3" title="Numerical Trend">
+A scatter plot shows that as the size of a house increases, the price also increases in a straight line. How would you describe this association?
+
+<Solution>
+The direction is **upward** (positive) and the curvature is **linear**.
+</Solution>
+</Problem>
+
+<Problem number="4" title="Correlation Fit">
+A dataset has a Pearson correlation coefficient ($r$) of -0.95. What does this tell you about the fit and the relationship?
+
+<Solution>
+It indicates a **strong negative linear association**.
+The $R^2$ value would be $(-0.95)^2 = 0.9025$, meaning the line is a **good fit**, capturing about 90% of the variance.
+</Solution>
+</Problem>
+
+---
+
+<Concept title="The Dance Partners Analogy" variant="gamified">
+Think of association as **two people dancing together**.
+
+*   **Categorical association:** Checking if people in red shirts always choose partners in blue shirts.
+*   **Numerical association:** Watching how their steps move; if one person takes a step forward and the other consistently takes a step forward too, they have a **positive correlation**.
+*   The **Correlation Coefficient ($r$)** is the "**synchronisation score**"—a +1 means they are perfectly in sync, while a 0 means they are stepping on each other's toes.
+</Concept>

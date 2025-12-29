@@ -1,0 +1,137 @@
+---
+title: "Basic Principle of Counting"
+description: "Foundations of probability by teaching how to count possible outcomes."
+pubDate: 2025-01-02
+tags: ["Stats 1 Vol 1", "Counting", "Probability", "Addition Rule", "Multiplication Rule"]
+type: "unit"
+order: 6
+subject: "stats-1-book"
+parent: "data-science/stats-1-book/chapters"
+hideToc: false
+---
+
+import CinematicText from "../../../../components/cinematic/CinematicText.astro";
+import Concept from "../../../../components/education/Concept.astro";
+import StrokeUnderline from "../../../../components/cinematic/StrokeUnderline.astro";
+import MarkerHighlight from "../../../../components/cinematic/MarkerHighlight.astro";
+import Problem from "../../../../components/education/Problem.astro";
+import Solution from "../../../../components/education/Solution.astro";
+
+<CinematicText variant="epic" as="h1" class="text-4xl md:text-5xl mb-8 text-center" color="#3b82f6">BASIC PRINCIPLE OF COUNTING</CinematicText>
+
+Chapter 6 of the sources is titled **Basic Principle of Counting**. It introduces the fundamental mathematical rules used to determine the <StrokeUnderline color="#3b82f6">number of ways events can occur</StrokeUnderline>, which serves as a prerequisite for understanding probability.
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">1. Addition Rule of Counting</CinematicText>
+
+<Concept title="Addition Rule ($n_1 + n_2$)">
+This rule is used when you must choose between different actions that **cannot happen at the same time**.
+
+If an action $A$ can occur in $n_1$ ways and action $B$ can occur in $n_2$ ways, the total number of ways of occurrence for <MarkerHighlight color="green">either $A$ or $B$</MarkerHighlight> is $n_1 + n_2$.
+</Concept>
+
+<div class="bg-blue-50 dark:bg-gray-800 p-4 rounded-lg my-4">
+    <h4 class="font-bold text-blue-800 dark:text-blue-300 mb-2">Example</h4>
+    <p>You have a gift card to buy <strong>one</strong> item: either a shirt or a pair of trousers.</p>
+    <ul class="list-disc ml-6 mt-2">
+        <li>Shirt choices: 4</li>
+        <li>Trouser choices: 3</li>
+        <li><strong>Total choices:</strong> $4 + 3 = \mathbf{7}$ ways.</li>
+    </ul>
+</div>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">2. Multiplication Rule of Counting</CinematicText>
+
+<Concept title="Multiplication Rule ($n_1 \times n_2$)">
+This rule is used when **multiple actions occur together**.
+
+If action $A$ can occur in $n_1$ ways and action $B$ can occur in $n_2$ ways, the total number of ways for <MarkerHighlight color="purple">both $A$ and $B$ to occur together</MarkerHighlight> is $n_1 \times n_2$.
+</Concept>
+
+<div class="bg-purple-50 dark:bg-gray-800 p-4 rounded-lg my-4">
+    <h4 class="font-bold text-purple-800 dark:text-purple-300 mb-2">Example</h4>
+    <p>A gift card allows you to buy one shirt <strong>and</strong> one pair of trousers.</p>
+    <ul class="list-disc ml-6 mt-2">
+        <li>Shirt choices: 4</li>
+        <li>Trouser choices: 3</li>
+        <li><strong>Total choices:</strong> $4 \times 3 = \mathbf{12}$ ways.</li>
+    </ul>
+</div>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">3. Generalisation of the Multiplication Rule</CinematicText>
+
+If $r$ actions are performed in a specific order, and there are $n_1$ possibilities for the first, $n_2$ for the second, and so on...
+
+<Concept title="General Formula">
+Total possibilities = $n_1 \times n_2 \times \dots \times n_r$
+</Concept>
+
+**Example:** Buying one shirt (4 choices), one pair of trousers (3 choices), and one pair of shoes (2 choices).
+*   **Solution:** $4 \times 3 \times 2 = \mathbf{24}$ ways.
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">Solved Practice Examples</CinematicText>
+
+<Problem number="Q1" title="Password Creation (Repetition Allowed)">
+Create a six-digit alphanumeric password: the first two characters must be upper-case alphabets and the remaining four must be numbers. Repetition is allowed.
+
+<Solution>
+There are 26 alphabets and 10 digits (0–9).
+*   Ways: $26 \times 26 \times 10 \times 10 \times 10 \times 10 = \mathbf{6,760,000}$.
+</Solution>
+</Problem>
+
+<Problem number="Q2" title="Password Creation (No Repetition)">
+Same as above, but characters and numbers cannot be repeated.
+
+<Solution>
+The pool of available choices decreases after each selection.
+*   Ways: $26 \times 25 \times 10 \times 9 \times 8 \times 7 = \mathbf{3,276,000}$.
+</Solution>
+</Problem>
+
+<Problem number="Q3" title="Race Finishers">
+Eight athletes compete in a 100m race. In how many ways can they finish (no ties)?
+
+<Solution>
+Any of the 8 can come first, then 7 for second, 6 for third, and so on.
+*   Ways: $8 \times 7 \times 6 \times 5 \times 4 \times 3 \times 2 \times 1 = \mathbf{40,320}$.
+</Solution>
+</Problem>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">Unsolved Problems for Practice</CinematicText>
+
+<Problem number="A" title="The Sports Shop (Either/Or)">
+Narendra is buying sports items. He has a choice of 4 cricket bats, 4 cricket balls, 8 brands of stumps, 5 brands of jerseys, and 10 brands of shoes. If he can only purchase **one item from any of these categories**, how many ways can he choose?
+
+<Solution>
+This uses the **Addition Rule**.
+*   $4 + 4 + 8 + 5 + 10 = \mathbf{31}$ ways.
+</Solution>
+</Problem>
+
+<Problem number="B" title="The Sports Shop (One of Each)">
+Using the same choices as above, how many ways can Narendra purchase **one item from each category**?
+
+<Solution>
+This uses the **Multiplication Rule**.
+*   $4 \times 4 \times 8 \times 5 \times 10 = \mathbf{6400}$ ways.
+</Solution>
+</Problem>
+
+<Problem number="C" title="Class Elections">
+A class has 60 students. A cricket captain and a class representative must be elected. If a student can only hold **one position at a time**, what are the total ways?
+
+<Solution>
+Multiplication rule without repetition. 60 choices for the first role, 59 for the second.
+*   $60 \times 59 = \mathbf{3540}$ ways.
+</Solution>
+</Problem>

@@ -4,12 +4,27 @@ interface Props {
 }
 
 const { title = "View Detailed Solution" } = Astro.props;
+
+import katex from "katex";
+
+const renderTitle = (text: string) => {
+    return text.replace(/\$([^\$]+)\$/g, (_, match) => {
+        try {
+            return katex.renderToString(match, {
+                throwOnError: false,
+                displayMode: false,
+            });
+        } catch (e) {
+            return match;
+        }
+    });
+};
 ---
 
 <details class="solution-details">
     <summary class="solution-summary">
         <span class="icon">📝</span>
-        <span class="text">{title}</span>
+        <span class="text" set:html={renderTitle(title)} />
         <span class="chevron">▼</span>
     </summary>
     <div class="solution-content">

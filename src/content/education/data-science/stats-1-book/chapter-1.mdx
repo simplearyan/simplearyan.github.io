@@ -1,0 +1,85 @@
+---
+title: "Statistics"
+description: "Introduces the subject as the 'art of learning from data,' covering its collection, description, and analysis."
+pubDate: 2025-01-02
+tags: ["Stats 1 Vol 1", "Statistics", "Population", "Sample", "Descriptive", "Inferential"]
+type: "unit"
+order: 1
+subject: "stats-1-book"
+parent: "data-science/stats-1-book/chapters"
+hideToc: false
+---
+
+import CinematicText from "../../../../components/cinematic/CinematicText.astro";
+import Concept from "../../../../components/education/Concept.astro";
+import StrokeUnderline from "../../../../components/cinematic/StrokeUnderline.astro";
+import MarkerHighlight from "../../../../components/cinematic/MarkerHighlight.astro";
+
+<CinematicText variant="epic" as="h1" class="text-5xl mb-8 text-center" color="#3b82f6">S T A T I S T I C S</CinematicText>
+
+Chapter 1 of the sources introduces the fundamental concepts of statistics, defining it as <StrokeUnderline color="#3b82f6">"the art of learning from data"</StrokeUnderline>. This field involves the collection, description, and analysis of data, which ultimately leads to drawing meaningful conclusions.
+
+The chapter is organised into three main sections:
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">1. Population and Sample</CinematicText>
+
+To understand data, you must first define the group you are studying. The sources distinguish between two levels of data collection:
+
+<Concept title="Population">
+This is the **total collection of all elements** that a researcher is interested in.
+</Concept>
+
+<Concept title="Sample">
+This is a **subgroup of the population** that is chosen to be studied in detail.
+</Concept>
+
+<div class="bg-blue-50 dark:bg-gray-800 p-6 rounded-lg border-l-4 border-blue-500 my-6">
+    <h4 class="font-bold text-lg mb-2 text-blue-600 dark:text-blue-400">Example</h4>
+    If a researcher conducts a survey to understand house prices across the entire state of Tamil Nadu but only selects 1,000 houses from urban areas to study:
+    <ul class="list-disc ml-6 mt-2">
+        <li>The <strong>population</strong> consists of <MarkerHighlight color="blue">all houses in Tamil Nadu</MarkerHighlight>.</li>
+        <li>The <strong>sample</strong> is the specific group of <MarkerHighlight color="green">1,000 houses selected</MarkerHighlight>.</li>
+    </ul>
+</div>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">2. Major Branches of Statistics</CinematicText>
+
+The sources divide the study of statistics into two primary branches based on the goal of the researcher:
+
+<Concept title="Descriptive Statistics" variant="minimal">
+This branch focuses on the **description and summarisation** of data. This can involve creating numerical or graphical summaries to highlight the main points of a dataset. A descriptive study can be performed on either a sample or an entire population.
+</Concept>
+
+<Concept title="Inferential Statistics" variant="minimal">
+This branch is concerned with **drawing conclusions** from the data.
+</Concept>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">3. Purpose of Statistical Analysis</CinematicText>
+
+The choice between descriptive and inferential statistics depends on the purpose of the study:
+
+### Descriptive Study Purpose
+Used when the goal is to **examine and explore information only about the collected data**.
+
+> *Example:* If a teacher calculates that the average mark of a specific class of 50 students is 65, this is descriptive because they are simply summarising the data for that specific group.
+
+### Inferential Study Purpose
+Used when information is taken from a sample to **make conclusions or inferences about the larger population**.
+
+> *Example:* If a teacher wants to know the average marks of *all* students in a large school, they might take a sample of students, find their average (e.g., 60 marks), and use statistical techniques to conclude that the average for the entire school is likely 60.
+
+---
+
+<Concept title="The Soup Ladle Analogy" variant="gamified">
+Think of a large pot of soup as the **population**.
+
+*   To know if the soup is good, you don't need to eat the whole pot; you take a single spoonful, which is your **sample**.
+*   If you describe the taste of just that one spoonful (e.g., "this spoonful is salty"), you are using **descriptive statistics**.
+*   If you use that one spoonful to decide that the *entire pot* of soup is salty, you are performing **inferential statistics**.
+</Concept>

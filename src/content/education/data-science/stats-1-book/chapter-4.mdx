@@ -1,0 +1,157 @@
+---
+title: "Describing Numerical Data"
+description: "Tools for organising and measuring the typical values and spread of quantitative variables."
+pubDate: 2025-01-02
+tags: ["Stats 1 Vol 1", "Numerical", "Mean", "Median", "Mode", "Variance", "Standard Deviation", "IQR"]
+type: "unit"
+order: 4
+subject: "stats-1-book"
+parent: "data-science/stats-1-book/chapters"
+hideToc: false
+---
+
+import CinematicText from "../../../../components/cinematic/CinematicText.astro";
+import Concept from "../../../../components/education/Concept.astro";
+import StrokeUnderline from "../../../../components/cinematic/StrokeUnderline.astro";
+import MarkerHighlight from "../../../../components/cinematic/MarkerHighlight.astro";
+import Problem from "../../../../components/education/Problem.astro";
+import Solution from "../../../../components/education/Solution.astro";
+
+<CinematicText variant="epic" as="h1" class="text-4xl md:text-5xl mb-8 text-center" color="#3b82f6">DESCRIBING NUMERICAL DATA</CinematicText>
+
+Chapter 4, **Describing Numerical Data**, focuses on how to categorise, organise, and summarise <StrokeUnderline color="#3b82f6">quantitative information</StrokeUnderline> using mathematical tools and graphical representations.
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">1. Types of Numerical Variables</CinematicText>
+
+Numerical data is split into two main types based on how the values are generated:
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+    <Concept title="Discrete Variables">
+    These involve a **count** of distinct items.
+    
+    *Examples:* The number of people in a household or the number of accidents in a month.
+    </Concept>
+
+    <Concept title="Continuous Variables">
+    These involve a **measurement** of something and can take any value within an interval.
+    
+    *Examples:* A person's weight, height, or the speed of a vehicle.
+    </Concept>
+</div>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">2. Organising Numerical Data</CinematicText>
+
+Data must be organised to be understandable.
+
+*   **Discrete Data:** If there are few distinct values, they are listed in a frequency table where each value is treated as its own category.
+*   **Continuous Data:** This is grouped into **classes** (bins).
+    *   **Terminology:** The **Lower/Upper class limits** are the smallest/largest values in a class. The <MarkerHighlight color="purple">Class width</MarkerHighlight> is the difference between consecutive lower limits, and the **Class mark** is the average of the two limits.
+
+<Concept title="Stem-and-Leaf Diagram" variant="minimal">
+A "stemplot" splits each number into a **stem** (all but the rightmost digit) and a **leaf** (the rightmost digit).
+
+*Example:* The number **75** is shown as `7 | 5`.
+</Concept>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">3. Measures of Central Tendency</CinematicText>
+
+These measures identify the "typical" value or the <MarkerHighlight color="green">centre of the dataset</MarkerHighlight>.
+
+<Concept title="Mean ($\bar{X}$)">
+The arithmetic average.
+
+*   **Formula:** $\bar{X} = \frac{\sum X_i}{n}$ (Sum of observations divided by the number of observations).
+*   **Properties:**
+    *   If you add a constant $c$ to every value, the new mean is $\bar{X} + c$.
+    *   If you multiply every value by $c$, the new mean is $\bar{X} \times c$.
+</Concept>
+
+<Concept title="Median">
+The middle value in an ordered list.
+
+*   **Calculation:** For odd $n$, it is the middle observation; for even $n$, it is the average of the two middle observations.
+*   **Insight:** Unlike the mean, the median is **not sensitive to outliers**.
+</Concept>
+
+<Concept title="Mode">
+The **most frequently occurring** value. If no value repeats, there is no mode.
+</Concept>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">4. Measures of Dispersion (Variation)</CinematicText>
+
+These quantify the "spread" or <MarkerHighlight color="orange">variability of the data</MarkerHighlight>.
+
+1.  **Range:** The difference between the largest and smallest values ($Max - Min$). It is highly sensitive to outliers.
+2.  **Variance ($S^2$):** Measures how much data values deviate from the mean.
+    *   **Formula (Sample):** $S^2 = \frac{\sum (X_i - \bar{X})^2}{n - 1}$.
+    *   **Property:** Adding a constant does **not** change the variance. Multiplying by $c$ changes the variance by $c^2$.
+3.  **Standard Deviation:** The square root of the variance. It is expressed in the **same units** as the original data (e.g., kg or years).
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">5. Relative Standing and Summaries</CinematicText>
+
+*   **Percentiles:** The $100p$ percentile is the value below which $100p$ percent of the data falls.
+*   **Quartiles:** These divide the data into four equal parts.
+    *   **Q1 (First Quartile):** 25th percentile.
+    *   **Q2 (Median):** 50th percentile.
+    *   **Q3 (Third Quartile):** 75th percentile.
+*   **Interquartile Range (IQR):** The difference between Q3 and Q1 ($Q3 - Q1$).
+*   **Five Number Summary:** A set consisting of: **Minimum, Q1, Median, Q3, and Maximum**.
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">Practice Session</CinematicText>
+
+<Problem number="1" title="Mean and Median">
+Calculate the mean and median for the dataset: $2, 12, 5, 7, 6, 7, 3$.
+
+<Solution>
+1.  **Mean:**
+    $$\frac{2+12+5+7+6+7+3}{7} = \frac{42}{7} = \mathbf{6}$$
+2.  **Median:**
+    *   Order the data: $2, 3, 5, 6, 7, 7, 12$.
+    *   $n=7$ (odd). The middle ($4^{th}$) observation is **6**.
+</Solution>
+</Problem>
+
+<Problem number="2" title="Dispersion">
+Find the range of the dataset: $1, 2, 3, 4, 15$.
+
+<Solution>
+*   $Max = 15, \quad Min = 1$
+*   $Range = 15 - 1 = \mathbf{14}$
+</Solution>
+</Problem>
+
+<Problem number="3" title="Percentiles">
+Find the 25th percentile for the ordered data: $35, 38, 47, 58, 61, 66, 68, 68, 70, 79$ ($n=10$).
+
+<Solution>
+*   $n=10, \quad p=0.25$.
+*   Calculate $np = 10 \times 0.25 = 2.5$.
+*   Since $2.5$ is a decimal, round up to the 3rd position.
+*   The 3rd observation is **47**.
+</Solution>
+</Problem>
+
+<Problem number="4" title="Five Number Summary">
+Identify the five-number summary for the ordered data: $11, 16, 18, 26, 27, 28, 28, 29, 35, 37$.
+
+<Solution>
+*   **Minimum:** 11.
+*   **Q1:** 3rd value = 18.
+*   **Median (Q2):** Average of 5th and 6th = $\frac{27+28}{2} = 27.5$.
+*   **Q3:** 8th value = 29.
+*   **Maximum:** 37.
+*   **Summary:** **11, 18, 27.5, 29, 37**.
+</Solution>
+</Problem>

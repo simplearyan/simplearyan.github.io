@@ -1,0 +1,196 @@
+---
+title: "Describing Categorical Data"
+description: "Visualising and identifying the 'centre' of qualitative data."
+pubDate: 2025-01-02
+tags: ["Stats 1 Vol 1", "Categorical", "Visualisation", "Charts", "Mode", "Median"]
+type: "unit"
+order: 3
+subject: "stats-1-book"
+parent: "data-science/stats-1-book/chapters"
+hideToc: false
+---
+
+import CinematicText from "../../../../components/cinematic/CinematicText.astro";
+import Concept from "../../../../components/education/Concept.astro";
+import StrokeUnderline from "../../../../components/cinematic/StrokeUnderline.astro";
+import MarkerHighlight from "../../../../components/cinematic/MarkerHighlight.astro";
+import Problem from "../../../../components/education/Problem.astro";
+import Solution from "../../../../components/education/Solution.astro";
+import CustomTable from "../../../../components/CustomTable.astro";
+import PieChart from "../../../../components/charts/PieChart.astro";
+import BarChart from "../../../../components/charts/BarChart.astro";
+
+
+<CinematicText variant="epic" as="h1" class="text-4xl md:text-5xl mb-8 text-center" color="#3b82f6">DESCRIBING CATEGORICAL DATA</CinematicText>
+
+Chapter 3, **Describing Categorical Data: Frequency Distribution**, focuses on the tools and methods used to organise, visualise, and summarise <StrokeUnderline color="#3b82f6">qualitative information</StrokeUnderline>. Below is a detailed breakdown of the topics, accompanied by examples and practice exercises.
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">1. Frequency and Relative Frequency</CinematicText>
+
+<Concept title="Frequency Distribution">
+This is a list of **distinct values (categories)** and their **frequencies** (the count of how many times each occurs).
+</Concept>
+
+<Concept title="Relative Frequency">
+This is the **ratio of the frequency** of a category to the total number of observations. It is expressed as a value between 0 and 1 and is crucial for <MarkerHighlight color="purple">comparing datasets</MarkerHighlight> of different sizes.
+</Concept>
+
+<div class="bg-white dark:bg-gray-800 p-6 rounded-lg shadow-sm border border-gray-200 dark:border-gray-700 my-6">
+    <h4 class="font-bold text-lg mb-4 text-gray-800 dark:text-gray-200">Example Calculation</h4>
+    <p class="mb-4">Suppose you have the following data: <strong>A, A, B, C, A, D, A, B, D, C</strong> (Total = 10).</p>
+
+    <CustomTable style="sketchy-colorful-outline" color="blue" font="sans">
+    | Category | Frequency | Relative Frequency |
+    | :--- | :--- | :--- |
+    | A | 4 | $4/10 = 0.4$ |
+    | B | 2 | $2/10 = 0.2$ |
+    | C | 2 | $2/10 = 0.2$ |
+    | D | 2 | $2/10 = 0.2$ |
+    | **Total** | **10** | **1.0** |
+    </CustomTable>
+</div>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">2. Graphical Displays</CinematicText>
+
+<Concept title="Pie Chart" variant="minimal">
+A circle divided into slices proportional to the relative frequencies. It is best used for comparing <MarkerHighlight color="orange">parts of a whole</MarkerHighlight>.
+</Concept>
+
+<div class="my-6">
+    <PieChart 
+        data={[
+            { label: "A", value: 4 },
+            { label: "B", value: 2 },
+            { label: "C", value: 2 },
+            { label: "D", value: 2 }
+        ]}
+        style="scribble"
+        animation="scale"
+    />
+    <p class="text-center text-sm text-gray-500 mt-2">Figure 1: Pie Chart representing relative frequencies of categories A, B, C, and D.</p>
+</div>
+
+<Concept title="Bar Chart" variant="minimal">
+Displays categories on the horizontal axis and frequencies (or percentages) on the vertical axis. The **bars should not touch**, and the height represents the count.
+</Concept>
+
+<div class="my-6">
+    <BarChart 
+        data={[
+            { label: "A", value: 4 },
+            { label: "B", value: 2 },
+            { label: "C", value: 2 },
+            { label: "D", value: 2 }
+        ]}
+        style="scribble"
+        color="colorful"
+        height={300}
+    />
+</div>
+
+<Concept title="Pareto Chart" variant="minimal">
+A specific type of bar chart where the categories are **sorted by frequency** from highest to lowest. Used to identify significant issues.
+</Concept>
+
+<div class="my-6">
+    <BarChart 
+        data={[
+            { label: "Defect A", value: 45 },
+            { label: "Defect B", value: 28 },
+            { label: "Defect C", value: 15 },
+            { label: "Defect D", value: 7 }
+        ]}
+        style="scribble"
+        color="red"
+        height={300}
+    />
+    <p class="text-center text-sm text-gray-500 mt-2">Figure 2: Pareto Chart showing sorted frequency of defects.</p>
+</div>
+
+<Concept title="Ordinal Data Rule" variant="minimal">
+If categories have a natural rank (e.g., S, M, L), the bar chart must <MarkerHighlight color="green">preserve that ordering</MarkerHighlight> rather than sorting by frequency.
+</Concept>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">3. The Area Principle</CinematicText>
+
+<Concept title="The Area Principle">
+The **area occupied** by a part of a graph should correspond exactly to the **amount of data** it represents. Violating this is a common way to mislead with statistics.
+</Concept>
+
+### Misleading Graphs
+*   **Decorated Graphs:** Using 3D images or shapes (like bottles or boxes) often distorts the visual area compared to the data.
+*   **Truncated Graphs:** When the vertical axis (baseline) does not start at zero, it can exaggerate small differences between categories.
+*   **Manipulated Y-Axis:** Expanding or compressing the scale can make changes look more or less significant than they are.
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">4. Summarising Categorical Data</CinematicText>
+
+<Concept title="Mode">
+The **most common category** (the one with the highest frequency).
+
+*   **Bimodal/Multimodal:** If two or more categories tie for the highest frequency.
+</Concept>
+
+<Concept title="Median">
+Only applicable to **ordinal data**. It is the category of the middle observation after the data has been sorted by rank.
+
+*   *Calculation:* If there are 15 observations, the median is the 8th value in the sorted list.
+</Concept>
+
+---
+
+<CinematicText variant="comic-verse" as="h2" class="mb-6 mt-12" color="#3b82f6">Practice Session</CinematicText>
+
+<Problem number="1" title="Calculating Frequencies">
+A total of 2000 cases of Covid-19 were registered in 5 districts. Given the proportions below, find the relative frequency for **Nagpur** and the total cases for **Pune**.
+
+<CustomTable style="minimal" color="red">
+| District | Relative Frequency |
+| :--- | :--- |
+| Mumbai | 0.35 |
+| Pune | 0.20 |
+| Nagpur | $x$ |
+| Thane | 0.25 |
+| Nashik | 0.08 |
+</CustomTable>
+
+<Solution>
+1.  **Finding Nagpur ($x$):** The sum of all relative frequencies must equal 1.0.
+    $$0.35 + 0.20 + x + 0.25 + 0.08 = 1.0$$
+    $$0.88 + x = 1.0 \implies \mathbf{x = 0.12}$$
+2.  **Cases in Pune:** Multiply the total cases by the relative frequency for Pune.
+    $$2000 \times 0.20 = \mathbf{400 \text{ cases}}$$
+</Solution>
+</Problem>
+
+<Problem number="2" title="Identifying Concepts">
+Which descriptive measure can be used for both nominal and ordinal data?
+
+(a) Mean
+(b) Median
+(c) Mode
+
+<Solution>
+**(c) Mode.**
+
+The **mode** is the only measure listed that applies to both nominal (labels without order) and ordinal (ranked labels) data. The median requires an order, and the mean requires numerical values.
+</Solution>
+</Problem>
+
+---
+
+<Concept title="Fruit Salad Analogy" variant="gamified">
+Think of describing categorical data like **sorting a mixed bag of fruit**.
+
+*   The **Frequency Distribution** is your final count: 10 apples, 5 bananas, 2 oranges.
+*   The **Pie Chart** shows you what portion of your bag is apple-flavoured.
+*   The **Mode** is simply pointing out that apples are the most common fruit you found.
+*   But be careful—if you draw a picture of the fruit and make a tiny orange look as big as a giant apple just to be artistic, you have **violated the Area Principle** and misled your audience!
+</Concept>
