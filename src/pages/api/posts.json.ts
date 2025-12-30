@@ -12,6 +12,7 @@ export async function GET({ }) {
             slug: `blog/${post.slug}`,
             tags: post.data.tags,
             pubDate: post.data.pubDate,
+            image: post.data.image,
             type: "Blog",
         })),
         // ...stories.map((story) => ({
