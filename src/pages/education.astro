@@ -5,6 +5,7 @@ import EducationCard from "../components/EducationCard.astro";
 import EducationInFeedAd from "../components/ads/EducationInFeedAd.astro";
 import BookCard from "../components/BookCard.astro";
 import HorizontalAd from "../components/ads/HorizontalAd.astro";
+import MultiplexAd from "../components/ads/MultiplexAd.astro";
 
 const educationItems = await getCollection("education");
 
@@ -20,9 +21,9 @@ const bookItems = educationItems.filter(
 );
 ---
 
-<Layout title="Education | SimpleAryan">
+<Layout title="Education | SimpleAryan" fullWidth={true}>
     <main>
-        <div class="container">
+        <div class="container education-container">
             <header class="page-header">
                 <h1 class="animate-fade-in">Education</h1>
                 <p class="subtitle animate-fade-in">
@@ -110,7 +111,8 @@ const bookItems = educationItems.filter(
                     </section>
                 )
             }
-            <HorizontalAd />
+            <!-- <HorizontalAd /> -->
+            <MultiplexAd />
         </div>
     </main>
 </Layout>
