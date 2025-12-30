@@ -1,0 +1,68 @@
+<section class="hero animate-fade-in">
+    <h1>
+        <span class="civic">finding</span>
+        <span class="aryan">(solutions)</span>
+        <span class="logo-x">x</span>
+    </h1>
+    <p class="subtitle">A public notebook and learning hub.</p>
+</section>
+
+<style>
+    .hero {
+        text-align: center;
+        padding: var(--spacing-xl) 0;
+        margin-bottom: var(--spacing-xl);
+    }
+
+    .hero h1 {
+        font-size: 4rem;
+        margin-bottom: var(--spacing-sm);
+    }
+
+    .highlight {
+        color: var(--color-primary);
+    }
+
+    .subtitle {
+        font-size: 1.25rem;
+        color: #666;
+        max-width: 600px;
+        margin: 0 auto;
+    }
+
+    .aryan {
+        font-family: "Playfair Display", serif;
+        font-weight: 700;
+        font-style: italic;
+        letter-spacing: -0.05em;
+        color: var(--color-secondary);
+    }
+
+    .logo-x {
+        font-family: "Kalam", cursive;
+        font-size: 2.4rem;
+        font-weight: 700;
+        margin-left: 0;
+        transform: translateY(-22px) rotate(0deg);
+        color: var(--color-text);
+        display: inline-block;
+    }
+
+    @media (max-width: 768px) {
+        .hero h1 {
+            font-size: 2.5rem;
+        }
+
+        .logo-x {
+            font-size: 1.5rem;
+            transform: translateY(-14px) rotate(0deg);
+            margin-left: 0;
+        }
+
+        .section-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.5rem;
+        }
+    }
+</style>

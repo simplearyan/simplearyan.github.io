@@ -1,5 +1,5 @@
 ---
-import ThemeToggle from "./ThemeToggle.astro";
+import ThemeToggle from "../ThemeToggle.astro";
 import Search from "./Search.astro";
 
 interface Props {
@@ -99,7 +99,7 @@ const { disableSticky = false } = Astro.props;
     border-bottom: 1px solid var(--color-border);
     margin-bottom: var(--spacing-xl);
     background-color: var(--color-bg);
-    position: sticky;
+    /* position: sticky; */
     top: 0;
     z-index: 60;
     transition:
