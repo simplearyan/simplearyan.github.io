@@ -32,17 +32,17 @@ const cardStyle = lightColor
 ---
 
 <a href={href} class="blog-card group" style={cardStyle}>
-    <div class="image-container">
+    <div class={`image-container ${!image ? "placeholder" : ""}`}>
         {image && <img src={image} alt={title} loading="lazy" />}
         <div class="overlay"></div>
         {tags.length > 0 && <span class="floating-tag">{tags[0]}</span>}
     </div>
     <div class="content">
-        <div class="meta">
+        <!-- <div class="meta">
             <time datetime={date.toISOString()}>{formatDate(date)}</time>
-        </div>
+        </div> -->
         <h3 class="title">{title}</h3>
-        <p class="description">{description}</p>
+        <!-- <p class="description">{description}</p> -->
     </div>
 </a>
 
@@ -190,5 +190,50 @@ const cardStyle = lightColor
         overflow: hidden;
         flex-grow: 1;
         opacity: 0.9;
+    }
+
+    /* Placeholder Pattern */
+    .image-container.placeholder {
+        background-color: var(--color-bg-offset);
+        background-image:
+            radial-gradient(
+                circle at 100% 0%,
+                rgba(197, 160, 89, 0.15) 0%,
+                transparent 50%
+            ),
+            radial-gradient(
+                circle at 0% 100%,
+                rgba(27, 42, 65, 0.05) 0%,
+                transparent 50%
+            ),
+            repeating-linear-gradient(
+                45deg,
+                rgba(0, 0, 0, 0.03) 0px,
+                rgba(0, 0, 0, 0.03) 1px,
+                transparent 1px,
+                transparent 12px
+            );
+    }
+
+    :global([data-theme="dark"]) .image-container.placeholder {
+        background-color: #2a2b2e;
+        background-image:
+            radial-gradient(
+                circle at 100% 0%,
+                rgba(197, 160, 89, 0.15) 0%,
+                transparent 50%
+            ),
+            radial-gradient(
+                circle at 0% 100%,
+                rgba(255, 255, 255, 0.05) 0%,
+                transparent 50%
+            ),
+            repeating-linear-gradient(
+                45deg,
+                rgba(255, 255, 255, 0.03) 0px,
+                rgba(255, 255, 255, 0.03) 1px,
+                transparent 1px,
+                transparent 12px
+            );
     }
 </style>

@@ -82,6 +82,25 @@ let relatedPostsToShow: CollectionEntry<"blog">[] = [];
 let latestPosts: CollectionEntry<"blog">[] = [];
 let url: URL | undefined;
 
+// Color Palettes
+const pastelColors = [
+	"#e0f2fe", // Light Sky
+	"#fce7f3", // Light Pink
+	"#dcfce7", // Light Green
+	"#fef3c7", // Light Amber
+	"#ede9fe", // Light Violet
+	"#ffe4e6", // Light Rose
+];
+
+const darkColors = [
+	"#0c4a6e", // Dark Sky
+	"#831843", // Dark Pink
+	"#14532d", // Dark Green
+	"#78350f", // Dark Amber
+	"#4c1d95", // Dark Violet
+	"#881337", // Dark Rose
+];
+
 // Variables for Tag View
 let tag: string | undefined;
 let tagPosts: CollectionEntry<"blog">[] | undefined;
@@ -224,27 +243,31 @@ const components = {
 						<FixedHorizontalAd />
 						<h3 class="related-heading">Read Next</h3>
 						<div class="related-grid">
-							{relatedPostsToShow.map((relatedPost) => (
-								<a
-									href={`/blog/${relatedPost.slug}`}
-									class="related-card"
-								>
-									{relatedPost.data.image && (
-										<div class="related-image-wrapper">
-											<OptimizedImage
-												src={relatedPost.data.image}
-												alt={relatedPost.data.title}
-												class="related-image"
-											/>
-										</div>
-									)}
-									<div class="related-content">
-										<h4 class="related-title">
-											{relatedPost.data.title}
-										</h4>
-									</div>
-								</a>
-							))}
+							{relatedPostsToShow.map((relatedPost, index) => {
+								const colorIndex = index % pastelColors.length;
+								let light = pastelColors[colorIndex];
+								let dark = darkColors[colorIndex];
+
+								if (relatedPost.data.cardColor) {
+									light = relatedPost.data.cardColor;
+									dark = "#1f2937";
+								}
+
+								return (
+									<BlogCard
+										title={relatedPost.data.title}
+										description={
+											relatedPost.data.description
+										}
+										date={relatedPost.data.pubDate}
+										image={relatedPost.data.image}
+										href={`/blog/${relatedPost.slug}`}
+										tags={relatedPost.data.tags}
+										lightColor={light}
+										darkColor={dark}
+									/>
+								);
+							})}
 						</div>
 					</div>
 				)}
@@ -253,27 +276,33 @@ const components = {
 					<div class="related-post-container">
 						<h3 class="related-heading">NEW POSTS</h3>
 						<div class="related-grid">
-							{latestPosts.map((latestPost) => (
-								<a
-									href={`/blog/${latestPost.slug}`}
-									class="related-card"
-								>
-									{latestPost.data.image && (
-										<div class="related-image-wrapper">
-											<OptimizedImage
-												src={latestPost.data.image}
-												alt={latestPost.data.title}
-												class="related-image"
-											/>
-										</div>
-									)}
-									<div class="related-content">
-										<h4 class="related-title">
-											{latestPost.data.title}
-										</h4>
-									</div>
-								</a>
-							))}
+							{latestPosts.map((latestPost, index) => {
+								const colorIndex =
+									(index + relatedPostsToShow.length) %
+									pastelColors.length; // Offset index to avoid same colors as above if possible
+								let light = pastelColors[colorIndex];
+								let dark = darkColors[colorIndex];
+
+								if (latestPost.data.cardColor) {
+									light = latestPost.data.cardColor;
+									dark = "#1f2937";
+								}
+
+								return (
+									<BlogCard
+										title={latestPost.data.title}
+										description={
+											latestPost.data.description
+										}
+										date={latestPost.data.pubDate}
+										image={latestPost.data.image}
+										href={`/blog/${latestPost.slug}`}
+										tags={latestPost.data.tags}
+										lightColor={light}
+										darkColor={dark}
+									/>
+								);
+							})}
 						</div>
 					</div>
 				)}
@@ -496,60 +525,6 @@ const components = {
 		display: grid;
 		grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 		gap: 2rem;
-	}
-
-	.related-card {
-		display: flex;
-		flex-direction: column;
-		background: var(--color-surface);
-		border: 1px solid var(--color-border);
-		border-radius: 16px;
-		overflow: hidden;
-		text-decoration: none;
-		transition: all 0.3s ease;
-		box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
-		height: 100%;
-	}
-
-	.related-card:hover {
-		transform: translateY(-4px);
-		box-shadow: 0 12px 24px -8px rgba(0, 0, 0, 0.15);
-		border-color: var(--color-primary);
-	}
-
-	.related-image-wrapper {
-		width: 100%;
-		height: 200px;
-		overflow: hidden;
-	}
-
-	:global(.related-image) {
-		width: 100%;
-		height: 100%;
-		object-fit: cover;
-		transition: transform 0.5s ease;
-	}
-
-	.related-card:hover :global(.related-image) {
-		transform: scale(1.05);
-	}
-
-	.related-content {
-		padding: 1.5rem;
-		text-align: center;
-	}
-
-	.related-title {
-		font-family: "Montserrat", sans-serif !important;
-		font-size: 1.25rem;
-		font-weight: 700;
-		color: var(--color-heading);
-		margin: 0;
-		line-height: 1.4;
-	}
-
-	.related-card:hover .related-title {
-		color: var(--color-primary);
 	}
 
 	/* Tag Page Styles */

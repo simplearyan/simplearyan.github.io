@@ -2,6 +2,7 @@
 :root {
     /* Color Palette - Light Mode */
     --color-bg: #ffffff;
+    --color-bg-offset: #f5f5f5;
     --color-text: #1a1a1a;
     --color-primary: #1B2A41;
     /* Navy Blue */
@@ -32,6 +33,7 @@
 [data-theme="dark"] {
     /* Color Palette - Dark Mode */
     --color-bg: #1F2023;
+    --color-bg-offset: #202020;
     /* Dark Charcoal */
     --color-text: #e2e8f0;
     --color-primary: #ffffff;
