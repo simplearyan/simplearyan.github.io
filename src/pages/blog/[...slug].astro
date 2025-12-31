@@ -183,7 +183,7 @@ const components = {
 	Arrow,
 	Underline,
 	Aside,
-	h2: H2Ad,
+	// h2: H2Ad,
 };
 ---
 
@@ -306,6 +306,18 @@ const components = {
 						</div>
 					</div>
 				)}
+
+				<div id="in-article-ad-source" class="hidden">
+                    <InArticleAd />
+                </div>
+
+                <script>
+                    import { insertAd } from "../../scripts/insertAd";
+                    // Using requestAnimationFrame to ensure DOM is ready and layout is settled
+                     requestAnimationFrame(() => {
+                        insertAd('.prose', 'in-article-ad-source');
+                    });
+                </script>
 
 				<MultiplexAd />
 			</article>

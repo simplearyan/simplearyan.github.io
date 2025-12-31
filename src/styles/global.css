@@ -18,6 +18,8 @@
     --font-sans: 'Inter', system-ui, -apple-system, sans-serif;
     --font-serif: 'Playfair Display', serif;
     --font-mono: 'Fira Code', monospace;
+    --font-carrois: 'Carrois Gothic', sans-serif;
+    --font-barlow: 'Barlow Condensed', sans-serif;
 
     /* Spacing */
     --spacing-sm: 0.5rem;
@@ -27,7 +29,7 @@
 
     /* Header & Footer */
     --header-height: 6rem;
-    --footer-height: 6rem;  
+    --footer-height: 6rem;
 }
 
 [data-theme="dark"] {
@@ -96,7 +98,8 @@ h3,
 h4,
 h5,
 h6 {
-    font-family: var(--font-sans);
+    /* font-family: var(--font-sans); */
+    font-family: var(--font-carrois);
     font-weight: 700;
     line-height: 1.2;
     margin-bottom: var(--spacing-md);
@@ -222,14 +225,18 @@ p {
 
 /* Custom Unordered List */
 .prose ul {
-    list-style: disc; /* Restore bullets */
+    list-style: disc;
+    /* Restore bullets */
     padding-left: 1.5rem;
-    color: var(--color-text); /* Use text color instead of primary */
-    font-family: var(--font-sans); /* Reset to readable sans-serif */
+    color: var(--color-text);
+    /* Use text color instead of primary */
+    font-family: var(--font-sans);
+    /* Reset to readable sans-serif */
     font-weight: normal;
     font-size: 1em;
     line-height: 1.6;
-    transform: none; /* Remove quirky rotation */
+    transform: none;
+    /* Remove quirky rotation */
 }
 
 [data-theme="dark"] .prose ul>li::before {
