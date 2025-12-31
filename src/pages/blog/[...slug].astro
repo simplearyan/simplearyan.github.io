@@ -38,6 +38,7 @@ import InFeedAd from "../../components/ads/InFeedAd.astro";
 import InArticleAd from "../../components/ads/InArticleAd.astro";
 import H2Ad from "../../components/ads/H2Ad.astro";
 import type { AstroComponentFactory } from "astro/runtime/server/index.js";
+import BannerAd from "../../components/ads/BannerAd.astro";
 
 export async function getStaticPaths() {
 	const allPosts = await getCollection("blog");
@@ -198,7 +199,7 @@ const components = {
 			<article
 				class={`blog-post animate-fade-in ${post.data.fancyHeadings ? "fancy-headings" : ""} ${post.data.hideToc ? "wide-layout" : ""}`}
 			>
-				<HorizontalAd />
+				<BannerAd />
 				<header class="post-header">
 					<div class="post-meta">
 						<time datetime={post.data.pubDate.toISOString()}>
