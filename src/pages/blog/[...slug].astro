@@ -313,8 +313,7 @@ const components = {
 
                 <script>
                     import { insertAd } from "../../scripts/insertAd";
-                    // Using requestAnimationFrame to ensure DOM is ready and layout is settled
-                     requestAnimationFrame(() => {
+                    requestAnimationFrame(() => {
                         insertAd('.prose', 'in-article-ad-source');
                     });
                 </script>

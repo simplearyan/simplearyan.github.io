@@ -560,7 +560,7 @@ const posts = (await getCollection("blog"))
 		/* font-family: "Montserrat", sans-serif; */
 		/* font-family: "Playfair Display", serif; */
 		/* font-family: "Inter", sans-serif; */
-		font-family: var(--font-barlow);	
+		font-family: var(--font-barlow);
 		font-size: 0.9rem;
 		color: var(--color-primary);
 		font-weight: 700;
@@ -620,10 +620,10 @@ const posts = (await getCollection("blog"))
 	}
 
 	.books-grid {
-		display: grid;
-		grid-template-columns: repeat(4, 150px);
+		display: flex;
+		flex-wrap: wrap;
 		justify-content: center;
-		gap: 2rem;
+		gap: 3rem;
 	}
 
 	@media (max-width: 480px) {

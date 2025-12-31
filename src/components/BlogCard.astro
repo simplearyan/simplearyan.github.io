@@ -67,12 +67,12 @@ const cardStyle = lightColor
     /* Dark mode override */
     :global([data-theme="dark"]) .blog-card {
         background: var(--card-bg-dark, var(--color-surface));
-        border-color: rgba(
+        /* border-color: rgba(
             255,
             255,
             255,
             0.05
-        ); /* Subtle border on dark pastel */
+        ); Subtle border on dark pastel */
     }
 
     .blog-card:hover {
@@ -147,6 +147,7 @@ const cardStyle = lightColor
         flex-direction: column;
         flex-grow: 1;
         gap: 0.75rem;
+        background-color: var(--color-bg);
     }
 
     .meta {

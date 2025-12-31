@@ -152,24 +152,42 @@ const gridTitle = isLessonLevel ? "Course Lessons" : "Course Subjects";
                 <h2 class="grid-title">Course Books & Resources</h2>
                 <div class="book-grid">
                     {textbooks.map((book) => {
-                        let coverColor = "#3b82f6"; // Default Blue
-                        let pattern = "circles";
+                        const isMaths =
+                            book.slug.includes("maths-2") ||
+                            book.data.title.includes("Linear Algebra");
+                        const isStats =
+                            book.slug.includes("stats-2") ||
+                            book.data.title.includes("Probability");
 
-                        if (book.data.title.includes("Stats")) {
-                            coverColor = "#ec4899"; // Pink/Rose
+                        let pattern = "circles";
+                        let fontStyle = "serif";
+                        let layoutStyle = "classic";
+                        let coverColor = book.data.cardColor || "#3b82f6";
+
+                        if (isMaths) {
                             pattern = "grid";
-                        } else if (book.data.title.includes("Calculus")) {
-                            coverColor = "#8b5cf6"; // Violet
+                            fontStyle = "sans";
+                            layoutStyle = "modern";
+                            coverColor = "#3b82f6"; // Ensure consistent blue
+                        } else if (isStats) {
                             pattern = "waves";
+                            fontStyle = "serif";
+                            layoutStyle = "classic";
+                            // coverColor usually handled by book.data.cardColor but fallback:
+                            if (!book.data.cardColor) coverColor = "#ec4899";
                         }
 
                         return (
                             <BookCard
-                                title={book.data.title}
+                                title={book.data.title
+                                    .replace("Book:", "")
+                                    .trim()}
                                 subtitle={book.data.description}
                                 href={`/education/${book.slug}`}
                                 coverColor={coverColor}
                                 pattern={pattern as any}
+                                fontStyle={fontStyle as any}
+                                layoutStyle={layoutStyle as any}
                             />
                         );
                     })}
@@ -219,12 +237,11 @@ const gridTitle = isLessonLevel ? "Course Lessons" : "Course Subjects";
     }
 
     .book-grid {
-        display: grid;
-        gap: 2rem;
-        /* Uniform grid with fixed minimum width to prevent squashed cards */
-        grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: 3rem;
         padding-top: 1rem;
-        justify-items: center; /* Center cards in their cells */
     }
 
     @media (max-width: 480px) {

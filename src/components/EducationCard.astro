@@ -52,24 +52,19 @@ const isNew =
     data-tags={tags.join(",")}
     style={`--category-color: ${finalColor};`}
 >
-    {isNew && <span class="new-sticker">NEW</span>}
-    <span class="recently-opened-label">Opened Recently</span>
+    <!-- Top Accent Line is handled by CSS ::before -->
+
     <div class="card-header">
         <div class="institution-badge">
             <span class="institution">{institution}</span>
-
-            <span class="course-type" style={`color: ${finalColor}`}
-                >{courseType}</span
-            >
+            <span class="course-type">{courseType}</span>
         </div>
+        {isNew && <span class="new-indicator">NEW</span>}
     </div>
 
     <div class="card-body">
         <h3 class="title">{title}</h3>
-        <!-- <p class="description">{description}</p> -->
-<!-- 
-        <div class="tags">
-            {tags.slice(0, 3).map((tag) => <span class="tag">{tag}</span>)}
-        </div> -->
     </div>
+
+    <!-- Hover overlay handled by CSS ::after -->
 </a>
