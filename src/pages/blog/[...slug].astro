@@ -37,6 +37,7 @@ import FixedHorizontalAd from "../../components/ads/FixedHorizontalAd.astro";
 import InFeedAd from "../../components/ads/InFeedAd.astro";
 import InArticleAd from "../../components/ads/InArticleAd.astro";
 import H2Ad from "../../components/ads/H2Ad.astro";
+import H3Ad from "../../components/ads/H3Ad.astro";
 import type { AstroComponentFactory } from "astro/runtime/server/index.js";
 import BannerAd from "../../components/ads/BannerAd.astro";
 
@@ -185,6 +186,7 @@ const components = {
 	Underline,
 	Aside,
 	h2: H2Ad,
+	h3: H3Ad,
 };
 ---
 
@@ -248,30 +250,43 @@ const components = {
                 <script>
                     document.addEventListener("DOMContentLoaded", () => {
                         const ads = document.querySelectorAll('.in-article-ad-container');
-                        let targetAd: Element | null = null;
+                        let primaryAd: Element | null = null;
+                        let secondaryAd: Element | null = null;
 
+                        // Prio 1 & 2: Main Ad (3rd or 1st)
                         if (ads.length >= 3) {
-                            // Priority 1: Before 3rd heading (index 2)
-                            targetAd = ads[2];
-                            console.log("H2Ad: Activating ad before 3rd heading");
+                            primaryAd = ads[2];
+                            console.log("H2Ad: Activating primary ad before 3rd heading");
                         } else if (ads.length >= 1) {
-                            // Priority 2: Before 1st heading (index 0)
-                            targetAd = ads[0];
-                            console.log("H2Ad: Activating ad before 1st heading");
+                            primaryAd = ads[0];
+                            console.log("H2Ad: Activating primary ad before 1st heading");
                         }
 
-                        if (targetAd) {
-                            // Show the ad
-                            (targetAd as HTMLElement).style.display = 'block';
-                            
-                            // Trigger AdSense
-                            try {
+                        // Prio 3: Secondary Ad (Last heading if > 4 headings)
+                        if (ads.length > 4) {
+                            secondaryAd = ads[ads.length - 1];
+                             // Ensure we don't pick the same ad twice (unlikely with > 4 but good safety)
+                            if (secondaryAd === primaryAd) {
+                                secondaryAd = null;
+                            } else {
+                                console.log("H2Ad: Activating secondary ad before last heading");
+                            }
+                        }
+
+                        const activateAd = (adElement: Element) => {
+                             (adElement as HTMLElement).style.display = 'block';
+                             try {
                                 console.log("H2Ad: Pushing to adsbygoogle");
                                 ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
                             } catch (e) {
                                 console.error("H2Ad: AdSense push failed", e);
                             }
-                        } else {
+                        };
+
+                        if (primaryAd) activateAd(primaryAd);
+                        if (secondaryAd) activateAd(secondaryAd);
+                        
+                        if (!primaryAd && !secondaryAd) {
                             console.log("H2Ad: No suitable headings found for ad placement");
                         }
                     });
