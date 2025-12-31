@@ -260,13 +260,16 @@ const components = {
                              // Show the ad
                             (ad as HTMLElement).style.display = 'block';
                             
-                            // Trigger AdSense
-                            try {
-                                console.log(`H2Ad: Pushing ad #${index + 1} to adsbygoogle`);
-                                ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
-                            } catch (e) {
-                                console.error(`H2Ad: AdSense push failed for ad #${index + 1}`, e);
-                            }
+                            // Trigger AdSense with a staggered delay (e.g., 500ms apart)
+                            // This prevents race conditions or rate limiting when pushing multiple ads
+                            setTimeout(() => {
+                                try {
+                                    console.log(`H2Ad: Pushing ad #${index + 1} to adsbygoogle`);
+                                    ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
+                                } catch (e) {
+                                    console.error(`H2Ad: AdSense push failed for ad #${index + 1}`, e);
+                                }
+                            }, 500 * index + 100);
                         });
                     });
                 </script>
