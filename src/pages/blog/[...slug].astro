@@ -183,7 +183,7 @@ const components = {
 	Arrow,
 	Underline,
 	Aside,
-	// h2: H2Ad,
+	h2: H2Ad,
 };
 ---
 
@@ -238,22 +238,42 @@ const components = {
 
 				<ShareButtons title={post.data.title} url={url!} />
 
-								<div id="in-article-ad-source" style="display: none;">
-                    <InArticleAd />
-                </div>
+				<script
+                    async
+                    src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7993314093599705"
+                    crossorigin="anonymous">
+                </script>
 
                 <script>
-                    import { insertAd } from "../../scripts/insertAd";
-                    
-                    function initAd() {
-                        insertAd('.prose', 'in-article-ad-source');
-                    }
+                    document.addEventListener("DOMContentLoaded", () => {
+                        const ads = document.querySelectorAll('.in-article-ad-container');
+                        let targetAd: Element | null = null;
 
-                    if (document.readyState === 'loading') {
-                        document.addEventListener('DOMContentLoaded', initAd);
-                    } else {
-                        initAd();
-                    }
+                        if (ads.length >= 3) {
+                            // Priority 1: Before 3rd heading (index 2)
+                            targetAd = ads[2];
+                            console.log("H2Ad: Activating ad before 3rd heading");
+                        } else if (ads.length >= 1) {
+                            // Priority 2: Before 1st heading (index 0)
+                            targetAd = ads[0];
+                            console.log("H2Ad: Activating ad before 1st heading");
+                        }
+
+                        if (targetAd) {
+                            // Show the ad
+                            (targetAd as HTMLElement).style.display = 'block';
+                            
+                            // Trigger AdSense
+                            try {
+                                console.log("H2Ad: Pushing to adsbygoogle");
+                                ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
+                            } catch (e) {
+                                console.error("H2Ad: AdSense push failed", e);
+                            }
+                        } else {
+                            console.log("H2Ad: No suitable headings found for ad placement");
+                        }
+                    });
                 </script>
 
 				{relatedPostsToShow.length > 0 && (
