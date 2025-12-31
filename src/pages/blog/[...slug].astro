@@ -238,6 +238,24 @@ const components = {
 
 				<ShareButtons title={post.data.title} url={url!} />
 
+								<div id="in-article-ad-source" style="display: none;">
+                    <InArticleAd />
+                </div>
+
+                <script>
+                    import { insertAd } from "../../scripts/insertAd";
+                    
+                    function initAd() {
+                        insertAd('.prose', 'in-article-ad-source');
+                    }
+
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', initAd);
+                    } else {
+                        initAd();
+                    }
+                </script>
+
 				{relatedPostsToShow.length > 0 && (
 					<div class="related-post-container">
 						<FixedHorizontalAd />
@@ -307,18 +325,7 @@ const components = {
 					</div>
 				)}
 
-				<div id="in-article-ad-source" class="hidden">
-                    <InArticleAd />
-                </div>
-
-                <script>
-                    import { insertAd } from "../../scripts/insertAd";
-                    requestAnimationFrame(() => {
-                        insertAd('.prose', 'in-article-ad-source');
-                    });
-                </script>
-
-				<MultiplexAd />
+			<MultiplexAd />
 			</article>
 		</Layout>
 	) : type === "tag" && tag && tagPosts ? (

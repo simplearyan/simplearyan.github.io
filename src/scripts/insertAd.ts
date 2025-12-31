@@ -1,91 +1,79 @@
 export function insertAd(proseSelector: string, adContainerId: string) {
+    console.log("insertAd: Starting", { proseSelector, adContainerId });
     const prose = document.querySelector(proseSelector);
     const adPlaceholder = document.getElementById(adContainerId);
 
     // Get the ad content (the div with class 'in-article-ad-container' inside the placeholder)
     const adContent = adPlaceholder?.firstElementChild;
 
-    if (!prose || !adPlaceholder || !adContent) return;
+    if (!prose || !adPlaceholder || !adContent) {
+        console.error("insertAd: Missing elements", { prose: !!prose, placeholder: !!adPlaceholder, content: !!adContent });
+        return;
+    }
 
-    const headings = prose.querySelectorAll('h2');
-    let primaryAdUsed = false;
+    const headings = prose.querySelectorAll('h2, h3');
+    console.log("insertAd: Found headings", headings.length);
 
-    // Rule 1: Insert before 3rd h2
+    // Priority 1: Before 3rd Heading (index 2)
+    // Matches CivicThesis logic (conceptually "Before 2nd section break" -> 3rd header)
     if (headings.length >= 3) {
+        console.log("insertAd: Inserting before 3rd heading");
         headings[2].insertAdjacentElement('beforebegin', adContent);
-        primaryAdUsed = true;
-        try {
-            ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
-        } catch (e) {
-            console.error("AdSense push failed", e);
-        }
-    }
-
-    // Rule 2: Insert before last h2 if > 4 headings
-    // "more than 4 headings" usually means 5 or more.
-    if (headings.length > 5) {
-        const lastHeading = headings[headings.length - 1];
-
-        if (primaryAdUsed) {
-            // Clone the ad for the second slot
-            const adClone = adContent.cloneNode(true) as HTMLElement;
-
-            // Reset the 'ins' element in the clone to ensure a fresh ad request
-            const ins = adClone.querySelector('ins');
-            if (ins) {
-                ins.removeAttribute('data-adsbygoogle-status');
-                ins.removeAttribute('data-ad-status');
-                ins.innerHTML = ''; // Clear any existing content/iframe
-            }
-
-            lastHeading.insertAdjacentElement('beforebegin', adClone);
-
-            // Trigger ad load for the new slot
+        setTimeout(() => {
             try {
+                console.log("insertAd: Pushing to adsbygoogle (P1)");
                 ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
             } catch (e) {
                 console.error("AdSense push failed", e);
             }
-        } else {
-            // Capture this edge case if logic changes, though currently covered by Rule 1
-            lastHeading.insertAdjacentElement('beforebegin', adContent);
-            primaryAdUsed = true;
+        }, 100);
+        return;
+    }
+
+    // Priority 2: Before 1st Heading (index 0)
+    // Fallback for shorter articles with at least one header
+    if (headings.length >= 1) {
+        console.log("insertAd: Inserting before 1st heading");
+        headings[0].insertAdjacentElement('beforebegin', adContent);
+        // Add a small delay to ensure DOM is updated and script can see the element
+        setTimeout(() => {
             try {
+                console.log("insertAd: Pushing to adsbygoogle (P2)");
                 ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
             } catch (e) {
                 console.error("AdSense push failed", e);
             }
-        }
+        }, 100);
+        return;
     }
 
-    // Fallback: Paragraphs (only if no ads inserted yet)
-    // The user said "also insert...". This implies the header rules function together.
-    // The paragraph rule is a fallback if "no heading tag is there" (from previous prompt).
-    // So if we inserted ANY ad in headers, we skip paragraphs.
-    if (!primaryAdUsed) {
-        const paragraphs = prose.querySelectorAll('p');
+    // Priority 3: Paragraph based fallback
+    const paragraphs = prose.querySelectorAll('p');
+    console.log("insertAd: Fallback to paragraphs", paragraphs.length);
 
-        // Insert after 3rd paragraph
-        if (paragraphs.length >= 3) {
-            // Previous prompt said "after above 3rd paragraph" -> interpreted as after 3rd. 
-            // Wait, "after above 3rd paragraph" is ambiguous. "insert after above 3rd paragraph" -> maybe "insert after the paragraph that is above the 3rd one" (i.e. 2nd)? 
-            // Or "insert above 3rd paragraph" (before 3rd)?
-            // Code in Step 153 used `afterend` on paragraphs[2] (after 3rd).
-            // Let's stick to "After 3rd paragraph" as a reasonable default unless clarified.
-            // Actually, let's use 'beforebegin' on the 3rd to match the "above" sentiment of header rule?
-            // "if no heading tag is there then insert after above 3rd paragraph"
-            // "after above 3rd paragraph" -> literally could mean "after the 3rd paragraph". 
-            // Let's stick to paragraphs[2].afterend (after 3rd).
-            paragraphs[2].insertAdjacentElement('afterend', adContent);
-        }
-        // Fallback: Append to end
-        else {
-            prose.appendChild(adContent);
-        }
+    // Before 3rd paragraph
+    if (paragraphs.length >= 3) {
+        paragraphs[2].insertAdjacentElement('beforebegin', adContent);
+    }
+    // After 2nd paragraph
+    else if (paragraphs.length >= 2) {
+        paragraphs[1].insertAdjacentElement('afterend', adContent);
+    }
+    // After 1st paragraph
+    else if (paragraphs.length >= 1) {
+        paragraphs[0].insertAdjacentElement('afterend', adContent);
+    }
+    // End of content
+    else {
+        prose.appendChild(adContent);
+    }
+
+    setTimeout(() => {
         try {
+            console.log("insertAd: Pushing to adsbygoogle (Fallback)");
             ((window as any).adsbygoogle = (window as any).adsbygoogle || []).push({});
         } catch (e) {
             console.error("AdSense push failed", e);
         }
-    }
+    }, 100);
 }
