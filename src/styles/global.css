@@ -142,7 +142,8 @@ p {
 .prose h1,
 .prose h2,
 .prose h3 {
-    margin-top: var(--spacing-lg);
+    /* margin-top: var(--spacing-lg); */
+    margin-top: 3.5rem;
 }
 
 .prose a {
@@ -163,6 +164,14 @@ p {
     padding-left: var(--spacing-md);
     font-style: italic;
     margin: var(--spacing-lg) 0;
+}
+
+.prose hr {
+    border: 0;
+    height: 1px;
+    background: linear-gradient(to right, transparent, var(--color-border), transparent);
+    margin: var(--spacing-xl) 0;
+    opacity: 0.5;
 }
 
 .prose code {

@@ -36,59 +36,57 @@ const renderTitle = (text: string) => {
     .problem-card {
         background: var(--color-bg);
         border: 1px solid var(--color-border);
-        border-radius: 12px;
-        /* margin-bottom: 3rem; Removed to better handle nested or successive elements */
+        border-radius: 8px;
         overflow: hidden;
-        box-shadow:
-            0 4px 6px -1px rgba(0, 0, 0, 0.1),
-            0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        margin-bottom: 2rem;
         transition:
             transform 0.2s ease,
             box-shadow 0.2s ease;
     }
 
     .problem-card:hover {
-        transform: translateY(-2px);
-        box-shadow:
-            0 10px 15px -3px rgba(0, 0, 0, 0.1),
-            0 4px 6px -2px rgba(0, 0, 0, 0.05);
+        border-color: var(--color-secondary);
     }
 
     .problem-header {
-        background: var(--color-surface);
-        padding: 1rem 1.5rem;
-        border-bottom: 1px solid var(--color-border);
+        padding: 1.25rem 1.5rem 0.5rem;
         display: flex;
-        align-items: center;
-        gap: 1rem;
+        align-items: baseline;
+        gap: 0.75rem;
     }
 
     .problem-number {
-        background: var(--color-primary);
-        color: white;
+        color: var(--color-secondary);
+        /* font-family: var(--font-mono); */
+        font-family: var(--font-carrois);
         font-weight: 700;
-        padding: 0.25rem 0.75rem;
-        border-radius: 6px;
-        font-size: 0.9rem;
+        font-size: 1rem;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+        flex-shrink: 0;
     }
 
     /* Dark Mode Contrast Fix */
     :global([data-theme="dark"]) .problem-number {
-        background: rgba(255, 255, 255, 0.1);
-        color: var(--color-primary);
-        border: 1px solid var(--color-primary);
+        color: var(--color-secondary);
     }
 
     .problem-title {
         margin: 0;
-        font-size: 1.1rem;
+        font-size: 1rem;
         font-weight: 600;
-        color: var(--color-text);
+        color: var(--color-heading);
+        color: var(--color-secondary) !important;
+        /* font-family: var(--font-sans); */
+        font-family: var(--font-carrois);
+        line-height: 1.4;
     }
 
     .problem-content {
-        padding: 1.5rem;
+        padding: 0.5rem 1.5rem 1.5rem;
         line-height: 1.7;
         color: var(--color-text);
+        font-family: var(--font-carrois);
+        font-size: 1.4rem;
     }
 </style>

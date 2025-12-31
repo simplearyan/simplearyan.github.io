@@ -23,7 +23,6 @@ const renderTitle = (text: string) => {
 
 <details class="solution-details">
     <summary class="solution-summary">
-        <span class="icon">📝</span>
         <span class="text" set:html={renderTitle(title)} />
         <span class="chevron">▼</span>
     </summary>
@@ -34,24 +33,28 @@ const renderTitle = (text: string) => {
 
 <style>
     .solution-details {
-        margin-top: 1.5rem;
-        margin-top: 1.5rem;
-        border: 1px solid var(--color-border);
-        border-radius: 8px; /* Keep radius but maybe smaller? actually sticking with 8px */
-        /* border-top: 1px dashed var(--color-border); */
-        overflow: hidden;
+        margin-top: 1rem;
+        border-top: 1px dashed var(--color-border);
+        transition: all 0.3s ease;
+    }
+
+    .solution-details[open] {
+        border-top: 1px solid var(--color-border);
+        padding-bottom: 1rem;
     }
 
     .solution-summary {
-        background: var(--color-surface);
-        padding: 0.75rem 1rem;
+        padding: 0.75rem 0;
         cursor: pointer;
         display: flex;
         align-items: center;
-        gap: 0.75rem;
-        font-weight: 600;
-        color: var(--color-text);
-        transition: background 0.2s;
+        gap: 0.5rem;
+        font-weight: 500;
+        color: var(--color-primary); /* Use primary color for action */
+        font-size: 0.9rem;
+        font-family: var(--font-mono);
+        transition: opacity 0.2s;
+        user-select: none;
         list-style: none; /* Hide default marker */
     }
 
@@ -60,26 +63,48 @@ const renderTitle = (text: string) => {
     }
 
     .solution-summary:hover {
-        background: rgba(0, 0, 0, 0.05);
+        opacity: 0.7;
     }
 
-    :global([data-theme="dark"]) .solution-summary:hover {
-        background: rgba(255, 255, 255, 0.05);
+    .solution-summary .icon {
+        font-size: 1.1em;
     }
 
     .solution-summary .chevron {
         margin-left: auto;
         font-size: 0.8rem;
         transition: transform 0.3s ease;
+        opacity: 0.5;
     }
 
     .solution-details[open] .solution-summary .chevron {
         transform: rotate(180deg);
     }
 
+    .solution-summary .text {
+        font-size: 1rem;
+        font-family: var(--font-carrois);
+        text-transform: uppercase;
+        color: var(--color-secondary);
+    }                       
+
     .solution-content {
-        background: var(--color-bg);
-        padding: 1.5rem;
-        border-top: 1px solid var(--color-border);
+        background: transparent;
+        padding: 0.5rem 0 0;
+        color: var(--color-text);
+        font-family: var(--font-carrois) !important;
+        font-size: 1.2rem;
+        animation: slideDown 0.3s ease-out;
+    }
+
+    @keyframes slideDown {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 </style>

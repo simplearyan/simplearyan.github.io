@@ -6,6 +6,7 @@ import ShareButtons from "../../components/ShareButtons.astro";
 import HorizontalAd from "../../components/ads/HorizontalAd.astro";
 
 import ThinHorizontalAd from "../../components/ads/ThinHorizontalAd.astro";
+import MultiplexAd from "../../components/ads/MultiplexAd.astro";
 
 export async function getStaticPaths() {
     const educationItems = await getCollection("education");
@@ -108,7 +109,7 @@ const nextLesson =
                     label="Share this lesson"
                 />
 
-                <HorizontalAd />
+                {/* <HorizontalAd /> */}
 
                 <div class="lesson-navigation">
                     {prevLesson ? (
@@ -194,6 +195,7 @@ const nextLesson =
                         </div>
                     </div>
                 )}
+                <MultiplexAd />
             </article>
         </CourseLayout>
     ) : (
@@ -217,7 +219,8 @@ const nextLesson =
     .prose :global(h4),
     .prose :global(h5),
     .prose :global(h6) {
-        font-family: var(--font-serif);
+        /* font-family: var(--font-serif); */
+        /* font-family: var(--font-carois) !important; */
         font-weight: 700;
         color: var(--color-heading);
     }
@@ -278,9 +281,10 @@ const nextLesson =
 
     .nav-title {
         font-family: "Playfair Display", serif;
+        font-family: var(--font-carrois);
         font-size: 1.5rem;
         font-weight: 700;
-        font-style: italic;
+        /* font-style: italic; */
         color: var(--color-heading);
         line-height: 1.2;
     }
