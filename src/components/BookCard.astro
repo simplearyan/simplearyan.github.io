@@ -7,6 +7,7 @@ interface Props {
     pattern?: "circles" | "grid" | "waves" | "dots";
     fontStyle?: "serif" | "sans" | "display" | "handwritten";
     layoutStyle?: "classic" | "minimal" | "modern";
+    orientation?: "vertical" | "horizontal";
 }
 
 const {
@@ -17,11 +18,16 @@ const {
     pattern = "circles",
     fontStyle = "serif",
     layoutStyle = "classic",
+    orientation = "vertical",
 } = Astro.props;
 ---
 
-<a href={href} class="book-card-link">
-    <div class="book-card" data-layout={layoutStyle}>
+<a href={href} class="book-card-link" data-orientation={orientation}>
+    <div
+        class="book-card"
+        data-layout={layoutStyle}
+        data-orientation={orientation}
+    >
         <div
             class="book-cover"
             style={`background: linear-gradient(135deg, ${coverColor}, ${coverColor}dd)`}
@@ -210,10 +216,8 @@ const {
         left: 0;
         right: 0;
         bottom: 0;
-        background-image: linear-gradient(
-                rgba(255, 255, 255, 0.05) 1px,
-                transparent 1px
-            ),
+        background-image:
+            linear-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px),
             linear-gradient(
                 90deg,
                 rgba(255, 255, 255, 0.05) 1px,
@@ -235,7 +239,8 @@ const {
         left: 0;
         right: 0;
         bottom: 0;
-        background: radial-gradient(
+        background:
+            radial-gradient(
                 circle at 100% 100%,
                 transparent 20%,
                 rgba(255, 255, 255, 0.05) 21%,
@@ -359,5 +364,24 @@ const {
         .book-subtitle {
             -webkit-line-clamp: 2; /* Reduce lines on very small cards */
         }
+    }
+
+    /* Horizontal Orientation */
+    .book-card-link[data-orientation="horizontal"] {
+        max-width: 300px; /* Wider max-width for landscape */
+    }
+
+    .book-card[data-orientation="horizontal"] {
+        aspect-ratio: 3/2; /* Landscape aspect ratio */
+        transform: rotateY(-5deg); /* Slightly more angle for width */
+    }
+
+    .book-card[data-orientation="horizontal"] .book-title {
+        font-size: 8cqw !important; /* Smaller relative font size as width is larger */
+    }
+
+    .book-card[data-orientation="horizontal"] .book-decor {
+        width: 40cqw;
+        height: 40cqw;
     }
 </style>

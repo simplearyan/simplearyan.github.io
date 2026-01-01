@@ -80,6 +80,8 @@ const posts = (await getCollection("blog"))
 				</div>
 				<div class="books-grid">
 					{bookItems.map((book) => {
+						const isStats2 = book.slug.includes("stats-2");
+
 						return (
 							<BookCard
 								title={book.data.title
@@ -91,6 +93,8 @@ const posts = (await getCollection("blog"))
 								pattern="circles"
 								fontStyle="serif"
 								layoutStyle="classic"
+
+								orientation="horizontal"
 							/>
 						);
 					})}
@@ -520,7 +524,7 @@ const posts = (await getCollection("blog"))
 	}
 
 	.section-title {
-		font-size: 2rem;
+		font-size: 1.5rem;
 		/* font-family: var(--font-serif); */
 		font-family: "Playfair Display", serif;
 		margin-bottom: 0;
