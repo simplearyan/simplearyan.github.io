@@ -152,30 +152,7 @@ const gridTitle = isLessonLevel ? "Course Lessons" : "Course Subjects";
                 <h2 class="grid-title">Course Books & Resources</h2>
                 <div class="book-grid">
                     {textbooks.map((book) => {
-                        const isMaths =
-                            book.slug.includes("maths-2") ||
-                            book.data.title.includes("Linear Algebra");
-                        const isStats =
-                            book.slug.includes("stats-2") ||
-                            book.data.title.includes("Probability");
-
-                        let pattern = "circles";
-                        let fontStyle = "serif";
-                        let layoutStyle = "classic";
-                        let coverColor = book.data.cardColor || "#3b82f6";
-
-                        if (isMaths) {
-                            pattern = "grid";
-                            fontStyle = "sans";
-                            layoutStyle = "modern";
-                            coverColor = "#3b82f6"; // Ensure consistent blue
-                        } else if (isStats) {
-                            pattern = "waves";
-                            fontStyle = "serif";
-                            layoutStyle = "classic";
-                            // coverColor usually handled by book.data.cardColor but fallback:
-                            if (!book.data.cardColor) coverColor = "#ec4899";
-                        }
+                        const coverColor = book.data.cardColor || "#3b82f6";
 
                         return (
                             <BookCard
@@ -185,9 +162,9 @@ const gridTitle = isLessonLevel ? "Course Lessons" : "Course Subjects";
                                 subtitle={book.data.description}
                                 href={`/education/${book.slug}`}
                                 coverColor={coverColor}
-                                pattern={pattern as any}
-                                fontStyle={fontStyle as any}
-                                layoutStyle={layoutStyle as any}
+                                pattern="circles"
+                                fontStyle="serif"
+                                layoutStyle="classic"
                             />
                         );
                     })}

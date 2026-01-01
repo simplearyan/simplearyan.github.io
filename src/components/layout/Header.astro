@@ -87,6 +87,7 @@ const { disableSticky = false } = Astro.props;
           <span>Theme</span>
           <ThemeToggle />
         </div>
+        <div id="mobile-date" class="mobile-date"></div>
       </nav>
     </div>
     <div class="mobile-backdrop"></div>
@@ -248,6 +249,14 @@ const { disableSticky = false } = Astro.props;
     color: var(--color-text);
   }
 
+  .mobile-date {
+    font-family: var(--font-mono);
+    font-size: 0.9rem;
+    color: var(--color-text-muted);
+    border-bottom: 1px dashed var(--color-border);
+    padding-bottom: 1rem;
+  }
+
   .close-menu-btn {
     background: none;
     border: none;
@@ -345,4 +354,15 @@ const { disableSticky = false } = Astro.props;
   mobileLinks.forEach((link) => {
     link.addEventListener("click", toggleMenu);
   });
+
+  // Set Mobile Date
+  const mobileDate = document.getElementById("mobile-date");
+  if (mobileDate) {
+    mobileDate.textContent = new Date().toLocaleDateString("en-US", {
+      weekday: "long",
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+    });
+  }
 </script>

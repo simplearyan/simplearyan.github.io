@@ -11,7 +11,20 @@ const today = new Date();
         <span class="logo-x">x</span>
       </a>
       All rights reserved.
+      <!-- <span class="footer-separator">•</span>
+      <span id="footer-date"></span>
     </p>
+    <script>
+      const footerDate = document.getElementById("footer-date");
+      if (footerDate) {
+        footerDate.textContent = new Date().toLocaleDateString("en-US", {
+          weekday: "long",
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+        });
+      }
+    </script> -->
     <div class="social-links">
       <a href="/about">About</a>
       <a href="#" target="_blank" rel="noopener noreferrer">Twitter</a>
@@ -87,6 +100,15 @@ const today = new Date();
 
     .social-links {
       justify-content: center;
+    }
+
+    .footer-separator {
+      display: none;
+    }
+
+    #footer-date {
+      display: block;
+      margin-top: 0.5rem;
     }
   }
 </style>

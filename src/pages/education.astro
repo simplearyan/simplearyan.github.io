@@ -62,35 +62,6 @@ const bookItems = educationItems.filter(
 
                         <div class="books-grid">
                             {bookItems.map((book) => {
-                                // Assign separate styles based on the book
-                                const isMaths = book.slug.includes("maths-2");
-                                const isStats = book.slug.includes("stats-2");
-
-                                let pattern:
-                                    | "circles"
-                                    | "grid"
-                                    | "waves"
-                                    | "dots" = "circles";
-                                let fontStyle:
-                                    | "serif"
-                                    | "sans"
-                                    | "display"
-                                    | "handwritten" = "serif";
-                                let layoutStyle:
-                                    | "classic"
-                                    | "minimal"
-                                    | "modern" = "classic";
-
-                                if (isMaths) {
-                                    pattern = "grid";
-                                    fontStyle = "sans";
-                                    layoutStyle = "modern";
-                                } else if (isStats) {
-                                    pattern = "waves";
-                                    fontStyle = "serif";
-                                    layoutStyle = "classic";
-                                }
-
                                 return (
                                     <BookCard
                                         title={book.data.title
@@ -101,9 +72,9 @@ const bookItems = educationItems.filter(
                                         coverColor={
                                             book.data.cardColor || "#3b82f6"
                                         }
-                                        pattern={pattern}
-                                        fontStyle={fontStyle}
-                                        layoutStyle={layoutStyle}
+                                        pattern="circles"
+                                        fontStyle="serif"
+                                        layoutStyle="classic"
                                     />
                                 );
                             })}

@@ -80,30 +80,6 @@ const posts = (await getCollection("blog"))
 				</div>
 				<div class="books-grid">
 					{bookItems.map((book) => {
-						// Assign separate styles based on the book
-						const isMaths = book.slug.includes("maths-2");
-						const isStats = book.slug.includes("stats-2");
-
-						let pattern: "circles" | "grid" | "waves" | "dots" =
-							"circles";
-						let fontStyle:
-							| "serif"
-							| "sans"
-							| "display"
-							| "handwritten" = "serif";
-						let layoutStyle: "classic" | "minimal" | "modern" =
-							"classic";
-
-						if (isMaths) {
-							pattern = "grid";
-							fontStyle = "sans";
-							layoutStyle = "modern";
-						} else if (isStats) {
-							pattern = "waves";
-							fontStyle = "serif";
-							layoutStyle = "classic";
-						}
-
 						return (
 							<BookCard
 								title={book.data.title
@@ -112,9 +88,9 @@ const posts = (await getCollection("blog"))
 								subtitle={book.data.description}
 								href={`/education/${book.slug}`}
 								coverColor={book.data.cardColor || "#3b82f6"}
-								pattern={pattern}
-								fontStyle={fontStyle}
-								layoutStyle={layoutStyle}
+								pattern="circles"
+								fontStyle="serif"
+								layoutStyle="classic"
 							/>
 						);
 					})}
@@ -287,20 +263,15 @@ const posts = (await getCollection("blog"))
                                     <div class="card-header">
                                         <div class="institution-badge">
                                             <span class="institution">${data.institution || "Unknown Institution"}</span>
+                                            <span class="separator">•</span>
                                             <span class="course-type" style="color: ${categoryColor}">${data.courseType || "Course"}</span>
                                         </div>
                                     </div>
                                     <div class="card-body">
                                         <h3 class="title">${data.title}</h3>
                                         <p class="description">${data.description}</p>
-                                        <div class="tags">
-                                            ${(data.tags || [])
-												.slice(0, 3)
-												.map(
-													(tag) =>
-														`<span class="tag">${tag}</span>`,
-												)
-												.join("")}
+                                        <div class="card-footer">
+                                            <span class="view-course">View Course &rarr;</span>
                                         </div>
                                     </div>
                                 </a>

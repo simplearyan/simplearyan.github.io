@@ -34,7 +34,7 @@ const { title, description, pubDate, image, institution, courseType } =
                         </time>
                     </div>
                     <h1>{title}</h1>
-                    <p class="description">{description}</p>
+                    <!-- <p class="description">{description}</p> -->
                 </div>
                 {
                     image && (
@@ -66,7 +66,9 @@ const { title, description, pubDate, image, institution, courseType } =
     }
 
     .education-header {
-        padding: 6rem 0 4rem;
+        /* padding: 6rem 0 4rem; */
+        padding: 2rem 0 0rem;
+
         text-align: center;
         background: linear-gradient(
             to bottom,
@@ -74,7 +76,7 @@ const { title, description, pubDate, image, institution, courseType } =
             var(--color-surface) 100%
         );
         border-bottom: 1px solid var(--color-border);
-        margin-bottom: 4rem;
+        /* margin-bottom: 4rem; */
     }
 
     .container {
@@ -101,7 +103,7 @@ const { title, description, pubDate, image, institution, courseType } =
 
     .institution-badge {
         background: var(--color-primary-muted);
-        color: var(--color-primary);
+        color: var(--color-text);
         padding: 0.25rem 0.85rem;
         border-radius: 999px;
         font-weight: 700;
@@ -191,7 +193,8 @@ const { title, description, pubDate, image, institution, courseType } =
         }
 
         .education-header {
-            padding: 4rem 0 3rem;
+            /* padding: 4rem 0 3rem; */
+            padding: 2rem 0 0rem;
         }
 
         .hero-image-wrapper {

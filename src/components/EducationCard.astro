@@ -57,6 +57,7 @@ const isNew =
     <div class="card-header">
         <div class="institution-badge">
             <span class="institution">{institution}</span>
+            <span class="separator">•</span>
             <span class="course-type">{courseType}</span>
         </div>
         {isNew && <span class="new-indicator">NEW</span>}
@@ -64,6 +65,10 @@ const isNew =
 
     <div class="card-body">
         <h3 class="title">{title}</h3>
+        <p class="description">{description}</p>
+        <div class="card-footer">
+            <span class="view-course">View Course &rarr;</span>
+        </div>
     </div>
 
     <!-- Hover overlay handled by CSS ::after -->
