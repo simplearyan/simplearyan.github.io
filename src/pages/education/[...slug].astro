@@ -56,7 +56,9 @@ const nextLesson =
             <article
                 class={`prose ${item.data.hideToc ? "max-w-75ch" : "max-w-75ch"}`}
             >
-                <HorizontalAd />
+                <div class="top-horizontal-ad">
+                    <HorizontalAd />
+                </div>
                 <div class="lesson-header">
                     <h1>{item.data.title}</h1>
                     <button
@@ -302,6 +304,10 @@ const nextLesson =
         .nav-card.next {
             text-align: left;
             align-items: flex-start;
+        }
+
+        .top-horizontal-ad {
+            display: none !important;
         }
     }
 

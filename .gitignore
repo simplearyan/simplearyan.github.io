@@ -25,3 +25,9 @@ pnpm-debug.log*
 
 # vscode setting folder
 .vscode
+
+# unnecessary files
+*.txt
+
+# keep ads.txt
+!/public/ads.txt
