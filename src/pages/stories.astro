@@ -1,6 +1,6 @@
 ---
-import Layout from "../layouts/Layout.astro";
-import StoryCard from "../components/StoryCard.astro";
+import Layout from "@layouts/BaseLayout.astro";
+import StoryCard from "@cards/StoryCard.astro";
 import { getCollection } from "astro:content";
 
 const stories = (await getCollection("stories")).sort(

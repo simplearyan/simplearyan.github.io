@@ -1,10 +1,10 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import Layout from "@layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
-import EducationCard from "../components/EducationCard.astro";
-import "../styles/education-card.css";
-import BookCard from "../components/BookCard.astro";
-import MultiplexAd from "../components/ads/MultiplexAd.astro";
+import EducationCard from "@cards/EducationCard.astro";
+import "@styles/education-card.css";
+import BookCard from "@cards/BookCard.astro";
+import MultiplexAd from "@ads/MultiplexAd.astro";
 
 const allEducationItems = await getCollection("education");
 
@@ -93,7 +93,6 @@ const posts = (await getCollection("blog"))
 								pattern="circles"
 								fontStyle="serif"
 								layoutStyle="classic"
-
 								orientation="horizontal"
 							/>
 						);

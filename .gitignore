@@ -29,6 +29,8 @@ pnpm-debug.log*
 # unnecessary files
 *.txt
 project-bundle.md
+fix-imports.py
+*.py
 
 # keep ads.txt
 !/public/ads.txt

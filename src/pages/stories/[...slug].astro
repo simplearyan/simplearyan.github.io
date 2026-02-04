@@ -1,8 +1,8 @@
 ---
 import { getCollection } from "astro:content";
-import Layout from "../../layouts/Layout.astro";
-import { formatDate } from "../../utils";
-import OptimizedImage from "../../components/OptimizedImage.astro";
+import Layout from "@layouts/BaseLayout.astro";
+import { formatDate } from "@/utils";
+import OptimizedImage from "@ui/OptimizedImage.astro";
 
 export async function getStaticPaths() {
     const stories = await getCollection("stories");

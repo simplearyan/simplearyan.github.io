@@ -10,7 +10,7 @@ showImage: true
 fancyHeadings: true
 ---
 
-import ScribbleCard from '../../components/ScribbleCard.astro';
+import ScribbleCard from "@cards/ScribbleCard.astro";
 
 In Part 1, we introduced basic playing cards. Now, let's get messy! We're adding "scribble" styles, advanced flip animations, and the ability to put markdown on *both* sides of the card.
 
@@ -197,7 +197,7 @@ Using your uploaded images with the scribble effect.
 Import `ScribbleCard` and use named slots for `front` and `back`.
 
 ```astro
-import ScribbleCard from '../components/ScribbleCard.astro';
+import ScribbleCard from "@cards/ScribbleCard.astro";
 
 <ScribbleCard flipDirection="vertical" scribbleStyle="rough">
   <div slot="front">

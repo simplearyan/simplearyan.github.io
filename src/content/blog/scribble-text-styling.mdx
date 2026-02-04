@@ -7,10 +7,10 @@ image: ""
 tags: ["Astro", "Design", "CSS", "Animation"]
 ---
 
-import ScribbleText from "../../components/scribble/ScribbleText.astro";
-import CinematicText from "../../components/CinematicText.astro";
-import HandDrawnBox from "../../components/HandDrawnBox.astro";
-import TypewriterCode from "../../components/TypewriterCode.astro";
+import ScribbleText from "@widgets/annotation/ScribbleText.astro";
+import CinematicText from "@widgets/cinematic/CinematicText.astro";
+import HandDrawnBox from "@ui/HandDrawnBox.astro";
+import TypewriterCode from "@widgets/cinematic/TypewriterCode.astro";
 
 <CinematicText 
   text="The Art of Imperfection" 
@@ -70,7 +70,7 @@ Using the component is super simple. Just import it and pass your text.
 <TypewriterCode 
     lang="astro"
     code={`---
-import ScribbleText from '../components/scribble/ScribbleText.astro';
+import ScribbleText from "@widgets/annotation/ScribbleText.astro";
 ---
 
 <ScribbleText 

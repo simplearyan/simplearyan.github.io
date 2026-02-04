@@ -1,12 +1,23 @@
 ---
 import { getCollection } from "astro:content";
-import CourseLayout from "../../layouts/CourseLayout.astro";
-import EducationSingleLayout from "../../layouts/EducationSingleLayout.astro";
-import ShareButtons from "../../components/ShareButtons.astro";
-import HorizontalAd from "../../components/ads/HorizontalAd.astro";
+import CourseLayout from "@layouts/CourseLayout.astro";
+import EducationSingleLayout from "@layouts/EducationSingleLayout.astro";
+import ShareButtons from "@shell/footer/ShareButtons.astro";
+import HorizontalAd from "@ads/HorizontalAd.astro";
+import ThinHorizontalAd from "@ads/ThinHorizontalAd.astro";
+import MultiplexAd from "@ads/MultiplexAd.astro";
 
-import ThinHorizontalAd from "../../components/ads/ThinHorizontalAd.astro";
-import MultiplexAd from "../../components/ads/MultiplexAd.astro";
+// --- WIDGET IMPORTS ---
+import Equation from "@widgets/math/Equation.astro";
+import Matrix from "@widgets/math/Matrix.astro";
+import Mermaid from "@widgets/diagram/Mermaid.astro";
+import ScribbleBox from "@widgets/annotation/ScribbleBox.astro";
+import CinematicText from "@widgets/cinematic/CinematicText.astro";
+import VoxLineChart from "@widgets/charts/VoxLineChart.astro";
+import GaltonBoard from "@widgets/simulation/GaltonBoard.astro";
+import Problem from "@lms/blocks/Problem.astro";
+import Solution from "@lms/blocks/Solution.astro";
+import OptionList from "@lms/quiz/OptionList.astro";
 
 export async function getStaticPaths() {
     const educationItems = await getCollection("education");
@@ -103,7 +114,20 @@ const nextLesson =
                         </svg>
                     </button>
                 </div>
-                <Content />
+                <Content
+                    components={{
+                        Equation,
+                        Matrix,
+                        Mermaid,
+                        ScribbleBox,
+                        CinematicText,
+                        VoxLineChart,
+                        GaltonBoard,
+                        Problem,
+                        Solution,
+                        OptionList,
+                    }}
+                />
 
                 <ShareButtons
                     title={item.data.title}
@@ -209,7 +233,20 @@ const nextLesson =
             institution={item.data.institution}
             courseType={item.data.courseType}
         >
-            <Content />
+            <Content
+                components={{
+                    Equation,
+                    Matrix,
+                    Mermaid,
+                    ScribbleBox,
+                    CinematicText,
+                    VoxLineChart,
+                    GaltonBoard,
+                    Problem,
+                    Solution,
+                    OptionList,
+                }}
+            />
         </EducationSingleLayout>
     )
 }

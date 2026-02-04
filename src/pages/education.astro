@@ -1,11 +1,11 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import Layout from "@layouts/BaseLayout.astro";
 import { getCollection } from "astro:content";
-import EducationCard from "../components/EducationCard.astro";
-import EducationInFeedAd from "../components/ads/EducationInFeedAd.astro";
-import BookCard from "../components/BookCard.astro";
-import HorizontalAd from "../components/ads/HorizontalAd.astro";
-import MultiplexAd from "../components/ads/MultiplexAd.astro";
+import EducationCard from "@cards/EducationCard.astro";
+import EducationInFeedAd from "@ads/EducationInFeedAd.astro";
+import BookCard from "@cards/BookCard.astro";
+import HorizontalAd from "@ads/HorizontalAd.astro";
+import MultiplexAd from "@ads/MultiplexAd.astro";
 
 const educationItems = await getCollection("education");
 

@@ -7,8 +7,8 @@ image: "/favicon.png"
 tags: ["design", "css", "animations", "education", "astro"]
 ---
 
-import Emoji from '../../components/Emoji.astro';
-import Mermaid from '../../components/Mermaid.astro';
+import Emoji from "@ui/Emoji.astro";
+import Mermaid from "@widgets/diagram/Mermaid.astro";
 
 Creating a compelling learning experience goes beyond just text. By leveraging the power of **Astro**, **CSS**, and **Animations**, we can transform static content into an interactive and visually stimulating journey.
 
@@ -132,7 +132,7 @@ We can import and use React or Astro components directly in our MDX files.
 Using our `<Emoji />` component for consistent styling.
 
 ```jsx
-import Emoji from '../../components/Emoji.astro';
+import Emoji from "@ui/Emoji.astro";
 
 <Emoji symbol="🎨" label="art" size="3rem" />
 ```
@@ -148,7 +148,7 @@ import Emoji from '../../components/Emoji.astro';
 Visualizing flows is critical for technical education.
 
 ```jsx
-import Mermaid from '../../components/Mermaid.astro';
+import Mermaid from "@widgets/diagram/Mermaid.astro";
 
 <Mermaid chart={`
   graph LR
