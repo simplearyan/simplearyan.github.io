@@ -3,21 +3,110 @@ import { getCollection } from "astro:content";
 import CourseLayout from "@layouts/CourseLayout.astro";
 import EducationSingleLayout from "@layouts/EducationSingleLayout.astro";
 import ShareButtons from "@shell/footer/ShareButtons.astro";
-import HorizontalAd from "@ads/HorizontalAd.astro";
-import ThinHorizontalAd from "@ads/ThinHorizontalAd.astro";
-import MultiplexAd from "@ads/MultiplexAd.astro";
 
-// --- WIDGET IMPORTS ---
+import AnimatedCard from "@cards/AnimatedCard.astro";
+import ArrowEmphasis from "@widgets/cinematic/ArrowEmphasis.astro";
+import BookCard from "@cards/BookCard.astro";
+import BoxPlot from "@widgets/simulation/BoxPlot.astro";
+import Callout from "@lms/blocks/Callout.astro";
+import CaptionedFigure from "@demo/CaptionedFigure.astro";
+import CardDealer from "@widgets/simulation/CardDealer.astro";
+import Chart from "@widgets/charts/Chart.astro";
+import CinematicCard from "@cards/CinematicCard.astro";
+import CinematicContainer from "@widgets/cinematic/CinematicContainer.astro";
+import CinematicHighlight from "@widgets/cinematic/CinematicHighlight.astro";
+import CinematicText from "@widgets/cinematic/CinematicText.astro";
+import CircleEmphasis from "@widgets/cinematic/CircleEmphasis.astro";
+import Coin from "@widgets/simulation/Coin.astro";
+import ColoredHeading from "@demo/ColoredHeading.astro";
+import ConceptCard from "@demo/ConceptCard.astro";
+import ConfidenceIntervalPlot from "@widgets/simulation/ConfidenceIntervalPlot.astro";
+import CustomTable from "@ui/CustomTable.astro";
+import Determinant from "@widgets/math/Determinant.astro";
+import DiagramArrow from "@widgets/annotation/DiagramArrow.astro";
+import Dice from "@widgets/simulation/Dice.astro";
+import DiceSimulation from "@widgets/simulation/DiceSimulation.astro";
+import DistributionPlot from "@widgets/simulation/DistributionPlot.astro";
+import Emoji from "@ui/Emoji.astro";
 import Equation from "@widgets/math/Equation.astro";
+import EquationGraph from "@widgets/math/EquationGraph.astro";
+import Flowchart from "@widgets/charts/Flowchart.astro";
+import GaltonBoard from "@widgets/simulation/GaltonBoard.astro";
+import HandDrawnBox from "@ui/HandDrawnBox.astro";
+import Heatmap from "@widgets/simulation/Heatmap.astro";
+import InteractiveCoin from "@widgets/simulation/InteractiveCoin.astro";
+import InteractiveDice from "@widgets/simulation/InteractiveDice.astro";
+import List from "@ui/List.astro";
+import MapEmbed from "@widgets/diagram/MapEmbed.astro";
+import MarkerHighlight from "@widgets/cinematic/MarkerHighlight.astro";
+import Markmap from "@widgets/diagram/Markmap.astro";
 import Matrix from "@widgets/math/Matrix.astro";
 import Mermaid from "@widgets/diagram/Mermaid.astro";
+import MindMap from "@widgets/charts/MindMap.astro";
+import MindmapDemo from "@widgets/diagram/MindmapDemo.astro";
+import NetworkGraph from "@widgets/simulation/NetworkGraph.astro";
+import PlayingCard from "@cards/PlayingCard.astro";
+import PlayingCardHand from "@widgets/simulation/PlayingCardHand.astro";
+import ScatterPlot from "@widgets/simulation/ScatterPlot.astro";
 import ScribbleBox from "@widgets/annotation/ScribbleBox.astro";
-import CinematicText from "@widgets/cinematic/CinematicText.astro";
+import ScribbleCard from "@cards/ScribbleCard.astro";
+import ScribbleCircle from "@widgets/annotation/ScribbleCircle.astro";
+import ScribbleHighlight from "@widgets/annotation/ScribbleHighlight.astro";
+import ScribbleText from "@widgets/annotation/ScribbleText.astro";
+import StrokeUnderline from "@widgets/cinematic/StrokeUnderline.astro";
+import StyledMath from "@widgets/math/StyledMath.astro";
+import System from "@widgets/math/System.astro";
+import TreeDiagram from "@widgets/simulation/TreeDiagram.astro";
+import TypewriterCode from "@widgets/cinematic/TypewriterCode.astro";
+import TypewriterSyntax from "@widgets/cinematic/TypewriterSyntax.astro";
+import Urn from "@widgets/simulation/Urn.astro";
+import VennDiagram from "@widgets/simulation/VennDiagram.astro";
+import ViolinPlot from "@widgets/simulation/ViolinPlot.astro";
+import VoxContainer from "@widgets/charts/VoxContainer.astro";
+import ZTestPlot from "@widgets/simulation/ZTestPlot.astro";
+
+// Ad components
+import MultiplexAd from "@ads/MultiplexAd.astro";
+import HorizontalAd from "@ads/HorizontalAd.astro";
+import ThinHorizontalAd from "@ads/ThinHorizontalAd.astro";
+import FixedHorizontalAd from "@ads/FixedHorizontalAd.astro";
+import InFeedAd from "@ads/InFeedAd.astro";
+import InArticleAd from "@ads/InArticleAd.astro";
+import H2Ad from "@ads/H2Ad.astro";
+import BannerAd from "@ads/BannerAd.astro";
+
+import OptimizedImage from "@ui/OptimizedImage.astro";
+import TypingText from "@widgets/cinematic/TypingText.astro";
+import Board from "@widgets/simulation/Board.astro";
+import ScribbleCheck from "@widgets/annotation/ScribbleCheck.astro";
+import ScribbleLine from "@widgets/annotation/ScribbleLine.astro";
+import BarChart from "@widgets/charts/BarChart.astro";
+import LineChart from "@widgets/charts/LineChart.astro";
+import PieChart from "@widgets/charts/PieChart.astro";
 import VoxLineChart from "@widgets/charts/VoxLineChart.astro";
-import GaltonBoard from "@widgets/simulation/GaltonBoard.astro";
+import VoxBarChart from "@widgets/charts/VoxBarChart.astro";
+import VoxPieChart from "@widgets/charts/VoxPieChart.astro";
+import Highlight from "@widgets/annotation/Highlight.astro";
+import Circle from "@widgets/annotation/Circle.astro";
+import Arrow from "@widgets/annotation/Arrow.astro";
+import Underline from "@widgets/annotation/Underline.astro";
+import Aside from "@widgets/annotation/Aside.astro";
+import BlogCard from "@cards/BlogCard.astro";
+
+// Education Unique Components
+import AutoSubjectGrid from "@shell/landing/AutoSubjectGrid.astro";
+import SubjectCard from "@cards/SubjectCard.astro";
+import SubjectPyqs from "@lms/quiz/SubjectPyqs.astro";
+import VideoEmbed from "@ui/VideoEmbed.astro";
 import Problem from "@lms/blocks/Problem.astro";
 import Solution from "@lms/blocks/Solution.astro";
 import OptionList from "@lms/quiz/OptionList.astro";
+import Latex from "@lms/blocks/Latex.astro";
+import Concept from "@lms/blocks/Concept.astro";
+import CourseModules from "@lms/modules/CourseModules.astro";
+import ShortAnswer from "@lms/quiz/ShortAnswer.astro";
+import OptionItem from "@lms/quiz/OptionItem.astro";
+import ProblemCard from "@lms/quiz/ProblemCard.astro";
 
 export async function getStaticPaths() {
     const educationItems = await getCollection("education");
@@ -52,6 +141,106 @@ const nextLesson =
     currentIndex < currentCourseItems.length - 1
         ? currentCourseItems[currentIndex + 1]
         : null;
+// Shared components mapping
+const components = {
+    // Component Library (from Blog)
+    AnimatedCard,
+    ArrowEmphasis,
+    BookCard,
+    BoxPlot,
+    Callout,
+    CaptionedFigure,
+    CardDealer,
+    Chart,
+    CinematicCard,
+    CinematicContainer,
+    CinematicHighlight,
+    CinematicText,
+    CircleEmphasis,
+    Coin,
+    ColoredHeading,
+    ConceptCard,
+    ConfidenceIntervalPlot,
+    CustomTable,
+    Determinant,
+    DiagramArrow,
+    Dice,
+    DiceSimulation,
+    DistributionPlot,
+    Emoji,
+    Equation,
+    EquationGraph,
+    Flowchart,
+    GaltonBoard,
+    HandDrawnBox,
+    Heatmap,
+    InteractiveCoin,
+    InteractiveDice,
+    List,
+    MapEmbed,
+    MarkerHighlight,
+    Markmap,
+    Matrix,
+    Mermaid,
+    MindMap,
+    MindmapDemo,
+    NetworkGraph,
+    PlayingCard,
+    PlayingCardHand,
+    ScatterPlot,
+    ScribbleBox,
+    ScribbleCard,
+    ScribbleCircle,
+    ScribbleHighlight,
+    ScribbleText,
+    StrokeUnderline,
+    StyledMath,
+    System,
+    TreeDiagram,
+    TypewriterCode,
+    TypewriterSyntax,
+    Urn,
+    VennDiagram,
+    ViolinPlot,
+    VoxContainer,
+    ZTestPlot,
+
+    // Primitives / Other
+    ScribbleCheck,
+    ScribbleLine,
+    BarChart,
+    LineChart,
+    PieChart,
+    VoxLineChart,
+    VoxBarChart,
+    VoxPieChart,
+    Highlight,
+    Circle,
+    Arrow,
+    Underline,
+    Aside,
+
+    // Mappings
+    h2: H2Ad,
+    OptimizedImage,
+    TypingText,
+    Board,
+
+    // Education Specifics
+    Problem,
+    Solution,
+    OptionList,
+    Latex,
+    Concept,
+    CourseModules,
+    ShortAnswer,
+    OptionItem,
+    ProblemCard,
+    AutoSubjectGrid,
+    SubjectCard,
+    SubjectPyqs,
+    VideoEmbed,
+};
 ---
 
 {
@@ -114,20 +303,7 @@ const nextLesson =
                         </svg>
                     </button>
                 </div>
-                <Content
-                    components={{
-                        Equation,
-                        Matrix,
-                        Mermaid,
-                        ScribbleBox,
-                        CinematicText,
-                        VoxLineChart,
-                        GaltonBoard,
-                        Problem,
-                        Solution,
-                        OptionList,
-                    }}
-                />
+                <Content components={components} />
 
                 <ShareButtons
                     title={item.data.title}
@@ -233,20 +409,7 @@ const nextLesson =
             institution={item.data.institution}
             courseType={item.data.courseType}
         >
-            <Content
-                components={{
-                    Equation,
-                    Matrix,
-                    Mermaid,
-                    ScribbleBox,
-                    CinematicText,
-                    VoxLineChart,
-                    GaltonBoard,
-                    Problem,
-                    Solution,
-                    OptionList,
-                }}
-            />
+            <Content components={components} />
         </EducationSingleLayout>
     )
 }
