@@ -28,6 +28,7 @@ pnpm-debug.log*
 
 # unnecessary files
 *.txt
+project-bundle.md
 
 # keep ads.txt
 !/public/ads.txt
