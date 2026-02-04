@@ -7,8 +7,6 @@ image: "/blog/cards/design-deck.jpg"
 tags: ["design", "css", "animation", "components"]
 ---
 
-import PlayingCard from "@cards/PlayingCard.astro";
-import Mermaid from "@widgets/diagram/Mermaid.astro";
 
 Why scroll through walls of text when you can flip through a deck of cards? In this post, we'll transform standard markdown elements into interactive playing cards.
 
@@ -88,7 +86,6 @@ We can even put complex content like diagrams and equations inside these cards.
 Simply import the `PlayingCard` component and wrap your markdown content.
 
 ```astro
-import PlayingCard from "@cards/PlayingCard.astro";
 
 <PlayingCard rank="A" suit="spades" flip={true}>
   # Your Content Here

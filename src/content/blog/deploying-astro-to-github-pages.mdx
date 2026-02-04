@@ -7,10 +7,6 @@ image: ""
 tags: ["Astro", "DevOps", "GitHub"]
 ---
 
-import CinematicText from "@widgets/cinematic/CinematicText.astro";
-import HandDrawnBox from "@ui/HandDrawnBox.astro";
-import CinematicCard from "@cards/CinematicCard.astro";
-import Mermaid from "@widgets/diagram/Mermaid.astro";
 
 <CinematicText 
   text="Deploying to the Stars" 
@@ -46,7 +42,6 @@ You need to configure two key properties:
 
 ```javascript
 // astro.config.mjs
-import { defineConfig } from 'astro/config';
 
 export default defineConfig({
   site: 'https://your-username.github.io',

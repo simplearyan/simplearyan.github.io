@@ -7,10 +7,6 @@ image: ""
 tags: ["Astro", "SEO", "Google"]
 ---
 
-import CinematicText from "@widgets/cinematic/CinematicText.astro";
-import HandDrawnBox from "@ui/HandDrawnBox.astro";
-import Mermaid from "@widgets/diagram/Mermaid.astro";
-import TypewriterCode from "@widgets/cinematic/TypewriterCode.astro";
 
 <CinematicText 
   text="The Path to Discovery" 
@@ -50,8 +46,6 @@ Then, open your `astro.config.mjs`. It is **crucial** that you define your `site
 
 ```javascript
 // astro.config.mjs
-import { defineConfig } from 'astro/config';
-import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
   site: 'https://your-awesome-site.com', // <--- IMPORTANT!
