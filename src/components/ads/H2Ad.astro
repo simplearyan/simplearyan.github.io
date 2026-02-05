@@ -1,21 +1,5 @@
 ---
-import InArticleAd from "./InArticleAd.astro";
 const props = Astro.props;
 ---
 
-<div class="h2-ad-wrapper">
-    <InArticleAd />
-</div>
 <h2 {...props}><slot /></h2>
-
-<style>
-    /* Intelligent Ad Density: Show an ad only before every 3rd sub-heading */
-    .h2-ad-wrapper {
-        display: none !important;
-    }
-
-    /* Show only for the 3rd, 6th, 9th, etc. occurrences of H2Ad within the prose container */
-    :global(.prose) .h2-ad-wrapper:nth-of-type(3n) {
-        display: block !important;
-    }
-</style>
