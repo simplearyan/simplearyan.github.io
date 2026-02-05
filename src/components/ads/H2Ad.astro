@@ -9,13 +9,13 @@ const props = Astro.props;
 <h2 {...props}><slot /></h2>
 
 <style>
-    /* Intelligent Ad Density: Hide the ad for the first 2 H2 headers in the article */
+    /* Intelligent Ad Density: Show an ad only before every 3rd sub-heading */
     .h2-ad-wrapper {
-        display: block;
+        display: none !important;
     }
 
-    /* Target the first two instances of H2Ad's wrapper inside the prose container */
-    :global(.prose) .h2-ad-wrapper:nth-of-type(-n + 2) {
-        display: none !important;
+    /* Show only for the 3rd, 6th, 9th, etc. occurrences of H2Ad within the prose container */
+    :global(.prose) .h2-ad-wrapper:nth-of-type(3n) {
+        display: block !important;
     }
 </style>
