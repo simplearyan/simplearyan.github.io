@@ -208,42 +208,38 @@ const {
     // Support View Transitions if added later
     document.addEventListener("astro:page-load", initMobileNav);
 
-    // Sidebar Toggle Logic
-    function initSidebarToggle() {
-        const toggleBtn = document.getElementById("sidebar-toggle");
-        const closeIcon = toggleBtn?.querySelector(".icon-sidebar-close");
-        const openIcon = toggleBtn?.querySelector(".icon-sidebar-open");
-
+    // Layout Focus Toggle Logic (Hide Sidebar + TOC)
+    function initLayoutFocus() {
         /** @param {boolean} isCollapsed */
-        function updateUI(isCollapsed) {
+        function updateUI(isCollapsed: boolean) {
             if (isCollapsed) {
-                document.body.classList.add("sidebar-collapsed");
-                closeIcon?.classList.add("hidden");
-                openIcon?.classList.remove("hidden");
+                document.body.classList.add("sidebars-collapsed");
             } else {
-                document.body.classList.remove("sidebar-collapsed");
-                closeIcon?.classList.remove("hidden");
-                openIcon?.classList.add("hidden");
+                document.body.classList.remove("sidebars-collapsed");
             }
         }
 
-        function toggleSidebar() {
-            const isCollapsed =
-                document.body.classList.contains("sidebar-collapsed");
-            const newState = !isCollapsed;
-            updateUI(newState);
-            localStorage.setItem("sidebarCollapsed", newState.toString());
-        }
-
-        // Initialize from storage
-        const savedState = localStorage.getItem("sidebarCollapsed") === "true";
+        // Initialize from storage or default to false
+        const savedState = localStorage.getItem("sidebarsCollapsed") === "true";
         updateUI(savedState);
 
-        toggleBtn?.addEventListener("click", toggleSidebar);
+        // Listen for internal toggle events (since the button might be outside this layout)
+        window.addEventListener("toggle-sidebars", () => {
+            const isCollapsed =
+                document.body.classList.contains("sidebars-collapsed");
+            const newState = !isCollapsed;
+            updateUI(newState);
+            localStorage.setItem("sidebarsCollapsed", newState.toString());
+        });
     }
 
-    initSidebarToggle();
-    document.addEventListener("astro:page-load", initSidebarToggle);
+    initLayoutFocus();
+    document.addEventListener("astro:page-load", initLayoutFocus);
+    document.addEventListener("astro:after-swap", () => {
+        const isCollapsed =
+            localStorage.getItem("sidebarsCollapsed") === "true";
+        if (isCollapsed) document.body.classList.add("sidebars-collapsed");
+    });
 </script>
 
 <style>
@@ -486,13 +482,8 @@ const {
             display: flex;
         }
 
-        /* Move button when sidebar is collapsed */
-        :global(body.sidebar-collapsed) .sidebar-toggle-btn {
-            margin-left: 20px; /* Move to start of content area */
-        }
-
         /* Collapsed Sidebar State */
-        :global(body.sidebar-collapsed) .sidebar-container {
+        :global(body.sidebars-collapsed) .sidebar-container {
             width: 0;
             opacity: 0;
             pointer-events: none;
@@ -500,22 +491,31 @@ const {
             border-right: none;
         }
 
-        :global(body.sidebar-collapsed) .course-content {
-            /* Center content when sidebar is hidden */
-            padding-left: 0; /* Remove potential padding */
+        :global(body.sidebars-collapsed) .course-toc {
+            width: 0;
+            opacity: 0;
+            pointer-events: none;
+            overflow: hidden;
+            padding-right: 0;
+        }
+
+        :global(body.sidebars-collapsed) .course-content {
+            padding-left: 0;
+            padding-right: 0;
         }
 
         /* Increase content width when sidebar is collapsed */
-        :global(body.sidebar-collapsed) .course-container {
-            max-width: 1000px; /* Wider content */
+        :global(body.sidebars-collapsed) .course-container {
+            max-width: 1100px; /* Wider focused content */
         }
 
-        :global(body.sidebar-collapsed) .course-container.no-toc {
-            max-width: 1400px; /* Even wider if TOC is also hidden */
+        :global(body.sidebars-collapsed) .course-container.no-toc {
+            max-width: 1400px;
         }
 
         /* Smooth transitions */
         .sidebar-container,
+        .course-toc,
         .course-content,
         .course-container {
             transition:

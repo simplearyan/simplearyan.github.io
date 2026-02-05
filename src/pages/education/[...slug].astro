@@ -261,47 +261,79 @@ const components = {
                 </div>
                 <div class="lesson-header">
                     <h1>{item.data.title}</h1>
-                    <button
-                        id="zen-mode-toggle"
-                        class="zen-mode-btn"
-                        aria-label="Toggle Zen Mode"
-                        title="Toggle Zen Mode"
-                    >
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            class="zen-icon-enter"
+                    <div class="header-actions">
+                        <button
+                            id="layout-toggle"
+                            class="action-btn"
+                            aria-label="Toggle Layout Focus"
+                            title="Toggle Layout Focus"
                         >
-                            <path d="M15 3h6v6" />
-                            <path d="M9 21H3v-6" />
-                            <path d="M21 3l-7 7" />
-                            <path d="M3 21l7-7" />
-                        </svg>
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            width="24"
-                            height="24"
-                            viewBox="0 0 24 24"
-                            fill="none"
-                            stroke="currentColor"
-                            stroke-width="2"
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            class="zen-icon-exit hidden"
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="20"
+                                height="20"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="icon-layout"
+                            >
+                                <rect
+                                    width="18"
+                                    height="18"
+                                    x="3"
+                                    y="3"
+                                    rx="2"
+                                    ry="2"
+                                />
+                                <line x1="9" x2="9" y1="3" y2="21" />
+                                <line x1="17" x2="17" y1="3" y2="21" />
+                            </svg>
+                        </button>
+                        <button
+                            id="zen-mode-toggle"
+                            class="action-btn"
+                            aria-label="Toggle Zen Mode"
+                            title="Toggle Zen Mode"
                         >
-                            <path d="M4 14h6v6" />
-                            <path d="M20 10h-6V4" />
-                            <path d="M14 10l7-7" />
-                            <path d="M3 21l6-7" />
-                        </svg>
-                    </button>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="22"
+                                height="22"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="zen-icon-enter"
+                            >
+                                <path d="M15 3h6v6" />
+                                <path d="M9 21H3v-6" />
+                                <path d="M21 3l-7 7" />
+                                <path d="M3 21l7-7" />
+                            </svg>
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="22"
+                                height="22"
+                                viewBox="0 0 24 24"
+                                fill="none"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                class="zen-icon-exit hidden"
+                            >
+                                <path d="M4 14h6v6" />
+                                <path d="M20 10h-6V4" />
+                                <path d="M14 10l7-7" />
+                                <path d="M3 21l6-7" />
+                            </svg>
+                        </button>
+                    </div>
                 </div>
                 <Content components={components} />
 
@@ -511,30 +543,47 @@ const components = {
         }
     }
 
-    /* Zen Mode Styles */
+    /* Header Actions & Zen Mode */
     .lesson-header {
         display: flex;
-        align-items: baseline;
+        align-items: center;
         justify-content: space-between;
-        gap: 1rem;
+        gap: 1.5rem;
+        margin-bottom: 2rem;
     }
 
-    .zen-mode-btn {
+    .lesson-header h1 {
+        margin: 0 !important;
+        flex: 1;
+    }
+
+    .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .action-btn {
         background: none;
         border: none;
         cursor: pointer;
         color: var(--color-text-muted);
         padding: 0.5rem;
-        border-radius: 50%;
-        transition: all 0.2s ease;
+        border-radius: 8px;
+        transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
         display: flex;
         align-items: center;
         justify-content: center;
     }
 
-    .zen-mode-btn:hover {
+    .action-btn:hover {
         background-color: var(--color-surface);
         color: var(--color-primary);
+        transform: translateY(-1px);
+    }
+
+    :global([data-theme="dark"]) .action-btn:hover {
+        background-color: rgba(255, 255, 255, 0.05);
     }
 
     .hidden {
@@ -658,11 +707,12 @@ const components = {
 </script>
 
 <script>
+    const layoutToggle = document.getElementById("layout-toggle");
     const zenToggle = document.getElementById("zen-mode-toggle");
     const enterIcon = document.querySelector(".zen-icon-enter");
     const exitIcon = document.querySelector(".zen-icon-exit");
 
-    // Sync UI with current state (applied by blocking script)
+    // Sync Zen UI
     if (document.body.classList.contains("zen-mode")) {
         enterIcon?.classList.add("hidden");
         exitIcon?.classList.remove("hidden");
@@ -672,20 +722,26 @@ const components = {
         document.body.classList.toggle("zen-mode");
         enterIcon?.classList.toggle("hidden");
         exitIcon?.classList.toggle("hidden");
-
-        // Save preference
         const isZen = document.body.classList.contains("zen-mode");
         localStorage.setItem("zenMode", isZen.toString());
     }
 
+    function toggleLayout() {
+        // Dispatch event to CourseLayout
+        window.dispatchEvent(new CustomEvent("toggle-sidebars"));
+
+        // Add visual feedback to button
+        layoutToggle?.classList.add("pulse");
+        setTimeout(() => layoutToggle?.classList.remove("pulse"), 400);
+    }
+
     zenToggle?.addEventListener("click", toggleZenMode);
+    layoutToggle?.addEventListener("click", toggleLayout);
 
     // Support View Transitions
     document.addEventListener("astro:after-swap", () => {
         const isZen = localStorage.getItem("zenMode") === "true";
-        if (isZen) {
-            document.body.classList.add("zen-mode");
-        }
+        if (isZen) document.body.classList.add("zen-mode");
     });
 </script>
 
