@@ -154,7 +154,7 @@ const today = new Date();
 
     // Load initial preference
     const texturePref = localStorage.getItem("texture") || "enabled";
-    const grainPref = localStorage.getItem("bg-grain") || "enabled";
+    const grainPref = localStorage.getItem("bg-grain") || "disabled";
 
     function updateTexture(isEnabled: boolean) {
       if (isEnabled) {
