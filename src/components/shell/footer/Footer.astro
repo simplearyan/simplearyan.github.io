@@ -25,90 +25,151 @@ const today = new Date();
         });
       }
     </script> -->
-    <div class="social-links">
-      <a href="/about">About</a>
-      <a href="#" target="_blank" rel="noopener noreferrer">Twitter</a>
-      <a
-        href="https://github.com/simplearyan?tab=repositories"
-        target="_blank"
-        rel="noopener noreferrer">GitHub</a
-      >
-      <a
-        href="https://simplearyan.github.io/aryan-blog/"
-        target="_blank"
-        rel="noopener noreferrer">OldSite</a
-      >
-      <a href="/kinetix" target="_blank" rel="noopener noreferrer">Kinetix</a>
-    </div>
+      <div class="social-links">
+        <a href="/about">About</a>
+        <a href="#" target="_blank" rel="noopener noreferrer">Twitter</a>
+        <a
+          href="https://github.com/simplearyan?tab=repositories"
+          target="_blank"
+          rel="noopener noreferrer">GitHub</a
+        >
+        <a
+          href="https://simplearyan.github.io/aryan-blog/"
+          target="_blank"
+          rel="noopener noreferrer">OldSite</a
+        >
+        <a href="/kinetix" target="_blank" rel="noopener noreferrer">Kinetix</a>
+        <button
+          id="texture-toggle"
+          class="texture-btn"
+          aria-label="Toggle Texture"
+        >
+          Texture: ON
+        </button>
+      </div>
+    </p>
   </div>
-</footer>
 
-<style>
-  footer {
-    margin-top: 2rem;
-    padding: var(--spacing-xl) 0;
-    border-top: 1px solid var(--color-border);
-    color: #666;
-  }
+  <style>
+    footer {
+      margin-top: 2rem;
+      padding: var(--spacing-xl) 0;
+      border-top: 1px solid var(--color-border);
+      color: #666;
+    }
 
-  .container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-
-  .social-links {
-    display: flex;
-    gap: var(--spacing-md);
-  }
-
-  a:hover {
-    color: var(--color-primary);
-  }
-
-  .logo {
-    display: inline-flex;
-    align-items: baseline;
-    text-decoration: none;
-    line-height: 1;
-    color: #666;
-    margin: 0 0.25rem;
-  }
-
-  .logo-a {
-    font-family: "Playfair Display", serif;
-    font-size: 1.5rem;
-    font-weight: 700;
-    font-style: italic;
-    letter-spacing: -0.05em;
-  }
-
-  .logo-x {
-    font-family: "Kalam", cursive;
-    font-size: 1rem;
-    font-weight: 700;
-    margin-left: 1.5px;
-    transform: translateY(-7px);
-  }
-
-  @media (max-width: 768px) {
     .container {
-      flex-direction: column;
-      gap: var(--spacing-md);
-      text-align: center;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
     .social-links {
-      justify-content: center;
+      display: flex;
+      gap: var(--spacing-md);
+      align-items: center; /* Ensure alignment with button */
     }
 
-    .footer-separator {
-      display: none;
+    /* ... existing styles ... */
+    a:hover {
+      color: var(--color-primary);
     }
 
-    #footer-date {
-      display: block;
-      margin-top: 0.5rem;
+    .texture-btn {
+      background: none;
+      border: 1px solid var(--color-border);
+      border-radius: 4px;
+      padding: 0.25rem 0.75rem;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      color: var(--color-text-muted);
+      cursor: pointer;
+      transition: all 0.2s ease;
     }
-  }
-</style>
+
+    .texture-btn:hover {
+      border-color: var(--color-primary);
+      color: var(--color-primary);
+    }
+
+    .logo {
+      display: inline-flex;
+      align-items: baseline;
+      text-decoration: none;
+      line-height: 1;
+      color: #666;
+      margin: 0 0.25rem;
+    }
+
+    .logo-a {
+      font-family: "Playfair Display", serif;
+      font-size: 1.5rem;
+      font-weight: 700;
+      font-style: italic;
+      letter-spacing: -0.05em;
+    }
+
+    .logo-x {
+      font-family: "Kalam", cursive;
+      font-size: 1rem;
+      font-weight: 700;
+      margin-left: 1.5px;
+      transform: translateY(-7px);
+    }
+
+    @media (max-width: 768px) {
+      .container {
+        flex-direction: column;
+        gap: var(--spacing-md);
+        text-align: center;
+      }
+
+      .social-links {
+        justify-content: center;
+        flex-wrap: wrap; /* Handle overflow */
+      }
+
+      .footer-separator {
+        display: none;
+      }
+
+      #footer-date {
+        display: block;
+        margin-top: 0.5rem;
+      }
+    }
+  </style>
+
+  <script>
+    const toggleBtn = document.getElementById("texture-toggle");
+    const body = document.body;
+
+    // Check storage or default to ON (so no-texture is false)
+    // If stored is 'false', it means texture is OFF (so no-texture class added)
+    // Logic:
+    //   - 'texture' key in localStorage.
+    //   - value 'enabled' (default) or 'disabled'.
+
+    const currentTexture = localStorage.getItem("texture") || "enabled";
+
+    function updateState(isEnabled: boolean) {
+      if (isEnabled) {
+        body.classList.remove("no-texture");
+        if (toggleBtn) toggleBtn.textContent = "Texture: ON";
+        localStorage.setItem("texture", "enabled");
+      } else {
+        body.classList.add("no-texture");
+        if (toggleBtn) toggleBtn.textContent = "Texture: OFF";
+        localStorage.setItem("texture", "disabled");
+      }
+    }
+
+    // Init
+    updateState(currentTexture === "enabled");
+
+    toggleBtn?.addEventListener("click", () => {
+      const isCurrentlyOn = !body.classList.contains("no-texture");
+      updateState(!isCurrentlyOn);
+    });
+  </script>
+</footer>

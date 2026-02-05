@@ -4,8 +4,9 @@
 /* Global Styles */
 :root {
     /* Color Palette - Light Mode */
-    --color-bg: #ffffff;
-    --color-bg-offset: #f5f5f5;
+    --color-bg: #f4f1ea;
+    /* Warm Newsprint */
+    --color-bg-offset: #e6e2d8;
     --color-text: #1a1a1a;
     --color-primary: #1B2A41;
     /* Navy Blue */
@@ -606,4 +607,102 @@ p {
         overflow-x: auto;
         white-space: nowrap;
     }
+}
+
+/* 
+   ========================================
+   Newspaper Texture & Grain Effects 
+   ========================================
+*/
+
+/* 
+   ========================================
+   Newspaper Texture & Grain Effects 
+   ========================================
+*/
+
+/* Global Page Grain Overlay */
+body:not(.no-texture)::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+    z-index: 9999;
+    /* Stronger, coarser noise */
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.6' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.6'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    mix-blend-mode: multiply;
+    filter: sepia(0.3);
+    /* Add old paper tint to noise */
+}
+
+/* Dark Mode Adjustment for Grain */
+[data-theme="dark"] body:not(.no-texture)::before {
+    opacity: 0.15;
+    mix-blend-mode: overlay;
+    filter: invert(1);
+    /* Invert noise for better visibility on dark */
+}
+
+/* Ink Bleed Texture for Headings */
+h1,
+h2,
+h3,
+.logo-a {
+    /* Base Color Fallback - Always present */
+    color: var(--color-text);
+}
+
+/* Apply filters only when texture is enabled */
+body:not(.no-texture) h1,
+body:not(.no-texture) h2,
+body:not(.no-texture) h3,
+body:not(.no-texture) .logo-a {
+    /* Apply SVG Filter for imperfect edges */
+    filter: url(#ink-bleed);
+
+    /* Optional: Keep the noise texture as a subtle overlay if desired, 
+       but standard text color usually works better with displacement filters.
+       Let's try combining them for maximum effect. */
+    background: linear-gradient(to bottom, var(--color-text), var(--color-text));
+    -webkit-background-clip: text;
+    background-clip: text;
+    /* mix-blend-mode: multiply; */
+}
+
+/* Texture for Body Text (Subtler Imperfection) */
+body:not(.no-texture) p,
+body:not(.no-texture) a,
+body:not(.no-texture) li,
+body:not(.no-texture) span,
+body:not(.no-texture) td {
+    filter: url(#text-roughness);
+    /* subtle blur to soften digital edges */
+    /* text-shadow: 0.2px 0 var(--color-text); */
+}
+
+/* Dark Mode Overrides */
+[data-theme="dark"] body:not(.no-texture) h1,
+[data-theme="dark"] body:not(.no-texture) h2,
+[data-theme="dark"] body:not(.no-texture) h3,
+[data-theme="dark"] body:not(.no-texture) .logo-a {
+    /* Filter needs to be slightly adjusted or identical */
+    filter: url(#ink-bleed);
+    color: var(--color-text);
+    background: none;
+    -webkit-background-clip: border-box;
+    background-clip: border-box;
+}
+
+[data-theme="dark"] body:not(.no-texture) p,
+[data-theme="dark"] body:not(.no-texture) a,
+[data-theme="dark"] body:not(.no-texture) li,
+[data-theme="dark"] body:not(.no-texture) span,
+[data-theme="dark"] body:not(.no-texture) td {
+    filter: url(#text-roughness);
+    opacity: 0.9;
+    /* Slightly reduce brightness of white text on dark for analog feel */
 }
