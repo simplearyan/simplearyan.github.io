@@ -256,9 +256,6 @@ const components = {
             <article
                 class={`prose ${item.data.hideToc ? "max-w-75ch" : "max-w-75ch"}`}
             >
-                <div class="top-horizontal-ad">
-                    <HorizontalAd />
-                </div>
                 <div class="lesson-header">
                     <h1>{item.data.title}</h1>
                     <div class="header-actions">
@@ -334,6 +331,9 @@ const components = {
                             </svg>
                         </button>
                     </div>
+                </div>
+                <div id="top-ad-placement" class="top-horizontal-ad">
+                    <HorizontalAd />
                 </div>
                 <Content components={components} />
 
@@ -743,6 +743,28 @@ const components = {
         const isZen = localStorage.getItem("zenMode") === "true";
         if (isZen) document.body.classList.add("zen-mode");
     });
+</script>
+
+<script>
+    // Intelligent Ad Placement: Move the top horizontal ad after the first paragraph
+    function injectTopAd() {
+        const adContainer = document.getElementById("top-ad-placement");
+        const article = document.querySelector("article.prose");
+
+        if (!adContainer || !article) return;
+
+        // Find the first paragraph in the direct content
+        const firstP = article.querySelector("p");
+
+        if (firstP && firstP.parentNode === article) {
+            // Insert after the first paragraph
+            firstP.after(adContainer);
+            adContainer.classList.add("injected");
+        }
+    }
+
+    injectTopAd();
+    document.addEventListener("astro:page-load", injectTopAd);
 </script>
 
 <script define:vars={{ slug: item.data.parent || item.slug }}>

@@ -3,5 +3,19 @@ import InArticleAd from "./InArticleAd.astro";
 const props = Astro.props;
 ---
 
-<InArticleAd />
+<div class="h2-ad-wrapper">
+    <InArticleAd />
+</div>
 <h2 {...props}><slot /></h2>
+
+<style>
+    /* Intelligent Ad Density: Hide the ad for the first 2 H2 headers in the article */
+    .h2-ad-wrapper {
+        display: block;
+    }
+
+    /* Target the first two instances of H2Ad's wrapper inside the prose container */
+    :global(.prose) .h2-ad-wrapper:nth-of-type(-n + 2) {
+        display: none !important;
+    }
+</style>
