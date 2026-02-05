@@ -704,6 +704,10 @@ const components = {
     if (savedZen) {
         document.body.classList.add("zen-mode");
     }
+    const savedSidebars = localStorage.getItem("sidebarsCollapsed") === "true";
+    if (savedSidebars) {
+        document.body.classList.add("sidebars-collapsed");
+    }
 </script>
 
 <script>

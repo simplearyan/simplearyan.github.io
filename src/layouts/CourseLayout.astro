@@ -146,6 +146,13 @@ const {
     </div>
 </Layout>
 
+<script is:inline>
+    // Blocking script to prevent flicker
+    if (localStorage.getItem("sidebarsCollapsed") === "true") {
+        document.body.classList.add("sidebars-collapsed");
+    }
+</script>
+
 <script>
     function initMobileNav() {
         const menuToggle = document.getElementById("menu-toggle");
