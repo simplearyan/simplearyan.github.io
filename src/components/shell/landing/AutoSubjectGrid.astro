@@ -41,7 +41,7 @@ const regularItems = allItems.filter(
 
 const firstItem = allItems[0];
 const isLessonLevel =
-    firstItem?.data.type === "unit" || firstItem?.data.type === "lesson";
+    firstItem?.data.type === "subject" || firstItem?.data.type === "module";
 const gridTitle = isLessonLevel ? "Course Lessons" : "Course Subjects";
 ---
 
@@ -223,9 +223,10 @@ const gridTitle = isLessonLevel ? "Course Lessons" : "Course Subjects";
 
     @media (max-width: 480px) {
         .book-grid {
-            /* On very small screens, maybe just 2 columns with smaller gap or 1 column if needed */
+            display: grid;
             grid-template-columns: repeat(2, 1fr);
             gap: 1rem;
+            padding: 0 1rem;
         }
     }
 </style>

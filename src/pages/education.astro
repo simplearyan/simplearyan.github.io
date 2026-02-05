@@ -292,6 +292,15 @@ const bookItems = educationItems.filter(
         gap: 3rem;
     }
 
+    @media (max-width: 480px) {
+        .books-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 1.5rem;
+            padding: 0 1rem;
+        }
+    }
+
     h1 {
         font-family: "Playfair Display", serif;
         font-size: 5rem;

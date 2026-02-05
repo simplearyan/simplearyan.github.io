@@ -602,8 +602,10 @@ const posts = (await getCollection("blog"))
 
 	@media (max-width: 480px) {
 		.books-grid {
+			display: grid;
 			grid-template-columns: repeat(2, 1fr);
 			gap: 1rem;
+			padding: 0 1rem;
 		}
 	}
 </style>
