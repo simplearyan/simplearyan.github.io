@@ -40,11 +40,18 @@ const today = new Date();
         >
         <a href="/kinetix" target="_blank" rel="noopener noreferrer">Kinetix</a>
         <button
+          id="bg-grain-toggle"
+          class="texture-btn"
+          aria-label="Toggle Paper Grain"
+        >
+          Grain: ON
+        </button>
+        <button
           id="texture-toggle"
           class="texture-btn"
-          aria-label="Toggle Texture"
+          aria-label="Toggle All Texture"
         >
-          Texture: ON
+          Ink: ON
         </button>
       </div>
     </p>
@@ -141,35 +148,50 @@ const today = new Date();
   </style>
 
   <script>
-    const toggleBtn = document.getElementById("texture-toggle");
+    const textureBtn = document.getElementById("texture-toggle");
+    const grainBtn = document.getElementById("bg-grain-toggle");
     const body = document.body;
 
-    // Check storage or default to ON (so no-texture is false)
-    // If stored is 'false', it means texture is OFF (so no-texture class added)
-    // Logic:
-    //   - 'texture' key in localStorage.
-    //   - value 'enabled' (default) or 'disabled'.
+    // Load initial preference
+    const texturePref = localStorage.getItem("texture") || "enabled";
+    const grainPref = localStorage.getItem("bg-grain") || "enabled";
 
-    const currentTexture = localStorage.getItem("texture") || "enabled";
-
-    function updateState(isEnabled: boolean) {
+    function updateTexture(isEnabled: boolean) {
       if (isEnabled) {
         body.classList.remove("no-texture");
-        if (toggleBtn) toggleBtn.textContent = "Texture: ON";
+        if (textureBtn) textureBtn.textContent = "Ink: ON";
         localStorage.setItem("texture", "enabled");
       } else {
         body.classList.add("no-texture");
-        if (toggleBtn) toggleBtn.textContent = "Texture: OFF";
+        if (textureBtn) textureBtn.textContent = "Ink: OFF";
         localStorage.setItem("texture", "disabled");
       }
     }
 
-    // Init
-    updateState(currentTexture === "enabled");
+    function updateGrain(isEnabled: boolean) {
+      if (isEnabled) {
+        body.classList.remove("no-bg-grain");
+        if (grainBtn) grainBtn.textContent = "Grain: ON";
+        localStorage.setItem("bg-grain", "enabled");
+      } else {
+        body.classList.add("no-bg-grain");
+        if (grainBtn) grainBtn.textContent = "Grain: OFF";
+        localStorage.setItem("bg-grain", "disabled");
+      }
+    }
 
-    toggleBtn?.addEventListener("click", () => {
+    // Init
+    updateTexture(texturePref === "enabled");
+    updateGrain(grainPref === "enabled");
+
+    textureBtn?.addEventListener("click", () => {
       const isCurrentlyOn = !body.classList.contains("no-texture");
-      updateState(!isCurrentlyOn);
+      updateTexture(!isCurrentlyOn);
+    });
+
+    grainBtn?.addEventListener("click", () => {
+      const isCurrentlyOn = !body.classList.contains("no-bg-grain");
+      updateGrain(!isCurrentlyOn);
     });
   </script>
 </footer>

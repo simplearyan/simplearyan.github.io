@@ -622,7 +622,7 @@ p {
 */
 
 /* Global Page Grain Overlay */
-body:not(.no-texture)::before {
+body:not(.no-texture):not(.no-bg-grain)::before {
     content: "";
     position: fixed;
     top: 0;
@@ -640,7 +640,7 @@ body:not(.no-texture)::before {
 }
 
 /* Dark Mode Adjustment for Grain */
-[data-theme="dark"] body:not(.no-texture)::before {
+[data-theme="dark"] body:not(.no-texture):not(.no-bg-grain)::before {
     opacity: 0.15;
     mix-blend-mode: overlay;
     filter: invert(1);
