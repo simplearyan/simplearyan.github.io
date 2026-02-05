@@ -51,35 +51,35 @@ const cardStyle = lightColor
         display: flex;
         flex-direction: column;
         background: var(--card-bg-light, var(--color-surface));
-        border-radius: 12px;
+        /* Remove rounded corners for clipping feel */
+        border-radius: 0;
         overflow: hidden;
         text-decoration: none;
         color: inherit;
         transition:
-            transform 0.3s ease,
-            box-shadow 0.3s ease,
-            border-color 0.3s ease;
-        border: 1px solid var(--color-border);
+            transform 0.2s ease,
+            box-shadow 0.2s ease;
+        /* Dashed border implies 'cut out' */
+        border: 1px dashed var(--color-border);
         height: 100%;
         position: relative;
+        /* Padding to simulate margin of a column */
+        padding: 0.5rem;
     }
 
     /* Dark mode override */
     :global([data-theme="dark"]) .blog-card {
         background: var(--card-bg-dark, var(--color-surface));
-        /* border-color: rgba(
-            255,
-            255,
-            255,
-            0.05
-        ); Subtle border on dark pastel */
+        border: 1px dashed rgba(255, 255, 255, 0.2);
     }
 
     .blog-card:hover {
-        /* transform: translateY(-4px); */
-        /* box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.1); */
-        /* border-color: var(--color-primary); */
+        /* Slight lift, but stiffer */
+        transform: translateY(-2px);
+        box-shadow: 4px 4px 0px var(--color-border);
+        border-style: solid; /* Becomes solid on hover */
         z-index: 10;
+        background: var(--color-bg);
     }
 
     .image-container {
@@ -87,6 +87,15 @@ const cardStyle = lightColor
         width: 100%;
         aspect-ratio: 16/9;
         overflow: hidden;
+        /* Sepia filter for all images by default for vintage feel? Maybe too strong. 
+           Let's just filter saturation slightly. */
+        filter: grayscale(0.2) sepia(0.1);
+        transition: filter 0.3s ease;
+        border-bottom: 3px double var(--color-border);
+    }
+
+    .blog-card:hover .image-container {
+        filter: none; /* Restore color on hover */
     }
 
     .image-container img {
@@ -97,146 +106,108 @@ const cardStyle = lightColor
     }
 
     .blog-card:hover .image-container img {
-        transform: scale(1.05);
+        transform: scale(1.02);
     }
 
     .overlay {
         position: absolute;
         inset: 0;
-        background: linear-gradient(
-            to bottom,
-            transparent 0%,
-            rgba(0, 0, 0, 0.2) 100%
-        );
-        opacity: 0;
-        transition: opacity 0.3s ease;
-    }
-
-    .blog-card:hover .overlay {
-        opacity: 1;
+        /* Grainy overlay */
+        background-color: rgba(0, 0, 0, 0.05); /* Slight tint */
+        pointer-events: none;
     }
 
     .floating-tag {
         position: absolute;
-        top: 1rem;
-        right: 1rem;
-        background: rgba(255, 255, 255, 0.9);
-        color: var(--color-primary);
+        top: 0;
+        right: 0;
+        background: var(--color-text);
+        color: var(--color-bg);
         padding: 0.25rem 0.75rem;
-        border-radius: 999px;
+        /* Square tag */
+        border-radius: 0;
         font-weight: 700;
         font-size: 0.75rem;
         text-transform: uppercase;
         letter-spacing: 0.05em;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-        backdrop-filter: blur(4px);
         z-index: 2;
-        font-family: var(--font-sans);
+        font-family: var(--font-barlow);
     }
 
     :global([data-theme="dark"]) .floating-tag {
-        background: rgba(30, 30, 30, 0.9);
-        color: var(--color-primary); /* White in dark mode */
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+        background: var(--color-primary);
+        color: #111;
     }
 
     .content {
-        padding: 1.5rem;
+        padding: 1rem 0.5rem;
         display: flex;
         flex-direction: column;
         flex-grow: 1;
-        gap: 0.75rem;
-        background-color: var(--color-bg);
+        gap: 0.5rem;
+        /* Transparent bg so card bg shows */
+        background-color: transparent;
     }
 
     .meta {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        font-size: 0.85rem;
+        /* display: flex; */
+        /* justify-content: space-between; */
+        /* align-items: center; */
+        font-size: 0.75rem;
         color: var(--color-text-muted);
+        text-transform: uppercase;
         font-family: var(--font-mono);
-        font-family: "Inter", sans-serif;
-        font-weight: 600;
+        letter-spacing: 1px;
+        border-bottom: 1px solid var(--color-border);
+        padding-bottom: 0.25rem;
+        margin-bottom: 0.25rem;
+        display: inline-block;
+        width: max-content;
     }
 
     .title {
-        /* font-family: "Playfair Display", serif; */
-        /* font-family: "Outfit", sans-serif !important; */
-        font-family: var(--font-carrois);
-        /* font-family: var(--font-barlow); */
-        font-size: 1.5rem;
+        font-family: "Playfair Display", serif;
+        font-size: 1.6rem;
         font-weight: 700;
-        line-height: 1.3;
+        line-height: 1.1;
         margin: 0;
-        color: var(--color-heading);
+        color: var(--color-text);
         transition: color 0.2s ease;
+        /* Implied ink bleed on titles */
+        /* filter: url(#ink-bleed); */
     }
 
     .blog-card:hover .title {
-        color: var(--color-primary);
         text-decoration: underline;
-        text-decoration-style: dashed;
         text-decoration-thickness: 2px;
-        text-underline-offset: 4px;
+        text-underline-offset: 2px;
     }
 
     .description {
+        font-family: "Carrois Gothic", sans-serif;
         font-size: 0.95rem;
         color: var(--color-text);
-        line-height: 1.6;
+        line-height: 1.4;
         margin: 0;
         display: -webkit-box;
-        -webkit-line-clamp: 3;
+        -webkit-line-clamp: 4; /* Show a bit more text */
         -webkit-box-orient: vertical;
         overflow: hidden;
         flex-grow: 1;
-        opacity: 0.9;
+        opacity: 0.85;
+        text-align: justify; /* Newspaper column justification */
     }
 
     /* Placeholder Pattern */
     .image-container.placeholder {
         background-color: var(--color-bg-offset);
-        background-image:
-            radial-gradient(
-                circle at 100% 0%,
-                rgba(197, 160, 89, 0.15) 0%,
-                transparent 50%
-            ),
-            radial-gradient(
-                circle at 0% 100%,
-                rgba(27, 42, 65, 0.05) 0%,
-                transparent 50%
-            ),
-            repeating-linear-gradient(
-                45deg,
-                rgba(0, 0, 0, 0.03) 0px,
-                rgba(0, 0, 0, 0.03) 1px,
-                transparent 1px,
-                transparent 12px
-            );
-    }
-
-    :global([data-theme="dark"]) .image-container.placeholder {
-        background-color: #2a2b2e;
-        background-image:
-            radial-gradient(
-                circle at 100% 0%,
-                rgba(197, 160, 89, 0.15) 0%,
-                transparent 50%
-            ),
-            radial-gradient(
-                circle at 0% 100%,
-                rgba(255, 255, 255, 0.05) 0%,
-                transparent 50%
-            ),
-            repeating-linear-gradient(
-                45deg,
-                rgba(255, 255, 255, 0.03) 0px,
-                rgba(255, 255, 255, 0.03) 1px,
-                transparent 1px,
-                transparent 12px
-            );
+        background-image: repeating-linear-gradient(
+            45deg,
+            var(--color-border) 0,
+            var(--color-border) 1px,
+            transparent 0,
+            transparent 50%
+        );
+        background-size: 10px 10px;
     }
 </style>

@@ -1,22 +1,79 @@
-<section class="hero animate-fade-in">
-    <h1>
+---
+const today = new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+});
+---
+
+<section class="masthead animate-fade-in">
+    <div class="masthead-border-top"></div>
+
+    <div class="masthead-meta">
+        <span class="meta-item">VOL. I, NO. 1</span>
+        <span class="meta-item date">{today}</span>
+        <span class="meta-item price">PRICE: YOUR ATTENTION</span>
+    </div>
+
+    <div class="masthead-border-thin"></div>
+
+    <h1 class="publication-name">
         <span class="civic">finding</span>
         <span class="aryan">(solutions)</span>
         <span class="logo-x">x</span>
     </h1>
+
+    <div class="masthead-border-thin"></div>
+
     <p class="subtitle">A public notebook and learning hub.</p>
+
+    <div class="masthead-border-bottom"></div>
 </section>
 
 <style>
-    .hero {
+    .masthead {
         text-align: center;
-        padding: var(--spacing-xl) 0;
+        padding: var(--spacing-lg) 0;
         margin-bottom: var(--spacing-xl);
+        position: relative;
+        max-width: 900px; /* Constrain width for a better masthead look */
+        margin-left: auto;
+        margin-right: auto;
     }
 
-    .hero h1 {
-        font-size: 4rem;
-        margin-bottom: var(--spacing-sm);
+    .masthead-border-top,
+    .masthead-border-bottom {
+        border-top: 4px solid var(--color-text);
+        margin: 4px 0;
+    }
+
+    .masthead-border-thin {
+        border-top: 1px solid var(--color-text);
+        margin: 8px 0;
+        opacity: 0.8;
+    }
+
+    .masthead-meta {
+        display: flex;
+        justify-content: space-between;
+        font-family: var(--font-barlow);
+        text-transform: uppercase;
+        font-weight: 700;
+        letter-spacing: 0.1em;
+        font-size: 0.85rem;
+        padding: 4px 0;
+        color: var(--color-text);
+    }
+
+    .publication-name {
+        font-size: 5rem;
+        line-height: 1;
+        margin: var(--spacing-md) 0;
+        /* Improve contrast and ink bleed effect */
+        filter: url(#ink-bleed);
+        /* Ensure it's legible */
+        color: var(--color-text);
     }
 
     .highlight {
@@ -24,10 +81,22 @@
     }
 
     .subtitle {
-        font-size: 1.25rem;
-        color: #666;
+        font-family: var(--font-serif);
+        font-style: italic;
+        font-size: 1.35rem;
+        color: var(--color-text);
         max-width: 600px;
-        margin: 0 auto;
+        margin: var(--spacing-md) auto;
+        opacity: 0.9;
+    }
+
+    /* Keep original span styles but refined */
+    .civic {
+        font-family: "Cinzel", serif;
+        /* Or keep Montserrat if preferred, but Cinzel feels more "Newspaper" header */
+        font-weight: 900;
+        letter-spacing: -0.02em;
+        color: var(--color-text);
     }
 
     .aryan {
@@ -35,34 +104,45 @@
         font-weight: 700;
         font-style: italic;
         letter-spacing: -0.05em;
-        color: var(--color-secondary);
+        /* color: var(--color-secondary); */
+        color: var(--color-text); /* Uniform black ink for newspaper feel */
     }
 
     .logo-x {
         font-family: "Kalam", cursive;
-        font-size: 2.4rem;
+        font-size: 3rem;
         font-weight: 700;
         margin-left: 0;
-        transform: translateY(-22px) rotate(0deg);
-        color: var(--color-text);
+        transform: translateY(-25px) rotate(-10deg);
+        color: var(--color-accent); /* Keep accent for the 'handwritten' mark */
         display: inline-block;
+        /* opacity: 0.8; */
     }
 
     @media (max-width: 768px) {
-        .hero h1 {
-            font-size: 2.5rem;
+        .publication-name {
+            font-size: 3rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0;
         }
 
         .logo-x {
-            font-size: 1.5rem;
-            transform: translateY(-14px) rotate(0deg);
-            margin-left: 0;
+            font-size: 2rem;
+            transform: translateY(-10px) rotate(-5deg);
+            align-self: center;
         }
 
-        .section-header {
+        .masthead-meta {
             flex-direction: column;
-            align-items: flex-start;
-            gap: 0.5rem;
+            gap: 4px;
+            text-align: center;
+        }
+
+        .date {
+            border-top: 1px solid var(--color-border);
+            border-bottom: 1px solid var(--color-border);
+            padding: 2px 0;
         }
     }
 </style>

@@ -1,4 +1,4 @@
-/* Education Card Styles */
+/* Education Card Styles - Redesigned as Index Cards */
 @keyframes fadeInUp {
     from {
         opacity: 0;
@@ -14,95 +14,123 @@
 .education-card {
     display: flex;
     flex-direction: column;
-    background: var(--color-surface);
-    border: 1px solid var(--color-border);
-    border-radius: 12px;
-    padding: 1.75rem;
+    /* Index Card Paper Background */
+    background-color: #fdfbf7;
+    background-image: repeating-linear-gradient(transparent,
+            transparent 23px,
+            #a3b8c8 24px);
+    /* Pink line at top */
+    /* border-top: 4px solid #f87171;  */
+
+    border: 1px solid #d1d5db;
+    border-radius: 2px;
+    /* Slightly rounded corners like real card stock */
+    padding: 1.5rem;
+    /* Align with line height if possible */
     text-decoration: none;
     color: inherit;
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    transition: all 0.2s ease-out;
     position: relative;
     height: 100%;
     overflow: hidden;
     animation: fadeInUp 0.6s ease-out backwards;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.05);
 }
 
 /* Dark mode card adjustments */
 [data-theme="dark"] .education-card {
-    background: var(--color-surface);
-    border-color: rgba(255, 255, 255, 0.08);
+    background-color: #2a2b2e;
+    background-image: repeating-linear-gradient(transparent,
+            transparent 23px,
+            rgba(255, 255, 255, 0.1) 24px);
+    border-color: #444;
 }
 
 /* Hover State */
 .education-card:hover {
-    transform: translateY(-4px);
-    border-color: var(--category-color);
-    box-shadow: 0 10px 30px -10px color-mix(in srgb, var(--category-color) 15%, transparent);
+    transform: translateY(-2px) rotate(0.5deg);
+    box-shadow: 4px 4px 10px rgba(0, 0, 0, 0.1);
+    z-index: 10;
 }
 
-[data-theme="dark"] .education-card:hover {
-    box-shadow: 0 10px 30px -10px color-mix(in srgb, var(--category-color) 10%, transparent);
-}
-
-/* Top accent border */
-.education-card::before {
+/* Red Margin Line (Vertical) */
+.education-card::after {
     content: "";
     position: absolute;
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 4px;
-    background: var(--category-color, var(--color-primary));
-    transform-origin: left;
-    transition: transform 0.3s ease;
+    bottom: 0;
+    left: 2rem;
+    width: 1px;
+    background-color: #ef4444;
+    opacity: 0.3;
+    pointer-events: none;
+}
+
+[data-theme="dark"] .education-card::after {
+    background-color: #ef4444;
+    opacity: 0.5;
 }
 
 .card-header {
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-    margin-bottom: 3rem;
+    margin-bottom: 2rem;
+    /* Adjusted to fit lines */
     position: relative;
     z-index: 2;
+    padding-left: 1.5rem;
+    /* Clear the margin line */
 }
 
 .institution-badge {
     display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 0.5rem;
-    flex-wrap: wrap;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
 }
 
 .separator {
-    color: var(--color-border);
-    font-size: 0.7rem;
+    display: none;
 }
 
 .institution {
-    font-family: var(--font-sans);
+    font-family: var(--font-mono);
     font-weight: 700;
     color: var(--color-text-muted);
-    font-size: 0.7rem;
+    font-size: 0.65rem;
     text-transform: uppercase;
-    letter-spacing: 0.08em;
+    letter-spacing: 0.1em;
+    opacity: 0.7;
 }
 
 .course-type {
-    font-family: var(--font-sans);
-    font-size: 0.8rem;
-    color: var(--category-color);
+    font-family: "Courier Prime", "Courier New", monospace;
+    font-size: 0.9rem;
+    color: var(--color-text);
     font-weight: 600;
+    text-transform: uppercase;
+    background: var(--category-color);
+    color: #fff;
+    /* Badge style */
+    padding: 2px 6px;
+    border-radius: 2px;
+    margin-top: 4px;
+    /* transform: rotate(-1deg); */
+    /* Stamped look */
 }
 
 .new-indicator {
+    font-family: var(--font-mono);
     font-size: 0.6rem;
     font-weight: 800;
-    color: #fff;
-    background: var(--category-color);
-    padding: 0.15rem 0.5rem;
-    border-radius: 99px;
-    letter-spacing: 0.05em;
+    color: var(--color-primary);
+    border: 2px solid var(--color-primary);
+    padding: 0.1rem 0.4rem;
+    border-radius: 2px;
+    text-transform: uppercase;
+    transform: rotate(5deg);
+    opacity: 0.8;
 }
 
 .card-body {
@@ -110,18 +138,21 @@
     display: flex;
     flex-direction: column;
     z-index: 2;
+    padding-left: 1.5rem;
+    /* Clear the margin line */
 }
 
 .title {
-    font-family: var(--font-barlow);
-    text-transform: uppercase;
-    font-size: 2rem;
+    font-family: "Courier Prime", "Courier New", monospace;
+    /* text-transform: uppercase; */
+    font-size: 1.4rem;
     font-weight: 700;
-    line-height: 1;
+    line-height: 1.4;
+    /* Align with grid lines approx 24px */
     margin: 0;
     color: var(--color-heading);
     transition: color 0.3s ease;
-    letter-spacing: -0.02em;
+    letter-spacing: -0.03em;
 }
 
 /* Dark mode title */
@@ -130,38 +161,36 @@
 }
 
 .description {
-    font-size: 0.9rem;
-    color: var(--color-text-muted);
+    font-size: 0.85rem;
+    color: var(--color-text);
+    /* Higher contrast for monospace */
     margin-top: 0.5rem;
     margin-bottom: 1.5rem;
-    line-height: 1.5;
-    font-family: var(--font-sans);
+    line-height: 24px;
+    /* Strictly align to grid */
+    font-family: "Courier Prime", "Courier New", monospace;
+    /* Typewriter */
     display: -webkit-box;
-    -webkit-line-clamp: 2;
-    line-clamp: 2;
+    -webkit-line-clamp: 3;
+    line-clamp: 3;
     -webkit-box-orient: vertical;
     overflow: hidden;
+    opacity: 0.8;
 }
 
 .card-footer {
     margin-top: auto;
     display: flex;
     justify-content: flex-end;
+    padding-left: 1.5rem;
 }
 
 .view-course {
-    font-size: 0.8rem;
+    font-size: 0.75rem;
     font-weight: 600;
     text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--category-color);
-    font-family: var(--font-sans);
-    opacity: 0;
-    transform: translateX(-10px);
-    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
-}
-
-.education-card:hover .view-course {
-    opacity: 1;
-    transform: translateX(0);
+    letter-spacing: 0.1em;
+    color: var(--color-text-muted);
+    font-family: var(--font-mono);
+    border-bottom: 1px dashed var(--color-text-muted);
 }
